@@ -1,0 +1,74 @@
+[
+  {
+    "id": "q_mcq_1",
+    "category": "MCQ",
+    "language": "en",
+    "question": "Which process do green plants use to convert light energy into chemical energy?",
+    "options": ["Photosynthesis", "Respiration", "Transpiration", "Fermentation"],
+    "correctOption": "Photosynthesis",
+    "sampleAnswer": "Photosynthesis",
+    "keywords": ["photosynthesis"],
+    "marks": 1,
+    "createdAt": "2026-07-21T22:00:00Z"
+  },
+  {
+    "id": "q_mcq_2",
+    "category": "MCQ",
+    "language": "ta",
+    "question": "தாவரங்கள் சூரிய ஒளியைப் பயன்படுத்தி உணவைத் தயாரிக்கும் முறை எது?",
+    "options": ["ஒளிச்சேர்க்கை", "சுவாசம்", "நீராவிப்போக்கு", "நொதித்தல்"],
+    "correctOption": "ஒளிச்சேர்க்கை",
+    "sampleAnswer": "ஒளிச்சேர்க்கை",
+    "keywords": ["ஒளிச்சேர்க்கை"],
+    "marks": 1,
+    "createdAt": "2026-07-21T22:00:00Z"
+  },
+  {
+    "id": "q_2m_1",
+    "category": "2 Marks",
+    "language": "en",
+    "question": "What is Photosynthesis? Explain briefly.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Photosynthesis is the process by which green plants synthesize glucose using sunlight, carbon dioxide, and water in the presence of chlorophyll.",
+    "keywords": ["sunlight", "carbon dioxide", "water", "chlorophyll", "glucose"],
+    "marks": 2,
+    "createdAt": "2026-07-21T22:00:00Z"
+  },
+  {
+    "id": "q_2m_2",
+    "category": "2 Marks",
+    "language": "ta",
+    "question": "ஒளிச்சேர்க்கை என்றால் என்ன? சுருக்கமாக விவரி.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "பச்சைத் தாவரங்கள் சூரிய ஒளி, கார்பன் டை ஆக்சைடு மற்றும் நீரைப் பயன்படுத்தி குளுக்கோஸ் உணவைத் தயாரிக்கும் செயல்முறை ஒளிச்சேர்க்கை எனப்படும். இதில் குளோரோபில் முக்கியப் பங்கு வகிக்கிறது.",
+    "keywords": ["சூரிய ஒளி", "கார்பன் டை ஆக்சைடு", "நீர்", "பச்சையம்", "குளுக்கோஸ்"],
+    "marks": 2,
+    "createdAt": "2026-07-21T22:00:00Z"
+  },
+  {
+    "id": "q_5m_1",
+    "category": "5 Marks",
+    "language": "en",
+    "question": "Explain Newton's Three Laws of Motion with relevant examples.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "1. First Law (Inertia): An object remains at rest or in uniform motion unless acted upon by an external net force. Example: Passengers lurching forward when a bus stops.\n2. Second Law (F = ma): Acceleration is directly proportional to force and inversely proportional to mass. Example: Pushing a heavy cart requires more force.\n3. Third Law (Action-Reaction): For every action, there is an equal and opposite reaction. Example: Rocket propulsion pushing exhaust downward.",
+    "keywords": ["inertia", "external force", "acceleration", "mass", "F=ma", "action", "reaction", "equal and opposite"],
+    "marks": 5,
+    "createdAt": "2026-07-21T22:00:00Z"
+  },
+  {
+    "id": "q_5m_2",
+    "category": "5 Marks",
+    "language": "ta",
+    "question": "நியூட்டனின் மூன்று இயக்க விதிகளை எடுத்துக்காட்டுகளுடன் விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "1. முதல் விதி (நிலைம விதி): எந்தவொரு பொருளும் புற விசை செயல்படாத வரை தனது ஓய்வு நிலையிலோ அல்லது சீரான இயக்க நிலையிலோ தொடர்ந்து இருக்கும்.\n2. இரண்டாம் விதி (F = ma): பொருளின் உந்த மாறுபாட்டு வீதம் அதன் மீது செலுத்தப்படும் விசைக்கு நேர்விகிதத்தில் இருக்கும்.\n3. மூன்றாம் விதி: ஒவ்வொரு வினைக்கும் அதற்குச் சமமான எதிர்வினை உண்டு. எடுத்துக்காட்டு: ராக்கெட் ஏவுதல்.",
+    "keywords": ["நிலைம விதி", "புற விசை", "உந்த மாறுபாடு", "முடுக்கம்", "வினை", "எதிர்வினை", "சமமான"],
+    "marks": 5,
+    "createdAt": "2026-07-21T22:00:00Z"
+  }
+]
