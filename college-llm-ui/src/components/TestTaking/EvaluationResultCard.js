@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle2, AlertCircle, Sparkles, BookOpen, Tag } from "lucide-react";
+import { CheckCircle2, AlertCircle, Sparkles, BookOpen, Tag, Award, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQuestion }) => {
@@ -16,63 +16,67 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
 
   const isTa = language === "ta";
 
+  // Score styling
+  const scoreColor = accuracy >= 75 ? "#1e3a8a" : accuracy >= 50 ? "#d97706" : "#dc2626";
+  const scoreBadgeBg = accuracy >= 75 ? "bg-blue-50 text-[#1e3a8a] border-blue-200" : accuracy >= 50 ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-800 border-red-200";
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-black text-white border-2 border-blue-600 rounded-2xl p-6 shadow-2xl shadow-blue-950/40 mt-6 relative overflow-hidden"
+      className="bg-white text-slate-900 border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs mt-5"
     >
-      {/* Glow highlight top bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-blue-400 to-blue-600"></div>
-
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-zinc-800">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/80 border border-blue-600/40 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-2">
-            <Sparkles size={14} className="text-blue-400" />
-            {isTa ? "LLM மதிப்பீடு பகுப்பாய்வு" : "LLM Evaluation Report"}
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+        <div className="flex items-center gap-2">
+          <div>
+            <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1e3a8a] uppercase tracking-wide">
+              <Sparkles size={11} className="text-[#2563eb]" />
+              {isTa ? "தானியங்கி விடை மதிப்பீடு" : "AI Evaluation"}
+            </div>
+            <h3 className="text-sm sm:text-base font-bold text-slate-900">
+              {isTa ? "விடைத்தாள் மதிப்பாய்வு முடிவுகள்" : "Answer Assessment Sheet"}
+            </h3>
           </div>
-          <h3 className="text-2xl font-bold text-white tracking-tight">
-            {isTa ? "பதில் பகுப்பாய்வு முடிவு" : "Answer Assessment Results"}
-          </h3>
         </div>
 
         {/* Score Radial Badge */}
-        <div className="flex items-center gap-4 bg-zinc-900 border border-zinc-800 rounded-xl p-4 min-w-[200px] justify-between">
+        <div className={`flex items-center gap-3 px-3.5 py-2 rounded-lg border ${scoreBadgeBg} justify-between min-w-[160px]`}>
           <div className="flex flex-col">
-            <span className="text-xs text-zinc-400 font-medium">
-              {isTa ? "துல்லிய மதிப்பெண்" : "Accuracy Score"}
+            <span className="text-[10px] font-bold uppercase tracking-wide opacity-80">
+              {isTa ? "துல்லியம்" : "Accuracy"}
             </span>
-            <span className="text-3xl font-extrabold text-blue-400">
+            <span className="text-xl sm:text-2xl font-black">
               {accuracy}%
             </span>
           </div>
 
           {/* Simple Radial Gauge */}
-          <div className="relative w-14 h-14 flex items-center justify-center">
-            <svg className="w-14 h-14 transform -rotate-90">
+          <div className="relative w-10 h-10 flex items-center justify-center">
+            <svg className="w-10 h-10 transform -rotate-90">
               <circle
-                cx="28"
-                cy="28"
-                r="22"
+                cx="20"
+                cy="20"
+                r="15"
                 stroke="currentColor"
-                strokeWidth="4"
-                className="text-zinc-800"
+                strokeWidth="3"
+                className="opacity-20"
                 fill="transparent"
               />
               <circle
-                cx="28"
-                cy="28"
-                r="22"
-                stroke="currentColor"
-                strokeWidth="4"
-                strokeDasharray={138}
-                strokeDashoffset={138 - (138 * accuracy) / 100}
-                className="text-blue-500 transition-all duration-1000 ease-out"
+                cx="20"
+                cy="20"
+                r="15"
+                stroke={scoreColor}
+                strokeWidth="3"
+                strokeDasharray={94.2}
+                strokeDashoffset={94.2 - (94.2 * accuracy) / 100}
                 strokeLinecap="round"
                 fill="transparent"
+                className="transition-all duration-1000 ease-out"
               />
             </svg>
-            <span className="absolute text-xs font-bold text-white">
+            <span className="absolute text-[9px] font-bold">
               {accuracy}%
             </span>
           </div>
@@ -80,108 +84,108 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
       </div>
 
       {/* Keywords Breakdown Section */}
-      <div className="py-6 border-b border-zinc-800 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="py-4 border-b border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Matched Keywords */}
-        <div className="bg-zinc-900/60 border border-blue-900/50 rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Tag size={16} className="text-blue-400" />
-            <h4 className="text-sm font-semibold text-blue-300">
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3">
+          <div className="flex items-center gap-1.5 mb-2">
+            <Tag size={13} className="text-blue-600" />
+            <h4 className="text-xs font-bold text-blue-900 uppercase">
               {isTa ? "பொருந்திய முக்கிய சொற்கள்" : "Matched Keywords"} ({matchedKeywords.length})
             </h4>
           </div>
           {matchedKeywords.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1">
               {matchedKeywords.map((kw, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 bg-blue-600 text-white rounded-md text-xs font-medium border border-blue-400 shadow-sm"
+                  className="px-2 py-0.5 bg-blue-600 text-white rounded text-[11px] font-semibold"
                 >
                   ✓ {kw}
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-xs text-zinc-400 font-mono italic">
-              {isTa ? "முக்கிய சொற்கள் எதுவும் பொருந்திவரவில்லை." : "No target keywords matched in your response."}
+            <p className="text-xs text-slate-400 italic">
+              {isTa ? "முக்கிய சொற்கள் பொருந்தவில்லை." : "No keywords matched."}
             </p>
           )}
         </div>
 
         {/* Missed Keywords */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <AlertCircle size={16} className="text-zinc-400" />
-            <h4 className="text-sm font-semibold text-zinc-300">
-              {isTa ? "விடுபட்ட முக்கிய சொற்கள்" : "Missed Keywords"} ({missedKeywords.length})
+        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3">
+          <div className="flex items-center gap-1.5 mb-2">
+            <AlertCircle size={13} className="text-slate-400" />
+            <h4 className="text-xs font-bold text-slate-700 uppercase">
+              {isTa ? "விடுபட்டவை" : "Missed Keywords"} ({missedKeywords.length})
             </h4>
           </div>
           {missedKeywords.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1">
               {missedKeywords.map((kw, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 bg-black text-zinc-300 rounded-md text-xs font-medium border border-dashed border-zinc-700"
+                  className="px-2 py-0.5 bg-white text-slate-700 rounded text-[11px] font-medium border border-slate-300"
                 >
                   ✕ {kw}
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-xs text-blue-400 font-mono">
-              {isTa ? "அருமை! எல்லா முக்கிய சொற்களும் இடம்பெற்றுள்ளன." : "Great job! All target keywords were covered."}
+            <p className="text-xs text-blue-700 font-semibold">
+              {isTa ? "அனைத்து முக்கிய சொற்களும் உள்ளன!" : "All keywords covered!"}
             </p>
           )}
         </div>
       </div>
 
-      {/* Points Covered vs Missed Points Suggestions */}
-      <div className="py-6 border-b border-zinc-800 grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Points Covered vs Missed Points */}
+      <div className="py-4 border-b border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Points Covered */}
         <div>
-          <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-            <CheckCircle2 size={18} className="text-blue-400" />
-            {isTa ? "சரியாக பெறப்பட்ட கருத்துகள்" : "Key Concepts Covered"}
+          <h4 className="text-xs font-bold uppercase text-blue-900 mb-2 flex items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-blue-600" />
+            {isTa ? "சரியான கருத்துகள்" : "Key Points Covered"}
           </h4>
           {keyPointsCovered.length > 0 ? (
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {keyPointsCovered.map((pt, i) => (
                 <li
                   key={i}
-                  className="text-xs text-zinc-300 bg-zinc-900 p-2.5 rounded-lg border border-zinc-800 flex items-start gap-2"
+                  className="text-xs text-slate-800 bg-blue-50/60 p-2 rounded-lg border border-blue-200 flex items-start gap-1.5"
                 >
-                  <span className="text-blue-400 font-bold">•</span>
-                  <span>{pt}</span>
+                  <span className="text-blue-600 font-bold">•</span>
+                  <span className="leading-relaxed">{pt}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-xs text-zinc-400">
-              {isTa ? "குறிப்பிடும்படியான கருத்துகள் எதுவும் இல்லை." : "No significant points matched."}
+            <p className="text-xs text-slate-400 italic">
+              {isTa ? "குறிப்பிடும்படியான கருத்துகள் இல்லை." : "No significant points matched."}
             </p>
           )}
         </div>
 
-        {/* Missed Points & Improvement Suggestions */}
+        {/* Missed Points */}
         <div>
-          <h4 className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
-            <AlertCircle size={18} className="text-blue-500" />
-            {isTa ? "விடுபட்ட கருத்துகள் & பரிந்துரைகள்" : "Missed Points & Suggested Additions"}
+          <h4 className="text-xs font-bold uppercase text-slate-700 mb-2 flex items-center gap-1.5">
+            <AlertCircle size={14} className="text-amber-600" />
+            {isTa ? "மேம்படுத்த வேண்டியவை" : "Suggested Improvements"}
           </h4>
           {missedPoints.length > 0 ? (
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {missedPoints.map((pt, i) => (
                 <li
                   key={i}
-                  className="text-xs text-blue-200 bg-blue-950/40 p-2.5 rounded-lg border border-blue-800/60 flex items-start gap-2"
+                  className="text-xs text-slate-800 bg-amber-50/60 p-2 rounded-lg border border-amber-200 flex items-start gap-1.5"
                 >
-                  <span className="text-blue-400 font-bold">→</span>
-                  <span>{pt}</span>
+                  <span className="text-amber-700 font-bold">→</span>
+                  <span className="leading-relaxed">{pt}</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-xs text-zinc-400">
-              {isTa ? "முக்கிய கருத்துகள் எதுவும் விடுபடவில்லை!" : "No key points were missed!"}
+            <p className="text-xs text-blue-700 font-semibold">
+              {isTa ? "முக்கிய கருத்துகள் அனைத்தும் உள்ளன!" : "No key points missed!"}
             </p>
           )}
         </div>
@@ -189,25 +193,26 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
 
       {/* Overall Feedback */}
       {overallFeedback && (
-        <div className="pt-6 pb-2">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-            {isTa ? "ஆசிரியரின் மதிப்பீட்டுக் குறிப்பு" : "Evaluator Feedback"}
+        <div className="pt-3 pb-1">
+          <h4 className="text-xs font-bold uppercase text-slate-600 mb-1 flex items-center gap-1">
+            <Award size={13} className="text-blue-600" />
+            {isTa ? "மதிப்பீட்டுக் குறிப்பு" : "Evaluation Remarks"}
           </h4>
-          <p className="text-sm text-zinc-200 leading-relaxed bg-zinc-900/80 p-4 rounded-xl border border-zinc-800">
+          <p className="text-xs text-slate-800 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200">
             {overallFeedback}
           </p>
         </div>
       )}
 
-      {/* Reference Answer Toggle / Display */}
+      {/* Reference Answer Toggle */}
       {sampleAnswer && (
-        <div className="mt-4 pt-4 border-t border-zinc-800">
+        <div className="mt-2.5 pt-2.5 border-t border-slate-100">
           <details className="group">
-            <summary className="cursor-pointer text-xs font-semibold text-blue-400 flex items-center gap-2 hover:text-blue-300 transition-colors">
-              <BookOpen size={14} />
-              <span>{isTa ? "மாதிரி விடையைப் பார்க்க" : "View Ideal Sample Answer"}</span>
+            <summary className="cursor-pointer text-xs font-bold text-blue-700 flex items-center gap-1.5 hover:text-blue-800 transition-colors">
+              <BookOpen size={13} />
+              <span>{isTa ? "பாடப்புத்தக மாதிரி விடை (Reference Answer)" : "View Official Sample Answer"}</span>
             </summary>
-            <div className="mt-3 p-4 bg-zinc-950 rounded-xl border border-zinc-800 text-xs text-zinc-300 leading-relaxed font-mono whitespace-pre-wrap">
+            <div className="mt-2 p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-700 leading-relaxed whitespace-pre-wrap">
               {sampleAnswer}
             </div>
           </details>
@@ -216,13 +221,13 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
 
       {/* Action Next Question */}
       {onNextQuestion && (
-        <div className="mt-6 flex justify-end">
+        <div className="mt-4 flex justify-end">
           <button
             onClick={onNextQuestion}
-            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm rounded-xl transition-all shadow-lg shadow-blue-950 hover:shadow-blue-600/30 flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-all shadow-xs flex items-center gap-1 active:scale-95"
           >
-            <span>{isTa ? "அடுத்த கேள்விக்குச் செல்ல" : "Proceed to Next Question"}</span>
-            <span>→</span>
+            <span>{isTa ? "அடுத்த வினா" : "Next Question"}</span>
+            <ChevronRight size={14} />
           </button>
         </div>
       )}
@@ -231,3 +236,5 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
 };
 
 export default EvaluationResultCard;
+
+

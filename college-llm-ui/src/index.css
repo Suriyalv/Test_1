@@ -2,93 +2,174 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
-
 :root {
-  --primary: #1a1a1a;
-  --accent: #3b82f6;
-  --bg-main: #fcfcfd;
-  --bubble-assistant: #ffffff;
-  --bubble-user: #1a1a1a;
-  --text-main: #000000;
-  --text-muted: #6b7280;
-  --border-subtle: #f3f4f6;
+  --navy-primary: #1e3a8a;
+  --navy-accent: #2563eb;
+  --navy-light: #eff6ff;
+  --navy-border: #e2e8f0;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', 'Noto Sans Tamil', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  background-color: #f8fafc;
+  color: #0f172a;
 }
 
-h1, h2, h3, h4, .font-display {
-  font-family: 'Outfit', sans-serif;
+/* Clean Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-/* Markdown Styling */
+/* Top Header Accent */
+.tngov-tricolor-strip {
+  height: 3px;
+  background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #38bdf8 100%);
+}
+
+/* Light Mode Markdown Content with Dark Blue Accents */
 .markdown-container {
-  line-height: 1.6;
+  line-height: 1.65;
+  color: #1e293b;
+  font-size: 0.935rem;
 }
 
-.markdown-container h1 { @apply text-2xl font-bold mb-4 mt-6; }
-.markdown-container h2 { @apply text-xl font-bold mb-3 mt-5 pb-1 border-b border-gray-100; }
-.markdown-container h3 { @apply text-lg font-bold mb-2 mt-4; }
-.markdown-container p { @apply mb-4; }
-.markdown-container ul { @apply list-disc pl-6 mb-4; }
-.markdown-container ol { @apply list-decimal pl-6 mb-4; }
-.markdown-container li { @apply mb-1; }
+.markdown-container h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid #e2e8f0;
+}
 
-/* Table Styling - Premium Look */
+.markdown-container h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1d4ed8;
+  margin-top: 0.85rem;
+  margin-bottom: 0.4rem;
+}
+
+.markdown-container h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.markdown-container p {
+  margin-bottom: 0.65rem;
+  color: #1e293b;
+}
+
+.markdown-container ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.65rem;
+}
+
+.markdown-container ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.65rem;
+}
+
+.markdown-container li {
+  margin-bottom: 0.2rem;
+  color: #334155;
+}
+
+.markdown-container strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+/* Light Table with Dark Blue Headers */
 .markdown-container table {
-  @apply w-full border-collapse mb-6 overflow-hidden rounded-xl border border-gray-100 shadow-sm;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.65rem;
+  margin-bottom: 0.85rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
 }
 
 .markdown-container th {
-  @apply bg-gray-50 text-gray-700 font-semibold text-sm uppercase tracking-wider py-3 px-4 text-left border-b border-gray-100;
+  background-color: #1e3a8a;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 0.55rem 0.75rem;
+  text-align: left;
 }
 
 .markdown-container td {
-  @apply py-3 px-4 text-sm border-b border-gray-50;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
 }
 
 .markdown-container tr:last-child td {
-  @apply border-b-0;
+  border-bottom: none;
 }
 
 .markdown-container tr:nth-child(even) {
-  @apply bg-gray-50/30;
+  background-color: #f8fafc;
 }
 
-.markdown-container tr:hover {
-  @apply bg-blue-50/30 transition-colors;
+/* Quote with Deep Navy Accent */
+.markdown-container blockquote {
+  border-left: 3px solid #1e3a8a;
+  background-color: #eff6ff;
+  padding: 0.5rem 0.85rem;
+  border-radius: 0 0.375rem 0.375rem 0;
+  margin: 0.65rem 0;
+  color: #1e40af;
 }
 
-/* Code & Links */
-.markdown-container a {
-  @apply text-blue-600 hover:text-blue-800 underline transition-colors;
-}
-
+/* Inline Code */
 .markdown-container code:not(pre code) {
-  @apply bg-gray-100 text-blue-600 px-1.5 py-0.5 rounded text-sm font-mono;
+  background-color: #eff6ff;
+  color: #1e3a8a;
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.25rem;
+  font-size: 0.85em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 600;
+  border: 1px solid #dbeafe;
 }
 
-/* Assistant Bubble Enhancements */
-.assistant-bubble {
-  @apply bg-white border border-gray-100 shadow-sm transition-all duration-300;
-  backdrop-filter: blur(8px);
+.markdown-container pre {
+  background-color: #0f172a;
+  color: #f8fafc;
+  padding: 0.85rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 0.65rem;
 }
 
-.assistant-bubble:hover {
-  @apply shadow-md border-gray-200;
-}
-
-.user-bubble {
-  @apply bg-gray-900 text-white shadow-lg shadow-gray-200;
-}
-
-code {
-  font-family: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+.markdown-container pre code {
+  color: #60a5fa;
+  font-size: 0.825rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }

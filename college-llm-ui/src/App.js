@@ -4,10 +4,17 @@ import ChatContainer from "./components/ChatContainer";
 import MessageBubble from "./components/MessageBubble";
 import ChatInput from "./components/ChatInput";
 import TypingAnimation from "./components/TypingAnimation";
-import UserResponse from "./UserResponse"; // Import the new component
-import TestModule from "./components/TestTaking/TestModule"; // Import Test Module
+import UserResponse from "./UserResponse";
+import TestModule from "./components/TestTaking/TestModule";
+import FloatingMascotBot from "./components/FloatingMascotBot";
 import "./index.css";
-import { Trash2, Languages, GraduationCap } from "lucide-react";
+import {
+  Trash2,
+  Languages,
+  GraduationCap,
+  BarChart3,
+  Sparkles,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
@@ -17,7 +24,7 @@ function App() {
   });
   const [loading, setLoading] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
-  const [language, setLanguage] = useState("en"); // "en" = English, "ta" = Tamil
+  const [language, setLanguage] = useState("en"); // Default English
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === "en" ? "ta" : "en"));
@@ -27,7 +34,7 @@ function App() {
     localStorage.setItem("chatMessages", JSON.stringify(messages));
   }, [messages]);
 
-  // Handle URL changes (simple routing)
+  // Handle URL changes
   useEffect(() => {
     const handleLocationChange = () => {
       setCurrentPath(window.location.pathname);
@@ -42,18 +49,24 @@ function App() {
   };
 
   if (currentPath === "/userresponse") {
-    return <UserResponse />;
+    return <UserResponse onBackToChat={() => navigateTo("/")} language={language} />;
   }
 
   if (currentPath === "/test") {
-    return <TestModule onBackToChat={() => navigateTo("/")} />;
+    return <TestModule onBackToChat={() => navigateTo("/")} initialLanguage={language} />;
   }
-
 
   const sendMessage = async (input, selectedSubject) => {
     if (!input.trim()) return;
 
-    const userMessage = { role: "user", content: input };
+    const userMessage = { 
+      role: "user", 
+      content: input,
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
     setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
 
@@ -62,10 +75,15 @@ function App() {
 
       const botMessage = {
         role: "assistant",
-        content: data.response || "⚠️ Received empty response",
+        content: data.response || (language === "ta" ? "பதில் கிடைக்கவில்லை." : "⚠️ Received empty response"),
+        references: data.references || [],
         files: data.files || [],
         images: data.images || [],
-        prompt: input // Store the user prompt for feedback
+        prompt: input,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -73,7 +91,16 @@ function App() {
       console.error("Fetch error:", err);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Server not reachable. Please check your backend connection." },
+        {
+          role: "assistant",
+          content: language === "ta"
+            ? "⚠️ சேவையகத்தை தொடர்பு கொள்ள முடியவில்லை. தயவுசெய்து உங்கள் இணைய இணைப்பை சரிபார்க்கவும்."
+            : "⚠️ Server not reachable. Please check your backend connection.",
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
       ]);
     }
 
@@ -81,115 +108,165 @@ function App() {
   };
 
   const clearChat = () => {
-    if (window.confirm("Are you sure you want to clear the chat?")) {
+    const confirmText = language === "ta"
+      ? "உரையாடல் வரலாற்றை அழிக்க நிச்சயமாக விரும்புகிறீர்களா?"
+      : "Are you sure you want to clear the chat?";
+    if (window.confirm(confirmText)) {
       setMessages([]);
       localStorage.removeItem("chatMessages");
     }
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen font-sans text-black selection:bg-blue-600 selection:text-white">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-white text-black border-b border-gray-200 z-30 flex items-center justify-between px-4 md:px-8 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-md shadow-blue-500/20">
-            <span className="text-black font-black text-lg">A</span>
+    <div className="bg-[#f8fafc] min-h-screen font-sans text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
+      {/* Top Header Accent Strip */}
+      <div className="tngov-tricolor-strip fixed top-0 left-0 right-0 z-50"></div>
+
+      {/* Clean Minimal Header */}
+      <header className="fixed top-[3px] left-0 right-0 bg-white/95 backdrop-blur-md border-b border-slate-200 z-40">
+        <div className="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+          
+          {/* Title & Branding */}
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#1e3a8a] border border-blue-100 flex items-center justify-center">
+              <Sparkles size={16} />
+            </div>
+            <div>
+              <div className="text-[10px] font-bold text-[#1e3a8a] tracking-wide uppercase">
+                {language === "ta" ? "கல்வி AI • கற்றல் & திறன் தளம்" : "AI Academic Learning & Examination"}
+              </div>
+              <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
+                {language === "ta" ? "ஸ்மார்ட் AI கல்வி வழிகாட்டி" : "Smart AI Educational Portal"}
+              </h1>
+            </div>
           </div>
-          <span className="font-extrabold text-lg tracking-tight text-black">
-            ArkEngine <span className="text-xs font-semibold text-black border border-blue-300 bg-blue-50 px-2 py-0.5 rounded-full ml-1">AI Chat</span>
-          </span>
-        </div>
 
-        <div className="flex items-center gap-3">
-          {/* Test Taking Module Button */}
-          <button
-            onClick={() => navigateTo("/test")}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-100 hover:bg-blue-200 text-black border border-blue-300 rounded-xl transition-all font-bold text-sm shadow-sm"
-            title="Open Test Taking Application"
-          >
-            <GraduationCap size={18} className="text-black" />
-            <span className="text-black">{language === "ta" ? "வினா தேர்வு செயலி" : "Test App"}</span>
-          </button>
+          {/* Navigation Controls */}
+          <div className="flex items-center gap-2">
+            {/* Nav: Test Taking */}
+            <button
+              onClick={() => navigateTo("/test")}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1e3a8a] hover:bg-[#1e40af] text-white rounded-lg transition-all font-semibold text-xs sm:text-sm shadow-xs active:scale-95"
+              title="Test Portal"
+            >
+              <GraduationCap size={15} />
+              <span>
+                {language === "ta" ? "தேர்வு போர்ட்டல்" : "Test Portal"}
+              </span>
+            </button>
 
-          {/* Language Toggle Button */}
-          <button
-            onClick={toggleLanguage}
-            title={language === "en" ? "Switch to Tamil" : "Switch to English"}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-black border border-gray-300 rounded-xl transition-all font-semibold text-sm group"
-          >
-            <Languages size={18} className="text-black" />
-            <span className="text-black">
-              {language === "en" ? (
-                <span>EN <span className="text-gray-600 font-normal">/ தமிழ்</span></span>
-              ) : (
-                <span className="text-gray-600 font-normal">EN / </span>
-              )}
-              {language === "ta" && <span className="text-black">தமிழ்</span>}
-            </span>
-          </button>
+            {/* Nav: Feedback Insights */}
+            <button
+              onClick={() => navigateTo("/userresponse")}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#1e3a8a] border border-slate-200 rounded-lg transition-all font-semibold text-xs sm:text-sm"
+              title="Feedback"
+            >
+              <BarChart3 size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "பின்னூட்டம்" : "Feedback"}
+              </span>
+            </button>
 
-          {/* Clear Chat Button */}
-          <button
-            onClick={clearChat}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-black border border-gray-300 rounded-xl transition-all font-medium text-sm group"
-            title="Clear Chat"
-          >
-            <Trash2 size={18} className="text-black group-hover:text-red-600 transition-colors" />
-            <span className="hidden sm:inline text-black">Clear Chat</span>
-          </button>
+            {/* Language Toggle Button */}
+            <button
+              onClick={toggleLanguage}
+              title={language === "en" ? "தமிழுக்கு மாற்றவும்" : "Switch to English"}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1e3a8a] border border-blue-200 rounded-lg transition-all font-bold text-xs sm:text-sm active:scale-95"
+            >
+              <Languages size={14} />
+              <span>{language === "en" ? "English (EN)" : "தமிழ் (TA)"}</span>
+            </button>
+
+            {/* Clear Chat */}
+            {messages.length > 0 && (
+              <button
+                onClick={clearChat}
+                className="p-1.5 sm:p-2 bg-slate-100 hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-slate-500 border border-slate-200 rounded-lg transition-all"
+                title={language === "ta" ? "உரையாடலை அழிக்க" : "Clear Chat"}
+              >
+                <Trash2 size={15} />
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="pt-0">
+      {/* Main Content Area */}
+      <main className="flex-1 pt-20 pb-36 max-w-4xl mx-auto w-full px-4">
         <AnimatePresence mode="wait">
           <motion.div
             key="chat"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
             <ChatContainer>
               {messages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-[60vh] text-center px-4">
-                  <div className="w-14 h-14 bg-blue-50 border-2 border-blue-500 rounded-2xl flex items-center justify-center mb-4 shadow-md">
-                    <span className="text-black font-black text-2xl">A</span>
+                /* Simple, Neat & Minimal Welcome State */
+                <div className="py-16 sm:py-24 flex flex-col items-center justify-center text-center max-w-lg mx-auto">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-[#1e3a8a] flex items-center justify-center mb-4 shadow-xs">
+                    <Sparkles size={24} className="text-[#2563eb]" />
                   </div>
-                  <h1 className="text-2xl font-extrabold text-black mb-2 tracking-tight">
-                    {language === "ta" ? "வணக்கம்! நான் ArkEngine!" : "Hello, I'm ArkEngine!"}
-                  </h1>
-                  <p className="text-black max-w-md text-sm font-medium">
+
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
                     {language === "ta"
-                      ? "நான் ArkEngine குழுவால் உருவாக்கப்பட்ட உங்கள் கல்வி உதவியாளர். உங்கள் பாடங்களைப் பற்றி எதையும் கேளுங்கள்!"
-                      : "I'm your academic assistant developed by the ArkEngine Team. Ask me anything about your subjects or chat with me like a friend!"}
+                      ? "வணக்கம் மாணவரே! எதைப் பற்றி அறிய விரும்புகிறீர்கள்?"
+                      : "Welcome Student! What would you like to explore today?"}
+                  </h2>
+
+                  <p className="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed max-w-md">
+                    {language === "ta"
+                      ? "பாடப் புத்தக தலைப்புகள், அறிவியல் விதிகள் மற்றும் மாதிரித் தேர்வுகளுக்கான AI வழிகாட்டி."
+                      : "Curriculum concepts, textbook explanations, and exam preparation tutor."}
                   </p>
-                  <div className="mt-5 px-4 py-1.5 rounded-full text-xs font-bold border border-blue-300 bg-blue-50 text-black shadow-sm">
-                    {language === "ta" ? "🌐 தமிழ் பயன்முறை செயலில் உள்ளது" : "🌐 English mode active"}
+
+                  {/* Clean Minimal Suggestion Pills */}
+                  <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+                    {[
+                      language === "ta" ? "💻 பைதான் கட்டுப்பாட்டு கட்டமைப்புகள்" : "💻 Python Control Structures",
+                      language === "ta" ? "🗄️ தரவுத்தள மேலாண்மை அமைப்பு (DBMS)" : "🗄️ DBMS vs File System",
+                      language === "ta" ? "🔢 குமிழி வரிசையாக்கம் (Bubble Sort)" : "🔢 Bubble Sort Algorithm",
+                      language === "ta" ? "🔑 முதன்மை மற்றும் வெளிச் சாவி" : "🔑 Primary vs Foreign Key"
+                    ].map((pill, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => sendMessage(pill, "")}
+                        className="px-3.5 py-1.5 bg-white hover:bg-blue-50 text-slate-700 hover:text-[#1e3a8a] border border-slate-200 hover:border-blue-300 rounded-full text-xs font-medium transition-all shadow-xs flex items-center gap-1.5 active:scale-95"
+                      >
+                        <Sparkles size={12} className="text-[#2563eb]" />
+                        <span>{pill}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
               ) : (
-                <>
+                <div className="space-y-4 pt-2">
                   {messages.map((msg, i) => (
-                    <MessageBubble key={i} message={msg} />
+                    <MessageBubble key={i} message={msg} language={language} />
                   ))}
                   {loading && (
                     <div className="flex justify-start mb-6 w-full">
-                      <div className="bg-white border border-blue-300 px-5 py-3 rounded-2xl rounded-tl-none shadow-md flex items-center gap-3 text-black">
+                      <div className="bg-white border border-blue-200 px-4 py-3 rounded-2xl rounded-tl-none shadow-xs flex items-center gap-2.5 text-slate-800">
                         <TypingAnimation />
-                        <span className="text-sm text-black font-semibold">
-                          {language === "ta" ? "யோசிக்கிறேன்..." : "Thinking..."}
+                        <span className="text-xs text-[#1e3a8a] font-semibold">
+                          {language === "ta" ? "AI பதிலளிக்கிறது..." : "AI is responding..."}
                         </span>
                       </div>
                     </div>
                   )}
-                </>
+                </div>
               )}
             </ChatContainer>
-            <ChatInput onSend={sendMessage} loading={loading} language={language} />
           </motion.div>
         </AnimatePresence>
       </main>
+
+      {/* Floating Chat Input */}
+      <ChatInput onSend={sendMessage} loading={loading} language={language} />
+
+      {/* Floating Cartoon Mascot Hint Bot (Kalvi Mithran) */}
+      <FloatingMascotBot language={language} />
     </div>
   );
 }

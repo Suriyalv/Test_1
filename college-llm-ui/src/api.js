@@ -142,3 +142,32 @@ export const evaluateTestAnswer = async (payload) => {
     return response.json();
 };
 
+export const fetchMascotHint = async ({ message, context_question, history, language = "en" }) => {
+    const response = await fetch(`${API_BASE_URL}/hint`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, context_question, history, language }),
+    });
+    if (!response.ok) throw new Error("Failed to fetch mascot hint");
+    return response.json();
+};
+
+export const fetchMascotQuestion = async ({ language = "en", used_questions = [] }) => {
+    const response = await fetch(`${API_BASE_URL}/mascot/question`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ language, used_questions }),
+    });
+    if (!response.ok) throw new Error("Failed to generate mascot question");
+    return response.json();
+};
+
+export const checkMascotAnswer = async ({ question, correct_answer, student_answer, attempt = 1, language = "en" }) => {
+    const response = await fetch(`${API_BASE_URL}/mascot/check`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, correct_answer, student_answer, attempt, language }),
+    });
+    if (!response.ok) throw new Error("Failed to check mascot answer");
+    return response.json();
+};

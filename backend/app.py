@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
+from knowledge_base import knowledge_base
 
 # Load environment variables from .env file
 load_dotenv()
@@ -55,31 +56,43 @@ FALLBACK_MODELS = [
 
 # ─── Helper: Build System Prompt ───────────────────────────────────────────────
 
-def build_system_prompt(language: str, subject: str = None) -> str:
-    """Build the system instruction based on selected language and optional subject context."""
+def build_system_prompt(language: str, subject: str = None, rag_context: str = "") -> str:
+    """Build the system instruction based on selected language, optional subject context, and textbook RAG context."""
 
     if language == "ta":
         lang_instruction = (
-            "நீங்கள் ஒரு உதவிகரமான கல்வி உதவியாளர். "
-            "தயவுசெய்து எல்லா பதில்களையும் தமிழில் மட்டுமே வழங்கவும். "
-            "தெளிவான மற்றும் எளிதில் புரிந்துகொள்ளக்கூடிய தமிழில் விளக்கங்கள் தரவும்."
+            "நீங்கள் மேல்நிலை இரண்டாம் ஆண்டு (Class XII) கணினி அறிவியல் (Computer Science) பாடத்திட்டத்திற்கான "
+            "பிரத்யேக AI கல்வி வழிகாட்டி. வழங்கப்பட்டுள்ள பாடத்திட்ட தரவுகள் (Textbook Curriculum Data) "
+            "அடிப்படையில் துல்லியமான பதில்களை வழங்கவும். "
+            "தெளிவான, எளிதில் புரியக்கூடிய தமிழில் விளக்கங்கள் தரவும். "
+            "முக்கிய கலைச்சொற்களை (Keywords) தமிழில் மற்றும் அடைப்புக்குறிக்குள் ஆங்கிலத்திலும் குறிப்பிடவும்."
         )
     else:
         lang_instruction = (
-            "You are a helpful educational assistant. "
-            "Respond clearly and concisely in English. "
-            "Use structured formatting (headings, bullet points) when helpful."
+            "You are a dedicated AI educational tutor specialized in the Class XII Computer Science textbook curriculum. "
+            "You must communicate using the official syllabus topics and textbook knowledge base provided. "
+            "Respond clearly, accurately, and with structured formatting (headings, bullet points, syntax, code examples)."
         )
 
     if subject:
         subject_instruction = (
-            f"\n\nContext: The user is asking about the subject: '{subject}'. "
-            "Use your knowledge to answer questions relevant to this subject."
+            f"\n\nActive Subject Topic: '{subject}'. "
+            "Base your answers on this curriculum domain."
         )
     else:
-        subject_instruction = "\n\nContext: This is a general educational chat. Answer any educational queries."
+        subject_instruction = "\n\nDomain: Class XII Computer Science (Chapters 1-16: Functions, Abstraction, Scoping, Algorithms, Python Programming, Control Structures, Strings, Collections, Classes, DBMS, SQL, Data Manipulation)."
 
-    return lang_instruction + subject_instruction
+    if rag_context:
+        grounding_instruction = (
+            "\n\nCRITICAL PEDAGOGICAL GROUNDING RULE: "
+            "Use the official textbook reference provided below as the primary ground truth. "
+            "Adopt the exact definitions, keywords, syntax rules, and conceptual explanations from this material:\n"
+            f"{rag_context}"
+        )
+    else:
+        grounding_instruction = ""
+
+    return lang_instruction + subject_instruction + grounding_instruction
 
 
 # ─── Route: Health Check ────────────────────────────────────────────────────────
@@ -107,7 +120,12 @@ def chat():
         return jsonify({"error": "Message cannot be empty"}), 400
 
     try:
-        system_prompt = build_system_prompt(language, subject)
+        # Retrieve relevant curriculum textbook chunks
+        search_query = f"{subject} {message}" if subject else message
+        retrieved_chunks = knowledge_base.search(search_query, top_k=3, min_score=0.8)
+        rag_context = knowledge_base.format_rag_context(retrieved_chunks)
+        
+        system_prompt = build_system_prompt(language, subject, rag_context)
 
         # Build message array for OpenRouter (OpenAI format)
         messages_payload = [
@@ -129,6 +147,18 @@ def chat():
         models_to_try = [MODEL_ID] + FALLBACK_MODELS
         last_error = None
 
+        # Clean reference citations for UI
+        references = [
+            {
+                "chunk_id": c.get("chunk_id"),
+                "chapter_no": c.get("chapter_no"),
+                "topic": c.get("topic"),
+                "subtopic": c.get("subtopic"),
+                "concept_type": c.get("concept_type")
+            }
+            for c in retrieved_chunks
+        ]
+
         for model_name in models_to_try:
             try:
                 response = client.chat.completions.create(
@@ -140,12 +170,13 @@ def chat():
                     }
                 )
                 reply = response.choices[0].message.content
-                print(f"[INFO] Response generated using model: {model_name}")
+                print(f"[INFO] Response generated using model: {model_name} (RAG Chunks: {len(retrieved_chunks)})")
 
                 return jsonify({
                     "response": reply,
                     "language": language,
                     "model_used": model_name,
+                    "references": references,
                     "files": [],
                     "images": []
                 })
@@ -164,6 +195,290 @@ def chat():
     except Exception as e:
         print(f"[ERROR] Unexpected error in chat route: {e}")
         return jsonify({"error": f"AI service error: {str(e)}"}), 500
+
+
+# ─── Route: Mascot Hint Assistant (Kalvi Mithran) ─────────────────────────────
+
+@app.route("/api/hint", methods=["POST"])
+def mascot_hint():
+    """
+    Socratic Hint AI: Provides hints, clues, concepts, and portal guidance
+    WITHOUT ever revealing direct test answers.
+    """
+    data = request.get_json() or {}
+    message = data.get("message", "").strip()
+    context_question = data.get("context_question", "").strip()
+    history = data.get("history", [])
+    language = data.get("language", "en")
+
+    if not message and not context_question:
+        return jsonify({"error": "No question or query provided"}), 400
+
+    if language == "ta":
+        system_instruction = (
+            "நீங்கள் 'கல்வி மித்ரன்' (Kalvi Mithran) - பள்ளி மாணவர்களுக்கான அன்பான, உற்சாகமூட்டும் கார்ட்டூன் கற்றல் நண்பன்!\n"
+            "மிக முக்கியமான விதி (STRICT PEDAGOGICAL RULE):\n"
+            "1. மாணவர்களின் தேர்வு வினாக்களுக்கோ அல்லது பயிற்சிகளுக்கோ நேரடி இறுதி விடையை (DIRECT FINAL ANSWER) ஒருபோதும் கூறக்கூடாது.\n"
+            "2. அதற்குப் பதிலாக: குறிப்புகள் (hints), சிந்திக்கத் தூண்டும் கேள்விகள் (guiding questions), தொடர்புடைய சூத்திரங்கள் (formulas), முக்கிய கருத்துக்கள் (concept clues) மட்டுமே வழங்க வேண்டும்.\n"
+            "3. மாணவரை சுயமாக விடையைக் கண்டுபிடிக்க ஊக்கப்படுத்தவும்.\n"
+            "4. இந்த இணையதளம்/போர்ட்டல் பற்றி கேட்டால் அன்புடன் வழிகாட்டவும்.\n"
+            "5. மகிழ்ச்சியான, எளிய, எமோஜிகளுடன் கூடிய தமிழில் பேசவும்."
+        )
+    else:
+        system_instruction = (
+            "You are 'Kalvi Mithran' (EduBuddy), a cheerful, cute cartoon mascot tutor and friendly study buddy for students!\n"
+            "CRITICAL PEDAGOGICAL RULE:\n"
+            "1. NEVER GIVE DIRECT FINAL ANSWERS to test questions, quizzes, or exam problems.\n"
+            "2. Instead, provide smart hints, concept clues, formulas, step-by-step thinking strategies, and guiding Socratic questions to help the student solve it themselves.\n"
+            "3. If the user asks about using this portal/project (tests, voice input, language toggle), explain warmly and clearly.\n"
+            "4. Use a cheerful, positive tone with helpful emojis.\n"
+            "5. Keep hints compact, encouraging, and easy to understand."
+        )
+
+    if context_question:
+        system_instruction += f"\n\nCURRENT QUESTION STUDENT IS WORKING ON:\n\"{context_question}\"\nGive a helpful hint or concept explanation for this question WITHOUT giving the answer."
+
+    # RAG: Ground hint in curriculum concept definitions
+    hint_query = context_question if context_question else message
+    retrieved_hint_chunks = knowledge_base.search(hint_query, top_k=2, min_score=0.8)
+    if retrieved_hint_chunks:
+        rag_hint = knowledge_base.format_rag_context(retrieved_hint_chunks, max_chars=1200)
+        system_instruction += f"\n\nCURRICULUM CONCEPT REFERENCE (Use this concept to give clues without giving the direct answer):\n{rag_hint}"
+
+    messages_payload = [{"role": "system", "content": system_instruction}]
+
+    for msg in history[-6:]:  # Keep recent history concise
+        role = "user" if msg.get("role") == "user" else "assistant"
+        messages_payload.append({"role": role, "content": msg.get("content", "")})
+
+    prompt_msg = message if message else f"Please give me a friendly hint for this question: {context_question}"
+    messages_payload.append({"role": "user", "content": prompt_msg})
+
+    models_to_try = [MODEL_ID] + FALLBACK_MODELS
+    last_error = None
+
+    for model_name in models_to_try:
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=messages_payload,
+                extra_headers={
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Kalvi Mithran Mascot Hint",
+                }
+            )
+            reply = response.choices[0].message.content
+            return jsonify({
+                "response": reply,
+                "language": language,
+                "model_used": model_name
+            })
+        except Exception as model_error:
+            last_error = model_error
+            continue
+
+    return jsonify({"error": f"Mascot service temporarily busy: {str(last_error)}"}), 500
+
+
+# ─── Route: Mascot Question Generator ─────────────────────────────────────────
+
+@app.route("/api/mascot/question", methods=["POST"])
+def mascot_generate_question():
+    """
+    Generates a fresh, curriculum-aligned brain teaser / quiz question for the mascot.
+    Returns: { question, topic, difficulty }
+    """
+    data = request.get_json() or {}
+    language = data.get("language", "en")
+    used_questions = data.get("used_questions", [])  # avoid repeating same questions
+
+    used_str = ""
+    if used_questions:
+        used_str = "\n\nAVOID these questions (already asked):\n- " + "\n- ".join(used_questions[-10:])
+
+    # Select a real curriculum topic/concept to ground the question
+    concept_sample = knowledge_base.get_random_concept()
+    topic_hint = ""
+    if concept_sample:
+        topic_hint = f"\n\nBase your question on this syllabus topic:\nChapter {concept_sample.get('chapter_no')}: {concept_sample.get('topic')} - {concept_sample.get('subtopic')}\nConcept summary: {concept_sample.get('content')[:300]}"
+
+    if language == "ta":
+        system_instruction = (
+            "நீங்கள் 'கல்வி மித்ரன்' — பள்ளி மாணவர்களுக்கான அன்பான கல்வி உதவியாளர்.\n"
+            "ஒரு சுவாரஸ்யமான, குறுகிய அறிவியல்/கணினி/கணிதம்/பொது அறிவு "
+            "சம்பந்தமான கேள்வியை தமிழில் உருவாக்கவும்.\n"
+            "கேள்வி: 1-2 வரிகளில் மட்டும் இருக்க வேண்டும். சுவாரஸ்யமாக இருக்க வேண்டும்.\n"
+            "பதில்: தெளிவான, குறுகிய விடை மட்டும்.\n"
+            "கண்டிப்பாக இந்த JSON மட்டும் திருப்பவும் (வேறு எதுவும் வேண்டாம்):\n"
+            "{\"question\": \"...\", \"answer\": \"...\", \"topic\": \"...\"}"
+            + used_str
+            + topic_hint
+        )
+    else:
+        system_instruction = (
+            "You are 'Kalvi Mithran' — an educational mascot and study assistant for school students.\n"
+            "Generate ONE interesting, short computer science / science / general knowledge quiz question "
+            "appropriate for school students (Class 6-12 level).\n"
+            "Question: max 1-2 lines, engaging and clear.\n"
+            "Answer: short and factual.\n"
+            "Respond ONLY with this JSON (no extra text):\n"
+            "{\"question\": \"...\", \"answer\": \"...\", \"topic\": \"...\"}"
+            + used_str
+            + topic_hint
+        )
+
+    messages_payload = [
+        {"role": "system", "content": system_instruction},
+        {"role": "user", "content": "Generate a fresh quiz question now."}
+    ]
+
+    models_to_try = [MODEL_ID] + FALLBACK_MODELS
+    for model_name in models_to_try:
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=messages_payload,
+                extra_headers={
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Kalvi Mithran Question Generator",
+                }
+            )
+            raw = response.choices[0].message.content.strip()
+            # Try to parse JSON from the response
+            import re
+            json_match = re.search(r'\{.*?\}', raw, re.DOTALL)
+            if json_match:
+                parsed = json.loads(json_match.group())
+                return jsonify({
+                    "question": parsed.get("question", raw),
+                    "answer": parsed.get("answer", ""),
+                    "topic": parsed.get("topic", "General"),
+                    "language": language,
+                    "model_used": model_name
+                })
+            else:
+                return jsonify({"question": raw, "answer": "", "topic": "General", "language": language})
+        except Exception as model_error:
+            print(f"[WARN] mascot/question model {model_name} error: {model_error}")
+            continue
+
+    return jsonify({"error": "Could not generate question"}), 500
+
+
+# ─── Route: Mascot Answer Checker ──────────────────────────────────────────────
+
+@app.route("/api/mascot/check", methods=["POST"])
+def mascot_check_answer():
+    """
+    Checks student's answer against the quiz question.
+    Returns one of:
+      - { status: "correct", message: "..." }
+      - { status: "hint", message: "..." }      (wrong, give a Socratic hint)
+      - { status: "reveal", message: "..." }    (after multiple attempts, reveal answer)
+    """
+    data = request.get_json() or {}
+    question = data.get("question", "").strip()
+    correct_answer = data.get("correct_answer", "").strip()
+    student_answer = data.get("student_answer", "").strip()
+    attempt = data.get("attempt", 1)   # 1 = first try, 2 = second try, 3+ = reveal
+    language = data.get("language", "en")
+
+    if not question or not student_answer:
+        return jsonify({"error": "Question and student answer are required"}), 400
+
+    if language == "ta":
+        system_instruction = (
+            "நீங்கள் 'கல்வி மித்ரன்' — மாணவர்களின் விடைகளை மதிப்பிடும் அன்பான ஆசிரியர்.\n"
+            "மாணவர் அளித்த விடை சரியானதா எனப் பரிசீலனை செய்யவும்.\n"
+            "முடிவை இந்த JSON வடிவில் மட்டும் தரவும் (வேறு எதுவும் வேண்டாம்):\n"
+            "{\"status\": \"correct\" அல்லது \"wrong\", \"feedback\": \"...\"}"
+        )
+        user_msg = (
+            f"கேள்வி: {question}\n"
+            f"சரியான விடை: {correct_answer}\n"
+            f"மாணவர் விடை: {student_answer}\n"
+            f"முயற்சி எண்: {attempt}\n"
+            "மாணவரின் விடை சரியானதா? JSON மட்டும் பதில் அளிக்கவும்."
+        )
+    else:
+        system_instruction = (
+            "You are 'Kalvi Mithran' — a kind evaluator checking student quiz answers.\n"
+            "Check if the student's answer is correct (exact match not required — accept reasonable paraphrases).\n"
+            "Respond ONLY with this JSON (no extra text):\n"
+            "{\"status\": \"correct\" or \"wrong\", \"feedback\": \"...\"}"
+        )
+        user_msg = (
+            f"Question: {question}\n"
+            f"Correct Answer: {correct_answer}\n"
+            f"Student's Answer: {student_answer}\n"
+            f"Attempt number: {attempt}\n"
+            "Is the student correct? Respond in JSON only."
+        )
+
+    messages_payload = [
+        {"role": "system", "content": system_instruction},
+        {"role": "user", "content": user_msg}
+    ]
+
+    models_to_try = [MODEL_ID] + FALLBACK_MODELS
+    for model_name in models_to_try:
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=messages_payload,
+                extra_headers={
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Kalvi Mithran Answer Check",
+                }
+            )
+            raw = response.choices[0].message.content.strip()
+            import re
+            json_match = re.search(r'\{.*?\}', raw, re.DOTALL)
+            if json_match:
+                parsed = json.loads(json_match.group())
+                is_correct = parsed.get("status", "wrong").lower() == "correct"
+            else:
+                # Fallback: check if common "correct" phrases appear
+                is_correct = any(w in raw.lower() for w in ["correct", "right", "சரி", "சரியான"])
+
+            if is_correct:
+                if language == "ta":
+                    msg = f"🎉 அருமை! நீங்கள் சரியாக சொன்னீர்கள்! சரியான விடை: {correct_answer}"
+                else:
+                    msg = f"🎉 Excellent! That's correct! Answer: {correct_answer}"
+                return jsonify({"status": "correct", "message": msg})
+            else:
+                # Wrong — give a hint or reveal based on attempt
+                if attempt >= 3:
+                    if language == "ta":
+                        msg = f"🔑 இந்த வினாவின் விடை: {correct_answer}. கவலைப்படாதீர்கள் — தொடர்ந்து முயற்சி செய்யுங்கள்! 💪"
+                    else:
+                        msg = f"🔑 The answer is: {correct_answer}. Don't worry — keep practising! 💪"
+                    return jsonify({"status": "reveal", "message": msg})
+                else:
+                    # Ask AI for a Socratic hint
+                    hint_system = (
+                        "Give a short, helpful hint (1-2 sentences) for this question WITHOUT revealing the answer. "
+                        "Be encouraging and simple. Respond in " + ("Tamil" if language == "ta" else "English") + "."
+                    )
+                    hint_payload = [
+                        {"role": "system", "content": hint_system},
+                        {"role": "user", "content": f"Question: {question}. Student said: '{student_answer}'. Give a gentle hint."}
+                    ]
+                    hint_resp = client.chat.completions.create(
+                        model=model_name,
+                        messages=hint_payload,
+                        extra_headers={"HTTP-Referer": "http://localhost:3000", "X-Title": "Kalvi Mithran Hint"}
+                    )
+                    hint_text = hint_resp.choices[0].message.content.strip()
+                    prefix = "💡 " + ("கொஞ்சம் யோசியுங்கள்: " if language == "ta" else "Think again: ")
+                    return jsonify({"status": "hint", "message": prefix + hint_text})
+
+        except Exception as model_error:
+            print(f"[WARN] mascot/check model {model_name} error: {model_error}")
+            continue
+
+    return jsonify({"error": "Could not check answer"}), 500
 
 
 # In-memory store for feedback stats and history
@@ -354,14 +669,21 @@ def evaluate_test_answer():
 
     # 2 Marks & 5 Marks LLM Evaluation
     prompt_lang_str = "Tamil (தமிழ்)" if language == "ta" else "English"
+    
+    # RAG: Retrieve textbook definition for accurate academic benchmarking
+    eval_query = f"{question_text} {sample_answer}"
+    eval_chunks = knowledge_base.search(eval_query, top_k=2, min_score=0.8)
+    tb_ref = knowledge_base.format_rag_context(eval_chunks, max_chars=1000) if eval_chunks else ""
+
     eval_prompt = f"""You are an expert academic examiner evaluating a student's answer for a {category} question.
 
 Question: "{question_text}"
 Reference Sample Answer: "{sample_answer}"
 Required Keywords: {json.dumps(target_keywords, ensure_ascii=False)}
 Student's Answer: "{user_answer}"
+{tb_ref}
 
-Evaluate the accuracy of the student's answer based on correctness, keyword usage, and content alignment with the sample answer.
+Evaluate the accuracy of the student's answer based on correctness, keyword usage, and content alignment with the sample answer and textbook syllabus.
 
 IMPORTANT: Return ONLY a valid JSON object without any markdown code fences (no ```json ... ```).
 The JSON MUST have the following structure:

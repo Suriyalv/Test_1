@@ -8,13 +8,14 @@ const ChatContainer = ({ children }) => {
     }, [children]);
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-100 pt-20 pb-48 md:pb-56 px-4 md:px-0">
-            <div className="w-full max-w-[868px] mx-auto h-full flex flex-col">
+        <div className="flex flex-col w-full">
+            <div className="w-full h-full flex flex-col">
                 {children}
-                <div ref={bottomRef} className="h-4" />
+                <div ref={bottomRef} className="h-6" />
             </div>
         </div>
     );
 };
 
 export default ChatContainer;
+

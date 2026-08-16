@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Bot, FileText, Download, ThumbsUp, ThumbsDown } from 'lucide-react'; // Updated import
+import { User, FileText, Download, ThumbsUp, ThumbsDown, Copy, Check, Volume2, VolumeX, Sparkles, BookOpen } from 'lucide-react';
 import StructuredResponse from '../StructuredResponse';
 import { sendLike, sendDislike } from '../api';
 
-const MessageBubble = ({ message }) => {
+const MessageBubble = ({ message, language = "en" }) => {
     const isUser = message.role === 'user';
-    const [voteType, setVoteType] = React.useState(null); // 'good', 'bad', or null
+    const [voteType, setVoteType] = useState(null);
+    const [copied, setCopied] = useState(false);
+    const [isSpeaking, setIsSpeaking] = useState(false);
 
     const handleLike = async () => {
         if (voteType) return;
@@ -28,118 +30,225 @@ const MessageBubble = ({ message }) => {
         }
     };
 
+    const copyToClipboard = () => {
+        if (!message.content) return;
+        navigator.clipboard.writeText(message.content);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const toggleSpeech = () => {
+        if (!window.speechSynthesis) return;
+
+        if (isSpeaking) {
+            window.speechSynthesis.cancel();
+            setIsSpeaking(false);
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(message.content.replace(/[#*`_~]/g, ""));
+        utterance.lang = language === "ta" ? "ta-IN" : "en-US";
+        utterance.rate = 0.95;
+
+        utterance.onend = () => setIsSpeaking(false);
+        utterance.onerror = () => setIsSpeaking(false);
+
+        setIsSpeaking(true);
+        window.speechSynthesis.speak(utterance);
+    };
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className={`flex w-full mb-6 ${isUser ? 'justify-end' : 'justify-start'}`}
+            transition={{ duration: 0.15 }}
+            className={`flex w-full mb-4 ${isUser ? 'justify-end' : 'justify-start'}`}
         >
-            <div className={`flex max-w-[calc(90%+100px)] md:max-w-[calc(80%+100px)] ${isUser ? 'flex-row-reverse' : 'flex-row'} gap-3`}>
-                {/* Avatar */}
-                <div className={`flex-shrink-0 w-8 h-8 rounded-xl hidden md:flex items-center justify-center shadow-md ${isUser ? 'bg-blue-100 text-black border border-blue-300' : 'bg-blue-50 text-black border border-blue-300'
-                    }`}>
-                    {isUser ? <User size={16} className="text-black" /> : <Bot size={18} className="text-black" />}
+            <div className={`flex w-full max-w-3xl ${isUser ? 'flex-row-reverse' : 'flex-row'} items-start gap-2.5`}>
+                
+                {/* Avatar Icon */}
+                <div className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg ${
+                    isUser
+                        ? 'bg-[#1e3a8a] text-white shadow-xs'
+                        : 'bg-blue-50 text-[#1e3a8a] border border-blue-100'
+                }`}>
+                    {isUser ? (
+                        <User size={15} />
+                    ) : (
+                        <Sparkles size={15} />
+                    )}
                 </div>
 
-                {/* Bubble */}
+                {/* Message Bubble Container */}
                 <div
-                    className={`px-5 py-4 rounded-2xl text-sm md:text-base leading-relaxed overflow-hidden transition-all duration-300 ${isUser
-                        ? 'bg-blue-100 text-black border border-blue-300 shadow-md rounded-tr-none'
-                        : 'bg-white text-black border border-gray-300 shadow-md rounded-tl-none'
-                        }`}
+                    className={`flex-1 rounded-xl p-4 text-sm leading-relaxed ${
+                        isUser
+                            ? 'bg-[#1e3a8a] text-white rounded-tr-none shadow-xs max-w-[85%]'
+                            : 'bg-white text-slate-800 border border-slate-200 rounded-tl-none shadow-xs'
+                    }`}
                 >
+                    {/* Header bar on AI Message */}
+                    {!isUser && (
+                        <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-100">
+                            <div className="flex items-center gap-1.5">
+                                <span className="text-[11px] font-bold text-[#1e3a8a] tracking-wide uppercase flex items-center gap-1">
+                                    <Sparkles size={12} className="text-[#2563eb]" />
+                                    {language === "ta" ? "AI கல்வி உதவியாளர்" : "AI Learning Assistant"}
+                                </span>
+                            </div>
+
+                            {/* Read Aloud & Copy */}
+                            <div className="flex items-center gap-1">
+                                <button
+                                    onClick={toggleSpeech}
+                                    className={`p-1 rounded text-xs font-semibold transition-colors ${
+                                        isSpeaking 
+                                            ? 'bg-blue-100 text-[#1e3a8a] animate-pulse'
+                                            : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100'
+                                    }`}
+                                    title={isSpeaking ? "Stop" : "Read Aloud"}
+                                >
+                                    {isSpeaking ? <VolumeX size={14} /> : <Volume2 size={14} />}
+                                </button>
+
+                                <button
+                                    onClick={copyToClipboard}
+                                    className="p-1 rounded text-slate-400 hover:text-slate-700 hover:bg-slate-100 text-xs transition-colors"
+                                    title="Copy"
+                                >
+                                    {copied ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Content */}
                     {isUser ? (
-                        <div className="font-medium text-black">{message.content}</div>
+                        <div className="font-medium text-white whitespace-pre-wrap">{message.content}</div>
                     ) : (
                         <>
-                            <StructuredResponse text={message.content} />
-                            
-                            {/* Feedback Icons */}
-                            <div className="mt-3 flex items-center gap-3 border-t border-gray-200 pt-2">
-                                <button 
-                                    onClick={handleLike}
-                                    disabled={!!voteType}
-                                    className={`p-1.5 rounded-lg transition-all ${
-                                        voteType === 'good' 
-                                            ? 'bg-blue-100 text-black border border-blue-400 scale-110 shadow-sm' 
-                                            : voteType === 'bad' 
-                                                ? 'text-gray-400 cursor-default'
-                                                : 'text-black hover:bg-blue-50 hover:text-blue-600'
-                                    }`}
-                                    title="Like"
-                                >
-                                    <ThumbsUp size={16} />
-                                </button>
-                                <button 
-                                    onClick={handleDislike}
-                                    disabled={!!voteType}
-                                    className={`p-1.5 rounded-lg transition-all ${
-                                        voteType === 'bad' 
-                                            ? 'bg-red-100 text-black border border-red-300 scale-110 shadow-sm' 
-                                            : voteType === 'good'
-                                                ? 'text-gray-400 cursor-default'
-                                                : 'text-black hover:bg-gray-100 hover:text-black'
-                                    }`}
-                                    title="Dislike"
-                                >
-                                    <ThumbsDown size={16} />
-                                </button>
+                            <div className="markdown-container">
+                                <StructuredResponse text={message.content} />
+                            </div>
+
+                            {/* Images */}
+                            {message.images && message.images.length > 0 && (
+                                <div className="mt-3 pt-2.5 border-t border-slate-100 w-full">
+                                    <p className="text-xs text-slate-600 mb-1.5 font-bold uppercase tracking-wider flex items-center gap-1">
+                                        <FileText size={12} className="text-[#1e3a8a]" />
+                                        {language === "ta" ? "வரைபடம் (Visuals)" : "Visuals"}
+                                    </p>
+                                    <div className="flex flex-col gap-2">
+                                        {message.images.map((img, idx) => (
+                                            <div key={idx} className="bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
+                                                <img
+                                                    src={img.url}
+                                                    alt={img.name}
+                                                    className="w-full h-auto object-contain bg-white max-h-64"
+                                                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/400x200?text=Image+Not+Found'; }}
+                                                />
+                                                {img.description && (
+                                                    <div className="p-2 bg-slate-50 border-t border-slate-100">
+                                                        <p className="text-xs text-slate-600 italic">
+                                                            {img.description}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Referenced Files */}
+                            {message.files && message.files.length > 0 && (
+                                <div className="mt-3 pt-2.5 border-t border-slate-100 w-full">
+                                    <p className="text-xs text-slate-600 mb-1.5 font-bold uppercase tracking-wider flex items-center gap-1">
+                                        <FileText size={12} className="text-[#1e3a8a]" />
+                                        {language === "ta" ? "மேற்கோள்கள் (References)" : "References"}
+                                    </p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {message.files.map((file, idx) => (
+                                            <a
+                                                key={idx}
+                                                href={file.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 text-slate-700 rounded-md text-xs font-medium hover:bg-blue-50 hover:text-[#1e3a8a] transition-all border border-slate-200 group"
+                                            >
+                                                <span className="truncate max-w-[160px]">{file.name}</span>
+                                                <Download size={11} className="text-slate-400 group-hover:text-[#1e3a8a]" />
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Curriculum & Textbook References */}
+                            {message.references && message.references.length > 0 && (
+                                <div className="mt-3 pt-2.5 border-t border-slate-100 w-full">
+                                    <p className="text-[11px] text-slate-500 mb-1.5 font-bold uppercase tracking-wider flex items-center gap-1">
+                                        <BookOpen size={12} className="text-[#1e3a8a]" />
+                                        {language === "ta" ? "பாடத்திட்ட மேற்கோள் (Curriculum Sources)" : "Textbook References"}
+                                    </p>
+                                    <div className="flex flex-wrap gap-1.5">
+                                        {message.references.map((ref, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50/70 border border-blue-200/80 rounded-md text-xs text-[#1e3a8a] font-medium shadow-2xs"
+                                            >
+                                                <span className="font-bold">Ch {ref.chapter_no}:</span>
+                                                <span className="truncate max-w-[200px]">{ref.topic}{ref.subtopic && ref.subtopic !== ref.topic ? ` • ${ref.subtopic}` : ""}</span>
+                                                {ref.concept_type && (
+                                                    <span className="text-[10px] bg-white px-1.5 py-0.5 rounded text-slate-600 border border-blue-100">
+                                                        {ref.concept_type}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Feedback Rating Bar */}
+                            <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
+                                <span className="text-[11px]">
+                                    {language === "ta" ? "பயனுள்ளதா?" : "Was this helpful?"}
+                                </span>
+                                <div className="flex items-center gap-1.5">
+                                    <button
+                                        onClick={handleLike}
+                                        disabled={!!voteType}
+                                        className={`flex items-center gap-1 px-2 py-0.5 rounded transition-all ${
+                                            voteType === 'good'
+                                                ? 'bg-blue-50 text-[#1e3a8a] font-bold border border-blue-200'
+                                                : voteType === 'bad'
+                                                    ? 'text-slate-300 cursor-not-allowed'
+                                                    : 'hover:bg-slate-100 text-slate-500 hover:text-[#1e3a8a]'
+                                        }`}
+                                    >
+                                        <ThumbsUp size={12} />
+                                        <span>{language === "ta" ? "ஆம்" : "Yes"}</span>
+                                    </button>
+
+                                    <button
+                                        onClick={handleDislike}
+                                        disabled={!!voteType}
+                                        className={`flex items-center gap-1 px-2 py-0.5 rounded transition-all ${
+                                            voteType === 'bad'
+                                                ? 'bg-red-50 text-red-700 font-bold border border-red-200'
+                                                : voteType === 'good'
+                                                    ? 'text-slate-300 cursor-not-allowed'
+                                                    : 'hover:bg-slate-100 text-slate-500 hover:text-red-600'
+                                        }`}
+                                    >
+                                        <ThumbsDown size={12} />
+                                        <span>{language === "ta" ? "இல்லை" : "No"}</span>
+                                    </button>
+                                </div>
                             </div>
                         </>
-                    )}
-
-                    {/* Images */}
-                    {!isUser && message.images && message.images.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-gray-100 w-full">
-                            <p className="text-xs text-black mb-3 font-semibold uppercase tracking-wider flex items-center gap-1">
-                                <FileText size={12} className="text-black" /> Visual Aids
-                            </p>
-                            <div className="flex flex-col gap-4">
-                                {message.images.map((img, idx) => (
-                                    <div key={idx} className="bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
-                                        <img 
-                                            src={img.url} 
-                                            alt={img.name} 
-                                            className="w-full h-auto object-contain bg-white"
-                                            onError={(e) => { e.target.onerror = null; e.target.src='https://via.placeholder.com/400x200?text=Image+Not+Found'; }}
-                                        />
-                                        {img.description && (
-                                            <div className="p-3">
-                                                <p className="text-xs text-black leading-relaxed italic">
-                                                    {img.description}
-                                                </p>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Files */}
-                    {!isUser && message.files && message.files.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-gray-100 w-full">
-                            <p className="text-xs text-black mb-2 font-semibold uppercase tracking-wider flex items-center gap-1">
-                                <FileText size={12} className="text-black" /> Referenced Papers
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                {message.files.map((file, idx) => (
-                                    <a
-                                        key={idx}
-                                        href={file.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-2 pl-3 pr-2 py-1.5 bg-gray-100 text-black rounded-lg text-xs font-medium hover:bg-gray-200 transition-all border border-gray-300 group"
-                                    >
-                                        <span className="truncate max-w-[150px] text-black">{file.name}</span>
-                                        <span className="p-1 bg-white rounded-md border border-gray-200 text-black transition-colors">
-                                            <Download size={10} className="text-black" />
-                                        </span>
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
                     )}
                 </div>
             </div>
@@ -148,3 +257,7 @@ const MessageBubble = ({ message }) => {
 };
 
 export default MessageBubble;
+
+
+
+

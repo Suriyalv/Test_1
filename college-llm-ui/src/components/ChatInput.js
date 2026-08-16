@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader2, Mic, MicOff } from 'lucide-react';
+import { Send, Loader2, Mic, MicOff, BookOpen } from 'lucide-react';
 
 const ChatInput = ({ onSend, loading, language = "en" }) => {
     const [input, setInput] = useState("");
@@ -8,19 +8,28 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
     const [micSupported, setMicSupported] = useState(false);
     const recognitionRef = useRef(null);
 
-    const subjects = [
-        { id: "Machine Learning (22IST61)", label: "Machine Learning" },
-        { id: "JAVA PROGRAMMING (24IST31)", label: "Java Programming" },
-        { id: "OPERATING SYSTEMS (22IST34)", label: "Operating Systems" },
-        { id: "Cryptography and Network Security (22IST62)", label: "CNS" },
+    const subjects = language === "ta" ? [
+        { id: "Machine Learning (22IST61)", label: "இயந்திரக் கற்றல் (ML)" },
+        { id: "JAVA PROGRAMMING (24IST31)", label: "ஜாவா நிரலாக்கம் (Java)" },
+        { id: "OPERATING SYSTEMS (22IST34)", label: "இயக்க முறைமை (OS)" },
+        { id: "Cryptography and Network Security (22IST62)", label: "கணினி வலையமைப்பு (CNS)" },
         { id: "C# and .NET Technologies (22ISC61)", label: "C# & .NET" },
-        { id: "DATA STRUCTURES (24IST32)", label: "Data Structures" },
-        { id: "UNIX AND SHELL PROGRAMMING (24ISC31)", label: "USP" },
-        { id: "Internet of Things and Cloud Computing (22ISC62)", label: "IOT" },
+        { id: "DATA STRUCTURES (24IST32)", label: "தரவு கட்டமைப்புகள் (DSA)" },
+        { id: "UNIX AND SHELL PROGRAMMING (24ISC31)", label: "யுனிக்ஸ் நிரலாக்கம் (USP)" },
+        { id: "Internet of Things and Cloud Computing (22ISC62)", label: "ஐஓடி & கிளவுட் (IoT)" },
+        { id: "COMPUTER ORGANIZATION (22IST24)", label: "கணினி அமைப்பு (CO)" }
+    ] : [
+        { id: "Machine Learning (22IST61)", label: "Machine Learning (ML)" },
+        { id: "JAVA PROGRAMMING (24IST31)", label: "Java Programming" },
+        { id: "OPERATING SYSTEMS (22IST34)", label: "Operating Systems (OS)" },
+        { id: "Cryptography and Network Security (22IST62)", label: "Cryptography (CNS)" },
+        { id: "C# and .NET Technologies (22ISC61)", label: "C# & .NET" },
+        { id: "DATA STRUCTURES (24IST32)", label: "Data Structures (DSA)" },
+        { id: "UNIX AND SHELL PROGRAMMING (24ISC31)", label: "Unix Programming" },
+        { id: "Internet of Things and Cloud Computing (22ISC62)", label: "IoT & Cloud" },
         { id: "COMPUTER ORGANIZATION (22IST24)", label: "Computer Organization" }
     ];
 
-    // Check if SpeechRecognition is supported
     useEffect(() => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (SpeechRecognition) {
@@ -28,7 +37,6 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
         }
     }, []);
 
-    // Stop recognition if language changes mid-session
     useEffect(() => {
         if (recognitionRef.current && isListening) {
             recognitionRef.current.stop();
@@ -47,12 +55,13 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
-            alert("Voice input is not supported in this browser. Please use Chrome or Edge.");
+            alert(language === "ta" 
+                ? "உங்கள் உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை. Chrome அல்லது Edge-ஐப் பயன்படுத்தவும்."
+                : "Voice input is not supported in this browser. Please use Chrome or Edge.");
             return;
         }
 
         if (isListening) {
-            // Stop listening
             if (recognitionRef.current) {
                 recognitionRef.current.stop();
             }
@@ -60,7 +69,6 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
             return;
         }
 
-        // Start listening
         const recognition = new SpeechRecognition();
         recognition.lang = language === "ta" ? "ta-IN" : "en-US";
         recognition.interimResults = true;
@@ -87,7 +95,9 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
             console.error("Speech recognition error:", event.error);
             setIsListening(false);
             if (event.error === "not-allowed") {
-                alert("Microphone access denied. Please allow microphone permissions in your browser.");
+                alert(language === "ta"
+                    ? "மைக்ரோஃபோன் அனுமதி தேவை."
+                    : "Microphone access denied.");
             }
         };
 
@@ -96,57 +106,66 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white text-black border-t border-gray-200 px-4 py-4 md:px-8 md:py-6 z-20 shadow-lg">
-            <div className="max-w-[868px] mx-auto relative group flex flex-col gap-3">
-                {/* Subject Dropdown */}
-                <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-black uppercase tracking-wider shrink-0">RAG Context:</span>
-                    <select
-                        value={selectedSubject}
-                        onChange={(e) => setSelectedSubject(e.target.value)}
-                        className="bg-gray-50 text-black text-xs font-semibold rounded-xl border border-gray-300 focus:border-blue-600 block w-full p-2.5 outline-none shadow-sm transition-all"
-                    >
-                        <option value="">General Chat</option>
-                        {subjects.map(sub => (
-                            <option key={sub.id} value={sub.id}>
-                                {sub.label}
-                            </option>
-                        ))}
-                    </select>
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 z-30">
+            <div className="max-w-4xl mx-auto flex flex-col gap-2">
+                
+                {/* Subject Selector & Mic Indicator */}
+                <div className="flex items-center justify-between gap-2 text-xs">
+                    <div className="flex items-center gap-1.5 text-slate-600">
+                        <BookOpen size={13} className="text-[#1e3a8a]" />
+                        <span className="font-semibold text-[11px] text-slate-500">
+                            {language === "ta" ? "பாடம்:" : "Subject:"}
+                        </span>
+                        <select
+                            value={selectedSubject}
+                            onChange={(e) => setSelectedSubject(e.target.value)}
+                            className="bg-slate-100 text-slate-800 text-xs rounded-md border border-slate-200 focus:border-[#1e3a8a] px-2 py-0.5 outline-none cursor-pointer"
+                        >
+                            <option value="">{language === "ta" ? "அனைத்து பாடங்கள் (General)" : "General Academic"}</option>
+                            {subjects.map(sub => (
+                                <option key={sub.id} value={sub.id}>
+                                    {sub.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    {isListening && (
+                        <div className="flex items-center gap-1.5 text-red-600 text-xs font-semibold animate-pulse">
+                            <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+                            <span>{language === "ta" ? "கேட்கிறது..." : "Listening..."}</span>
+                        </div>
+                    )}
                 </div>
 
-                {/* Listening indicator */}
-                {isListening && (
-                    <div className="flex items-center gap-2 text-black text-xs font-bold animate-pulse">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full inline-block"></span>
-                        {language === "ta" ? "கேட்கிறோம்... பேசுங்கள்" : "Listening to voice input... Speak now"}
-                    </div>
-                )}
-
-                <div className="relative">
+                {/* Main Input Box */}
+                <div className="relative flex items-center">
                     <input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                        placeholder={language === "ta" ? "ஒரு கேள்வி கேளுங்கள்..." : "Ask a question..."}
-                        className="w-full pl-6 pr-28 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-black placeholder-gray-500 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-md text-base transition-all font-medium"
+                        onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
+                        placeholder={language === "ta"
+                            ? "உங்கள் கேள்வியை இங்கே தட்டச்சு செய்யவும் அல்லது பேசவும்..."
+                            : "Ask any subject question or use voice..."}
+                        className="w-full pl-4 pr-24 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] text-sm font-medium transition-all"
                     />
 
-                    {/* Right side buttons: Mic + Send */}
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-                        {/* Mic Button */}
+                    {/* Action Controls */}
+                    <div className="absolute right-1.5 flex items-center gap-1">
+                        {/* Mic Voice Dictation */}
                         {micSupported && (
                             <button
                                 onClick={toggleMic}
                                 disabled={loading}
-                                title={isListening ? "Stop listening" : (language === "ta" ? "குரல் உள்ளீடு" : "Voice input")}
-                                className={`p-2.5 rounded-xl transition-all shadow-sm active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${
+                                type="button"
+                                title={isListening ? "Stop" : "Voice Input"}
+                                className={`p-2 rounded-lg transition-all ${
                                     isListening
-                                        ? "bg-blue-600 text-white animate-pulse"
-                                        : "bg-gray-100 text-black hover:bg-gray-200 border border-gray-300"
+                                        ? "bg-red-600 text-white animate-pulse"
+                                        : "text-slate-500 hover:bg-slate-200 hover:text-[#1e3a8a]"
                                 }`}
                             >
-                                {isListening ? <MicOff size={18} /> : <Mic size={18} className="text-black" />}
+                                {isListening ? <MicOff size={16} /> : <Mic size={16} />}
                             </button>
                         )}
 
@@ -154,27 +173,37 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
                         <button
                             onClick={handleSend}
                             disabled={!input.trim() || loading}
-                            className="p-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md active:scale-95"
+                            type="button"
+                            className="p-2 sm:px-3 sm:py-2 bg-[#1e3a8a] hover:bg-[#1e40af] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1.5 text-xs font-semibold shadow-xs"
+                            title="Send"
                         >
                             {loading ? (
-                                <Loader2 size={18} className="animate-spin" />
+                                <Loader2 size={16} className="animate-spin" />
                             ) : (
-                                <Send size={18} />
+                                <>
+                                    <Send size={15} />
+                                    <span className="hidden sm:inline">{language === "ta" ? "அனுப்பு" : "Send"}</span>
+                                </>
                             )}
                         </button>
                     </div>
                 </div>
-            </div>
-            <div className="text-center mt-2">
-                <p className="text-[10px] text-black font-medium tracking-wide">
-                    {language === "ta"
-                        ? "AI தவறு செய்யலாம். முக்கியமான தகவல்களை சரிபார்க்கவும்."
-                        : "AI can make mistakes. Please verify important information."
-                    }
-                </p>
+
+                {/* Footer Disclaimer */}
+                <div className="text-center">
+                    <p className="text-[10px] text-slate-400">
+                        {language === "ta"
+                            ? "கல்வி AI • ஸ்மார்ட் கற்றல் மற்றும் தேர்வு வழிகாட்டி"
+                            : "AI Educational Learning & Assessment Platform"}
+                    </p>
+                </div>
             </div>
         </div>
     );
 };
 
 export default ChatInput;
+
+
+
+

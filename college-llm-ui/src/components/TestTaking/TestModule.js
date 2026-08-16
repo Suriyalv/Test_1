@@ -1,84 +1,89 @@
 import React, { useState } from "react";
 import StudentTestView from "./StudentTestView";
 import AdminQuestionManager from "./AdminQuestionManager";
-import { GraduationCap, ShieldCheck, ArrowLeft, Sparkles } from "lucide-react";
+import { GraduationCap, ShieldCheck, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TestModule = ({ onBackToChat }) => {
+const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
   const [activeTab, setActiveTab] = useState("student"); // "student" | "admin"
+  const [language, setLanguage] = useState(initialLanguage);
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 font-sans selection:bg-blue-600 selection:text-white pb-12">
-      {/* Header Bar */}
-      <header className="sticky top-0 z-30 bg-black text-white border-b border-blue-600/40 shadow-xl px-4 md:px-8 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-4">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 font-sans selection:bg-blue-600 selection:text-white pb-16">
+      {/* Top Header Accent Strip */}
+      <div className="tngov-tricolor-strip fixed top-0 left-0 right-0 z-50"></div>
+
+      {/* Clean Minimal Exam Header */}
+      <header className="sticky top-[3px] z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
           {onBackToChat && (
             <button
               onClick={onBackToChat}
-              className="p-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white rounded-xl border border-zinc-700 transition-colors flex items-center gap-1.5 text-xs font-semibold"
+              className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#1e3a8a] rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-semibold active:scale-95"
+              title="Return to Chat"
             >
-              <ArrowLeft size={16} />
-              <span className="hidden sm:inline">Back to Chat</span>
+              <ArrowLeft size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "AI அரட்டை" : "Back to Chat"}
+              </span>
             </button>
           )}
 
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-md shadow-blue-900/50">
-              <GraduationCap size={22} className="text-white" />
-            </div>
+          <div className="flex items-center gap-2">
             <div>
-              <h1 className="text-lg font-extrabold text-white tracking-tight flex items-center gap-2">
-                <span>AI Test Taking & Accuracy Engine</span>
-                <span className="px-2 py-0.5 bg-blue-950 text-blue-400 border border-blue-700 text-[10px] uppercase font-bold rounded-full">
-                  LLM Evaluated
-                </span>
+              <div className="text-[10px] font-bold text-[#1e3a8a] uppercase tracking-wide">
+                {language === "ta" ? "ஸ்மார்ட் தேர்வு & திறன் மதிப்பீடு" : "Academic Assessment & Examination"}
+              </div>
+              <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
+                {language === "ta" ? "தானியங்கி மாதிரித் தேர்வு தளம்" : "Automated Test & Assessment Portal"}
               </h1>
             </div>
           </div>
         </div>
 
         {/* View Switcher Tabs */}
-        <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl p-1">
+        <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5 gap-1">
           <button
             onClick={() => setActiveTab("student")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "student"
-                ? "bg-blue-600 text-white shadow-md"
-                : "text-zinc-400 hover:text-white"
+                ? "bg-[#1e3a8a] text-white shadow-xs"
+                : "text-slate-600 hover:text-[#1e3a8a]"
             }`}
           >
-            <Sparkles size={14} />
-            <span>Take Test (Student)</span>
+            <GraduationCap size={14} />
+            <span>{language === "ta" ? "மாணவர் தேர்வு" : "Student Test"}</span>
           </button>
 
           <button
             onClick={() => setActiveTab("admin")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${
+            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "admin"
-                ? "bg-blue-600 text-white shadow-md"
-                : "text-zinc-400 hover:text-white"
+                ? "bg-[#1e3a8a] text-white shadow-xs"
+                : "text-slate-600 hover:text-[#1e3a8a]"
             }`}
           >
             <ShieldCheck size={14} />
-            <span>Manage Questions (Admin)</span>
+            <span className="hidden sm:inline">{language === "ta" ? "வினா வங்கி" : "Question Bank"}</span>
+            <span className="sm:hidden">{language === "ta" ? "ஆசிரியர்" : "Admin"}</span>
           </button>
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="max-w-6xl mx-auto px-4 md:px-8 pt-8">
+      {/* Main Examination View */}
+      <main className="max-w-4xl mx-auto px-4 pt-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
             {activeTab === "student" ? (
-              <StudentTestView />
+              <StudentTestView language={language} setLanguage={setLanguage} />
             ) : (
-              <AdminQuestionManager />
+              <AdminQuestionManager language={language} setLanguage={setLanguage} />
             )}
           </motion.div>
         </AnimatePresence>
@@ -88,3 +93,7 @@ const TestModule = ({ onBackToChat }) => {
 };
 
 export default TestModule;
+
+
+
+
