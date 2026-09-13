@@ -121,23 +121,32 @@ const CardTile = ({ card, index, onOpen, isTa }) => {
 /* ── Expanded overlay: flips open to reveal image + description ──────────────── */
 const ExpandedCard = ({ card, position, total, onClose, onPrev, onNext, isTa }) => {
   const accent = getAccent(card.accent);
-  // Starts on the title face, then flips to the detail face on the next frame so
-  // the opening animation reads as the tile itself turning over.
+  // Starts on the title face and holds there for a beat — long enough for the
+  // student to actually read which topic this is — then flips to the detail
+  // face. The hold only starts once the pop-in has actually finished (via
+  // onAnimationComplete below), so the flip's 3D repaint never overlaps the
+  // modal's own entrance animation.
   const [showDetail, setShowDetail] = useState(false);
+  const holdTimerRef = React.useRef(null);
 
   useEffect(() => {
     setShowDetail(false);
-    const timer = setTimeout(() => setShowDetail(true), 60);
-    return () => clearTimeout(timer);
+    return () => clearTimeout(holdTimerRef.current);
   }, [card.id]);
+
+  const startHold = () => {
+    clearTimeout(holdTimerRef.current);
+    holdTimerRef.current = setTimeout(() => setShowDetail(true), 1500);
+  };
 
   return (
     <div className="w-full max-w-2xl" style={{ perspective: 2200 }}>
       <motion.div
-        initial={{ scale: 0.82, opacity: 0, y: 24 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 12 }}
-        transition={{ type: "spring", stiffness: 220, damping: 26 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 6 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
+        onAnimationComplete={startHold}
         onClick={(e) => e.stopPropagation()}
       >
         <motion.div
@@ -145,8 +154,11 @@ const ExpandedCard = ({ card, position, total, onClose, onPrev, onNext, isTa }) 
           style={{ transformStyle: "preserve-3d" }}
           initial={{ rotateY: 180 }}
           animate={{ rotateY: showDetail ? 0 : 180 }}
-          transition={{ type: "spring", stiffness: 90, damping: 16 }}
-          onClick={() => setShowDetail((v) => !v)}
+          transition={{ duration: 0.45, ease: [0.45, 0, 0.2, 1] }}
+          onClick={() => {
+            clearTimeout(holdTimerRef.current);
+            setShowDetail((v) => !v);
+          }}
         >
           {/* Detail face — sits in normal flow, so it sets the card's height */}
           <div
@@ -432,11 +444,11 @@ const FlashcardView = ({ language = "en" }) => {
       <AnimatePresence>
         {openCard && (
           <motion.div
-            className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-900/70 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-900/80 p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
             onClick={() => setOpenIndex(null)}
           >
             <ExpandedCard

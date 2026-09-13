@@ -3,7 +3,6 @@ import { fetchMindMaps, fetchMindMap, explainMindMapNode } from "../../api";
 import { getBranch, ROOT_THEME } from "./mindMapTheme";
 import {
   layoutMindMap,
-  collectParentIds,
   searchMindMap,
   nodeFontSize,
 } from "./mindMapLayout";
@@ -343,14 +342,11 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     try {
       const data = await fetchMindMap(activeMapId, language);
       setMindMap(data.map);
-      // Open two levels deep: the branches and what sits directly under them.
-      // That is enough to read the shape of the topic without the twigs turning
-      // the canvas into a wall of text.
+      // Start fully collapsed to just the branches: the student sees the shape
+      // of the topic at a glance and opens branches themselves, rather than
+      // landing on an already-busy canvas.
       const branchIds = new Set((data.map.root.children || []).map((b) => b.id));
-      const folded = (data.map.root.children || [])
-        .flatMap((branch) => collectParentIds(branch))
-        .filter((id) => !branchIds.has(id));
-      setCollapsed(new Set(folded));
+      setCollapsed(branchIds);
       setSelectedId("");
     } catch (err) {
       setError("map");

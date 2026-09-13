@@ -13,13 +13,117 @@ import {
   BookOpen,
   Sparkles,
   RefreshCw,
+  Maximize,
+  ShieldAlert,
+  LogOut,
 } from "lucide-react";
+
+/* ── Fullscreen helpers — vendor-prefixed for older Safari/iOS ──────────────── */
+const requestFullscreen = () => {
+  const el = document.documentElement;
+  const req =
+    el.requestFullscreen ||
+    el.webkitRequestFullscreen ||
+    el.msRequestFullscreen;
+  if (req) req.call(el).catch(() => {});
+};
+
+const exitFullscreen = () => {
+  const isFs =
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement;
+  if (!isFs) return;
+  const exit =
+    document.exitFullscreen ||
+    document.webkitExitFullscreen ||
+    document.msExitFullscreen;
+  if (exit) exit.call(document).catch(() => {});
+};
+
+const isInFullscreen = () =>
+  !!(
+    document.fullscreenElement ||
+    document.webkitFullscreenElement ||
+    document.msFullscreenElement
+  );
 
 const StudentTestView = ({ language = "en", setLanguage }) => {
   const [category, setCategory] = useState("All");
   const [localLanguage, setLocalLanguage] = useState(language);
   const currentLang = setLanguage ? language : localLanguage;
   const changeLang = setLanguage ? setLanguage : setLocalLanguage;
+
+  // Anti-cheating: the test only shows once the student explicitly starts it
+  // (a real click, so the browser allows the fullscreen request), and any
+  // attempt to leave fullscreen or switch away from the tab afterwards is
+  // flagged with a warning.
+  const [testStarted, setTestStarted] = useState(false);
+  const [violations, setViolations] = useState(0);
+  // Set to the reason ("fullscreen" | "visibility") while the blocking
+  // violation prompt is up. The student only ever gets two ways out of it:
+  // go back to full screen and continue, or leave the test module entirely.
+  const [violationReason, setViolationReason] = useState(null);
+  const testStartedRef = useRef(false);
+  const promptOpenRef = useRef(false);
+
+  useEffect(() => {
+    testStartedRef.current = testStarted;
+  }, [testStarted]);
+
+  useEffect(() => {
+    promptOpenRef.current = !!violationReason;
+  }, [violationReason]);
+
+  const handleStartTest = () => {
+    requestFullscreen();
+    setTestStarted(true);
+  };
+
+  const handleContinueInFullScreen = () => {
+    requestFullscreen();
+    setViolationReason(null);
+  };
+
+  const handleExitTest = () => {
+    exitFullscreen();
+    setViolationReason(null);
+    setTestStarted(false);
+  };
+
+  useEffect(() => {
+    const flag = (reason) => {
+      // Don't stack a second prompt on top of one already waiting on the student.
+      if (promptOpenRef.current) return;
+      setViolations((v) => v + 1);
+      setViolationReason(reason);
+    };
+
+    const onFullscreenChange = () => {
+      if (testStartedRef.current && !isInFullscreen()) flag("fullscreen");
+    };
+
+    const onVisibilityChange = () => {
+      if (testStartedRef.current && document.hidden) flag("visibility");
+    };
+
+    document.addEventListener("fullscreenchange", onFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+    document.addEventListener("msfullscreenchange", onFullscreenChange);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", onFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", onFullscreenChange);
+      document.removeEventListener("msfullscreenchange", onFullscreenChange);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, []);
+
+  // Leave fullscreen behind if the student navigates away from this view.
+  useEffect(() => {
+    return () => exitFullscreen();
+  }, []);
 
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -202,11 +306,90 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
 
   const isTa = currentLang === "ta";
 
+  // Anti-cheating gate: nothing about the test renders until the student
+  // explicitly starts it, since that click is what lets the browser grant
+  // full-screen.
+  if (!testStarted) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-xs">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-600 to-cyan-600 text-white shadow-pop">
+          <Maximize size={26} />
+        </div>
+        <h2 className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
+          {isTa ? "தேர்வு முழுத்திரையில் தொடங்கும்" : "This test runs in full screen"}
+        </h2>
+        <p className="max-w-md text-xs text-slate-500 sm:text-sm">
+          {isTa
+            ? "நேர்மையான தேர்வை உறுதி செய்ய, முழுத்திரையில் தொடங்கும். முழுத்திரையிலிருந்து வெளியேறுவது அல்லது தாவலை மாற்றுவது ஏமாற்ற முயற்சியாகக் குறிக்கப்படும்."
+            : "To keep the test fair, it opens in full-screen mode. Exiting full screen or switching tabs during the test will be flagged as a possible attempt to cheat."}
+        </p>
+        <button
+          type="button"
+          onClick={handleStartTest}
+          className="mt-1 flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-cyan-600 px-6 py-2.5 text-sm font-bold text-white shadow-pop transition-all hover:brightness-110 active:scale-95"
+        >
+          <Maximize size={16} />
+          {isTa ? "தேர்வைத் தொடங்கு" : "Start Test"}
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-5">
+      {/* Violation prompt — blocks the test until the student picks one of
+          exactly two ways forward: go back to full screen, or leave the test. */}
+      {violationReason && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-900/80 p-4"
+          role="alertdialog"
+          aria-modal="true"
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50 text-red-600">
+              <ShieldAlert size={24} />
+            </div>
+            <h2 className="mt-3 text-base font-extrabold tracking-tight text-slate-900">
+              {isTa ? "ஏமாற்ற முயற்சி கண்டறியப்பட்டது" : "Possible cheating attempt flagged"}
+            </h2>
+            <p className="mt-2 text-xs text-slate-500 sm:text-sm">
+              {violationReason === "fullscreen"
+                ? isTa
+                  ? "நீங்கள் முழுத்திரையிலிருந்து வெளியேறிவிட்டீர்கள்."
+                  : "You exited full-screen mode."
+                : isTa
+                  ? "நீங்கள் தேர்வு தாவலை விட்டு வெளியேறினீர்கள்."
+                  : "You switched away from the test tab or window."}
+              {" "}
+              {isTa
+                ? `இது பதிவு செய்யப்பட்டுள்ளது (மொத்த குறிப்புகள்: ${violations}). தொடர, முழுத்திரைக்குத் திரும்பவும் அல்லது தேர்வை விட்டு வெளியேறவும்.`
+                : `This has been recorded (total flags: ${violations}). To continue, return to full screen — or leave the test.`}
+            </p>
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+              <button
+                type="button"
+                onClick={handleExitTest}
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-100 px-4 py-2.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-200 active:scale-95"
+              >
+                <LogOut size={15} />
+                {isTa ? "தேர்வை விட்டு வெளியேறு" : "Exit Test"}
+              </button>
+              <button
+                type="button"
+                onClick={handleContinueInFullScreen}
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-cyan-600 px-4 py-2.5 text-xs font-bold text-white shadow-pop transition-all hover:brightness-110 active:scale-95"
+              >
+                <Maximize size={15} />
+                {isTa ? "முழுத்திரையில் தொடர்" : "Continue in Full Screen"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Test Controls Bar */}
       <div className="bg-white border border-slate-200 p-3 sm:p-4 rounded-xl shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-        
+
         {/* Left: Category Selector */}
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-xs font-semibold text-slate-500 mr-1">
@@ -232,8 +415,17 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
           ))}
         </div>
 
-        {/* Right: Language Toggle */}
+        {/* Right: Violation Flag & Language Toggle */}
         <div className="flex items-center gap-2">
+          {violations > 0 && (
+            <span
+              className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600"
+              title={isTa ? "ஏமாற்ற முயற்சிகள் கண்டறியப்பட்டன" : "Possible cheating attempts flagged"}
+            >
+              <ShieldAlert size={14} />
+              {violations}
+            </span>
+          )}
           <button
             onClick={() => changeLang(currentLang === "en" ? "ta" : "en")}
             className="flex items-center gap-1.5 px-3 py-1 bg-brand-50 hover:bg-brand-100 border border-brand-200 text-[#0284c7] rounded-lg text-xs font-bold transition-all active:scale-95"
