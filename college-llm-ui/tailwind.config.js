@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // Official/branding navy — used only for the header strip & footer chrome.
         navy: {
           50: '#eff6ff',
           100: '#dbeafe',
@@ -17,13 +18,47 @@ module.exports = {
           800: '#1e40af',
           900: '#1e3a8a', // Deep Navy
           950: '#0f172a', // Dark Navy / Slate
-        }
+        },
+        // Primary vibrant brand color for every interactive module (chat, flashcards,
+        // kahoot, mindmap, tests). A brighter, more saturated blue than the official
+        // navy, so it still reads as energetic/teen-friendly while staying blue.
+        brand: {
+          50: '#eff9ff',
+          100: '#dcf3ff',
+          200: '#b6e6ff',
+          300: '#7fd3ff',
+          400: '#3ebeff',
+          500: '#0ba5ec',
+          600: '#0284c7',
+          700: '#026aa2',
+          800: '#075985',
+          900: '#0c4a6e',
+        },
       },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'Inter', '"Noto Sans Tamil"', 'system-ui', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', '"Mukta Malar"', 'sans-serif'],
+        // Baloo 2 — rounded, bubbly display face for headings/titles/badges (teen energy).
+        display: ['"Baloo 2"', '"Plus Jakarta Sans"', '"Mukta Malar"', 'sans-serif'],
         tamil: ['"Noto Sans Tamil"', '"Mukta Malar"', 'sans-serif'],
-      }
+      },
+      boxShadow: {
+        pop: '0 8px 24px -6px rgba(2, 132, 199, 0.35)',
+        'pop-lg': '0 16px 40px -8px rgba(2, 132, 199, 0.4)',
+      },
+      keyframes: {
+        'wiggle': {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        'pop-in': {
+          '0%': { transform: 'scale(0.9)', opacity: 0 },
+          '100%': { transform: 'scale(1)', opacity: 1 },
+        },
+      },
+      animation: {
+        wiggle: 'wiggle 0.4s ease-in-out',
+        'pop-in': 'pop-in 0.25s ease-out',
+      },
     },
   },
   plugins: [],

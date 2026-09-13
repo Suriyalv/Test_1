@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "college-llm-ui",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start", "--prefix", "college-llm-ui"],
+      "port": 3000
+    }
+  ]
+}

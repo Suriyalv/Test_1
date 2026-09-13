@@ -6,7 +6,12 @@ import ChatInput from "./components/ChatInput";
 import TypingAnimation from "./components/TypingAnimation";
 import UserResponse from "./UserResponse";
 import TestModule from "./components/TestTaking/TestModule";
+import FlashcardModule from "./components/Flashcards/FlashcardModule";
+import MindMapModule from "./components/MindMap/MindMapModule";
+import KahootModule from "./components/Kahoot/KahootModule";
 import FloatingMascotBot from "./components/FloatingMascotBot";
+import HomePage from "./components/Home/HomePage";
+import PageLoader from "./components/Loader/PageLoader";
 import "./index.css";
 import {
   Trash2,
@@ -14,6 +19,10 @@ import {
   GraduationCap,
   BarChart3,
   Sparkles,
+  Layers,
+  Network,
+  Home,
+  Trophy,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -25,6 +34,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [language, setLanguage] = useState("en"); // Default English
+  // Starts true so the loading page covers the very first paint, then every
+  // route change raises it again until the new screen has mounted.
+  const [navigating, setNavigating] = useState(true);
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === "en" ? "ta" : "en"));
@@ -37,24 +49,25 @@ function App() {
   // Handle URL changes
   useEffect(() => {
     const handleLocationChange = () => {
+      setNavigating(true);
       setCurrentPath(window.location.pathname);
     };
     window.addEventListener("popstate", handleLocationChange);
     return () => window.removeEventListener("popstate", handleLocationChange);
   }, []);
 
+  // The screen for this path has now mounted, so the loading page can lift.
+  // PageLoader still honours its own minimum, so this never flickers.
+  useEffect(() => {
+    setNavigating(false);
+  }, [currentPath]);
+
   const navigateTo = (path) => {
+    if (path === currentPath) return;
+    setNavigating(true);
     window.history.pushState({}, "", path);
     setCurrentPath(path);
   };
-
-  if (currentPath === "/userresponse") {
-    return <UserResponse onBackToChat={() => navigateTo("/")} language={language} />;
-  }
-
-  if (currentPath === "/test") {
-    return <TestModule onBackToChat={() => navigateTo("/")} initialLanguage={language} />;
-  }
 
   const sendMessage = async (input, selectedSubject) => {
     if (!input.trim()) return;
@@ -117,25 +130,25 @@ function App() {
     }
   };
 
-  return (
-    <div className="bg-[#f8fafc] min-h-screen font-sans text-slate-900 flex flex-col selection:bg-blue-600 selection:text-white">
-      {/* Top Header Accent Strip */}
+  const chatScreen = (
+    <div className="bg-[#faf8ff] min-h-screen font-sans text-slate-900 flex flex-col selection:bg-brand-600 selection:text-white">
+      {/* Top Header Accent Strip (official branding) */}
       <div className="tngov-tricolor-strip fixed top-0 left-0 right-0 z-50"></div>
 
-      {/* Clean Minimal Header */}
-      <header className="fixed top-[3px] left-0 right-0 bg-white/95 backdrop-blur-md border-b border-slate-200 z-40">
+      {/* Playful Header */}
+      <header className="fixed top-[3px] left-0 right-0 bg-white/95 backdrop-blur-md border-b border-brand-100 z-40">
         <div className="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
-          
+
           {/* Title & Branding */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#1e3a8a] border border-blue-100 flex items-center justify-center">
-              <Sparkles size={16} />
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-brand-600 to-cyan-500 text-white flex items-center justify-center shadow-pop">
+              <Sparkles size={18} />
             </div>
-            <div>
-              <div className="text-[10px] font-bold text-[#1e3a8a] tracking-wide uppercase">
+            <div className="hidden md:block">
+              <div className="text-[10px] font-bold text-brand-600 tracking-wide uppercase whitespace-nowrap">
                 {language === "ta" ? "கல்வி AI • கற்றல் & திறன் தளம்" : "AI Academic Learning & Examination"}
               </div>
-              <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight font-display whitespace-nowrap">
                 {language === "ta" ? "ஸ்மார்ட் AI கல்வி வழிகாட்டி" : "Smart AI Educational Portal"}
               </h1>
             </div>
@@ -143,22 +156,70 @@ function App() {
 
           {/* Navigation Controls */}
           <div className="flex items-center gap-2">
+            {/* Nav: Home */}
+            <button
+              onClick={() => navigateTo("/")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-brand-100 bg-brand-50 px-2.5 font-semibold text-xs sm:text-sm text-brand-700 transition-all hover:border-brand-300 hover:bg-brand-100 active:scale-95"
+              title="Home"
+            >
+              <Home size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "முகப்பு" : "Home"}
+              </span>
+            </button>
+
             {/* Nav: Test Taking */}
             <button
               onClick={() => navigateTo("/test")}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1e3a8a] hover:bg-[#1e40af] text-white rounded-lg transition-all font-semibold text-xs sm:text-sm shadow-xs active:scale-95"
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl bg-gradient-to-r from-brand-600 to-cyan-600 px-2.5 font-semibold text-xs sm:text-sm text-white shadow-pop transition-all hover:brightness-110 active:scale-95"
               title="Test Portal"
             >
               <GraduationCap size={15} />
-              <span>
+              <span className="hidden sm:inline">
                 {language === "ta" ? "தேர்வு போர்ட்டல்" : "Test Portal"}
+              </span>
+            </button>
+
+            {/* Nav: Flashcards */}
+            <button
+              onClick={() => navigateTo("/flashcards")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600 active:scale-95"
+              title="Concept Flashcards"
+            >
+              <Layers size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "அட்டைகள்" : "Flashcards"}
+              </span>
+            </button>
+
+            {/* Nav: Mind Map */}
+            <button
+              onClick={() => navigateTo("/mindmap")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 active:scale-95"
+              title="Concept Mind Map"
+            >
+              <Network size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "வரைபடம்" : "Mind Map"}
+              </span>
+            </button>
+
+            {/* Nav: Live Quiz (Kahoot-style) */}
+            <button
+              onClick={() => navigateTo("/kahoot")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 active:scale-95"
+              title="Live Quiz Arena"
+            >
+              <Trophy size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "வினாடி வினா" : "Live Quiz"}
               </span>
             </button>
 
             {/* Nav: Feedback Insights */}
             <button
               onClick={() => navigateTo("/userresponse")}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#1e3a8a] border border-slate-200 rounded-lg transition-all font-semibold text-xs sm:text-sm"
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-slate-100 px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:bg-slate-200 hover:text-brand-700"
               title="Feedback"
             >
               <BarChart3 size={15} />
@@ -171,17 +232,17 @@ function App() {
             <button
               onClick={toggleLanguage}
               title={language === "en" ? "தமிழுக்கு மாற்றவும்" : "Switch to English"}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-[#1e3a8a] border border-blue-200 rounded-lg transition-all font-bold text-xs sm:text-sm active:scale-95"
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-brand-200 bg-brand-50 px-2.5 font-bold text-xs sm:text-sm text-brand-700 transition-all hover:bg-brand-100 active:scale-95"
             >
               <Languages size={14} />
-              <span>{language === "en" ? "English (EN)" : "தமிழ் (TA)"}</span>
+              <span className="hidden sm:inline">{language === "en" ? "English (EN)" : "தமிழ் (TA)"}</span>
             </button>
 
             {/* Clear Chat */}
             {messages.length > 0 && (
               <button
                 onClick={clearChat}
-                className="p-1.5 sm:p-2 bg-slate-100 hover:bg-red-50 hover:text-red-600 hover:border-red-200 text-slate-500 border border-slate-200 rounded-lg transition-all"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600"
                 title={language === "ta" ? "உரையாடலை அழிக்க" : "Clear Chat"}
               >
                 <Trash2 size={15} />
@@ -203,13 +264,13 @@ function App() {
           >
             <ChatContainer>
               {messages.length === 0 ? (
-                /* Simple, Neat & Minimal Welcome State */
+                /* Vibrant Welcome State */
                 <div className="py-16 sm:py-24 flex flex-col items-center justify-center text-center max-w-lg mx-auto">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 text-[#1e3a8a] flex items-center justify-center mb-4 shadow-xs">
-                    <Sparkles size={24} className="text-[#2563eb]" />
+                  <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-brand-500 via-sky-400 to-cyan-400 text-white flex items-center justify-center mb-4 shadow-pop-lg animate-pop-in">
+                    <Sparkles size={30} />
                   </div>
 
-                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+                  <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight font-display">
                     {language === "ta"
                       ? "வணக்கம் மாணவரே! எதைப் பற்றி அறிய விரும்புகிறீர்கள்?"
                       : "Welcome Student! What would you like to explore today?"}
@@ -221,7 +282,7 @@ function App() {
                       : "Curriculum concepts, textbook explanations, and exam preparation tutor."}
                   </p>
 
-                  {/* Clean Minimal Suggestion Pills */}
+                  {/* Vibrant Suggestion Pills */}
                   <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
                     {[
                       language === "ta" ? "💻 பைதான் கட்டுப்பாட்டு கட்டமைப்புகள்" : "💻 Python Control Structures",
@@ -232,9 +293,9 @@ function App() {
                       <button
                         key={idx}
                         onClick={() => sendMessage(pill, "")}
-                        className="px-3.5 py-1.5 bg-white hover:bg-blue-50 text-slate-700 hover:text-[#1e3a8a] border border-slate-200 hover:border-blue-300 rounded-full text-xs font-medium transition-all shadow-xs flex items-center gap-1.5 active:scale-95"
+                        className="px-3.5 py-1.5 bg-white hover:bg-brand-50 text-slate-700 hover:text-brand-700 border border-slate-200 hover:border-brand-300 rounded-full text-xs font-medium transition-all shadow-sm hover:shadow-pop flex items-center gap-1.5 active:scale-95 hover:-translate-y-0.5"
                       >
-                        <Sparkles size={12} className="text-[#2563eb]" />
+                        <Sparkles size={12} className="text-brand-500" />
                         <span>{pill}</span>
                       </button>
                     ))}
@@ -247,9 +308,9 @@ function App() {
                   ))}
                   {loading && (
                     <div className="flex justify-start mb-6 w-full">
-                      <div className="bg-white border border-blue-200 px-4 py-3 rounded-2xl rounded-tl-none shadow-xs flex items-center gap-2.5 text-slate-800">
+                      <div className="bg-white border border-brand-200 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2.5 text-slate-800">
                         <TypingAnimation />
-                        <span className="text-xs text-[#1e3a8a] font-semibold">
+                        <span className="text-xs text-brand-600 font-semibold">
                           {language === "ta" ? "AI பதிலளிக்கிறது..." : "AI is responding..."}
                         </span>
                       </div>
@@ -268,6 +329,38 @@ function App() {
       {/* Floating Cartoon Mascot Hint Bot (Kalvi Mithran) */}
       <FloatingMascotBot language={language} />
     </div>
+  );
+
+  // Which screen this path shows. "/" is the platform home page; the chat that
+  // used to live there now has its own route at "/chat".
+  let screen;
+  if (currentPath === "/chat") {
+    screen = chatScreen;
+  } else if (currentPath === "/userresponse") {
+    screen = <UserResponse onBackToChat={() => navigateTo("/chat")} language={language} />;
+  } else if (currentPath === "/test") {
+    screen = <TestModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+  } else if (currentPath === "/flashcards") {
+    screen = <FlashcardModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+  } else if (currentPath === "/mindmap") {
+    screen = <MindMapModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+  } else if (currentPath === "/kahoot") {
+    screen = <KahootModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+  } else {
+    screen = (
+      <HomePage
+        onNavigate={navigateTo}
+        language={language}
+        onToggleLanguage={toggleLanguage}
+      />
+    );
+  }
+
+  return (
+    <>
+      <PageLoader active={navigating} language={language} />
+      {screen}
+    </>
   );
 }
 

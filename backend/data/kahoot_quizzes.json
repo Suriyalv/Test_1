@@ -1,0 +1,17 @@
+{
+  "quizzes": [
+    {
+      "id": "kq_1789189421814",
+      "title": {
+        "en": "tell me about you",
+        "ta": "tell me about you"
+      },
+      "description": {
+        "en": "",
+        "ta": ""
+      },
+      "questions": [],
+      "createdAt": "2026-09-12T05:03:41Z"
+    }
+  ]
+}

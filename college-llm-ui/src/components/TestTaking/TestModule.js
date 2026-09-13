@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import StudentTestView from "./StudentTestView";
 import AdminQuestionManager from "./AdminQuestionManager";
-import { GraduationCap, ShieldCheck, ArrowLeft } from "lucide-react";
+import VideoLessonView from "./VideoLessonView";
+import { GraduationCap, ShieldCheck, ArrowLeft, Video } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
-  const [activeTab, setActiveTab] = useState("student"); // "student" | "admin"
+  const [activeTab, setActiveTab] = useState("student"); // "student" | "video" | "admin"
   const [language, setLanguage] = useState(initialLanguage);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-900 font-sans selection:bg-blue-600 selection:text-white pb-16">
+    <div className="min-h-screen bg-[#faf8ff] text-slate-900 font-sans selection:bg-brand-600 selection:text-white pb-16">
       {/* Top Header Accent Strip */}
       <div className="tngov-tricolor-strip fixed top-0 left-0 right-0 z-50"></div>
 
@@ -19,7 +20,7 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
           {onBackToChat && (
             <button
               onClick={onBackToChat}
-              className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#1e3a8a] rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-semibold active:scale-95"
+              className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#0284c7] rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-semibold active:scale-95"
               title="Return to Chat"
             >
               <ArrowLeft size={15} />
@@ -31,7 +32,7 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
 
           <div className="flex items-center gap-2">
             <div>
-              <div className="text-[10px] font-bold text-[#1e3a8a] uppercase tracking-wide">
+              <div className="text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
                 {language === "ta" ? "ஸ்மார்ட் தேர்வு & திறன் மதிப்பீடு" : "Academic Assessment & Examination"}
               </div>
               <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
@@ -47,8 +48,8 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
             onClick={() => setActiveTab("student")}
             className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "student"
-                ? "bg-[#1e3a8a] text-white shadow-xs"
-                : "text-slate-600 hover:text-[#1e3a8a]"
+                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
+                : "text-slate-600 hover:text-[#0284c7]"
             }`}
           >
             <GraduationCap size={14} />
@@ -56,11 +57,24 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
           </button>
 
           <button
+            onClick={() => setActiveTab("video")}
+            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              activeTab === "video"
+                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
+                : "text-slate-600 hover:text-[#0284c7]"
+            }`}
+            title={language === "ta" ? "வீடியோ பாடம் & வினாக்கள்" : "Video Lesson with Questions"}
+          >
+            <Video size={14} />
+            <span>{language === "ta" ? "வீடியோ பாடம்" : "Video Lesson"}</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab("admin")}
             className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === "admin"
-                ? "bg-[#1e3a8a] text-white shadow-xs"
-                : "text-slate-600 hover:text-[#1e3a8a]"
+                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
+                : "text-slate-600 hover:text-[#0284c7]"
             }`}
           >
             <ShieldCheck size={14} />
@@ -82,6 +96,8 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
           >
             {activeTab === "student" ? (
               <StudentTestView language={language} setLanguage={setLanguage} />
+            ) : activeTab === "video" ? (
+              <VideoLessonView language={language} setLanguage={setLanguage} />
             ) : (
               <AdminQuestionManager language={language} setLanguage={setLanguage} />
             )}

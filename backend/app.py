@@ -762,6 +762,1031 @@ The JSON MUST have the following structure:
 
 
 
+# ─── Video Lesson Module (watch → pause → MCQ → resume → final review) ─────────
+
+VIDEO_LESSONS_FILE = os.path.join(DATA_DIR, "video_lessons.json")
+
+# Server-side store for generated MCQs. The correct option index and explanation
+# never travel to the browser with the question — the client posts back the chosen
+# index and the server decides. Keeps students from reading answers off devtools.
+VIDEO_QUESTION_STORE = {}
+
+
+def load_video_lessons():
+    if not os.path.exists(VIDEO_LESSONS_FILE):
+        return []
+    try:
+        with open(VIDEO_LESSONS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("lessons", [])
+    except Exception as e:
+        print(f"[ERROR] Failed to read video_lessons.json: {e}")
+        return []
+
+
+def get_lesson(lesson_id):
+    for lesson in load_video_lessons():
+        if lesson.get("id") == lesson_id:
+            return lesson
+    return None
+
+
+def get_concept(lesson, concept_id):
+    for concept in lesson.get("concepts", []):
+        if concept.get("id") == concept_id:
+            return concept
+    return None
+
+
+def localized(value, language):
+    """Data file stores {'en': ..., 'ta': ...} for user-facing strings."""
+    if isinstance(value, dict):
+        return value.get(language) or value.get("en") or ""
+    return value
+
+
+def store_video_question(lesson_id, concept_id, question, options, answer_index, explanation, source, stage):
+    qid = f"{lesson_id}:{concept_id}:{stage}:{int(time.time() * 1000)}:{len(VIDEO_QUESTION_STORE)}"
+    VIDEO_QUESTION_STORE[qid] = {
+        "lesson_id": lesson_id,
+        "concept_id": concept_id,
+        "question": question,
+        "options": options,
+        "answer": answer_index,
+        "explanation": explanation,
+        "source": source,
+        "stage": stage,
+    }
+    # Keep the store from growing without bound across a long-running server.
+    if len(VIDEO_QUESTION_STORE) > 500:
+        for old_key in list(VIDEO_QUESTION_STORE.keys())[:100]:
+            VIDEO_QUESTION_STORE.pop(old_key, None)
+    return qid
+
+
+def build_video_mcq_prompt(lesson, concept, language, stage, avoid_questions):
+    """Prompt the LLM to write one MCQ strictly from this concept's transcript."""
+    lang_name = "Tamil" if language == "ta" else "English"
+    key_points = "\n".join(f"- {p}" for p in concept.get("key_points", {}).get(language, [])
+                           or concept.get("key_points", {}).get("en", []))
+
+    avoid_block = ""
+    if avoid_questions:
+        avoid_block = (
+            "\n\nDo NOT repeat or lightly reword any of these questions that were already asked:\n"
+            + "\n".join(f"- {q}" for q in avoid_questions[-12:])
+        )
+
+    if stage == "final":
+        stage_note = (
+            "This is the FINAL REVIEW at the end of the video, so the question may combine or "
+            "apply the idea rather than just restate it. Keep it answerable purely from the transcript below."
+        )
+    else:
+        stage_note = (
+            "The video has just been paused right after this concept was explained, so the question "
+            "must check whether the student understood exactly what was just said."
+        )
+
+    return f"""You are setting a comprehension check for a school student who is watching a physics video lesson.
+
+LESSON: {localized(lesson.get('title'), 'en')}
+CONCEPT JUST EXPLAINED: {localized(concept.get('title'), 'en')}
+
+{stage_note}
+
+TRANSCRIPT OF THIS SECTION OF THE VIDEO (this is your ONLY source of truth):
+\"\"\"
+{concept.get('transcript', '')}
+\"\"\"
+
+KEY POINTS THE STUDENT SHOULD HAVE PICKED UP:
+{key_points}
+
+Write exactly ONE multiple-choice question:
+- It must be answerable from the transcript above and nothing else. Do not use outside facts.
+- Exactly 4 options. Exactly one is correct.
+- The three wrong options must be plausible misconceptions a student could actually hold, not silly filler.
+- Question and options must be written in {lang_name}.
+- Keep technical symbols (E, dS, Q, epsilon-naught, 4 pi R squared) recognisable.
+- The explanation should say why the right answer is right in one or two sentences, in {lang_name}.{avoid_block}
+
+Respond with ONLY this JSON object and nothing else:
+{{"question": "...", "options": ["...", "...", "...", "..."], "answer": <0-based index of the correct option>, "explanation": "..."}}"""
+
+
+def generate_video_mcq(lesson, concept, language, stage, avoid_questions):
+    """Ask the LLM for one MCQ. Returns a validated dict, or None so the caller can fall back."""
+    prompt = build_video_mcq_prompt(lesson, concept, language, stage, avoid_questions)
+    lang_name = "Tamil" if language == "ta" else "English"
+
+    for model_name in [MODEL_ID] + FALLBACK_MODELS:
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {"role": "system", "content": f"You write precise, curriculum-grounded MCQs. Output strictly one JSON object in {lang_name}."},
+                    {"role": "user", "content": prompt},
+                ],
+                extra_headers={
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Video Lesson Comprehension",
+                },
+            )
+            raw = response.choices[0].message.content.strip()
+            if raw.startswith("```"):
+                lines = [ln for ln in raw.splitlines() if not ln.strip().startswith("```")]
+                raw = "\n".join(lines).strip()
+
+            import re
+            match = re.search(r"\{.*\}", raw, re.DOTALL)
+            if not match:
+                raise ValueError("no JSON object in model output")
+            parsed = json.loads(match.group())
+
+            options = parsed.get("options") or []
+            answer = parsed.get("answer")
+            if isinstance(answer, str) and answer.strip().isdigit():
+                answer = int(answer.strip())
+            if not parsed.get("question") or len(options) != 4 or not isinstance(answer, int) or not 0 <= answer <= 3:
+                raise ValueError(f"malformed MCQ from model: {parsed}")
+
+            print(f"[INFO] Generated video MCQ ({concept.get('id')}/{stage}) with model: {model_name}")
+            return {
+                "question": str(parsed["question"]).strip(),
+                "options": [str(o).strip() for o in options],
+                "answer": answer,
+                "explanation": str(parsed.get("explanation", "")).strip(),
+                "source": "llm",
+            }
+        except Exception as model_error:
+            print(f"[WARN] video MCQ model {model_name} error: {model_error}. Trying next...")
+            continue
+
+    return None
+
+
+def pick_fallback_mcq(concept, language, stage, avoid_questions):
+    """Pre-written question bank, used when the LLM is unreachable or returns junk."""
+    bank = concept.get("fallback_questions", {})
+    pool = bank.get(language) or bank.get("en") or []
+    if not pool:
+        return None
+
+    avoid = set(avoid_questions or [])
+    unused = [q for q in pool if q.get("question") not in avoid]
+    candidates = unused or pool
+    # Checkpoint takes the first question, the final review takes the next one,
+    # so a student normally never sees the same fallback twice in one session.
+    chosen = candidates[-1] if (stage == "final" and len(candidates) > 1) else candidates[0]
+
+    return {
+        "question": chosen["question"],
+        "options": list(chosen["options"]),
+        "answer": chosen["answer"],
+        "explanation": chosen.get("explanation", ""),
+        "source": "fallback",
+    }
+
+
+def build_video_question(lesson, concept, language, stage, avoid_questions):
+    mcq = generate_video_mcq(lesson, concept, language, stage, avoid_questions)
+    if not mcq:
+        mcq = pick_fallback_mcq(concept, language, stage, avoid_questions)
+    if not mcq:
+        return None
+
+    qid = store_video_question(
+        lesson["id"], concept["id"], mcq["question"], mcq["options"],
+        mcq["answer"], mcq["explanation"], mcq["source"], stage,
+    )
+    return {
+        "questionId": qid,
+        "question": mcq["question"],
+        "options": mcq["options"],
+        "source": mcq["source"],
+        "conceptId": concept["id"],
+        "conceptTitle": localized(concept.get("title"), language),
+        "conceptIndex": concept.get("index", 0),
+        "pauseAt": concept.get("pause_at"),
+    }
+
+
+@app.route("/api/video/lessons", methods=["GET"])
+def video_lessons():
+    """Lesson catalogue for the video comprehension module (no answers included)."""
+    language = request.args.get("language", "en")
+    lessons = []
+    for lesson in load_video_lessons():
+        lessons.append({
+            "id": lesson.get("id"),
+            "youtubeId": lesson.get("youtube_id"),
+            "sourceUrl": lesson.get("source_url"),
+            "title": localized(lesson.get("title"), language),
+            "subject": localized(lesson.get("subject"), language),
+            "description": localized(lesson.get("description"), language),
+            "duration": lesson.get("duration"),
+            "contentEnd": lesson.get("content_end", lesson.get("duration")),
+            "concepts": [{
+                "id": c.get("id"),
+                "index": c.get("index"),
+                "title": localized(c.get("title"), language),
+                "start": c.get("start"),
+                "end": c.get("end"),
+                "pauseAt": c.get("pause_at"),
+                "keyPoints": localized(c.get("key_points"), language),
+            } for c in lesson.get("concepts", [])],
+        })
+    return jsonify({"lessons": lessons})
+
+
+@app.route("/api/video/question", methods=["POST"])
+def video_checkpoint_question():
+    """One MCQ for the concept that just finished playing."""
+    data = request.get_json() or {}
+    lesson_id = data.get("lessonId")
+    concept_id = data.get("conceptId")
+    language = data.get("language", "en")
+    avoid = data.get("askedQuestions", [])
+
+    lesson = get_lesson(lesson_id)
+    if not lesson:
+        return jsonify({"error": "Lesson not found"}), 404
+
+    concept = get_concept(lesson, concept_id)
+    if not concept:
+        return jsonify({"error": "Concept not found"}), 404
+
+    question = build_video_question(lesson, concept, language, "checkpoint", avoid)
+    if not question:
+        return jsonify({"error": "Could not prepare a question for this concept"}), 500
+
+    return jsonify(question)
+
+
+@app.route("/api/video/final-quiz", methods=["POST"])
+def video_final_quiz():
+    """One MCQ per concept, asked after the whole video has played."""
+    data = request.get_json() or {}
+    lesson_id = data.get("lessonId")
+    language = data.get("language", "en")
+    avoid = data.get("askedQuestions", [])
+
+    lesson = get_lesson(lesson_id)
+    if not lesson:
+        return jsonify({"error": "Lesson not found"}), 404
+
+    asked = list(avoid)
+    questions = []
+    for concept in lesson.get("concepts", []):
+        question = build_video_question(lesson, concept, language, "final", asked)
+        if question:
+            asked.append(question["question"])
+            questions.append(question)
+
+    if not questions:
+        return jsonify({"error": "Could not prepare the final review"}), 500
+
+    return jsonify({"questions": questions, "total": len(questions)})
+
+
+@app.route("/api/video/answer", methods=["POST"])
+def video_check_answer():
+    """Grade one MCQ answer and hand back the explanation."""
+    data = request.get_json() or {}
+    qid = data.get("questionId")
+    language = data.get("language", "en")
+    selected = data.get("selectedIndex")
+
+    record = VIDEO_QUESTION_STORE.get(qid)
+    if not record:
+        return jsonify({"error": "This question has expired. Please replay this section."}), 404
+
+    if not isinstance(selected, int) or not 0 <= selected < len(record["options"]):
+        return jsonify({"error": "Please select an option"}), 400
+
+    is_correct = selected == record["answer"]
+    explanation = record.get("explanation", "")
+
+    if not explanation:
+        explanation = (
+            f"சரியான விடை: {record['options'][record['answer']]}"
+            if language == "ta"
+            else f"The correct answer is: {record['options'][record['answer']]}"
+        )
+
+    return jsonify({
+        "correct": is_correct,
+        "correctIndex": record["answer"],
+        "explanation": explanation,
+        "conceptId": record["concept_id"],
+    })
+
+
+# ─── Routes: Flashcard Module (Flip Cards) ─────────────────────────────────────
+
+FLASHCARDS_FILE = os.path.join(DATA_DIR, "flashcards.json")
+
+# Accent names the frontend knows how to paint. Anything else falls back to blue.
+FLASHCARD_ACCENTS = ["blue", "violet", "emerald", "amber", "rose", "cyan", "indigo", "teal"]
+
+
+def load_flashcards():
+    if not os.path.exists(FLASHCARDS_FILE):
+        return []
+    try:
+        with open(FLASHCARDS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("cards", [])
+    except Exception as e:
+        print(f"[ERROR] Failed to read flashcards.json: {e}")
+        return []
+
+
+def save_flashcards(cards):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(FLASHCARDS_FILE, "w", encoding="utf-8") as f:
+        json.dump({"cards": cards}, f, ensure_ascii=False, indent=2)
+
+
+def bilingual(primary: str, secondary: str) -> dict:
+    """Store user-facing card text as {'en': ..., 'ta': ...} so localized() can read it.
+
+    The admin form only requires English; when the Tamil field is left blank the
+    English text is reused so a card never renders empty in Tamil mode.
+    """
+    primary = (primary or "").strip()
+    secondary = (secondary or "").strip()
+    return {"en": primary, "ta": secondary or primary}
+
+
+def as_points(value) -> list:
+    """Normalise a description into a clean list of bullet points.
+
+    Accepts a list (the stored form) or a newline-separated string (what the admin
+    form posts, one point per line). Any leading bullet character a teacher typed
+    is trimmed, and blank lines are dropped.
+    """
+    if isinstance(value, list):
+        items = value
+    elif isinstance(value, str):
+        items = value.splitlines()
+    else:
+        items = []
+
+    points = []
+    for item in items:
+        text = str(item).strip().lstrip("-•*–—").strip()
+        if text:
+            points.append(text)
+    return points
+
+
+def bilingual_points(primary, secondary) -> dict:
+    """Same as bilingual(), but each language holds a list of bullet points."""
+    primary_points = as_points(primary)
+    secondary_points = as_points(secondary)
+    return {"en": primary_points, "ta": secondary_points or primary_points}
+
+
+def present_flashcard(card, language):
+    """Shape one stored card for the browser, resolved to the requested language."""
+    return {
+        "id": card.get("id"),
+        "deck": card.get("deck", "General"),
+        "accent": card.get("accent", "blue"),
+        "image": card.get("image", ""),
+        "title": localized(card.get("title"), language),
+        "description": as_points(localized(card.get("description"), language)),
+        "createdAt": card.get("createdAt"),
+    }
+
+
+@app.route("/api/flashcards", methods=["GET"])
+def get_flashcards():
+    """Card catalogue for the student flip-card view."""
+    language = request.args.get("language", "en")
+    deck = request.args.get("deck")
+
+    cards = load_flashcards()
+    if deck and deck != "All":
+        cards = [c for c in cards if c.get("deck") == deck]
+
+    return jsonify({
+        "cards": [present_flashcard(c, language) for c in cards],
+        "decks": sorted({c.get("deck", "General") for c in load_flashcards()}),
+    })
+
+
+@app.route("/api/flashcards", methods=["POST"])
+def add_flashcard():
+    data = request.get_json() or {}
+
+    title_en = (data.get("title") or "").strip()
+    description_points = as_points(data.get("description"))
+
+    if not title_en:
+        return jsonify({"error": "Card title is required"}), 400
+    if not description_points:
+        return jsonify({"error": "At least one description point is required"}), 400
+
+    accent = data.get("accent", "blue")
+    if accent not in FLASHCARD_ACCENTS:
+        accent = "blue"
+
+    new_card = {
+        "id": f"fc_{int(time.time() * 1000)}",
+        "deck": (data.get("deck") or "General").strip() or "General",
+        "accent": accent,
+        "image": (data.get("image") or "").strip(),
+        "title": bilingual(title_en, data.get("titleTa")),
+        "description": bilingual_points(description_points, data.get("descriptionTa")),
+        "createdAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+
+    cards = load_flashcards()
+    cards.append(new_card)
+    save_flashcards(cards)
+    return jsonify({"status": "ok", "card": present_flashcard(new_card, "en")}), 201
+
+
+@app.route("/api/flashcards/<card_id>", methods=["PUT"])
+def update_flashcard(card_id):
+    data = request.get_json() or {}
+    cards = load_flashcards()
+
+    for card in cards:
+        if card.get("id") != card_id:
+            continue
+
+        if "title" in data:
+            card["title"] = bilingual(data.get("title"), data.get("titleTa"))
+        if "description" in data:
+            card["description"] = bilingual_points(data.get("description"), data.get("descriptionTa"))
+        if "deck" in data:
+            card["deck"] = (data.get("deck") or "General").strip() or "General"
+        if "image" in data:
+            card["image"] = (data.get("image") or "").strip()
+        if data.get("accent") in FLASHCARD_ACCENTS:
+            card["accent"] = data["accent"]
+
+        save_flashcards(cards)
+        return jsonify({"status": "ok", "card": present_flashcard(card, "en")})
+
+    return jsonify({"error": "Flashcard not found"}), 404
+
+
+@app.route("/api/flashcards/<card_id>", methods=["DELETE"])
+def delete_flashcard(card_id):
+    cards = load_flashcards()
+    remaining = [c for c in cards if c.get("id") != card_id]
+    if len(remaining) == len(cards):
+        return jsonify({"error": "Flashcard not found"}), 404
+    save_flashcards(remaining)
+    return jsonify({"status": "ok", "message": "Flashcard deleted successfully"})
+
+
+# ─── Routes: Mind Map Module (Concept Trees) ───────────────────────────────────
+
+MINDMAPS_FILE = os.path.join(DATA_DIR, "mindmaps.json")
+
+# The branch colours are the same palette the flashcards paint with, so a topic
+# keeps one identity across both modules.
+MINDMAP_ACCENTS = FLASHCARD_ACCENTS
+
+
+def load_mindmaps():
+    if not os.path.exists(MINDMAPS_FILE):
+        return []
+    try:
+        with open(MINDMAPS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("maps", [])
+    except Exception as e:
+        print(f"[ERROR] Failed to read mindmaps.json: {e}")
+        return []
+
+
+def save_mindmaps(maps):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(MINDMAPS_FILE, "w", encoding="utf-8") as f:
+        json.dump({"maps": maps}, f, ensure_ascii=False, indent=2)
+
+
+def find_mindmap(map_id):
+    for mind_map in load_mindmaps():
+        if mind_map.get("id") == map_id:
+            return mind_map
+    return None
+
+
+def walk_nodes(node, parent=None, depth=0):
+    """Yield (node, parent, depth) for the node and everything beneath it."""
+    yield node, parent, depth
+    for child in node.get("children", []):
+        yield from walk_nodes(child, node, depth + 1)
+
+
+def find_node(root, node_id):
+    """Return (node, parent) for node_id, or (None, None) when it is not in the tree."""
+    for node, parent, _ in walk_nodes(root):
+        if node.get("id") == node_id:
+            return node, parent
+    return None, None
+
+
+def count_nodes(root):
+    return sum(1 for _ in walk_nodes(root))
+
+
+def present_node(node, language, accent="blue", depth=0):
+    """Shape one stored node (and its subtree) for the browser.
+
+    Children inherit their branch's accent, so a teacher only picks a colour on
+    the top-level branch and the whole limb stays that colour.
+    """
+    resolved_accent = node.get("accent") if node.get("accent") in MINDMAP_ACCENTS else accent
+    return {
+        "id": node.get("id"),
+        "label": localized(node.get("label"), language),
+        "summary": localized(node.get("summary"), language) or "",
+        "formula": node.get("formula", ""),
+        "points": as_points(localized(node.get("points"), language)),
+        "icon": node.get("icon", ""),
+        "accent": resolved_accent,
+        "side": node.get("side", ""),
+        "depth": depth,
+        "children": [
+            present_node(child, language, resolved_accent, depth + 1)
+            for child in node.get("children", [])
+        ],
+    }
+
+
+def present_mindmap(mind_map, language):
+    root = mind_map.get("root", {})
+    return {
+        "id": mind_map.get("id"),
+        "subject": mind_map.get("subject", "General"),
+        "icon": mind_map.get("icon", "🧠"),
+        "title": localized(mind_map.get("title"), language),
+        "blurb": localized(mind_map.get("blurb"), language) or "",
+        "nodeCount": count_nodes(root),
+        "branchCount": len(root.get("children", [])),
+        "createdAt": mind_map.get("createdAt"),
+        "root": present_node(root, language),
+    }
+
+
+def node_from_payload(data, node_id):
+    """Build a stored node out of what the admin form posted."""
+    accent = data.get("accent")
+    node = {
+        "id": node_id,
+        "label": bilingual(data.get("label"), data.get("labelTa")),
+        "icon": (data.get("icon") or "").strip(),
+        "children": [],
+    }
+    summary = (data.get("summary") or "").strip()
+    if summary:
+        node["summary"] = bilingual(summary, data.get("summaryTa"))
+    formula = (data.get("formula") or "").strip()
+    if formula:
+        node["formula"] = formula
+    points = bilingual_points(data.get("points"), data.get("pointsTa"))
+    if points.get("en"):
+        node["points"] = points
+    if accent in MINDMAP_ACCENTS:
+        node["accent"] = accent
+    return node
+
+
+@app.route("/api/mindmaps", methods=["GET"])
+def get_mindmaps():
+    """Catalogue of available concept maps, without the full node trees."""
+    language = request.args.get("language", "en")
+    maps = []
+    for mind_map in load_mindmaps():
+        presented = present_mindmap(mind_map, language)
+        presented.pop("root", None)
+        maps.append(presented)
+    return jsonify({"maps": maps})
+
+
+@app.route("/api/mindmaps/<map_id>", methods=["GET"])
+def get_mindmap(map_id):
+    """One concept map with its whole node tree, resolved to a language."""
+    language = request.args.get("language", "en")
+    mind_map = find_mindmap(map_id)
+    if not mind_map:
+        return jsonify({"error": "Mind map not found"}), 404
+    return jsonify({"map": present_mindmap(mind_map, language)})
+
+
+@app.route("/api/mindmaps/<map_id>/nodes", methods=["POST"])
+def add_mindmap_node(map_id):
+    """Attach a new node under an existing one."""
+    data = request.get_json() or {}
+    label = (data.get("label") or "").strip()
+    parent_id = (data.get("parentId") or "root").strip()
+
+    if not label:
+        return jsonify({"error": "Node label is required"}), 400
+
+    maps = load_mindmaps()
+    for mind_map in maps:
+        if mind_map.get("id") != map_id:
+            continue
+
+        root = mind_map.get("root", {})
+        parent, _ = find_node(root, parent_id)
+        if not parent:
+            return jsonify({"error": "Parent node not found"}), 404
+
+        new_node = node_from_payload(data, f"n_{int(time.time() * 1000)}")
+        parent.setdefault("children", []).append(new_node)
+        save_mindmaps(maps)
+        return jsonify({"status": "ok", "node": present_node(new_node, "en")}), 201
+
+    return jsonify({"error": "Mind map not found"}), 404
+
+
+@app.route("/api/mindmaps/<map_id>/nodes/<node_id>", methods=["PUT"])
+def update_mindmap_node(map_id, node_id):
+    data = request.get_json() or {}
+    maps = load_mindmaps()
+
+    for mind_map in maps:
+        if mind_map.get("id") != map_id:
+            continue
+
+        node, _ = find_node(mind_map.get("root", {}), node_id)
+        if not node:
+            return jsonify({"error": "Node not found"}), 404
+
+        if "label" in data:
+            if not (data.get("label") or "").strip():
+                return jsonify({"error": "Node label is required"}), 400
+            node["label"] = bilingual(data.get("label"), data.get("labelTa"))
+        if "summary" in data:
+            node["summary"] = bilingual(data.get("summary"), data.get("summaryTa"))
+        if "formula" in data:
+            node["formula"] = (data.get("formula") or "").strip()
+        if "points" in data:
+            node["points"] = bilingual_points(data.get("points"), data.get("pointsTa"))
+        if "icon" in data:
+            node["icon"] = (data.get("icon") or "").strip()
+        if data.get("accent") in MINDMAP_ACCENTS:
+            node["accent"] = data["accent"]
+
+        save_mindmaps(maps)
+        return jsonify({"status": "ok", "node": present_node(node, "en")})
+
+    return jsonify({"error": "Mind map not found"}), 404
+
+
+@app.route("/api/mindmaps/<map_id>/nodes/<node_id>", methods=["DELETE"])
+def delete_mindmap_node(map_id, node_id):
+    """Remove a node and everything hanging beneath it. The root cannot go."""
+    maps = load_mindmaps()
+
+    for mind_map in maps:
+        if mind_map.get("id") != map_id:
+            continue
+
+        root = mind_map.get("root", {})
+        if node_id == root.get("id"):
+            return jsonify({"error": "The central topic cannot be deleted"}), 400
+
+        node, parent = find_node(root, node_id)
+        if not node or not parent:
+            return jsonify({"error": "Node not found"}), 404
+
+        removed = count_nodes(node)
+        parent["children"] = [c for c in parent.get("children", []) if c.get("id") != node_id]
+        save_mindmaps(maps)
+        return jsonify({
+            "status": "ok",
+            "message": "Node deleted successfully",
+            "removed": removed,
+        })
+
+    return jsonify({"error": "Mind map not found"}), 404
+
+
+@app.route("/api/mindmaps/<map_id>/nodes/<node_id>/explain", methods=["POST"])
+def explain_mindmap_node(map_id, node_id):
+    """Expand one node into a short student-friendly explanation.
+
+    The node's own stored text is the outline the model must stay inside, so the
+    explanation never drifts away from what the map already teaches.
+    """
+    data = request.get_json() or {}
+    language = data.get("language", "en")
+
+    mind_map = find_mindmap(map_id)
+    if not mind_map:
+        return jsonify({"error": "Mind map not found"}), 404
+
+    node, parent = find_node(mind_map.get("root", {}), node_id)
+    if not node:
+        return jsonify({"error": "Node not found"}), 404
+
+    label = localized(node.get("label"), "en")
+    topic = localized(mind_map.get("title"), "en")
+    parent_label = localized(parent.get("label"), "en") if parent else ""
+
+    outline_parts = []
+    summary = localized(node.get("summary"), "en")
+    if summary:
+        outline_parts.append(summary)
+    if node.get("formula"):
+        outline_parts.append(f"Formula: {node['formula']}")
+    for point in as_points(localized(node.get("points"), "en")):
+        outline_parts.append(f"- {point}")
+    for child in node.get("children", []):
+        outline_parts.append(f"- Sub-topic: {localized(child.get('label'), 'en')}")
+    outline = "\n".join(outline_parts) or "(no notes stored for this node yet)"
+
+    if language == "ta":
+        system_instruction = (
+            "நீங்கள் பள்ளி மாணவர்களுக்கான அறிவியல் ஆசிரியர். ஒரு கருத்து வரைபடத்தின் ஒரு முனையை விளக்குகிறீர்கள்.\n"
+            "விதிகள்:\n"
+            "1. கீழே தரப்பட்ட குறிப்புகளுக்குள் மட்டுமே இருக்கவும்; புதிய கருத்துக்களை உருவாக்க வேண்டாம்.\n"
+            "2. 4 முதல் 6 சிறு வாக்கியங்கள் மட்டும்.\n"
+            "3. ஒரு எளிய அன்றாட எடுத்துக்காட்டு சேர்க்கவும்.\n"
+            "4. சூத்திரம் இருந்தால் ஒவ்வொரு எழுத்தும் எதைக் குறிக்கிறது என்று கூறவும்.\n"
+            "5. எளிய தமிழில், மாணவர்களுக்குப் புரியும் வகையில் எழுதவும்."
+        )
+    else:
+        system_instruction = (
+            "You are a school science teacher explaining one node of a concept mind map.\n"
+            "Rules:\n"
+            "1. Stay strictly inside the notes given below — do not invent new concepts.\n"
+            "2. Write 4 to 6 short sentences, no headings.\n"
+            "3. Include one simple everyday example.\n"
+            "4. If a formula is given, say what each symbol stands for.\n"
+            "5. Use plain language a school student can follow."
+        )
+
+    # RAG: ground the explanation in the curriculum text where it exists.
+    retrieved = knowledge_base.search(f"{topic} {label}", top_k=2, min_score=0.8)
+    if retrieved:
+        system_instruction += (
+            "\n\nCURRICULUM REFERENCE (prefer this wording where it fits):\n"
+            + knowledge_base.format_rag_context(retrieved, max_chars=1200)
+        )
+
+    user_prompt = (
+        f"Mind map: {topic}\n"
+        f"Branch: {parent_label or 'central topic'}\n"
+        f"Node to explain: {label}\n\n"
+        f"Notes stored on this node:\n{outline}"
+    )
+
+    models_to_try = [MODEL_ID] + FALLBACK_MODELS
+    last_error = None
+
+    for model_name in models_to_try:
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": user_prompt},
+                ],
+                extra_headers={
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Mind Map Node Explainer",
+                },
+            )
+            return jsonify({
+                "explanation": response.choices[0].message.content,
+                "nodeId": node_id,
+                "language": language,
+                "model_used": model_name,
+            })
+        except Exception as e:
+            last_error = e
+            print(f"[WARN] Mind map explain failed on {model_name}: {e}")
+
+    print(f"[ERROR] Mind map explain failed on every model: {last_error}")
+    return jsonify({"error": "Could not generate an explanation right now."}), 503
+
+
+# ─── Routes: Kahoot-Style Live Quiz Module (image question + timed answers) ────
+
+KAHOOT_FILE = os.path.join(DATA_DIR, "kahoot_quizzes.json")
+
+# The frontend paints exactly 4 answer tiles per question, colour+shape coded
+# the way Kahoot does, so every question is stored with exactly 4 options.
+KAHOOT_OPTION_COUNT = 4
+KAHOOT_DEFAULT_TIME_LIMIT = 20
+
+
+def load_kahoot_quizzes():
+    if not os.path.exists(KAHOOT_FILE):
+        return []
+    try:
+        with open(KAHOOT_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("quizzes", [])
+    except Exception as e:
+        print(f"[ERROR] Failed to read kahoot_quizzes.json: {e}")
+        return []
+
+
+def save_kahoot_quizzes(quizzes):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(KAHOOT_FILE, "w", encoding="utf-8") as f:
+        json.dump({"quizzes": quizzes}, f, ensure_ascii=False, indent=2)
+
+
+def find_kahoot_quiz(quizzes, quiz_id):
+    for quiz in quizzes:
+        if quiz.get("id") == quiz_id:
+            return quiz
+    return None
+
+
+def present_kahoot_question(question, language):
+    return {
+        "id": question.get("id"),
+        "question": localized(question.get("question"), language),
+        "image": question.get("image", ""),
+        "options": question.get("options", []),
+        "correctIndex": question.get("correctIndex", 0),
+        "timeLimit": question.get("timeLimit", KAHOOT_DEFAULT_TIME_LIMIT),
+    }
+
+
+def present_kahoot_quiz(quiz, language, include_questions=True):
+    presented = {
+        "id": quiz.get("id"),
+        "title": localized(quiz.get("title"), language),
+        "description": localized(quiz.get("description"), language) or "",
+        "questionCount": len(quiz.get("questions", [])),
+        "createdAt": quiz.get("createdAt"),
+    }
+    if include_questions:
+        presented["questions"] = [
+            present_kahoot_question(q, language) for q in quiz.get("questions", [])
+        ]
+    return presented
+
+
+@app.route("/api/kahoot/quizzes", methods=["GET"])
+def get_kahoot_quizzes():
+    """Catalogue of quizzes for the quiz picker (no questions included)."""
+    language = request.args.get("language", "en")
+    quizzes = load_kahoot_quizzes()
+    return jsonify({
+        "quizzes": [present_kahoot_quiz(q, language, include_questions=False) for q in quizzes]
+    })
+
+
+@app.route("/api/kahoot/quizzes/<quiz_id>", methods=["GET"])
+def get_kahoot_quiz(quiz_id):
+    """One quiz with its full question set, used to host/play or edit it."""
+    language = request.args.get("language", "en")
+    quiz = find_kahoot_quiz(load_kahoot_quizzes(), quiz_id)
+    if not quiz:
+        return jsonify({"error": "Quiz not found"}), 404
+    return jsonify({"quiz": present_kahoot_quiz(quiz, language)})
+
+
+@app.route("/api/kahoot/quizzes", methods=["POST"])
+def add_kahoot_quiz():
+    data = request.get_json() or {}
+    title_en = (data.get("title") or "").strip()
+    if not title_en:
+        return jsonify({"error": "Quiz title is required"}), 400
+
+    new_quiz = {
+        "id": f"kq_{int(time.time() * 1000)}",
+        "title": bilingual(title_en, data.get("titleTa")),
+        "description": bilingual(data.get("description") or "", data.get("descriptionTa")),
+        "questions": [],
+        "createdAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+
+    quizzes = load_kahoot_quizzes()
+    quizzes.append(new_quiz)
+    save_kahoot_quizzes(quizzes)
+    return jsonify({"status": "ok", "quiz": present_kahoot_quiz(new_quiz, "en", include_questions=False)}), 201
+
+
+@app.route("/api/kahoot/quizzes/<quiz_id>", methods=["PUT"])
+def update_kahoot_quiz(quiz_id):
+    data = request.get_json() or {}
+    quizzes = load_kahoot_quizzes()
+    quiz = find_kahoot_quiz(quizzes, quiz_id)
+    if not quiz:
+        return jsonify({"error": "Quiz not found"}), 404
+
+    if "title" in data:
+        if not (data.get("title") or "").strip():
+            return jsonify({"error": "Quiz title is required"}), 400
+        quiz["title"] = bilingual(data.get("title"), data.get("titleTa"))
+    if "description" in data:
+        quiz["description"] = bilingual(data.get("description") or "", data.get("descriptionTa"))
+
+    save_kahoot_quizzes(quizzes)
+    return jsonify({"status": "ok", "quiz": present_kahoot_quiz(quiz, "en", include_questions=False)})
+
+
+@app.route("/api/kahoot/quizzes/<quiz_id>", methods=["DELETE"])
+def delete_kahoot_quiz(quiz_id):
+    quizzes = load_kahoot_quizzes()
+    remaining = [q for q in quizzes if q.get("id") != quiz_id]
+    if len(remaining) == len(quizzes):
+        return jsonify({"error": "Quiz not found"}), 404
+    save_kahoot_quizzes(remaining)
+    return jsonify({"status": "ok", "message": "Quiz deleted successfully"})
+
+
+@app.route("/api/kahoot/quizzes/<quiz_id>/questions", methods=["POST"])
+def add_kahoot_question(quiz_id):
+    data = request.get_json() or {}
+    quizzes = load_kahoot_quizzes()
+    quiz = find_kahoot_quiz(quizzes, quiz_id)
+    if not quiz:
+        return jsonify({"error": "Quiz not found"}), 404
+
+    question_en = (data.get("question") or "").strip()
+    options = [str(o).strip() for o in (data.get("options") or []) if str(o).strip()]
+    correct_index = data.get("correctIndex")
+
+    if not question_en:
+        return jsonify({"error": "Question text is required"}), 400
+    if len(options) != KAHOOT_OPTION_COUNT:
+        return jsonify({"error": f"Exactly {KAHOOT_OPTION_COUNT} answer options are required"}), 400
+    if not isinstance(correct_index, int) or not 0 <= correct_index < KAHOOT_OPTION_COUNT:
+        return jsonify({"error": "A valid correct answer must be selected"}), 400
+
+    new_question = {
+        "id": f"kqq_{int(time.time() * 1000)}",
+        "question": bilingual(question_en, data.get("questionTa")),
+        "image": (data.get("image") or "").strip(),
+        "options": options,
+        "correctIndex": correct_index,
+        "timeLimit": int(data.get("timeLimit") or KAHOOT_DEFAULT_TIME_LIMIT),
+    }
+
+    quiz.setdefault("questions", []).append(new_question)
+    save_kahoot_quizzes(quizzes)
+    return jsonify({"status": "ok", "question": present_kahoot_question(new_question, "en")}), 201
+
+
+@app.route("/api/kahoot/quizzes/<quiz_id>/questions/<question_id>", methods=["PUT"])
+def update_kahoot_question(quiz_id, question_id):
+    data = request.get_json() or {}
+    quizzes = load_kahoot_quizzes()
+    quiz = find_kahoot_quiz(quizzes, quiz_id)
+    if not quiz:
+        return jsonify({"error": "Quiz not found"}), 404
+
+    for question in quiz.get("questions", []):
+        if question.get("id") != question_id:
+            continue
+
+        if "question" in data:
+            if not (data.get("question") or "").strip():
+                return jsonify({"error": "Question text is required"}), 400
+            question["question"] = bilingual(data.get("question"), data.get("questionTa"))
+        if "image" in data:
+            question["image"] = (data.get("image") or "").strip()
+        if "options" in data:
+            options = [str(o).strip() for o in (data.get("options") or []) if str(o).strip()]
+            if len(options) != KAHOOT_OPTION_COUNT:
+                return jsonify({"error": f"Exactly {KAHOOT_OPTION_COUNT} answer options are required"}), 400
+            question["options"] = options
+        if "correctIndex" in data:
+            correct_index = data.get("correctIndex")
+            if not isinstance(correct_index, int) or not 0 <= correct_index < KAHOOT_OPTION_COUNT:
+                return jsonify({"error": "A valid correct answer must be selected"}), 400
+            question["correctIndex"] = correct_index
+        if "timeLimit" in data:
+            question["timeLimit"] = int(data.get("timeLimit") or KAHOOT_DEFAULT_TIME_LIMIT)
+
+        save_kahoot_quizzes(quizzes)
+        return jsonify({"status": "ok", "question": present_kahoot_question(question, "en")})
+
+    return jsonify({"error": "Question not found"}), 404
+
+
+@app.route("/api/kahoot/quizzes/<quiz_id>/questions/<question_id>", methods=["DELETE"])
+def delete_kahoot_question(quiz_id, question_id):
+    quizzes = load_kahoot_quizzes()
+    quiz = find_kahoot_quiz(quizzes, quiz_id)
+    if not quiz:
+        return jsonify({"error": "Quiz not found"}), 404
+
+    before = len(quiz.get("questions", []))
+    quiz["questions"] = [q for q in quiz.get("questions", []) if q.get("id") != question_id]
+    if len(quiz["questions"]) == before:
+        return jsonify({"error": "Question not found"}), 404
+
+    save_kahoot_quizzes(quizzes)
+    return jsonify({"status": "ok", "message": "Question deleted successfully"})
+
+
 # ─── Main ───────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":

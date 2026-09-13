@@ -1,0 +1,923 @@
+{
+  "maps": [
+    {
+      "id": "laws-of-motion",
+      "subject": "Physics",
+      "icon": "🚀",
+      "title": {
+        "en": "Laws of Motion",
+        "ta": "இயக்க விதிகள்"
+      },
+      "blurb": {
+        "en": "Force, inertia, momentum, torque and gravitation — one connected picture.",
+        "ta": "விசை, நிலைமம், உந்தம், முறுக்கு விசை மற்றும் ஈர்ப்பியல் — ஒரே இணைந்த படம்."
+      },
+      "createdAt": "2026-09-10T00:00:00Z",
+      "root": {
+        "id": "root",
+        "icon": "🎯",
+        "label": {
+          "en": "Laws of Motion",
+          "ta": "இயக்க விதிகள்"
+        },
+        "summary": {
+          "en": "Force is the cause of changes in the motion of a body. Newton's laws explain how force, motion, momentum and acceleration are related.",
+          "ta": "ஒரு பொருளின் இயக்க மாற்றத்திற்குக் காரணம் விசை. விசை, இயக்கம், உந்தம் மற்றும் முடுக்கம் இவற்றின் தொடர்பை நியூட்டனின் விதிகள் விளக்குகின்றன."
+        },
+        "children": [
+          {
+            "id": "mechanics",
+            "accent": "blue",
+            "icon": "⚙️",
+            "side": "left",
+            "label": {
+              "en": "Mechanics",
+              "ta": "இயந்திரவியல்"
+            },
+            "summary": {
+              "en": "The branch of physics that studies the effect of forces on bodies.",
+              "ta": "பொருட்கள் மீது விசைகளின் விளைவை ஆராயும் இயற்பியலின் பிரிவு."
+            },
+            "children": [
+              {
+                "id": "statics",
+                "label": {
+                  "en": "Statics",
+                  "ta": "நிலையியல்"
+                },
+                "summary": "Deals with bodies at rest.",
+                "points": [
+                  "Studies bodies under the action of forces in equilibrium.",
+                  "The resultant force on the body is zero."
+                ]
+              },
+              {
+                "id": "dynamics",
+                "label": {
+                  "en": "Dynamics",
+                  "ta": "இயக்கவியல்"
+                },
+                "summary": "Deals with moving bodies under the action of forces.",
+                "children": [
+                  {
+                    "id": "kinematics",
+                    "label": {
+                      "en": "Kinematics",
+                      "ta": "இயக்க விவரணவியல்"
+                    },
+                    "summary": "Motion is studied without considering its cause."
+                  },
+                  {
+                    "id": "kinetics",
+                    "label": {
+                      "en": "Kinetics",
+                      "ta": "இயக்க காரணவியல்"
+                    },
+                    "summary": "Motion is studied by considering the cause of motion."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "force-and-motion",
+            "accent": "violet",
+            "icon": "💪",
+            "side": "left",
+            "label": {
+              "en": "Force & Motion",
+              "ta": "விசையும் இயக்கமும்"
+            },
+            "summary": {
+              "en": "Force is a push or pull that can change the state of motion of an object.",
+              "ta": "ஒரு பொருளின் இயக்க நிலையை மாற்றக்கூடிய தள்ளுதல் அல்லது இழுத்தல் தான் விசை."
+            },
+            "children": [
+              {
+                "id": "what-force-does",
+                "label": {
+                  "en": "What a Force Can Do",
+                  "ta": "விசையின் விளைவுகள்"
+                },
+                "points": [
+                  "Start the motion of a stationary body.",
+                  "Stop a moving body.",
+                  "Increase or decrease velocity.",
+                  "Change the direction of motion."
+                ]
+              },
+              {
+                "id": "nature-of-force",
+                "label": {
+                  "en": "Nature of Force",
+                  "ta": "விசையின் தன்மை"
+                },
+                "points": [
+                  "Force is a vector quantity.",
+                  "It has both magnitude and direction."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "historical-ideas",
+            "accent": "amber",
+            "icon": "🏛️",
+            "side": "left",
+            "label": {
+              "en": "Historical Ideas",
+              "ta": "வரலாற்றுக் கருத்துக்கள்"
+            },
+            "summary": {
+              "en": "How the understanding of force and motion grew from Aristotle to Galileo to Newton.",
+              "ta": "அரிஸ்டாட்டில் முதல் நியூட்டன் வரை விசை மற்றும் இயக்கம் பற்றிய புரிதல் வளர்ந்த விதம்."
+            },
+            "children": [
+              {
+                "id": "aristotle",
+                "label": {
+                  "en": "Aristotle",
+                  "ta": "அரிஸ்டாட்டில்"
+                },
+                "summary": "Believed the natural state of earthly bodies is rest, and that force is required to maintain motion.",
+                "points": [
+                  "Natural state → Rest.",
+                  "Moving bodies naturally come to rest.",
+                  "Heavier objects fall faster than lighter objects.",
+                  "Natural motion → force independent.",
+                  "Violent motion → force dependent."
+                ]
+              },
+              {
+                "id": "galileo",
+                "label": {
+                  "en": "Galileo",
+                  "ta": "கலிலியோ"
+                },
+                "summary": "Introduced the ideas that led towards the modern concept of inertia.",
+                "points": [
+                  "Natural state → Rest or uniform motion.",
+                  "A moving body continues moving unless an external force acts.",
+                  "Bodies resist changes in their state of motion — this resistance is inertia.",
+                  "In vacuum, bodies of different masses fall at the same rate."
+                ]
+              },
+              {
+                "id": "concept-progression",
+                "label": {
+                  "en": "Concept Progression",
+                  "ta": "கருத்து வளர்ச்சி"
+                },
+                "formula": "Aristotle → Galileo → Newton",
+                "summary": "Rest as the natural state gave way to inertia, and inertia became Newton's First Law."
+              }
+            ]
+          },
+          {
+            "id": "inertia",
+            "accent": "rose",
+            "icon": "🛑",
+            "side": "left",
+            "label": {
+              "en": "Inertia",
+              "ta": "நிலைமம்"
+            },
+            "summary": {
+              "en": "The tendency of a body to resist any change in its state of rest or uniform motion.",
+              "ta": "ஓய்வு நிலையில் அல்லது சீரான இயக்கத்தில் உள்ள நிலையில் மாற்றத்தை எதிர்க்கும் பொருளின் தன்மை."
+            },
+            "children": [
+              {
+                "id": "inertia-rest",
+                "label": {
+                  "en": "Inertia of Rest",
+                  "ta": "ஓய்வு நிலைமம்"
+                },
+                "summary": "A body at rest tends to remain at rest.",
+                "points": [
+                  "A coin stays nearly at rest when the cardboard beneath it is flicked away."
+                ]
+              },
+              {
+                "id": "inertia-motion",
+                "label": {
+                  "en": "Inertia of Motion",
+                  "ta": "இயக்க நிலைமம்"
+                },
+                "summary": "A moving body tends to continue moving.",
+                "points": [
+                  "An athlete runs before jumping to make a longer jump."
+                ]
+              },
+              {
+                "id": "inertia-direction",
+                "label": {
+                  "en": "Inertia of Direction",
+                  "ta": "திசை நிலைமம்"
+                },
+                "summary": "A moving body tends to continue moving in the same direction.",
+                "points": [
+                  "A passenger leans sideways when a car takes a sharp turn."
+                ]
+              },
+              {
+                "id": "inertia-examples",
+                "label": {
+                  "en": "Everyday Examples",
+                  "ta": "அன்றாட எடுத்துக்காட்டுகள்"
+                },
+                "points": [
+                  "A passenger leans forward when a moving bus suddenly stops.",
+                  "A passenger leans backward when a stationary bus suddenly starts.",
+                  "Leaves and fruits fall when tree branches are shaken."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "linear-momentum",
+            "accent": "emerald",
+            "icon": "🏃",
+            "side": "left",
+            "label": {
+              "en": "Linear Momentum",
+              "ta": "நேர்கோட்டு உந்தம்"
+            },
+            "formula": "p = mv",
+            "summary": {
+              "en": "Linear momentum measures the quantity of motion carried by a moving body.",
+              "ta": "இயங்கும் பொருள் கொண்டிருக்கும் இயக்கத்தின் அளவு நேர்கோட்டு உந்தம்."
+            },
+            "children": [
+              {
+                "id": "momentum-formula",
+                "label": {
+                  "en": "Formula",
+                  "ta": "சூத்திரம்"
+                },
+                "formula": "p = mv",
+                "points": [
+                  "p = linear momentum",
+                  "m = mass",
+                  "v = velocity"
+                ]
+              },
+              {
+                "id": "momentum-key-points",
+                "label": {
+                  "en": "Key Points",
+                  "ta": "முக்கிய குறிப்புகள்"
+                },
+                "points": [
+                  "Momentum increases when mass increases.",
+                  "Momentum increases when velocity increases.",
+                  "Its direction is the same as the direction of velocity.",
+                  "Momentum is a vector quantity."
+                ]
+              },
+              {
+                "id": "momentum-units",
+                "label": {
+                  "en": "Units",
+                  "ta": "அலகுகள்"
+                },
+                "points": [
+                  "SI → kg m s⁻¹",
+                  "CGS → g cm s⁻¹"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "types-of-forces",
+            "accent": "cyan",
+            "icon": "⚖️",
+            "side": "right",
+            "label": {
+              "en": "Types & Resultant of Forces",
+              "ta": "விசைகளின் வகைகள்"
+            },
+            "summary": {
+              "en": "Forces are classified by direction, and several forces acting together can be replaced by one resultant force.",
+              "ta": "விசைகள் திசையைப் பொறுத்து வகைப்படுகின்றன; பல விசைகளின் ஒட்டுமொத்த விளைவை ஒரே விளைவு விசையால் குறிக்கலாம்."
+            },
+            "children": [
+              {
+                "id": "like-parallel",
+                "label": {
+                  "en": "Like Parallel Forces",
+                  "ta": "ஒரே திசை இணை விசைகள்"
+                },
+                "formula": "F_net = F₁ + F₂",
+                "summary": "Two or more parallel forces acting in the same direction."
+              },
+              {
+                "id": "unlike-parallel",
+                "label": {
+                  "en": "Unlike Parallel Forces",
+                  "ta": "எதிர்த்திசை இணை விசைகள்"
+                },
+                "formula": "F_net = F₁ − F₂",
+                "summary": "Two or more parallel forces acting in opposite directions.",
+                "points": [
+                  "The resultant acts in the direction of the greater force."
+                ]
+              },
+              {
+                "id": "resultant-force",
+                "label": {
+                  "en": "Resultant Force",
+                  "ta": "விளைவு விசை"
+                },
+                "summary": "The single force that represents the combined effect of all forces on a body — the vector sum of those forces.",
+                "children": [
+                  {
+                    "id": "balanced-forces",
+                    "label": {
+                      "en": "Balanced Forces",
+                      "ta": "சமன் விசைகள்"
+                    },
+                    "formula": "Resultant = 0",
+                    "summary": "The body stays in equilibrium."
+                  },
+                  {
+                    "id": "unbalanced-forces",
+                    "label": {
+                      "en": "Unbalanced Forces",
+                      "ta": "சமனற்ற விசைகள்"
+                    },
+                    "formula": "Resultant ≠ 0",
+                    "summary": "The motion of the body can change."
+                  },
+                  {
+                    "id": "equilibrant",
+                    "label": {
+                      "en": "Equilibrant",
+                      "ta": "சமநிலை விசை"
+                    },
+                    "summary": "A force equal in magnitude and opposite in direction to the resultant force, which brings the system into equilibrium."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "rotational-effect",
+            "accent": "indigo",
+            "icon": "🌀",
+            "side": "right",
+            "label": {
+              "en": "Rotational Effect of Force",
+              "ta": "விசையின் சுழற்சி விளைவு"
+            },
+            "summary": {
+              "en": "A force can produce a turning effect about a fixed point or axis.",
+              "ta": "ஒரு விசை நிலையான புள்ளி அல்லது அச்சை மையமாகக் கொண்டு திருப்பு விளைவை ஏற்படுத்தும்."
+            },
+            "children": [
+              {
+                "id": "turning-effect",
+                "label": {
+                  "en": "Turning Effect",
+                  "ta": "திருப்பு விளைவு"
+                },
+                "points": [
+                  "Axis of rotation → the fixed axis about which an object rotates.",
+                  "Point of rotation (pivot) → the fixed point about which an object turns.",
+                  "A door turns more easily when force is applied farther from the hinges — which is why handles sit far from them."
+                ]
+              },
+              {
+                "id": "torque",
+                "label": {
+                  "en": "Moment of Force / Torque",
+                  "ta": "முறுக்கு விசை"
+                },
+                "formula": "τ = F × d",
+                "summary": "The turning effect of a force about a fixed point or axis.",
+                "points": [
+                  "τ = torque, F = force, d = perpendicular distance from the pivot to the line of action.",
+                  "Torque is a vector quantity.",
+                  "SI unit → N m"
+                ],
+                "children": [
+                  {
+                    "id": "torque-direction",
+                    "label": {
+                      "en": "Direction of Torque",
+                      "ta": "முறுக்கு விசையின் திசை"
+                    },
+                    "points": [
+                      "Anticlockwise → positive",
+                      "Clockwise → negative"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "couple",
+                "label": {
+                  "en": "Couple",
+                  "ta": "இரட்டை விசை"
+                },
+                "formula": "M = F × S",
+                "summary": "Two equal and opposite parallel forces acting at different points.",
+                "points": [
+                  "Resultant force = 0, so there is no translational motion.",
+                  "It produces pure rotation.",
+                  "F = one of the forces, S = perpendicular distance between their lines of action."
+                ],
+                "children": [
+                  {
+                    "id": "couple-examples",
+                    "label": {
+                      "en": "Examples",
+                      "ta": "எடுத்துக்காட்டுகள்"
+                    },
+                    "points": [
+                      "Turning a tap.",
+                      "Winding or unwinding a screw.",
+                      "Spinning a top."
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "torque-applications",
+                "label": {
+                  "en": "Applications of Torque",
+                  "ta": "முறுக்கு விசையின் பயன்பாடுகள்"
+                },
+                "children": [
+                  {
+                    "id": "gears",
+                    "label": {
+                      "en": "Gears",
+                      "ta": "பற்சக்கரங்கள்"
+                    },
+                    "summary": "Gears transfer power and can change rotational speed and torque."
+                  },
+                  {
+                    "id": "seesaw",
+                    "label": {
+                      "en": "Seesaw",
+                      "ta": "ஏற்ற இறக்கப் பலகை"
+                    },
+                    "summary": "Changing the distance from the fulcrum changes the torque — greater distance gives greater torque."
+                  },
+                  {
+                    "id": "steering",
+                    "label": {
+                      "en": "Steering Wheel",
+                      "ta": "திசைச் சக்கரம்"
+                    },
+                    "summary": "Its large radius lets the driver produce a large torque with little effort."
+                  }
+                ]
+              },
+              {
+                "id": "principle-of-moments",
+                "label": {
+                  "en": "Principle of Moments",
+                  "ta": "திருப்புத்திறன் விதி"
+                },
+                "formula": "F₁d₁ = F₂d₂",
+                "summary": "For a body in rotational equilibrium, the total clockwise moment equals the total anticlockwise moment.",
+                "points": [
+                  "Equilibrium condition → the sum of all moments is zero."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "newtons-laws",
+            "accent": "teal",
+            "icon": "📜",
+            "side": "right",
+            "label": {
+              "en": "Newton's Laws",
+              "ta": "நியூட்டனின் விதிகள்"
+            },
+            "summary": {
+              "en": "Three laws that tie force to inertia, to acceleration, and to the equal and opposite reaction.",
+              "ta": "விசையை நிலைமம், முடுக்கம் மற்றும் எதிர்வினையுடன் இணைக்கும் மூன்று விதிகள்."
+            },
+            "children": [
+              {
+                "id": "first-law",
+                "label": {
+                  "en": "First Law — Law of Inertia",
+                  "ta": "முதல் விதி — நிலைம விதி"
+                },
+                "summary": "A body remains at rest or continues in uniform motion in a straight line unless acted upon by an external unbalanced force.",
+                "points": [
+                  "No net force → no change in motion.",
+                  "Explains inertia, rest, uniform motion, and the need for an external force to change motion."
+                ]
+              },
+              {
+                "id": "second-law",
+                "label": {
+                  "en": "Second Law — Law of Force",
+                  "ta": "இரண்டாம் விதி — விசை விதி"
+                },
+                "formula": "F = Δp / t  →  F = ma",
+                "summary": "The force acting on a body is proportional to the rate of change of its linear momentum.",
+                "points": [
+                  "Greater force → greater acceleration.",
+                  "Greater mass → smaller acceleration for the same force."
+                ],
+                "children": [
+                  {
+                    "id": "units-of-force",
+                    "label": {
+                      "en": "Units of Force",
+                      "ta": "விசையின் அலகுகள்"
+                    },
+                    "formula": "1 N = 10⁵ dyne",
+                    "points": [
+                      "SI → newton (N); 1 N = 1 kg m s⁻²",
+                      "CGS → dyne; 1 dyne = 1 g cm s⁻²"
+                    ]
+                  },
+                  {
+                    "id": "gravitational-units",
+                    "label": {
+                      "en": "Gravitational Unit of Force",
+                      "ta": "விசையின் ஈர்ப்பு அலகு"
+                    },
+                    "points": [
+                      "SI → kilogram-force (kgf); 1 kgf = 9.8 N",
+                      "CGS → gram-force (gf); 1 gf = 980 dyne"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "impulse",
+                "label": {
+                  "en": "Impulse",
+                  "ta": "உந்துவிசை"
+                },
+                "formula": "J = F × t = Δp",
+                "summary": "The product of a force and the time for which it acts — equal to the change in momentum.",
+                "points": [
+                  "Units → N s or kg m s⁻¹"
+                ],
+                "children": [
+                  {
+                    "id": "impulse-applications",
+                    "label": {
+                      "en": "Applications",
+                      "ta": "பயன்பாடுகள்"
+                    },
+                    "points": [
+                      "Shock absorbers increase the stopping time and so reduce the force felt.",
+                      "A cricket fielder pulls the hands backward while catching, increasing stopping time and reducing the force on the hands."
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "third-law",
+                "label": {
+                  "en": "Third Law — Action & Reaction",
+                  "ta": "மூன்றாம் விதி — வினையும் எதிர்வினையும்"
+                },
+                "formula": "Fᴮ = −Fᴬ",
+                "summary": "For every action there is an equal and opposite reaction, and the two forces act on different bodies.",
+                "children": [
+                  {
+                    "id": "third-law-examples",
+                    "label": {
+                      "en": "Examples",
+                      "ta": "எடுத்துக்காட்டுகள்"
+                    },
+                    "points": [
+                      "🐦 A flying bird pushes air downward; the air pushes the bird upward.",
+                      "🏊 A swimmer pushes water backward; the water pushes the swimmer forward.",
+                      "🔫 A bullet moves forward; the gun recoils backward."
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "conservation-momentum",
+                "label": {
+                  "en": "Conservation of Linear Momentum",
+                  "ta": "நேர்கோட்டு உந்த அழிவின்மை"
+                },
+                "formula": "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+                "summary": "The total linear momentum of a system stays constant when no net external force acts on it.",
+                "points": [
+                  "Before collision → m₁u₁ + m₂u₂",
+                  "After collision → m₁v₁ + m₂v₂"
+                ]
+              },
+              {
+                "id": "rocket-propulsion",
+                "label": {
+                  "en": "Rocket Propulsion",
+                  "ta": "ராக்கெட் இயக்கம்"
+                },
+                "summary": "Rockets fly by Newton's Third Law together with conservation of linear momentum.",
+                "points": [
+                  "Fuel burns → hot gases are expelled at high speed.",
+                  "The backward momentum of the gases produces an equal and opposite reaction.",
+                  "The rocket moves forward; as fuel is used its mass falls and its velocity rises."
+                ],
+                "children": [
+                  {
+                    "id": "escape-velocity",
+                    "label": {
+                      "en": "Escape Velocity",
+                      "ta": "விடுபடு திசைவேகம்"
+                    },
+                    "summary": "The velocity an object needs in order to escape the Earth's gravitational pull."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "gravitation",
+            "accent": "blue",
+            "icon": "🌍",
+            "side": "right",
+            "label": {
+              "en": "Gravitation",
+              "ta": "ஈர்ப்பியல்"
+            },
+            "summary": {
+              "en": "Every particle of matter attracts every other particle with a gravitational force.",
+              "ta": "ஒவ்வொரு பொருள் துகளும் மற்றொரு துகளை ஈர்ப்பு விசையால் ஈர்க்கிறது."
+            },
+            "children": [
+              {
+                "id": "universal-gravitation",
+                "label": {
+                  "en": "Universal Law of Gravitation",
+                  "ta": "பொது ஈர்ப்பு விதி"
+                },
+                "formula": "F = Gm₁m₂ / r²",
+                "summary": "The gravitational force is directly proportional to the product of the masses and inversely proportional to the square of the distance between their centres.",
+                "children": [
+                  {
+                    "id": "gravitational-constant",
+                    "label": {
+                      "en": "Gravitational Constant",
+                      "ta": "ஈர்ப்பு மாறிலி"
+                    },
+                    "formula": "G = 6.674 × 10⁻¹¹ N m² kg⁻²"
+                  },
+                  {
+                    "id": "gravitation-properties",
+                    "label": {
+                      "en": "Key Properties",
+                      "ta": "முக்கிய பண்புகள்"
+                    },
+                    "points": [
+                      "Always attractive.",
+                      "Acts along the line joining the two masses.",
+                      "Independent of the medium between them."
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "acceleration-gravity",
+                "label": {
+                  "en": "Acceleration Due to Gravity (g)",
+                  "ta": "புவி ஈர்ப்பு முடுக்கம் (g)"
+                },
+                "formula": "g = 9.8 m s⁻²",
+                "summary": "The acceleration a body experiences because of the Earth's gravitational force.",
+                "points": [
+                  "A freely falling object's velocity changes by about 9.8 m/s every second near the Earth's surface."
+                ]
+              },
+              {
+                "id": "g-and-G",
+                "label": {
+                  "en": "Relation Between g and G",
+                  "ta": "g மற்றும் G தொடர்பு"
+                },
+                "formula": "g = GM / R²",
+                "summary": "The acceleration due to gravity depends on the Earth's mass and radius.",
+                "children": [
+                  {
+                    "id": "mass-of-earth",
+                    "label": {
+                      "en": "Mass of the Earth",
+                      "ta": "பூமியின் நிறை"
+                    },
+                    "formula": "M = gR² / G ≈ 5.972 × 10²⁴ kg"
+                  }
+                ]
+              },
+              {
+                "id": "variation-of-g",
+                "label": {
+                  "en": "Variation of g",
+                  "ta": "g இன் மாறுபாடு"
+                },
+                "summary": "The value of g is not the same everywhere.",
+                "children": [
+                  {
+                    "id": "variation-latitude",
+                    "label": {
+                      "en": "With Latitude",
+                      "ta": "அட்சரேகையுடன்"
+                    },
+                    "points": [
+                      "Poles → g is maximum",
+                      "Equator → g is minimum"
+                    ]
+                  },
+                  {
+                    "id": "variation-height",
+                    "label": {
+                      "en": "With Height",
+                      "ta": "உயரத்துடன்"
+                    },
+                    "points": [
+                      "Height ↑ → g ↓"
+                    ]
+                  },
+                  {
+                    "id": "variation-depth",
+                    "label": {
+                      "en": "With Depth",
+                      "ta": "ஆழத்துடன்"
+                    },
+                    "points": [
+                      "Depth ↑ → g ↓",
+                      "At the Earth's centre, g = 0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "mass-vs-weight",
+                "label": {
+                  "en": "Mass vs Weight",
+                  "ta": "நிறையும் எடையும்"
+                },
+                "formula": "W = mg",
+                "summary": "Mass stays constant; weight changes wherever g changes.",
+                "children": [
+                  {
+                    "id": "mass",
+                    "label": {
+                      "en": "Mass",
+                      "ta": "நிறை"
+                    },
+                    "points": [
+                      "The quantity of matter in a body; symbol m.",
+                      "SI unit → kg",
+                      "A scalar quantity, essentially the same from place to place."
+                    ]
+                  },
+                  {
+                    "id": "weight",
+                    "label": {
+                      "en": "Weight",
+                      "ta": "எடை"
+                    },
+                    "formula": "W = mg",
+                    "points": [
+                      "The gravitational force acting on a body.",
+                      "SI unit → N",
+                      "A vector quantity directed towards the Earth's centre."
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "apparent-weight",
+                "label": {
+                  "en": "Apparent Weight",
+                  "ta": "தோற்ற எடை"
+                },
+                "summary": "The weight a person seems to experience under gravity together with other external forces.",
+                "children": [
+                  {
+                    "id": "lift-cases",
+                    "label": {
+                      "en": "In a Lift",
+                      "ta": "மின் தூக்கியில்"
+                    },
+                    "points": [
+                      "Accelerating upward → R = m(g + a); apparent weight increases.",
+                      "Accelerating downward → R = m(g − a); apparent weight decreases.",
+                      "At rest → R = mg; apparent weight equals actual weight."
+                    ]
+                  },
+                  {
+                    "id": "free-fall",
+                    "label": {
+                      "en": "Free Fall",
+                      "ta": "தடையற்ற வீழ்ச்சி"
+                    },
+                    "formula": "a = g → R = m(g − g) = 0",
+                    "summary": "The support force vanishes, which is weightlessness."
+                  }
+                ]
+              },
+              {
+                "id": "weightlessness",
+                "label": {
+                  "en": "Weightlessness",
+                  "ta": "எடையின்மை"
+                },
+                "summary": "The condition in which the apparent weight becomes zero.",
+                "points": [
+                  "Roller coaster.",
+                  "Giant wheel.",
+                  "Swing during rapid motion.",
+                  "A lift falling freely."
+                ],
+                "children": [
+                  {
+                    "id": "astronauts",
+                    "label": {
+                      "en": "Weightlessness of Astronauts",
+                      "ta": "விண்வெளி வீரர்களின் எடையின்மை"
+                    },
+                    "summary": "Astronauts in orbit are not free of the Earth's gravity — they feel weightless because they and the spacecraft are falling freely around the Earth.",
+                    "points": [
+                      "Orbital motion → free fall → apparent weight = 0"
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "gravitation-applications",
+                "label": {
+                  "en": "Applications of Gravitation",
+                  "ta": "ஈர்ப்பியலின் பயன்பாடுகள்"
+                },
+                "points": [
+                  "Measuring the dimensions of heavenly bodies.",
+                  "Calculating the mass of the Earth and other celestial objects.",
+                  "Discovering stars and planets, and studying stellar wobble.",
+                  "Predicting the paths of astronomical bodies.",
+                  "Explaining geotropism in roots."
+                ]
+              }
+            ]
+          },
+          {
+            "id": "numerical-problems",
+            "accent": "amber",
+            "icon": "🧮",
+            "side": "right",
+            "label": {
+              "en": "Numerical Problems",
+              "ta": "கணக்குகள்"
+            },
+            "summary": {
+              "en": "Where the formulas meet the exam — the three question types that keep coming back.",
+              "ta": "சூத்திரங்கள் தேர்வில் சந்திக்கும் மூன்று வகைகள்."
+            },
+            "children": [
+              {
+                "id": "problem-momentum",
+                "label": {
+                  "en": "Type 1 — Momentum",
+                  "ta": "வகை 1 — உந்தம்"
+                },
+                "formula": "p = mv",
+                "points": [
+                  "Given mass and momentum → find velocity."
+                ]
+              },
+              {
+                "id": "problem-moment",
+                "label": {
+                  "en": "Type 2 — Moment of Force",
+                  "ta": "வகை 2 — திருப்புத்திறன்"
+                },
+                "formula": "τ = Fd",
+                "points": [
+                  "Given force and distance from the pivot → find torque."
+                ]
+              },
+              {
+                "id": "problem-variation-g",
+                "label": {
+                  "en": "Type 3 — Variation of g with Height",
+                  "ta": "வகை 3 — உயரத்துடன் g"
+                },
+                "formula": "g = GM / R²",
+                "points": [
+                  "Relate the Earth's radius, the height, and the acceleration due to gravity."
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

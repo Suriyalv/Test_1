@@ -10,12 +10,12 @@ const OwlMascot = ({ mood = "happy", size = 56 }) => {
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" fill="none"
       className="select-none pointer-events-none drop-shadow-md">
-      <circle cx="50" cy="52" r="42" fill={isCelebrating ? "#fef9c3" : isThinking ? "#dbeafe" : "#e0f2fe"} opacity="0.7" />
-      <rect x="22" y="30" width="56" height="54" rx="28" fill="#1e3a8a" />
-      <rect x="25" y="32" width="50" height="50" rx="25" fill={isThinking ? "#1d4ed8" : "#2563eb"} />
-      <ellipse cx="50" cy="63" rx="19" ry="16" fill="#eff6ff" />
-      <circle cx="37" cy="46" r="12" fill="#fff" stroke="#1e3a8a" strokeWidth="2" />
-      <circle cx="63" cy="46" r="12" fill="#fff" stroke="#1e3a8a" strokeWidth="2" />
+      <circle cx="50" cy="52" r="42" fill={isCelebrating ? "#fef9c3" : isThinking ? "#dbeafe" : "#dcf3ff"} opacity="0.7" />
+      <rect x="22" y="30" width="56" height="54" rx="28" fill="#026aa2" />
+      <rect x="25" y="32" width="50" height="50" rx="25" fill={isThinking ? "#0284c7" : "#0ba5ec"} />
+      <ellipse cx="50" cy="63" rx="19" ry="16" fill="#eff9ff" />
+      <circle cx="37" cy="46" r="12" fill="#fff" stroke="#026aa2" strokeWidth="2" />
+      <circle cx="63" cy="46" r="12" fill="#fff" stroke="#026aa2" strokeWidth="2" />
       {isThinking ? (
         <><circle cx="41" cy="43" r="5.5" fill="#0f172a" /><circle cx="67" cy="43" r="5.5" fill="#0f172a" />
           <circle cx="43" cy="41" r="1.8" fill="#fff" /><circle cx="69" cy="41" r="1.8" fill="#fff" /></>
@@ -29,8 +29,8 @@ const OwlMascot = ({ mood = "happy", size = 56 }) => {
       <ellipse cx="27" cy="55" rx="4.5" ry="2.5" fill="#f43f5e" opacity="0.6" />
       <ellipse cx="73" cy="55" rx="4.5" ry="2.5" fill="#f43f5e" opacity="0.6" />
       <path d="M45 50L55 50L50 57Z" fill="#f59e0b" stroke="#d97706" strokeWidth="1" strokeLinejoin="round" />
-      <path d="M50 10L80 22L50 30L20 22Z" fill="#0f172a" />
-      <rect x="37" y="27" width="26" height="5" rx="2" fill="#0f172a" />
+      <path d="M50 10L80 22L50 30L20 22Z" fill="#0c4a6e" />
+      <rect x="37" y="27" width="26" height="5" rx="2" fill="#0c4a6e" />
       <circle cx="50" cy="21" r="2" fill="#fbbf24" />
       <path d="M50 21Q71 26 73 37" stroke="#f59e0b" strokeWidth="1.5" strokeLinecap="round" />
       <circle cx="73" cy="39" r="2.5" fill="#f59e0b" />
@@ -275,8 +275,8 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
   };
   const headerLabel = isTestPage ? (testLevelLabel[testHintLevel] || (isTa ? "குறிப்பு" : "Clue")) : (homeStatusLabel[homeStatus] || "");
   const headerColor = isTestPage
-    ? ["bg-[#1e3a8a]", "bg-[#1e3a8a]", "bg-amber-600", "bg-green-700"][testHintLevel] || "bg-[#1e3a8a]"
-    : { correct: "bg-green-700", reveal: "bg-purple-700", hint: "bg-amber-600" }[homeStatus] || "bg-[#1e3a8a]";
+    ? ["bg-brand-600", "bg-brand-600", "bg-amber-500", "bg-emerald-600"][testHintLevel] || "bg-brand-600"
+    : { correct: "bg-emerald-600", reveal: "bg-cyan-600", hint: "bg-amber-500" }[homeStatus] || "bg-brand-600";
 
   const showAnswerInput = !isTestPage && homeStatus === "asking";
   const showTryAgain = !isTestPage && homeStatus === "hint";
@@ -295,8 +295,8 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.92 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative bg-white rounded-2xl overflow-hidden"
-            style={{ width: 268, boxShadow: "0 6px 28px rgba(30,58,138,0.16)", border: "1px solid #e2e8f0" }}
+            className="relative bg-white rounded-3xl overflow-hidden"
+            style={{ width: 268, boxShadow: "0 10px 32px rgba(124,58,237,0.22)", border: "1px solid #dcf3ff" }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -327,7 +327,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
               {isLoading && !typeTarget ? (
                 <div className="flex items-center gap-2 py-1">
                   {[0,1,2].map(i => (
-                    <span key={i} className="w-1.5 h-1.5 rounded-full bg-[#2563eb] animate-bounce"
+                    <span key={i} className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-bounce"
                       style={{ animationDelay: `${i * 0.14}s` }} />
                   ))}
                   <span className="text-[11px] text-slate-400">{isTa ? "யோசிக்கிறேன்…" : "Thinking…"}</span>
@@ -335,7 +335,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
               ) : (
                 <p className="text-[12px] leading-relaxed text-slate-700 font-medium whitespace-pre-line">
                   {displayed}
-                  {!done && <span className="inline-block w-[2px] h-[13px] bg-[#2563eb] ml-0.5 animate-pulse align-middle rounded-full" />}
+                  {!done && <span className="inline-block w-[2px] h-[13px] bg-brand-500 ml-0.5 animate-pulse align-middle rounded-full" />}
                 </p>
               )}
             </div>
@@ -343,7 +343,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
             {/* Answer input (home page - when asking) */}
             {showAnswerInput && done && (
               <div className="px-3 pb-3">
-                <div className="flex items-center gap-1.5 mt-2 border border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-[#2563eb] transition-colors">
+                <div className="flex items-center gap-1.5 mt-2 border border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-brand-500 transition-colors">
                   <input
                     ref={inputRef}
                     type="text"
@@ -356,7 +356,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
                   <button
                     onClick={handleSubmitAnswer}
                     disabled={!studentAnswer.trim()}
-                    className="p-2 bg-[#1e3a8a] text-white disabled:opacity-40 hover:bg-[#1e40af] transition-colors"
+                    className="p-2 bg-gradient-to-r from-brand-600 to-cyan-600 text-white disabled:opacity-40 hover:brightness-110 transition-colors"
                   >
                     <Send size={12} />
                   </button>
@@ -367,7 +367,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
             {/* Try Again (hint state) */}
             {showTryAgain && done && (
               <div className="px-3 pb-3">
-                <div className="flex items-center gap-1.5 mt-1.5 border border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-[#2563eb] transition-colors">
+                <div className="flex items-center gap-1.5 mt-1.5 border border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-brand-500 transition-colors">
                   <input
                     ref={inputRef}
                     type="text"
@@ -393,7 +393,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
               <div className="px-3 pb-3 pt-1">
                 <button
                   onClick={loadNewQuestion}
-                  className="w-full text-[11px] font-bold text-white bg-[#1e3a8a] hover:bg-[#1e40af] rounded-xl py-1.5 transition-all active:scale-95 flex items-center justify-center gap-1.5"
+                  className="w-full text-[11px] font-bold text-white bg-gradient-to-r from-brand-600 to-cyan-600 hover:brightness-110 rounded-xl py-1.5 transition-all active:scale-95 flex items-center justify-center gap-1.5"
                 >
                   <RefreshCw size={11} />
                   {isTa ? "அடுத்த வினா" : "Next Question"}
@@ -406,7 +406,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
               <div className="px-3 pb-3 pt-1">
                 <button
                   onClick={handleTestContinue}
-                  className="w-full text-[10px] font-bold text-[#1e3a8a] bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl py-1.5 transition-all active:scale-95"
+                  className="w-full text-[10px] font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-xl py-1.5 transition-all active:scale-95"
                 >
                   {isTa ? "▶ மேலும் குறிப்பு" : "▶ More Clue"}
                 </button>
@@ -433,7 +433,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-[9px] font-black uppercase tracking-wider bg-[#1e3a8a] text-white px-2 py-0.5 rounded-full shadow-sm"
+            className="text-[9px] font-black uppercase tracking-wider bg-gradient-to-r from-brand-600 to-cyan-600 text-white px-2 py-0.5 rounded-full shadow-pop"
           >
             {isTa ? "கிளிக்" : "Click"}
           </motion.span>

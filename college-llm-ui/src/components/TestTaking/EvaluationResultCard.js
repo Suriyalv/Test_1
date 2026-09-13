@@ -17,8 +17,8 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
   const isTa = language === "ta";
 
   // Score styling
-  const scoreColor = accuracy >= 75 ? "#1e3a8a" : accuracy >= 50 ? "#d97706" : "#dc2626";
-  const scoreBadgeBg = accuracy >= 75 ? "bg-blue-50 text-[#1e3a8a] border-blue-200" : accuracy >= 50 ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-800 border-red-200";
+  const scoreColor = accuracy >= 75 ? "#0284c7" : accuracy >= 50 ? "#d97706" : "#dc2626";
+  const scoreBadgeBg = accuracy >= 75 ? "bg-brand-50 text-[#0284c7] border-brand-200" : accuracy >= 50 ? "bg-amber-50 text-amber-800 border-amber-200" : "bg-red-50 text-red-800 border-red-200";
 
   return (
     <motion.div
@@ -30,8 +30,8 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
         <div className="flex items-center gap-2">
           <div>
-            <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#1e3a8a] uppercase tracking-wide">
-              <Sparkles size={11} className="text-[#2563eb]" />
+            <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
+              <Sparkles size={11} className="text-[#0ba5ec]" />
               {isTa ? "தானியங்கி விடை மதிப்பீடு" : "AI Evaluation"}
             </div>
             <h3 className="text-sm sm:text-base font-bold text-slate-900">
@@ -88,8 +88,8 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
         {/* Matched Keywords */}
         <div className="bg-slate-50 border border-slate-200 rounded-lg p-3">
           <div className="flex items-center gap-1.5 mb-2">
-            <Tag size={13} className="text-blue-600" />
-            <h4 className="text-xs font-bold text-blue-900 uppercase">
+            <Tag size={13} className="text-brand-600" />
+            <h4 className="text-xs font-bold text-brand-900 uppercase">
               {isTa ? "பொருந்திய முக்கிய சொற்கள்" : "Matched Keywords"} ({matchedKeywords.length})
             </h4>
           </div>
@@ -98,7 +98,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
               {matchedKeywords.map((kw, i) => (
                 <span
                   key={i}
-                  className="px-2 py-0.5 bg-blue-600 text-white rounded text-[11px] font-semibold"
+                  className="px-2 py-0.5 bg-brand-600 text-white rounded text-[11px] font-semibold"
                 >
                   ✓ {kw}
                 </span>
@@ -131,7 +131,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
               ))}
             </div>
           ) : (
-            <p className="text-xs text-blue-700 font-semibold">
+            <p className="text-xs text-brand-700 font-semibold">
               {isTa ? "அனைத்து முக்கிய சொற்களும் உள்ளன!" : "All keywords covered!"}
             </p>
           )}
@@ -142,8 +142,8 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
       <div className="py-4 border-b border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Points Covered */}
         <div>
-          <h4 className="text-xs font-bold uppercase text-blue-900 mb-2 flex items-center gap-1.5">
-            <CheckCircle2 size={14} className="text-blue-600" />
+          <h4 className="text-xs font-bold uppercase text-brand-900 mb-2 flex items-center gap-1.5">
+            <CheckCircle2 size={14} className="text-brand-600" />
             {isTa ? "சரியான கருத்துகள்" : "Key Points Covered"}
           </h4>
           {keyPointsCovered.length > 0 ? (
@@ -151,9 +151,9 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
               {keyPointsCovered.map((pt, i) => (
                 <li
                   key={i}
-                  className="text-xs text-slate-800 bg-blue-50/60 p-2 rounded-lg border border-blue-200 flex items-start gap-1.5"
+                  className="text-xs text-slate-800 bg-brand-50/60 p-2 rounded-lg border border-brand-200 flex items-start gap-1.5"
                 >
-                  <span className="text-blue-600 font-bold">•</span>
+                  <span className="text-brand-600 font-bold">•</span>
                   <span className="leading-relaxed">{pt}</span>
                 </li>
               ))}
@@ -184,7 +184,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
               ))}
             </ul>
           ) : (
-            <p className="text-xs text-blue-700 font-semibold">
+            <p className="text-xs text-brand-700 font-semibold">
               {isTa ? "முக்கிய கருத்துகள் அனைத்தும் உள்ளன!" : "No key points missed!"}
             </p>
           )}
@@ -195,7 +195,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
       {overallFeedback && (
         <div className="pt-3 pb-1">
           <h4 className="text-xs font-bold uppercase text-slate-600 mb-1 flex items-center gap-1">
-            <Award size={13} className="text-blue-600" />
+            <Award size={13} className="text-brand-600" />
             {isTa ? "மதிப்பீட்டுக் குறிப்பு" : "Evaluation Remarks"}
           </h4>
           <p className="text-xs text-slate-800 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200">
@@ -208,7 +208,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
       {sampleAnswer && (
         <div className="mt-2.5 pt-2.5 border-t border-slate-100">
           <details className="group">
-            <summary className="cursor-pointer text-xs font-bold text-blue-700 flex items-center gap-1.5 hover:text-blue-800 transition-colors">
+            <summary className="cursor-pointer text-xs font-bold text-brand-700 flex items-center gap-1.5 hover:text-brand-800 transition-colors">
               <BookOpen size={13} />
               <span>{isTa ? "பாடப்புத்தக மாதிரி விடை (Reference Answer)" : "View Official Sample Answer"}</span>
             </summary>
@@ -224,7 +224,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
         <div className="mt-4 flex justify-end">
           <button
             onClick={onNextQuestion}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition-all shadow-xs flex items-center gap-1 active:scale-95"
+            className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-lg transition-all shadow-xs flex items-center gap-1 active:scale-95"
           >
             <span>{isTa ? "அடுத்த வினா" : "Next Question"}</span>
             <ChevronRight size={14} />

@@ -134,7 +134,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
       <div className="bg-white border border-slate-200 p-5 rounded-xl shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="flex items-center gap-3">
           <div>
-            <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#1e3a8a] uppercase tracking-wide">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#0284c7] uppercase tracking-wide">
               <Layers size={14} /> {isTa ? "ஆசிரியர் & வினா மேலாண்மை தளம்" : "Faculty & Examination Repository"}
             </div>
             <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">
@@ -150,7 +150,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
           {setParentLang && (
             <button
               onClick={() => setParentLang(parentLang === "en" ? "ta" : "en")}
-              className="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#1e3a8a] rounded-lg text-xs font-bold transition-all"
+              className="flex items-center gap-1 px-3 py-1.5 bg-brand-50 hover:bg-brand-100 border border-brand-200 text-[#0284c7] rounded-lg text-xs font-bold transition-all"
             >
               <Languages size={14} />
               <span>{parentLang === "en" ? "தமிழ்" : "English"}</span>
@@ -159,9 +159,9 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
 
           <button
             onClick={loadAllQuestions}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#1e3a8a] border border-slate-200 rounded-lg text-xs font-bold transition-all active:scale-95"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#0284c7] border border-slate-200 rounded-lg text-xs font-bold transition-all active:scale-95"
           >
-            <RefreshCw size={14} className={loading ? "animate-spin text-[#1e3a8a]" : ""} />
+            <RefreshCw size={14} className={loading ? "animate-spin text-[#0284c7]" : ""} />
             <span>{isTa ? "புதுப்பிக்க" : "Refresh"}</span>
           </button>
         </div>
@@ -170,7 +170,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
       {/* Creation Form Section */}
       <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs">
         <div className="flex items-center gap-2 pb-3 border-b border-slate-100 mb-4">
-          <PlusCircle size={16} className="text-[#1e3a8a]" />
+          <PlusCircle size={16} className="text-[#0284c7]" />
           <h3 className="text-sm sm:text-base font-bold text-slate-900">
             {isTa ? "புதிய தேர்வு வினாவைச் சேர்க்கவும்" : "Create New Examination Question"}
           </h3>
@@ -191,7 +191,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                     onClick={() => setCategory(cat)}
                     className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all border ${
                       category === cat
-                        ? "bg-[#1e3a8a] text-white border-[#1e3a8a] shadow-xs"
+                        ? "bg-[#0284c7] text-white border-[#0284c7] shadow-xs"
                         : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
@@ -217,7 +217,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                     onClick={() => setFormLanguage(lang.id)}
                     className={`py-1.5 px-3 rounded-lg text-xs font-bold transition-all border ${
                       formLanguage === lang.id
-                        ? "bg-[#1e3a8a] text-white border-[#1e3a8a] shadow-xs"
+                        ? "bg-[#0284c7] text-white border-[#0284c7] shadow-xs"
                         : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
@@ -238,7 +238,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
               value={questionText}
               onChange={(e) => setQuestionText(e.target.value)}
               placeholder={isTa ? "வினாவை உள்ளிடவும்..." : "Enter the question prompt..."}
-              className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:bg-white focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] outline-none transition-all"
+              className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-medium focus:bg-white focus:border-[#0284c7] focus:ring-1 focus:ring-[#0284c7] outline-none transition-all"
             />
           </div>
 
@@ -251,7 +251,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {options.map((opt, idx) => (
                   <div key={idx} className="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200">
-                    <span className="w-6 h-6 rounded-md bg-[#1e3a8a] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                    <span className="w-6 h-6 rounded-md bg-[#0284c7] text-white text-xs font-bold flex items-center justify-center shrink-0">
                       {String.fromCharCode(65 + idx)}
                     </span>
                     <input
@@ -267,13 +267,13 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                       checked={correctOption === opt && opt.length > 0}
                       onChange={() => setCorrectOption(opt)}
                       title={isTa ? "சரியான விடையாக குறிக்கவும்" : "Mark as correct answer"}
-                      className="w-4 h-4 accent-[#1e3a8a] cursor-pointer"
+                      className="w-4 h-4 accent-[#0284c7] cursor-pointer"
                     />
                   </div>
                 ))}
               </div>
               {correctOption && (
-                <div className="text-xs text-[#1e3a8a] font-bold bg-blue-50 p-2 rounded-md border border-blue-200">
+                <div className="text-xs text-[#0284c7] font-bold bg-brand-50 p-2 rounded-md border border-brand-200">
                   ✓ {isTa ? "சரியான விடை:" : "Selected Correct Option:"} <strong>{correctOption}</strong>
                 </div>
               )}
@@ -291,7 +291,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                 value={sampleAnswer}
                 onChange={(e) => setSampleAnswer(e.target.value)}
                 placeholder={isTa ? "மாதிரி விடையை உள்ளிடவும்..." : "Enter textbook sample answer for evaluation comparison..."}
-                className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-sans focus:bg-white focus:border-[#1e3a8a] outline-none transition-all"
+                className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-sans focus:bg-white focus:border-[#0284c7] outline-none transition-all"
               />
             </div>
           )}
@@ -300,7 +300,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
           {category !== "MCQ" && (
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                <Tag size={13} className="text-[#1e3a8a]" />
+                <Tag size={13} className="text-[#0284c7]" />
                 {isTa ? "மதிப்பீட்டு முக்கிய சொற்கள் (Target Evaluation Keywords)" : "Target Evaluation Keywords"}
               </label>
 
@@ -316,12 +316,12 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                     }
                   }}
                   placeholder={isTa ? "முக்கிய சொல்லை உள்ளிட்டு Enter அழுத்தவும்..." : "Type keyword and press Enter..."}
-                  className="flex-1 p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium focus:bg-white focus:border-[#1e3a8a] outline-none"
+                  className="flex-1 p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium focus:bg-white focus:border-[#0284c7] outline-none"
                 />
                 <button
                   type="button"
                   onClick={handleAddKeyword}
-                  className="px-3.5 py-2 bg-[#1e3a8a] hover:bg-[#1e40af] text-white rounded-lg text-xs font-bold transition-colors"
+                  className="px-3.5 py-2 bg-[#0284c7] hover:bg-[#026aa2] text-white rounded-lg text-xs font-bold transition-colors"
                 >
                   {isTa ? "+ சேர்" : "+ Add"}
                 </button>
@@ -333,7 +333,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                   keywords.map((kw, i) => (
                     <span
                       key={i}
-                      className="px-2.5 py-0.5 bg-blue-50 text-[#1e3a8a] border border-blue-200 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-2xs"
+                      className="px-2.5 py-0.5 bg-brand-50 text-[#0284c7] border border-brand-200 rounded-md text-xs font-bold flex items-center gap-1.5 shadow-2xs"
                     >
                       {kw}
                       <button
@@ -359,7 +359,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
             <button
               type="submit"
               disabled={submitting}
-              className="w-full py-2.5 bg-[#1e3a8a] hover:bg-[#1e40af] text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-xs flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+              className="w-full py-2.5 bg-[#0284c7] hover:bg-[#026aa2] text-white font-bold text-xs sm:text-sm rounded-xl transition-all shadow-xs flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -394,8 +394,8 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                 onClick={() => setFilterCategory(cat)}
                 className={`px-3 py-1 rounded-lg text-xs font-bold transition-all border ${
                   filterCategory === cat
-                    ? "bg-[#1e3a8a] text-white border-[#1e3a8a] shadow-xs"
-                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-[#1e3a8a]"
+                    ? "bg-[#0284c7] text-white border-[#0284c7] shadow-xs"
+                    : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-[#0284c7]"
                 }`}
               >
                 {cat}
@@ -406,7 +406,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
 
         {loading ? (
           <div className="py-10 text-center text-slate-400 text-xs flex items-center justify-center gap-2">
-            <RefreshCw size={16} className="animate-spin text-[#1e3a8a]" />
+            <RefreshCw size={16} className="animate-spin text-[#0284c7]" />
             <span>{isTa ? "தரவுகளை ஏற்றுகிறது..." : "Loading question bank data..."}</span>
           </div>
         ) : filteredQuestions.length === 0 ? (
@@ -423,15 +423,15 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="bg-slate-50 border border-slate-200 hover:border-blue-200 rounded-xl p-4 transition-all"
+                  className="bg-slate-50 border border-slate-200 hover:border-brand-200 rounded-xl p-4 transition-all"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-2 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="px-2 py-0.5 bg-[#1e3a8a] text-white text-[10px] font-bold rounded uppercase">
+                        <span className="px-2 py-0.5 bg-[#0284c7] text-white text-[10px] font-bold rounded uppercase">
                           {q.category}
                         </span>
-                        <span className="px-2 py-0.5 bg-blue-50 text-[#1e3a8a] border border-blue-200 text-[10px] font-bold rounded uppercase">
+                        <span className="px-2 py-0.5 bg-brand-50 text-[#0284c7] border border-brand-200 text-[10px] font-bold rounded uppercase">
                           {q.language === "ta" ? "தமிழ்" : q.language === "en" ? "English" : "Bilingual"}
                         </span>
                         <span className="text-[11px] text-slate-500 font-semibold">
@@ -450,7 +450,7 @@ const AdminQuestionManager = ({ language: parentLang = "en", setLanguage: setPar
                               key={i}
                               className={`p-2 rounded-lg text-xs border ${
                                 opt === q.correctOption
-                                  ? "bg-blue-50 border-blue-300 font-bold text-[#1e3a8a]"
+                                  ? "bg-brand-50 border-brand-300 font-bold text-[#0284c7]"
                                   : "bg-white border-slate-200 text-slate-700"
                               }`}
                             >

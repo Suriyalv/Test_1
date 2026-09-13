@@ -223,8 +223,8 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
               onClick={() => setCategory(cat.id)}
               className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all border ${
                 category === cat.id
-                  ? "bg-[#1e3a8a] text-white border-[#1e3a8a] shadow-xs"
-                  : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-[#1e3a8a]"
+                  ? "bg-[#0284c7] text-white border-[#0284c7] shadow-xs"
+                  : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:text-[#0284c7]"
               }`}
             >
               {cat.label}
@@ -236,7 +236,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => changeLang(currentLang === "en" ? "ta" : "en")}
-            className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#1e3a8a] rounded-lg text-xs font-bold transition-all active:scale-95"
+            className="flex items-center gap-1.5 px-3 py-1 bg-brand-50 hover:bg-brand-100 border border-brand-200 text-[#0284c7] rounded-lg text-xs font-bold transition-all active:scale-95"
           >
             <Languages size={14} />
             <span>{currentLang === "en" ? "English (EN)" : "தமிழ் (TA)"}</span>
@@ -247,14 +247,14 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
       {/* Main Question & Answer Interface */}
       {loading ? (
         <div className="bg-white border border-slate-200 rounded-xl p-10 text-center text-slate-500 shadow-xs">
-          <RefreshCw size={20} className="animate-spin text-[#1e3a8a] mx-auto mb-2" />
+          <RefreshCw size={20} className="animate-spin text-[#0284c7] mx-auto mb-2" />
           <p className="font-medium text-xs text-slate-600">
             {isTa ? "வினாக்களை ஏற்றுகிறது..." : "Loading questions..."}
           </p>
         </div>
       ) : questions.length === 0 ? (
         <div className="bg-white border border-slate-200 rounded-xl p-10 text-center text-slate-500 shadow-xs">
-          <BookOpen size={30} className="text-[#1e3a8a] mx-auto mb-2 opacity-70" />
+          <BookOpen size={30} className="text-[#0284c7] mx-auto mb-2 opacity-70" />
           <h3 className="text-sm font-bold text-slate-900 mb-1">
             {isTa ? "வினாக்கள் எதுவும் இல்லை" : "No Questions Available"}
           </h3>
@@ -272,16 +272,16 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
             {/* Header: Category & Counter */}
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 bg-[#1e3a8a] text-white rounded text-[11px] font-bold uppercase">
+                <span className="px-2 py-0.5 bg-[#0284c7] text-white rounded text-[11px] font-bold uppercase">
                   {currentQuestion.category}
                 </span>
-                <span className="text-xs font-semibold text-[#1e3a8a] bg-blue-50 border border-blue-100 px-2 py-0.5 rounded">
+                <span className="text-xs font-semibold text-[#0284c7] bg-brand-50 border border-brand-100 px-2 py-0.5 rounded">
                   {currentQuestion.marks} {isTa ? "மதிப்பெண்" : (currentQuestion.marks === 1 ? "Mark" : "Marks")}
                 </span>
               </div>
 
               <div className="text-xs font-bold text-slate-500">
-                {isTa ? "வினா:" : "Question:"} <span className="text-[#1e3a8a] font-extrabold">{currentIndex + 1}</span> / {questions.length}
+                {isTa ? "வினா:" : "Question:"} <span className="text-[#0284c7] font-extrabold">{currentIndex + 1}</span> / {questions.length}
               </div>
             </div>
 
@@ -306,15 +306,15 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                       onClick={() => setSelectedMcqOption(opt)}
                       className={`p-3 rounded-lg border text-left text-xs font-semibold transition-all flex items-center justify-between ${
                         selectedMcqOption === opt
-                          ? "bg-blue-50 text-[#1e3a8a] border-[#1e3a8a] shadow-xs"
-                          : "bg-white text-slate-800 border-slate-200 hover:border-blue-300"
+                          ? "bg-brand-50 text-[#0284c7] border-[#0284c7] shadow-xs"
+                          : "bg-white text-slate-800 border-slate-200 hover:border-brand-300"
                       }`}
                     >
                       <span className="flex items-center gap-2.5">
                         <span
                           className={`w-6 h-6 rounded text-xs font-bold flex items-center justify-center shrink-0 ${
                             selectedMcqOption === opt
-                              ? "bg-[#1e3a8a] text-white"
+                              ? "bg-[#0284c7] text-white"
                               : "bg-slate-100 text-slate-700"
                           }`}
                         >
@@ -323,7 +323,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                         <span>{opt}</span>
                       </span>
                       {selectedMcqOption === opt && (
-                        <CheckCircle2 size={16} className="text-[#1e3a8a] shrink-0" />
+                        <CheckCircle2 size={16} className="text-[#0284c7] shrink-0" />
                       )}
                     </button>
                   ))}
@@ -352,7 +352,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                       onClick={() => setInputMode("voice")}
                       className={`flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold transition-all ${
                         inputMode === "voice"
-                          ? "bg-[#1e3a8a] text-white shadow-xs"
+                          ? "bg-[#0284c7] text-white shadow-xs"
                           : "text-slate-600"
                       }`}
                     >
@@ -368,7 +368,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                     className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                       isRecording
                         ? "bg-red-600 text-white animate-pulse"
-                        : "bg-blue-50 hover:bg-blue-100 text-[#1e3a8a] border border-blue-200"
+                        : "bg-brand-50 hover:bg-brand-100 text-[#0284c7] border border-brand-200"
                     }`}
                   >
                     {isRecording ? (
@@ -396,7 +396,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                         ? "உங்கள் விடையை இங்கே எழுதவும் அல்லது குரல் மூலம் பேசவும்..."
                         : "Type or speak your answer..."
                     }
-                    className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] outline-none transition-all"
+                    className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#0284c7] focus:ring-1 focus:ring-[#0284c7] outline-none transition-all"
                   />
 
                   {isRecording && (
@@ -436,7 +436,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                 type="button"
                 onClick={handleSubmitAnswer}
                 disabled={evaluating}
-                className="w-full sm:w-auto px-5 py-2 bg-[#1e3a8a] hover:bg-[#1e40af] text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
+                className="w-full sm:w-auto px-5 py-2 bg-[#0284c7] hover:bg-[#026aa2] text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
               >
                 {evaluating ? (
                   <>

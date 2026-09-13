@@ -1,0 +1,214 @@
+{
+  "cards": [
+    {
+      "id": "fc_1001",
+      "deck": "Python Programming",
+      "accent": "blue",
+      "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Functions in Python",
+        "ta": "பைத்தானில் சார்புகள்"
+      },
+      "description": {
+        "en": [
+          "A function is a named block of reusable code that performs one specific task.",
+          "It is defined with the def keyword, followed by the function name and parentheses.",
+          "Values go in as parameters and come back out through the return statement.",
+          "One fix inside a function applies everywhere it is called, so programs stay short and easy to debug."
+        ],
+        "ta": [
+          "சார்பு (Function) என்பது ஒரு குறிப்பிட்ட பணியைச் செய்யும், மீண்டும் பயன்படுத்தக்கூடிய பெயரிடப்பட்ட நிரல் தொகுதி ஆகும்.",
+          "def என்ற முக்கியச் சொல், சார்பின் பெயர், அடைப்புக்குறிகள் ஆகியவற்றுடன் இது வரையறுக்கப்படுகிறது.",
+          "அளபுருக்கள் (Parameters) வழியாக மதிப்புகள் உள்ளே செல்கின்றன; return வழியாக விடை வெளியே வருகிறது.",
+          "சார்பினுள் ஒரு முறை செய்யும் திருத்தம், அது அழைக்கப்படும் எல்லா இடங்களிலும் பொருந்தும்."
+        ]
+      },
+      "createdAt": "2026-01-05T09:00:00Z"
+    },
+    {
+      "id": "fc_1002",
+      "deck": "Python Programming",
+      "accent": "violet",
+      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Control Structures",
+        "ta": "கட்டுப்பாட்டு கட்டமைப்புகள்"
+      },
+      "description": {
+        "en": [
+          "Control structures decide the order in which statements run.",
+          "Sequential: statements execute top to bottom, one after another.",
+          "Alternative (branching): if, if-else and if-elif-else pick a path based on a condition.",
+          "Iterative (looping): for and while repeat a block until the condition turns false."
+        ],
+        "ta": [
+          "நிரல் கூற்றுகள் எந்த வரிசையில் இயங்க வேண்டும் என்பதைத் தீர்மானிப்பவை கட்டுப்பாட்டு கட்டமைப்புகள்.",
+          "வரிசை முறை: கூற்றுகள் மேலிருந்து கீழாக ஒன்றன்பின் ஒன்றாக இயங்கும்.",
+          "மாற்று (கிளை) முறை: if, if-else, if-elif-else ஒரு நிபந்தனையின் அடிப்படையில் பாதையைத் தேர்வு செய்யும்.",
+          "மீள்செயல் (சுழற்சி) முறை: for மற்றும் while நிபந்தனை பொய்யாகும் வரை தொகுதியை மீண்டும் இயக்கும்."
+        ]
+      },
+      "createdAt": "2026-01-05T09:05:00Z"
+    },
+    {
+      "id": "fc_1003",
+      "deck": "Data Structures",
+      "accent": "emerald",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "List vs Tuple",
+        "ta": "பட்டியல் மற்றும் டியூப்பிள்"
+      },
+      "description": {
+        "en": [
+          "Both hold an ordered collection of items and support indexing.",
+          "A list is mutable and written with square brackets.",
+          "A tuple is immutable and written with parentheses.",
+          "Lists allow append, insert and remove; a tuple cannot change after it is created.",
+          "Being immutable makes tuples faster and safe to use as dictionary keys."
+        ],
+        "ta": [
+          "இரண்டுமே வரிசைப்படுத்தப்பட்ட உறுப்புகளின் தொகுப்பைச் சேமித்து, குறியீட்டு அணுகலை (Indexing) அனுமதிக்கின்றன.",
+          "பட்டியல் (List) மாற்றக்கூடியது; சதுர அடைப்புக்குறிகளில் எழுதப்படுகிறது.",
+          "டியூப்பிள் (Tuple) மாற்ற முடியாதது; வளைவு அடைப்புக்குறிகளில் எழுதப்படுகிறது.",
+          "பட்டியலில் append, insert, remove செய்யலாம்; டியூப்பிளை உருவாக்கிய பின் மாற்ற முடியாது.",
+          "மாற்ற முடியாத தன்மையால் டியூப்பிள் வேகமானது; அகராதி விசைகளாகவும் பயன்படுத்தலாம்."
+        ]
+      },
+      "createdAt": "2026-01-05T09:10:00Z"
+    },
+    {
+      "id": "fc_1004",
+      "deck": "Algorithms",
+      "accent": "amber",
+      "image": "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Bubble Sort",
+        "ta": "குமிழி வரிசையாக்கம்"
+      },
+      "description": {
+        "en": [
+          "Compares each pair of adjacent elements and swaps them when they are out of order.",
+          "After every pass the largest remaining value bubbles to the end of the list.",
+          "The passes repeat until a complete pass needs no swaps at all.",
+          "It is simple to write and understand, which makes it a good teaching example.",
+          "Time complexity is O(n^2), so it suits only small data sets."
+        ],
+        "ta": [
+          "அருகருகே உள்ள ஒவ்வொரு ஜோடி உறுப்புகளையும் ஒப்பிட்டு, வரிசை தவறாக இருந்தால் இடமாற்றம் செய்கிறது.",
+          "ஒவ்வொரு சுற்று முடிவிலும் மிகப்பெரிய மதிப்பு பட்டியலின் இறுதிக்குச் செல்கிறது.",
+          "எந்த இடமாற்றமும் தேவைப்படாத ஒரு முழுச் சுற்று வரும் வரை சுற்றுகள் தொடர்கின்றன.",
+          "எழுதவும் புரிந்துகொள்ளவும் எளிது என்பதால் கற்பித்தலுக்கு ஏற்ற எடுத்துக்காட்டு.",
+          "கால சிக்கலான்மை O(n^2) என்பதால் சிறிய தரவுத் தொகுப்புகளுக்கு மட்டுமே ஏற்றது."
+        ]
+      },
+      "createdAt": "2026-01-05T09:15:00Z"
+    },
+    {
+      "id": "fc_1005",
+      "deck": "Database & SQL",
+      "accent": "rose",
+      "image": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Primary Key vs Foreign Key",
+        "ta": "முதன்மைச் சாவி மற்றும் வெளிச் சாவி"
+      },
+      "description": {
+        "en": [
+          "A primary key uniquely identifies every row in a table.",
+          "It can never hold a null value and never repeats.",
+          "A foreign key is a column that refers to the primary key of another table.",
+          "Foreign keys are what link two tables together.",
+          "They enforce referential integrity, so a row cannot point at a parent that does not exist."
+        ],
+        "ta": [
+          "முதன்மைச் சாவி (Primary Key) ஒரு அட்டவணையின் ஒவ்வொரு வரிசையையும் தனித்துவமாக அடையாளம் காட்டுகிறது.",
+          "இது வெறுமையாக (Null) இருக்கவோ மீண்டும் வரவோ கூடாது.",
+          "வெளிச் சாவி (Foreign Key) என்பது மற்றொரு அட்டவணையின் முதன்மைச் சாவியைக் குறிக்கும் நெடுவரிசை.",
+          "இரு அட்டவணைகளை இணைப்பது வெளிச் சாவியே.",
+          "இது குறிப்பு ஒருமைப்பாட்டை உறுதி செய்வதால், இல்லாத ஒரு வரிசையைச் சுட்ட முடியாது."
+        ]
+      },
+      "createdAt": "2026-01-05T09:20:00Z"
+    },
+    {
+      "id": "fc_1006",
+      "deck": "Database & SQL",
+      "accent": "cyan",
+      "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Why DBMS over File Systems",
+        "ta": "கோப்பு முறைக்கு மேலான DBMS"
+      },
+      "description": {
+        "en": [
+          "A file system stores data in separate files with no shared structure.",
+          "That leads to duplicated data and inconsistent records.",
+          "A DBMS keeps data in one controlled store with defined relationships.",
+          "It adds data independence, security controls, and backup and recovery.",
+          "Many users can work at once, and a query language returns exactly the rows needed."
+        ],
+        "ta": [
+          "கோப்பு முறை (File System) தரவைப் பொதுவான அமைப்பு இல்லாத தனித்தனி கோப்புகளில் சேமிக்கிறது.",
+          "இதனால் தரவு நகல் ஏற்பட்டு, பதிவுகளில் முரண்பாடு உருவாகிறது.",
+          "DBMS தரவை வரையறுக்கப்பட்ட உறவுகளுடன் ஒரே கட்டுப்பாட்டுக் களஞ்சியத்தில் வைத்திருக்கிறது.",
+          "தரவு சார்பின்மை, பாதுகாப்புக் கட்டுப்பாடுகள், காப்புப்பிரதி மற்றும் மீட்டெடுப்பு ஆகியவற்றை வழங்குகிறது.",
+          "பலர் ஒரே நேரத்தில் பணியாற்றலாம்; வினவு மொழி தேவையான வரிசைகளை மட்டும் திருப்பித் தருகிறது."
+        ]
+      },
+      "createdAt": "2026-01-05T09:25:00Z"
+    },
+    {
+      "id": "fc_1007",
+      "deck": "Computer Science Basics",
+      "accent": "indigo",
+      "image": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Abstraction",
+        "ta": "சுருக்கமாக்கல்"
+      },
+      "description": {
+        "en": [
+          "Abstraction shows only the essential features of something and hides the inner details.",
+          "Calling a built-in function needs its name and arguments, not the code inside it.",
+          "It lets a programmer reason about a large system one layer at a time.",
+          "The same idea drives functions, classes and modules."
+        ],
+        "ta": [
+          "சுருக்கமாக்கல் (Abstraction) அத்தியாவசியப் பண்புகளை மட்டும் காட்டி, உள் விவரங்களை மறைக்கிறது.",
+          "ஒரு உள்ளமைந்த சார்பை அழைக்க அதன் பெயரும் அளபுருக்களும் போதும்; உள்ளே உள்ள நிரல் தேவையில்லை.",
+          "ஒரு பெரிய அமைப்பை அடுக்கு அடுக்காகப் புரிந்துகொள்ள இது உதவுகிறது.",
+          "சார்புகள், வகுப்புகள், தொகுதிகள் அனைத்தும் இதே கருத்தை அடிப்படையாகக் கொண்டவை."
+        ]
+      },
+      "createdAt": "2026-01-05T09:30:00Z"
+    },
+    {
+      "id": "fc_1008",
+      "deck": "Computer Science Basics",
+      "accent": "teal",
+      "image": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=70",
+      "title": {
+        "en": "Scope of a Variable",
+        "ta": "மாறியின் நோக்கெல்லை"
+      },
+      "description": {
+        "en": [
+          "Scope is the region of a program where a name is visible and usable.",
+          "Python resolves names by the LEGB rule: Local, Enclosing, Global, then Built-in.",
+          "A variable created inside a function is local to it.",
+          "That local variable disappears as soon as the function returns.",
+          "Declaring it global lets the function change a module-level variable instead."
+        ],
+        "ta": [
+          "நோக்கெல்லை (Scope) என்பது ஒரு நிரலில் ஒரு பெயர் தெரியக்கூடிய, பயன்படுத்தக்கூடிய பகுதி.",
+          "பைத்தான் LEGB விதிப்படி பெயர்களைக் கண்டறிகிறது: Local, Enclosing, Global, பின்னர் Built-in.",
+          "ஒரு சார்புக்குள் உருவாக்கப்படும் மாறி அந்தச் சார்புக்கு மட்டுமே உரியது.",
+          "சார்பு முடிந்ததும் அந்த உள்ளூர் மாறி மறைந்துவிடும்.",
+          "global எனச் சொன்னால், தொகுதி நிலை மாறியை அந்தச் சார்பு மாற்ற முடியும்."
+        ]
+      },
+      "createdAt": "2026-01-05T09:35:00Z"
+    }
+  ]
+}

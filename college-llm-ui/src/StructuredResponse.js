@@ -55,13 +55,13 @@ const StructuredResponse = ({ text }) => {
                 return <CodeBlock language="text" content={content} />;
             }
             return (
-                <code className="bg-slate-100 text-tngov-green-800 border border-slate-200 px-1.5 py-0.5 rounded text-xs font-mono font-semibold" {...props}>
+                <code className="bg-brand-50 text-brand-700 border border-brand-100 px-1.5 py-0.5 rounded text-xs font-mono font-semibold" {...props}>
                     {children}
                 </code>
             );
         },
         table: ({ children }) => (
-            <div className="my-4 overflow-hidden rounded-xl border border-slate-200 shadow-xs">
+            <div className="my-4 overflow-hidden rounded-2xl border border-brand-100 shadow-sm">
                 <div className="overflow-x-auto">
                     <table className="w-full text-xs sm:text-sm text-left border-collapse">
                         {children}
@@ -69,38 +69,38 @@ const StructuredResponse = ({ text }) => {
                 </div>
             </div>
         ),
-        thead: ({ children }) => <thead className="bg-tngov-green-50/70 border-b border-tngov-green-200">{children}</thead>,
+        thead: ({ children }) => <thead className="bg-brand-50/70 border-b border-brand-200">{children}</thead>,
         th: ({ children }) => (
-            <th className="px-4 py-2.5 font-bold text-tngov-green-900 uppercase tracking-wider text-[11px]">
+            <th className="px-4 py-2.5 font-bold text-brand-700 uppercase tracking-wider text-[11px]">
                 {children}
             </th>
         ),
         td: ({ children }) => (
-            <td className="px-4 py-2.5 border-b border-slate-100 text-slate-800 transition-colors hover:bg-slate-50">
+            <td className="px-4 py-2.5 border-b border-slate-100 text-slate-800 transition-colors hover:bg-brand-50/40">
                 {children}
             </td>
         ),
-        h1: ({ children }) => <h1 className="text-xl sm:text-2xl font-extrabold mt-6 mb-3 text-tngov-green-900 tracking-tight border-b pb-1.5 border-tngov-green-100">{children}</h1>,
-        h2: ({ children }) => <h2 className="text-lg sm:text-xl font-bold mt-5 mb-2.5 text-tngov-green-800 tracking-tight flex items-center gap-2">
-            <span className="h-4 w-1 rounded-full bg-tngov-green-600 inline-block"></span>
+        h1: ({ children }) => <h1 className="text-xl sm:text-2xl font-extrabold mt-6 mb-3 text-brand-700 tracking-tight border-b pb-1.5 border-brand-100 font-display">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-lg sm:text-xl font-bold mt-5 mb-2.5 text-cyan-700 tracking-tight flex items-center gap-2 font-display">
+            <span className="h-4 w-1 rounded-full bg-gradient-to-b from-brand-500 to-cyan-500 inline-block"></span>
             {children}
         </h2>,
-        h3: ({ children }) => <h3 className="text-base sm:text-lg font-bold mt-4 mb-2 text-slate-900 tracking-tight">{children}</h3>,
+        h3: ({ children }) => <h3 className="text-base sm:text-lg font-bold mt-4 mb-2 text-slate-900 tracking-tight font-display">{children}</h3>,
         p: ({ children }) => <p className="leading-relaxed mb-3 text-slate-800 last:mb-0">{children}</p>,
         ul: ({ children }) => <ul className="space-y-1.5 mb-3.5 list-none pl-1">{children}</ul>,
         ol: ({ children }) => <ol className="space-y-1.5 mb-3.5 list-decimal pl-5 text-slate-800">{children}</ol>,
         li: ({ children }) => (
             <li className="flex gap-2 text-slate-800 leading-relaxed">
-                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-tngov-green-600 shrink-0"></span>
+                <span className="mt-2 h-1.5 w-1.5 rounded-full bg-gradient-to-br from-brand-500 to-cyan-400 shrink-0"></span>
                 <span className="flex-1">{children}</span>
             </li>
         ),
         blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-tngov-green-600 bg-tngov-green-50/50 px-4 py-2.5 my-3.5 italic text-tngov-green-900 rounded-r-lg">
+            <blockquote className="border-l-4 border-brand-500 bg-brand-50/50 px-4 py-2.5 my-3.5 italic text-brand-700 rounded-r-lg">
                 {children}
             </blockquote>
         ),
-        hr: () => <hr className="my-6 border-t border-slate-200" />,
+        hr: () => <hr className="my-6 border-t border-brand-100" />,
     }), []);
 
     return (

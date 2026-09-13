@@ -106,20 +106,20 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 z-30">
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-brand-100 px-4 py-3 z-30">
             <div className="max-w-4xl mx-auto flex flex-col gap-2">
-                
+
                 {/* Subject Selector & Mic Indicator */}
                 <div className="flex items-center justify-between gap-2 text-xs">
                     <div className="flex items-center gap-1.5 text-slate-600">
-                        <BookOpen size={13} className="text-[#1e3a8a]" />
+                        <BookOpen size={13} className="text-brand-600" />
                         <span className="font-semibold text-[11px] text-slate-500">
                             {language === "ta" ? "பாடம்:" : "Subject:"}
                         </span>
                         <select
                             value={selectedSubject}
                             onChange={(e) => setSelectedSubject(e.target.value)}
-                            className="bg-slate-100 text-slate-800 text-xs rounded-md border border-slate-200 focus:border-[#1e3a8a] px-2 py-0.5 outline-none cursor-pointer"
+                            className="bg-brand-50 text-slate-800 text-xs rounded-full border border-brand-200 focus:border-brand-500 px-2.5 py-1 outline-none cursor-pointer font-medium"
                         >
                             <option value="">{language === "ta" ? "அனைத்து பாடங்கள் (General)" : "General Academic"}</option>
                             {subjects.map(sub => (
@@ -147,7 +147,7 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
                         placeholder={language === "ta"
                             ? "உங்கள் கேள்வியை இங்கே தட்டச்சு செய்யவும் அல்லது பேசவும்..."
                             : "Ask any subject question or use voice..."}
-                        className="w-full pl-4 pr-24 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] text-sm font-medium transition-all"
+                        className="w-full pl-4 pr-24 py-3 bg-brand-50/60 border-2 border-brand-200 rounded-full text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm font-medium transition-all"
                     />
 
                     {/* Action Controls */}
@@ -159,10 +159,10 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
                                 disabled={loading}
                                 type="button"
                                 title={isListening ? "Stop" : "Voice Input"}
-                                className={`p-2 rounded-lg transition-all ${
+                                className={`p-2 rounded-full transition-all ${
                                     isListening
                                         ? "bg-red-600 text-white animate-pulse"
-                                        : "text-slate-500 hover:bg-slate-200 hover:text-[#1e3a8a]"
+                                        : "text-slate-500 hover:bg-brand-100 hover:text-brand-600"
                                 }`}
                             >
                                 {isListening ? <MicOff size={16} /> : <Mic size={16} />}
@@ -174,7 +174,7 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
                             onClick={handleSend}
                             disabled={!input.trim() || loading}
                             type="button"
-                            className="p-2 sm:px-3 sm:py-2 bg-[#1e3a8a] hover:bg-[#1e40af] text-white rounded-lg disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1.5 text-xs font-semibold shadow-xs"
+                            className="p-2 sm:px-3.5 sm:py-2 bg-gradient-to-r from-brand-600 to-cyan-600 hover:brightness-110 text-white rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1.5 text-xs font-semibold shadow-pop active:scale-95"
                             title="Send"
                         >
                             {loading ? (

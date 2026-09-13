@@ -1,0 +1,484 @@
+{
+  "lessons": [
+    {
+      "id": "gauss-law-electric-flux",
+      "youtube_id": "3RnFjMhgvrY",
+      "source_url": "https://youtu.be/3RnFjMhgvrY",
+      "duration": 490,
+      "content_end": 466.2,
+      "title": {
+        "en": "Super Simple Explanation of Electric Flux and Gauss's Law",
+        "ta": "மின்புலப் பெருக்கம் மற்றும் காஸ் விதி — எளிய விளக்கம்"
+      },
+      "subject": {
+        "en": "Physics · Electrostatics",
+        "ta": "இயற்பியல் · நிலைமின்இயல்"
+      },
+      "description": {
+        "en": "Build Gauss's law up from scratch: electric field lines, electric flux, flux through a closed surface, the surface-integral form, the law itself, and its derivation for a point charge.",
+        "ta": "மின்புலக் கள கோடுகள் முதல் காஸ் விதியின் நிரூபணம் வரை படிப்படியாகக் கற்கலாம்."
+      },
+      "concepts": [
+        {
+          "id": "field-lines",
+          "index": 0,
+          "title": {
+            "en": "Electric Field Lines",
+            "ta": "மின்புலக் கள கோடுகள்"
+          },
+          "start": 0.0,
+          "end": 104.8,
+          "pause_at": 104.4,
+          "transcript": "Before introducing Gauss law, you need to understand these two things: electric field lines and electric flux. Okay, imagine you have a charge, say a small point carrying electric charge Q. We know that other charges around this charge either get pushed away or pulled toward it because of the electric force, right? But how do we see or imagine that invisible influence? That's where electric field lines come in. Electric field lines are like imaginary arrows we draw in space to show the direction and strength of the electric force that a positive test charge would feel if placed there. For example, around a single positive charge, the electric field lines spread out evenly in all directions like rays from the sun, showing that the force pushes other positive charges away equally in every direction. Similarly, around a negative charge, the electric field lines all point inward toward the charge, showing that it pulls positive charges toward itself from every direction. We use the letter E to represent its strength. Now, when you see field lines packed closely together like this, it means the strength of E there is large. And when the lines are spread out like this, the strength of E is small. So, these lines don't really exist physically as they're just a visual tool to help us understand where the electric force points and where it is strong or weak. Note that this electric field is a vector as it has both magnitude and a direction.",
+          "key_points": {
+            "en": [
+              "Field lines are imaginary arrows showing the direction and strength of the force a positive test charge would feel.",
+              "Lines spread outward from a positive charge and point inward toward a negative charge.",
+              "Closely packed lines mean E is large; widely spread lines mean E is small.",
+              "The electric field E is a vector — it has both magnitude and direction."
+            ],
+            "ta": [
+              "கள கோடுகள் என்பது நேர்மின்னூட்டம் உணரும் விசையின் திசை மற்றும் தீவிரத்தைக் காட்டும் கற்பனை அம்புகள்.",
+              "நேர்மின்னூட்டத்திலிருந்து வெளியே விரியும்; எதிர்மின்னூட்டத்தை நோக்கி உள்நோக்கிச் செல்லும்.",
+              "கோடுகள் நெருக்கமாக இருந்தால் E அதிகம்; விரிந்திருந்தால் E குறைவு.",
+              "மின்புலம் E ஒரு வெக்டர் (பரிமாணம் + திசை)."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "Around a single isolated NEGATIVE charge, how are the electric field lines drawn?",
+                "options": [
+                  "Spreading outward in all directions",
+                  "Pointing inward, toward the charge",
+                  "In closed loops circling around the charge",
+                  "Parallel to one another in a single fixed direction"
+                ],
+                "answer": 1,
+                "explanation": "A negative charge pulls a positive test charge toward itself from every direction, so the field lines point inward. Only a positive charge has lines spreading outward like rays from the sun."
+              },
+              {
+                "question": "In a region where the electric field lines are packed very closely together, the strength of E is:",
+                "options": [
+                  "Large",
+                  "Small",
+                  "Exactly zero",
+                  "Impossible to judge from the lines"
+                ],
+                "answer": 0,
+                "explanation": "The spacing of the lines is the visual code for field strength: closely packed lines mean E is large there, while widely spread lines mean E is small."
+              }
+            ],
+            "ta": [
+              {
+                "question": "ஒரு தனி எதிர்மின்னூட்டத்தைச் சுற்றியுள்ள மின்புலக் கள கோடுகள் எந்தத் திசையில் இருக்கும்?",
+                "options": [
+                  "எல்லாத் திசைகளிலும் வெளியே விரிந்து",
+                  "மின்னூட்டத்தை நோக்கி உள்நோக்கி",
+                  "மூடிய வட்டங்களாக",
+                  "ஒரே திசையில் இணையாக"
+                ],
+                "answer": 1,
+                "explanation": "எதிர்மின்னூட்டம் நேர்மின்னூட்டத்தைத் தன்னை நோக்கி இழுப்பதால், கள கோடுகள் உள்நோக்கிச் செல்கின்றன."
+              },
+              {
+                "question": "மின்புலக் கள கோடுகள் மிக நெருக்கமாக உள்ள இடத்தில் E இன் தீவிரம்:",
+                "options": [
+                  "அதிகம்",
+                  "குறைவு",
+                  "சுழியம்",
+                  "எதிர்மறை"
+                ],
+                "answer": 0,
+                "explanation": "கோடுகளின் அடர்த்தியே புலத் தீவிரத்தைக் காட்டுகிறது: நெருக்கம் = அதிக E."
+              }
+            ]
+          }
+        },
+        {
+          "id": "electric-flux",
+          "index": 1,
+          "title": {
+            "en": "Electric Flux and What It Depends On",
+            "ta": "மின்புலப் பெருக்கம் (Electric Flux)"
+          },
+          "start": 104.8,
+          "end": 189.3,
+          "pause_at": 188.9,
+          "transcript": "Now, electric flux, which we represent using this symbol phi with subscript E, denoting it's an electric flux, is a number that you get when you count how many of those field line arrows pass through a surface. Imagine you have a flat sheet and 10 straight arrows representing the electric field lines pointing toward it. If the sheet is held perpendicular to the arrows, all 10 arrows pass straight through, so the flux is 10 units. Now, if you tilt the sheet so it is at 45 degrees to the arrows, fewer arrows pass directly through it. Say only about five arrows effectively go through and so the flux is smaller, about five units. Now, if you turn the sheet parallel to the arrows, none will pass through it, and the flux is zero. Also, imagine the same 10 arrows pointing toward a small square sheet. Maybe only four arrows pass through because the sheet is small. Now, replace it with a sheet twice as big in the same position. Now, eight arrows might pass through it, so the flux is larger. Hence, electric flux depends on three things: the number of field lines or the strength of the electric field, then the angle between the field lines and the sheet, and the area of the sheet.",
+          "key_points": {
+            "en": [
+              "Electric flux (symbol Φ_E) counts how many field lines pass through a surface.",
+              "Sheet perpendicular to the lines: all lines pass through, flux is maximum.",
+              "Sheet tilted at 45 degrees: fewer lines pass through, flux is smaller.",
+              "Sheet parallel to the lines: no lines pass through, flux is zero.",
+              "Flux depends on three things: field strength E, the angle between field and sheet, and the area of the sheet."
+            ],
+            "ta": [
+              "மின்புலப் பெருக்கம் (Φ_E) என்பது ஒரு பரப்பைக் கடக்கும் கள கோடுகளின் எண்ணிக்கை.",
+              "பரப்பு கோடுகளுக்குச் செங்குத்தாக இருந்தால் பெருக்கம் அதிகபட்சம்.",
+              "45 டிகிரி சாய்வானால் பெருக்கம் குறைகிறது.",
+              "பரப்பு கோடுகளுக்குச் சமநிலையாக இருந்தால் பெருக்கம் சுழியம்.",
+              "பெருக்கம் மூன்றைச் சார்ந்தது: புலத் தீவிரம் E, கோணம், பரப்பளவு."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "A flat sheet is turned so that it lies PARALLEL to the electric field lines. What is the electric flux through it?",
+                "options": [
+                  "Maximum, because the sheet faces the lines",
+                  "Exactly half of the maximum value",
+                  "Zero, because no lines pass through it",
+                  "Doubled, because the sheet now looks longer"
+                ],
+                "answer": 2,
+                "explanation": "When the sheet is parallel to the arrows, the lines skim along it and none actually cross it, so the flux is zero. Flux is maximum only when the sheet is held perpendicular to the lines."
+              },
+              {
+                "question": "Electric flux through a flat sheet depends on which THREE quantities?",
+                "options": [
+                  "Charge, mass and distance",
+                  "The strength of E, the angle between the field and the sheet, and the area of the sheet",
+                  "Voltage, current and resistance",
+                  "Only the area of the sheet"
+                ],
+                "answer": 1,
+                "explanation": "More field lines (larger E), a smaller tilt angle, and a larger sheet each let more lines through — so all three together decide the flux."
+              }
+            ],
+            "ta": [
+              {
+                "question": "ஒரு தட்டையான தகடு மின்புலக் கள கோடுகளுக்குச் சமநிலையாக (parallel) வைக்கப்பட்டால், அதன் வழியே செல்லும் பெருக்கம் என்ன?",
+                "options": [
+                  "அதிகபட்சம்",
+                  "சரியாகப் பாதி",
+                  "சுழியம்",
+                  "இரட்டிப்பாகும்"
+                ],
+                "answer": 2,
+                "explanation": "சமநிலையில் எந்தக் கோடும் தகடைக் கடக்காததால் பெருக்கம் சுழியம்."
+              },
+              {
+                "question": "மின்புலப் பெருக்கம் எந்த மூன்றைச் சார்ந்தது?",
+                "options": [
+                  "மின்னூட்டம், நிறை, தூரம்",
+                  "புலத் தீவிரம் E, கோணம், பரப்பளவு",
+                  "மின்னழுத்தம், மின்னோட்டம், மின்தடை",
+                  "பரப்பளவு மட்டும்"
+                ],
+                "answer": 1,
+                "explanation": "அதிக கோடுகள் (அதிக E), குறைந்த சாய்வு, பெரிய பரப்பளவு — மூன்றும் பெருக்கத்தை அதிகரிக்கின்றன."
+              }
+            ]
+          }
+        },
+        {
+          "id": "closed-surface",
+          "index": 2,
+          "title": {
+            "en": "Flux Through a Closed Surface",
+            "ta": "மூடிய பரப்பின் வழியே பெருக்கம்"
+          },
+          "start": 189.3,
+          "end": 215.0,
+          "pause_at": 214.6,
+          "transcript": "Now, think of a closed surface like a football surrounding some charges. Electric flux through this surface measures the net number of field lines passing out of this surface. If more arrows leave the football than the ones that enter it, we say the flux is positive. If more arrows enter than leave the surface, we say the flux is negative.",
+          "key_points": {
+            "en": [
+              "For a closed surface (like a football around some charges), flux measures the NET number of lines passing out.",
+              "If more lines leave than enter, the flux is positive.",
+              "If more lines enter than leave, the flux is negative."
+            ],
+            "ta": [
+              "மூடிய பரப்பில் பெருக்கம் என்பது வெளியே செல்லும் கோடுகளின் நிகர எண்ணிக்கை.",
+              "வெளியே செல்வது அதிகம் எனில் பெருக்கம் நேர்மறை.",
+              "உள்ளே நுழைவது அதிகம் எனில் பெருக்கம் எதிர்மறை."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "The electric flux through a closed surface is said to be NEGATIVE when:",
+                "options": [
+                  "More field lines leave the surface than enter it",
+                  "More field lines enter the surface than leave it",
+                  "No field lines cross the surface at all",
+                  "The closed surface happens to be a sphere"
+                ],
+                "answer": 1,
+                "explanation": "Flux through a closed surface is the net count of lines going out. When more lines enter than leave, that net count comes out negative."
+              },
+              {
+                "question": "For a closed surface such as a football surrounding some charges, the electric flux measures:",
+                "options": [
+                  "The net number of field lines passing OUT of the surface",
+                  "The total surface area of the football",
+                  "How fast the charges inside are moving",
+                  "Only the lines that enter the surface"
+                ],
+                "answer": 0,
+                "explanation": "Flux through a closed surface is the net outward count: lines leaving minus lines entering."
+              }
+            ],
+            "ta": [
+              {
+                "question": "ஒரு மூடிய பரப்பின் வழியே செல்லும் பெருக்கம் எப்போது எதிர்மறையாக இருக்கும்?",
+                "options": [
+                  "வெளியேச் செல்லும் கோடுகள் அதிகமாக இருக்கும்போது",
+                  "உள்ளே நுழையும் கோடுகள் அதிகமாக இருக்கும்போது",
+                  "எந்தக் கோடும் கடக்காதபோது",
+                  "பரப்பு கோளமாக இருக்கும்போது"
+                ],
+                "answer": 1,
+                "explanation": "வெளியே செல்வதை விட உள்ளே நுழைவது அதிகமானால் நிகர பெருக்கம் எதிர்மறை."
+              },
+              {
+                "question": "மின்னூட்டங்களைச் சூழ்ந்துள்ள ஒரு மூடிய பரப்பின் பெருக்கம் எதை அளக்கிறது?",
+                "options": [
+                  "பரப்பிலிருந்து வெளியே செல்லும் கோடுகளின் நிகர எண்ணிக்கை",
+                  "பரப்பின் மொத்தப் பரப்பளவு",
+                  "உள்ளே உள்ள மின்னூட்டங்களின் வேகம்",
+                  "உள்நுழையும் கோடுகள் மட்டும்"
+                ],
+                "answer": 0,
+                "explanation": "வெளியே செல்வதிலிருந்து உள்நுழைவதைக் கழித்தால் கிடைப்பதே நிகரப் பெருக்கம்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "flux-integral",
+          "index": 3,
+          "title": {
+            "en": "Flux as a Closed Surface Integral",
+            "ta": "பெருக்கம் — மூடிய பரப்புத் தொகையீடு"
+          },
+          "start": 215.0,
+          "end": 295.0,
+          "pause_at": 294.6,
+          "transcript": "Electric flux through a surface can also be described mathematically using the idea of a closed integral. Imagine the surface is made of many tiny patches, and through each patch, some electric field lines pass. For each tiny patch, the flux is calculated as the electric field E at that patch multiplied by the area of the patch DS, and also multiplied by the cos of the angle between the field and the patch, say cos theta. This tells us how much of the field actually goes through that tiny patch. Now, to get the total flux through the entire closed surface, we add up the contributions from all the tiny patches. In math language, this adding up is written as a closed surface integral of vector E dot with vector DS. Here, the small area of each patch is itself a vector DS that points perpendicular to the surface at that patch like this. Then, the dot product between two vectors here automatically takes care of the angle between the field and the patch. So, this way, flux helps convert the field lines, which is a vector, into a single number that measures how much electric field actually passes through a surface.",
+          "key_points": {
+            "en": [
+              "The surface is imagined as many tiny patches; each patch contributes E × dS × cos θ to the flux.",
+              "Total flux is the closed surface integral of vector E dotted with vector dS.",
+              "The area element dS is itself a vector pointing perpendicular to the surface at that patch.",
+              "The dot product automatically takes care of the angle between the field and the patch.",
+              "Flux converts a vector field into a single number."
+            ],
+            "ta": [
+              "பரப்பை பல சிறு துண்டுகளாகக் கருதுக; ஒவ்வொன்றின் பெருக்கம் = E × dS × cos θ.",
+              "மொத்தப் பெருக்கம் = மூடிய பரப்புத் தொகையீடு ∮E·dS.",
+              "dS ஒரு வெக்டர்; அது அந்தத் துண்டில் பரப்பிற்குச் செங்குத்தாகச் சுட்டுகிறது.",
+              "புள்ளிப் பெருக்கல் கோணத்தைத் தானாகவே கணக்கில் எடுக்கிறது."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "For one tiny patch of a surface, how is the electric flux through that patch calculated?",
+                "options": [
+                  "E + dS",
+                  "E × dS × cos θ",
+                  "E ÷ dS",
+                  "E × dS × sin θ"
+                ],
+                "answer": 1,
+                "explanation": "Each patch contributes the field E times the patch area dS times cos θ, where θ is the angle between the field and the patch."
+              },
+              {
+                "question": "The area element dS of a tiny patch is itself a vector. Which way does it point?",
+                "options": [
+                  "Always along the electric field",
+                  "Perpendicular to the surface at that patch",
+                  "Tangentially, lying flat along the surface",
+                  "Always straight toward the enclosed charge"
+                ],
+                "answer": 1,
+                "explanation": "dS points perpendicular to the surface at that patch. That is exactly why the dot product E·dS automatically accounts for the tilt angle."
+              }
+            ],
+            "ta": [
+              {
+                "question": "ஒரு சிறு துண்டின் வழியே செல்லும் பெருக்கம் எவ்வாறு கணக்கிடப்படுகிறது?",
+                "options": [
+                  "E + dS",
+                  "E × dS × cos θ",
+                  "E ÷ dS",
+                  "E × dS × sin θ"
+                ],
+                "answer": 1,
+                "explanation": "ஒவ்வொரு துண்டிலும் பெருக்கம் = புலம் E × பரப்பளவு dS × cos θ."
+              },
+              {
+                "question": "சிறு துண்டின் பரப்பு வெக்டர் dS எந்தத் திசையில் சுட்டுகிறது?",
+                "options": [
+                  "எப்பொழுதும் புலத்தின் திசையில்",
+                  "அந்தத் துண்டில் பரப்பிற்குச் செங்குத்தாக",
+                  "பரப்புடன் சமநிலையாக",
+                  "எப்பொழுதும் மின்னூட்டத்தை நோக்கி"
+                ],
+                "answer": 1,
+                "explanation": "dS பரப்பிற்குச் செங்குத்தாகச் சுட்டுவதால்தான் E·dS புள்ளிப் பெருக்கல் கோணத்தைக் கவனிக்கிறது."
+              }
+            ]
+          }
+        },
+        {
+          "id": "gauss-law",
+          "index": 4,
+          "title": {
+            "en": "Gauss's Law",
+            "ta": "காஸ் விதி (Gauss's Law)"
+          },
+          "start": 295.0,
+          "end": 366.8,
+          "pause_at": 366.4,
+          "transcript": "Now, you are ready for Gauss's law. Gauss's law links these ideas by saying that the total electric flux through any closed surface depends only on the total charge enclosed by that surface. That is, the total electric flux depends only on the sum of the Q values trapped inside the football and nothing else. The beauty of this law is that it doesn't matter what shape the closed surface has. It could be a sphere, a cube, or even a weird shape like this, as long as it encloses the same total charge Q, the net flux will be the same. This means the law cares only about how much charge is inside, not about how the surface looks on the outside. In mathematical form, the total electric flux equals the sum of the enclosed charge divided by the permittivity of free space or vacuum, which is written as the closed integral of vector E dot vector DS equals Q enclosed divided by epsilon naught. This epsilon naught, also called the permittivity of free space, is just a constant whose value is this.",
+          "key_points": {
+            "en": [
+              "Gauss's law: the total flux through any closed surface depends only on the total charge enclosed.",
+              "The shape of the surface does not matter — a sphere, a cube, or an irregular blob enclosing the same Q all give the same flux.",
+              "Mathematically: ∮E·dS = Q_enclosed / ε₀.",
+              "ε₀ is the permittivity of free space, a constant."
+            ],
+            "ta": [
+              "காஸ் விதி: எந்த மூடிய பரப்பின் மொத்தப் பெருக்கமும் உள்ளடங்கிய மொத்த மின்னூட்டத்தை மட்டுமே சார்ந்தது.",
+              "பரப்பின் வடிவம் (கோளம், கனசதுரம், எந்த வடிவும்) முக்கியமில்லை.",
+              "கணித வடிவம்: ∮E·dS = Q(உள்ளடங்கியது) / ε₀.",
+              "ε₀ என்பது வெற்றிடத்தின் மின்னூடுருவாக்கம் — ஒரு மாறிலி."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "According to Gauss's law, the total electric flux through a closed surface depends ONLY on:",
+                "options": [
+                  "The shape of the closed surface",
+                  "The total charge enclosed by the surface",
+                  "The surface area of the closed surface",
+                  "The charges sitting just outside the surface"
+                ],
+                "answer": 1,
+                "explanation": "Gauss's law says the net flux is decided entirely by the charge trapped inside. A sphere, a cube or an irregular blob enclosing the same Q all give exactly the same flux."
+              },
+              {
+                "question": "Which equation is the correct mathematical statement of Gauss's law?",
+                "options": [
+                  "∮E·dS = Q_enclosed / ε₀",
+                  "∮E·dS = ε₀ / Q_enclosed",
+                  "E = Q / (4πε₀R²)",
+                  "Φ = Q × ε₀"
+                ],
+                "answer": 0,
+                "explanation": "Gauss's law is the closed surface integral ∮E·dS = Q_enclosed/ε₀. The third option is Coulomb's field for a point charge, not Gauss's law itself."
+              }
+            ],
+            "ta": [
+              {
+                "question": "காஸ் விதிப்படி, ஒரு மூடிய பரப்பின் மொத்தப் பெருக்கம் எதை மட்டுமே சார்ந்தது?",
+                "options": [
+                  "பரப்பின் வடிவம்",
+                  "பரப்புக்குள் அடங்கிய மொத்த மின்னூட்டம்",
+                  "பரப்பளவு",
+                  "வெளியே உள்ள மின்னூட்டங்கள்"
+                ],
+                "answer": 1,
+                "explanation": "உள்ளே அடங்கிய மின்னூட்டம் ஒன்றே பெருக்கத்தைத் தீர்மானிக்கிறது; பரப்பின் வடிவம் முக்கியமில்லை."
+              },
+              {
+                "question": "காஸ் விதியின் சரியான கணித வடிவம் எது?",
+                "options": [
+                  "∮E·dS = Q(உள்ளடங்கியது) / ε₀",
+                  "∮E·dS = ε₀ / Q",
+                  "E = Q / (4πε₀R²)",
+                  "Φ = Q × ε₀"
+                ],
+                "answer": 0,
+                "explanation": "மூன்றாவது தேர்வு கூலோம் விதியின் புலம் — காஸ் விதி அல்ல."
+              }
+            ]
+          }
+        },
+        {
+          "id": "point-charge-proof",
+          "index": 5,
+          "title": {
+            "en": "Deriving Gauss's Law for a Point Charge",
+            "ta": "புள்ளி மின்னூட்டத்திற்கான நிரூபணம்"
+          },
+          "start": 366.8,
+          "end": 466.2,
+          "pause_at": 465.8,
+          "transcript": "Now, let's derive Gauss's law for a simple case: a single point charge Q placed at the center of an imaginary sphere of radius R. From Coulomb's law, the electric field due to point charge at any point on the surface of the sphere at distance R has a magnitude equal to 1 divided by 4 pi epsilon naught multiplied by Q divided by R square, and it points radially outward. Here, DS also points perpendicular to the surface, which means radially outward. Since the field strength and direction are the same everywhere on the surface, the flux through one small patch is E multiplied by DS. To find the total flux, we add up the contributions from all patches over the whole sphere. Now, this E is constant for a given radius R, right? So, we can take it out of this integral, and we are left with integral of DS, which is nothing but the surface area of the entire sphere. The total area of the sphere is 4 pi R squared, so total flux equals E multiplied by 4 pi R squared, right? Now, substitute the value of E from Coulomb's law like this. Hey, the pi and R square terms cancel out, leaving total flux equals Q divided by epsilon naught. This simple result shows that for any closed surface enclosing a point charge Q, the total electric flux depends only on the charge inside and not on the size or shape of the surface.",
+          "key_points": {
+            "en": [
+              "Setup: a point charge Q at the centre of an imaginary sphere of radius R.",
+              "From Coulomb's law, E = (1/4πε₀) × Q/R², pointing radially outward.",
+              "E and dS are both radially outward, and E has the same value everywhere on the sphere, so E can be pulled out of the integral.",
+              "The remaining ∮dS is the sphere's surface area, 4πR².",
+              "Total flux = E × 4πR²; the 4π and R² cancel, leaving flux = Q/ε₀."
+            ],
+            "ta": [
+              "ஆரம்: ஆரம் R உள்ள கற்பனைக் கோளத்தின் மையத்தில் புள்ளி மின்னூட்டம் Q.",
+              "கூலோம் விதிப்படி E = (1/4πε₀) × Q/R², ஆரத் திசையில் வெளிநோக்கி.",
+              "பரப்பு முழுவதும் E ஒரே மதிப்பு என்பதால் அதைத் தொகையீட்டிலிருந்து வெளியே எடுக்கலாம்.",
+              "மீதமுள்ள ∮dS = கோளத்தின் பரப்பளவு = 4πR².",
+              "மொத்தப் பெருக்கம் = E × 4πR²; 4π, R² நீங்கி Q/ε₀ கிடைக்கிறது."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "In the derivation, once E is taken outside the integral, the remaining ∮dS over the whole sphere equals:",
+                "options": [
+                  "4πR², the surface area of the sphere",
+                  "πR², the area of a circle",
+                  "2πR, the circumference of a circle",
+                  "(4/3)πR³, the volume of the sphere"
+                ],
+                "answer": 0,
+                "explanation": "Adding up every tiny patch dS over the whole sphere simply gives the sphere's total surface area, 4πR²."
+              },
+              {
+                "question": "Why can E be taken outside the integral in this derivation?",
+                "options": [
+                  "Because E is zero everywhere on the surface",
+                  "Because E has the same magnitude everywhere on a sphere of radius R",
+                  "Because dS is a plain constant, not a vector",
+                  "Because the charge Q is negative"
+                ],
+                "answer": 1,
+                "explanation": "The point charge sits at the centre, so every patch of the sphere is the same distance R away. E is therefore constant over the surface and can be pulled out of the integral."
+              }
+            ],
+            "ta": [
+              {
+                "question": "E-யைத் தொகையீட்டிலிருந்து வெளியே எடுத்த பிறகு மீதமுள்ள ∮dS-இன் மதிப்பு என்ன?",
+                "options": [
+                  "4πR² (கோளத்தின் பரப்பளவு)",
+                  "πR² (வட்டத்தின் பரப்பளவு)",
+                  "2πR (சுற்றளவு)",
+                  "(4/3)πR³ (கனவளவு)"
+                ],
+                "answer": 0,
+                "explanation": "கோளத்தின் எல்லாச் சிறு துண்டுகளையும் கூட்டினால் கிடைப்பது மொத்தப் பரப்பளவு 4πR²."
+              },
+              {
+                "question": "இந்த நிரூபணத்தில் E-யைத் தொகையீட்டிலிருந்து வெளியே எடுக்க முடிவது ஏன்?",
+                "options": [
+                  "பரப்பில் E சுழியம் என்பதால்",
+                  "ஆரம் R கோளத்தின் எல்லாப் புள்ளிகளிலும் E ஒரே மதிப்பு என்பதால்",
+                  "dS ஒரு மாறிலி என்பதால்",
+                  "Q எதிர்மின்னூட்டம் என்பதால்"
+                ],
+                "answer": 1,
+                "explanation": "மின்னூட்டம் மையத்தில் இருப்பதால் எல்லாப் புள்ளிகளும் R தூரத்தில் — எனவே E மாறாதது."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
