@@ -497,20 +497,20 @@ const AdminKahootManager = ({ language = "en" }) => {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -12 }}
-                  className="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 transition-colors hover:border-brand-200 hover:bg-white"
+                  className="flex items-center gap-3 rounded-[12px] border border-zinc-200 bg-zinc-50 p-3 transition-colors hover:border-[#007AFF] hover:bg-white"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#0284c7] to-[#0ba5ec] text-white">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[8px] bg-[#007AFF] text-white shadow-sm">
                     <Trophy size={16} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-bold text-slate-900">{quiz.title}</p>
-                    <p className="text-xs text-slate-500">
+                    <p className="truncate text-sm font-semibold text-zinc-900">{quiz.title}</p>
+                    <p className="text-xs text-zinc-500">
                       {quiz.questionCount} {isTa ? "வினாக்கள்" : "questions"}
                     </p>
                   </div>
                   <button
                     onClick={() => setEditingQuiz(quiz)}
-                    className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-[#0284c7] transition-all hover:bg-brand-50 active:scale-95"
+                    className="shrink-0 rounded-[8px] border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-[#007AFF] transition-all hover:bg-zinc-50 active:scale-95 shadow-sm"
                   >
                     {isTa ? "வினாக்களை நிர்வகி" : "Manage Questions"}
                   </button>

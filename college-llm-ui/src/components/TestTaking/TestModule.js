@@ -2,97 +2,86 @@ import React, { useState } from "react";
 import StudentTestView from "./StudentTestView";
 import AdminQuestionManager from "./AdminQuestionManager";
 import VideoLessonView from "./VideoLessonView";
-import { GraduationCap, ShieldCheck, ArrowLeft, Video } from "lucide-react";
+import { GraduationCap, ShieldCheck, Video, Compass } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
+const TestModule = ({ onBackToChat, initialLanguage = "en", language: propsLanguage }) => {
   const [activeTab, setActiveTab] = useState("student"); // "student" | "video" | "admin"
-  const [language, setLanguage] = useState(initialLanguage);
+  const [language, setLanguage] = useState(propsLanguage || initialLanguage);
+
+  React.useEffect(() => {
+    if (propsLanguage) setLanguage(propsLanguage);
+  }, [propsLanguage]);
+
+  const isTa = language === "ta";
 
   return (
-    <div className="min-h-screen bg-[#faf8ff] text-slate-900 font-sans selection:bg-brand-600 selection:text-white pb-16">
-      {/* Top Header Accent Strip */}
-      <div className="tngov-tricolor-strip fixed top-0 left-0 right-0 z-50"></div>
-
-      {/* Clean Minimal Exam Header */}
-      <header className="sticky top-[3px] z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs px-4 py-2.5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {onBackToChat && (
-            <button
-              onClick={onBackToChat}
-              className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#0284c7] rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-semibold active:scale-95"
-              title="Return to Chat"
-            >
-              <ArrowLeft size={15} />
-              <span className="hidden sm:inline">
-                {language === "ta" ? "AI அரட்டை" : "Back to Chat"}
-              </span>
-            </button>
-          )}
-
-          <div className="flex items-center gap-2">
-            <div>
-              <div className="text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
-                {language === "ta" ? "ஸ்மார்ட் தேர்வு & திறன் மதிப்பீடு" : "Academic Assessment & Examination"}
-              </div>
-              <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
-                {language === "ta" ? "தானியங்கி மாதிரித் தேர்வு தளம்" : "Automated Test & Assessment Portal"}
-              </h1>
+    <div className="flex-1 pb-16 font-sans text-slate-900 selection:bg-sky-200 selection:text-sky-900">
+      {/* Module Sub-Header: Context & View Switcher */}
+      <div className="bg-slate-50/80 border-b border-[#e5e5e5] px-4 sm:px-6 py-2.5 backdrop-blur-sm shadow-xs">
+        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#1cb0f6]">
+              <Compass size={12} className="text-[#1cb0f6]" />
+              <span>{isTa ? "தேர்வுப் போர்க்களம் // பிரிவு 02" : "ARENA OF TRIALS // LEVEL 02"}</span>
             </div>
+            <h1 className="text-sm sm:text-base font-black tracking-tight text-slate-900">
+              {isTa ? "மாதிரித் தேர்வு & வினாக்களம்" : "Automated Trial & Assessments"}
+            </h1>
+          </div>
+
+          {/* View Switcher Tabs */}
+          <div className="flex items-center bg-[#f7f7f7] p-1 rounded-2xl border border-[#e5e5e5] gap-1 shadow-inner">
+            <button
+              onClick={() => setActiveTab("student")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
+                activeTab === "student"
+                  ? "bg-white text-[#1cb0f6] shadow-sm border border-[#e5e5e5]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+              }`}
+            >
+              <GraduationCap size={15} className={activeTab === "student" ? "text-[#1cb0f6]" : ""} />
+              <span>{isTa ? "மாணவர் தேர்வு" : "Student Trial"}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("video")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
+                activeTab === "video"
+                  ? "bg-white text-[#ff9600] shadow-sm border border-[#e5e5e5]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+              }`}
+              title={isTa ? "வீடியோ பாடம் & வினாக்கள்" : "Video Lesson with Questions"}
+            >
+              <Video size={15} className={activeTab === "video" ? "text-[#ff9600]" : ""} />
+              <span>{isTa ? "வீடியோ பாடம்" : "Interactive Video"}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("admin")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
+                activeTab === "admin"
+                  ? "bg-white text-[#af70e6] shadow-sm border border-[#e5e5e5]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+              }`}
+            >
+              <ShieldCheck size={15} className={activeTab === "admin" ? "text-[#af70e6]" : ""} />
+              <span className="hidden sm:inline">{isTa ? "வினா வங்கி" : "Manage"}</span>
+              <span className="sm:hidden">{isTa ? "ஆசிரியர்" : "Admin"}</span>
+            </button>
           </div>
         </div>
-
-        {/* View Switcher Tabs */}
-        <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5 gap-1">
-          <button
-            onClick={() => setActiveTab("student")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              activeTab === "student"
-                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
-                : "text-slate-600 hover:text-[#0284c7]"
-            }`}
-          >
-            <GraduationCap size={14} />
-            <span>{language === "ta" ? "மாணவர் தேர்வு" : "Student Test"}</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("video")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              activeTab === "video"
-                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
-                : "text-slate-600 hover:text-[#0284c7]"
-            }`}
-            title={language === "ta" ? "வீடியோ பாடம் & வினாக்கள்" : "Video Lesson with Questions"}
-          >
-            <Video size={14} />
-            <span>{language === "ta" ? "வீடியோ பாடம்" : "Video Lesson"}</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab("admin")}
-            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
-              activeTab === "admin"
-                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
-                : "text-slate-600 hover:text-[#0284c7]"
-            }`}
-          >
-            <ShieldCheck size={14} />
-            <span className="hidden sm:inline">{language === "ta" ? "வினா வங்கி" : "Question Bank"}</span>
-            <span className="sm:hidden">{language === "ta" ? "ஆசிரியர்" : "Admin"}</span>
-          </button>
-        </div>
-      </header>
+      </div>
 
       {/* Main Examination View */}
-      <main className="max-w-4xl mx-auto px-4 pt-6">
+      <main className="max-w-4xl mx-auto px-4 pt-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
           >
             {activeTab === "student" ? (
               <StudentTestView language={language} setLanguage={setLanguage} />
@@ -109,7 +98,3 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
 };
 
 export default TestModule;
-
-
-
-

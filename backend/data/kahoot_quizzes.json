@@ -1,17 +1,206 @@
 {
   "quizzes": [
     {
-      "id": "kq_1789189421814",
+      "id": "kq_physics_motion",
       "title": {
-        "en": "tell me about you",
-        "ta": "tell me about you"
+        "en": "Physics: Laws of Motion & Gravitation",
+        "ta": "இயற்பியல்: இயக்க விதிகள் மற்றும் ஈர்ப்பு"
       },
       "description": {
-        "en": "",
-        "ta": ""
+        "en": "Test your speed and accuracy on Newton's Laws, Inertia, Momentum, and Universal Gravitation.",
+        "ta": "நியூட்டன் விதிகள், நிலைமம், உந்தம் மற்றும் ஈர்ப்பு விசை பற்றிய அதிவிரைவு வினாடி வினா."
       },
-      "questions": [],
-      "createdAt": "2026-09-12T05:03:41Z"
+      "createdAt": "2026-09-12T05:00:00Z",
+      "questions": [
+        {
+          "id": "kq_q1",
+          "question": {
+            "en": "Which of Newton's Laws defines force as F = ma (rate of change of momentum)?",
+            "ta": "விசையை F = ma என வரையறுக்கும் நியூட்டனின் விதி எது?"
+          },
+          "image": "https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "Newton's First Law",
+            "Newton's Second Law",
+            "Newton's Third Law",
+            "Universal Law of Gravitation"
+          ],
+          "correctIndex": 1,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_q2",
+          "question": {
+            "en": "What is the SI unit of linear momentum (p = mv)?",
+            "ta": "நேரியல் உந்தத்தின் (p = mv) SI அலகு என்ன?"
+          },
+          "image": "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "kg · m/s²",
+            "kg · m/s",
+            "Newton · meter",
+            "Joule / second"
+          ],
+          "correctIndex": 1,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_q3",
+          "question": {
+            "en": "The tendency of an object to resist a change in its state of rest or uniform motion is called:",
+            "ta": "ஒரு பொருள் தனது ஓய்வு அல்லது இயக்க நிலையை மாற்ற மறுக்கும் பண்பு எது?"
+          },
+          "image": "https://images.unsplash.com/photo-1517976487515-59458669e46a?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "Acceleration",
+            "Impulse",
+            "Inertia",
+            "Friction"
+          ],
+          "correctIndex": 2,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_q4",
+          "question": {
+            "en": "What is the acceleration due to gravity (g) near the Earth's surface?",
+            "ta": "பூமியின் மேற்பரப்பில் புவியீர்ப்பு முடுக்கத்தின் (g) மதிப்பு என்ன?"
+          },
+          "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "9.8 m/s²",
+            "6.67 × 10⁻¹¹ N·m²/kg²",
+            "3.0 × 10⁸ m/s",
+            "1.6 × 10⁻¹⁹ C"
+          ],
+          "correctIndex": 0,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_q5",
+          "question": {
+            "en": "Rocket propulsion is based on the conservation of which physical quantity?",
+            "ta": "ராக்கெட் ஏவுதல் எந்த இயற்பியல் விதியின் பாதுகாப்பை அடிப்படையாகக் கொண்டது?"
+          },
+          "image": "https://images.unsplash.com/photo-1517976487515-59458669e46a?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "Linear Momentum",
+            "Angular Momentum",
+            "Kinetic Energy",
+            "Electric Charge"
+          ],
+          "correctIndex": 0,
+          "timeLimit": 20
+        }
+      ]
+    },
+    {
+      "id": "kq_python_mastery",
+      "title": {
+        "en": "Python Programming Speed Blitz",
+        "ta": "பைத்தான் நிரலாக்கம் விரைவு வினாடி வினா"
+      },
+      "description": {
+        "en": "Test your Python syntax, mutable vs immutable types, loops, and list comprehensions.",
+        "ta": "பைத்தான் அடிப்படைகள், தரவு கட்டமைப்புகள் மற்றும் சுழற்சிகள் பற்றிய வினாடி வினா."
+      },
+      "createdAt": "2026-09-12T05:30:00Z",
+      "questions": [
+        {
+          "id": "kq_py1",
+          "question": {
+            "en": "Which of the following data types in Python is IMMUTABLE?",
+            "ta": "பைத்தானில் மாற்ற முடியாத (Immutable) தரவு வகை எது?"
+          },
+          "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "List",
+            "Tuple",
+            "Dictionary",
+            "Set"
+          ],
+          "correctIndex": 1,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_py2",
+          "question": {
+            "en": "What keyword is used to skip the rest of the current iteration in a loop?",
+            "ta": "ஒரு சுழற்சியில் தற்போதைய மறு செய்கையைத் தவிர்க்க எந்த சொல் பயன்படுகிறது?"
+          },
+          "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "break",
+            "pass",
+            "continue",
+            "return"
+          ],
+          "correctIndex": 2,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_py3",
+          "question": {
+            "en": "What is the output of len({'a': 1, 'b': 2, 'a': 3}) in Python?",
+            "ta": "பைத்தானில் len({'a': 1, 'b': 2, 'a': 3}) என்பதன் வெளியீடு என்ன?"
+          },
+          "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "3",
+            "2",
+            "1",
+            "SyntaxError"
+          ],
+          "correctIndex": 1,
+          "timeLimit": 20
+        }
+      ]
+    },
+    {
+      "id": "kq_1789189421814",
+      "title": {
+        "en": "General CS & Tech Trivia",
+        "ta": "பொது கணினி அறிவியல் வினாடி வினா"
+      },
+      "description": {
+        "en": "Computer hardware, operating systems, and internet fundamentals.",
+        "ta": "கணினி வன்பொருள், இயங்குதளம் மற்றும் இணைய அடிப்படைகள்."
+      },
+      "createdAt": "2026-09-12T05:03:41Z",
+      "questions": [
+        {
+          "id": "kq_cs1",
+          "question": {
+            "en": "Which layer of the OSI model does the HTTP protocol operate on?",
+            "ta": "OSI மாதிரியில் HTTP நெறிமுறை எந்த அடுக்கில் செயல்படுகிறது?"
+          },
+          "image": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "Network Layer",
+            "Transport Layer",
+            "Application Layer",
+            "Data Link Layer"
+          ],
+          "correctIndex": 2,
+          "timeLimit": 20
+        },
+        {
+          "id": "kq_cs2",
+          "question": {
+            "en": "What does SQL stand for?",
+            "ta": "SQL என்பதன் விரிவாக்கம் என்ன?"
+          },
+          "image": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=600&auto=format&fit=crop&q=80",
+          "options": [
+            "Structured Query Language",
+            "Simple Question Logic",
+            "Sequential Query List",
+            "Standard Quality Language"
+          ],
+          "correctIndex": 0,
+          "timeLimit": 20
+        }
+      ]
     }
   ]
 }

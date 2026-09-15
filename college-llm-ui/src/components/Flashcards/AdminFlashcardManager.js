@@ -104,6 +104,7 @@ const PreviewCard = ({ deck, title, description, accent, image, isTa }) => {
               <img
                 src={image.trim()}
                 alt=""
+                referrerPolicy="no-referrer"
                 onError={() => setBroken(true)}
                 className="h-24 w-full object-cover"
               />

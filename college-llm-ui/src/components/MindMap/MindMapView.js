@@ -14,6 +14,7 @@ import {
   Minus,
   Maximize2,
   ChevronRight,
+  ChevronLeft,
   ChevronDown,
   Sparkles,
   Loader2,
@@ -21,18 +22,31 @@ import {
   Move,
   Network,
   GitBranch,
+  Volume2,
+  VolumeX,
+  Compass,
+  Target,
+  Layers,
+  BookOpen
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MIN_ZOOM = 0.2;
-const MAX_ZOOM = 1.8;
+const MAX_ZOOM = 2.4;
 
 const clampZoom = (value) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
 
 /* ── One card on the canvas ───────────────────────────────────────────────────
-   The root is the single dark node; every other node is painted in its branch
-   colour. A node with hidden children wears a count badge so nothing feels lost. */
-const MapNode = ({ entry, isSelected, isMatch, isDimmed, onSelect, onToggle }) => {
+   The root is obsidian slate with glowing aura; each branch wears its own
+   vibrant curriculum theme so students can distinguish concepts instantly. */
+const MapNode = ({
+  entry,
+  isSelected,
+  isMatch,
+  isDimmed,
+  onSelect,
+  onToggle,
+}) => {
   const { node, depth, w, h, x, y, side, hasChildren, collapsed } = entry;
   const isRoot = depth === 0;
   const branch = getBranch(node.accent);
@@ -44,62 +58,99 @@ const MapNode = ({ entry, isSelected, isMatch, isDimmed, onSelect, onToggle }) =
   const style = isRoot
     ? {
         background: ROOT_THEME.fill,
-        borderColor: ROOT_THEME.fill,
+        borderColor: isSelected ? "#60A5FA" : ROOT_THEME.stroke,
         color: ROOT_THEME.text,
+        boxShadow: isSelected
+          ? "0 0 0 4px rgba(96, 165, 250, 0.45), 0 16px 32px -8px rgba(15, 23, 42, 0.6)"
+          : "0 8px 24px -6px rgba(15, 23, 42, 0.45)",
       }
     : {
         background: depth === 1 ? branch.tint : "#ffffff",
-        borderColor: isSelected || isMatch ? branch.stroke : branch.border,
+        borderColor: isSelected || isMatch ? branch.stroke : depth === 1 ? branch.border : "#E2E8F0",
         color: branch.text,
+        boxShadow: isSelected
+          ? `0 0 0 3px ${branch.stroke}, 0 12px 26px -6px ${branch.glow}`
+          : isMatch
+          ? `0 0 0 3px #F59E0B, 0 8px 20px -4px rgba(245, 158, 11, 0.35)`
+          : depth === 1
+          ? `0 4px 14px -3px ${branch.glow}`
+          : "0 2px 8px -2px rgba(15, 23, 42, 0.08)",
       };
 
   return (
     <div
-      className="absolute"
+      className="absolute select-none"
       style={{
         left: x,
         top: y - h / 2,
         width: w,
         minHeight: h,
-        opacity: isDimmed ? 0.28 : 1,
+        opacity: isDimmed ? 0.22 : 1,
         transition: "opacity 160ms ease",
-        zIndex: isSelected ? 20 : 10,
+        zIndex: isSelected ? 30 : isMatch ? 25 : depth === 0 ? 20 : 10,
       }}
     >
       <button
         type="button"
-        onClick={() => onSelect(entry)}
+        onClick={(e) => {
+          e.stopPropagation();
+          onSelect(entry);
+        }}
         style={{
           ...style,
-          borderWidth: isRoot ? 2 : depth === 1 ? 2 : 1.5,
-          boxShadow: isSelected
-            ? `0 0 0 3px ${isRoot ? "#93c5fd" : branch.soft}, 0 10px 22px -10px rgba(15,23,42,.45)`
-            : "0 2px 8px -3px rgba(15,23,42,.25)",
+          borderWidth: isRoot ? 2.5 : depth === 1 ? 2 : 1.5,
         }}
-        className="flex w-full flex-col items-start gap-1 rounded-xl border px-3 py-2 text-left transition-shadow hover:shadow-lg"
+        className="map-node-card flex w-full flex-col items-start gap-1.5 rounded-2xl border px-3.5 py-2.5 text-left transition-all hover:scale-[1.02] active:scale-[0.99] cursor-pointer focus:outline-none"
       >
-        <span
-          className="flex w-full items-start gap-1.5 font-bold leading-snug"
-          style={{ fontSize }}
-        >
-          {node.icon && <span className="shrink-0 leading-none">{node.icon}</span>}
-          <span className="break-words">{node.label}</span>
-        </span>
-
-        {node.formula && (
+        {/* Branch / Level badge indicator */}
+        <div className="flex w-full items-center justify-between gap-1 text-[10px] font-bold">
           <span
-            className="max-w-full truncate rounded px-1.5 py-0.5 font-mono text-[10.5px] font-semibold"
+            className="rounded-md px-1.5 py-0.5 text-[9.5px] font-extrabold uppercase tracking-wide"
             style={{
-              background: isRoot ? "rgba(255,255,255,.16)" : branch.soft,
-              color: isRoot ? "#e0e7ff" : branch.strong,
+              background: isRoot
+                ? "rgba(255,255,255,0.18)"
+                : depth === 1
+                ? branch.soft
+                : "#F1F5F9",
+              color: isRoot ? "#93C5FD" : branch.strong,
             }}
           >
-            {node.formula}
+            {isRoot ? "★ Central Core" : depth === 1 ? "Branch" : "Concept"}
+          </span>
+
+          {node.points?.length > 0 && (
+            <span className="text-[10px] font-semibold opacity-70">
+              {node.points.length} {node.points.length === 1 ? "fact" : "facts"}
+            </span>
+          )}
+        </div>
+
+        {/* Node Label */}
+        <span
+          className="flex w-full items-start gap-1.5 font-bold leading-snug tracking-tight"
+          style={{ fontSize }}
+        >
+          {node.icon && <span className="shrink-0 text-sm leading-none">{node.icon}</span>}
+          <span className="break-words font-display">{node.label}</span>
+        </span>
+
+        {/* Formula Spotlight Badge */}
+        {node.formula && (
+          <span
+            className="flex items-center gap-1 max-w-full truncate rounded-lg px-2 py-0.5 font-mono text-[11px] font-bold shadow-2xs"
+            style={{
+              background: isRoot ? "rgba(255,255,255,0.14)" : branch.soft,
+              color: isRoot ? "#93C5FD" : branch.strong,
+              border: `1px solid ${isRoot ? "rgba(255,255,255,0.2)" : branch.border}`,
+            }}
+          >
+            <span className="text-[9px] opacity-75 font-serif italic">fx</span>
+            <span className="truncate">{node.formula}</span>
           </span>
         )}
       </button>
 
-      {/* Collapse / expand handle, sitting on the side the branch grows towards */}
+      {/* Collapse / Expand handle sitting on the outer edge */}
       {hasChildren && (
         <button
           type="button"
@@ -107,18 +158,20 @@ const MapNode = ({ entry, isSelected, isMatch, isDimmed, onSelect, onToggle }) =
             e.stopPropagation();
             onToggle(node.id);
           }}
-          title={collapsed ? "Expand" : "Collapse"}
+          title={collapsed ? "Expand branch" : "Collapse branch"}
           style={{
-            borderColor: isRoot ? ROOT_THEME.fill : branch.stroke,
-            color: isRoot ? ROOT_THEME.fill : branch.stroke,
-            [toggleOnLeft ? "left" : "right"]: -11,
+            borderColor: isRoot ? ROOT_THEME.stroke : branch.stroke,
+            background: collapsed ? (isRoot ? ROOT_THEME.fill : branch.stroke) : "#FFFFFF",
+            color: collapsed ? "#FFFFFF" : isRoot ? ROOT_THEME.fill : branch.stroke,
+            [toggleOnLeft ? "left" : "right"]: -12,
+            boxShadow: `0 2px 8px ${branch.glow}`,
           }}
-          className="absolute top-1/2 z-30 flex h-[22px] min-w-[22px] -translate-y-1/2 items-center justify-center gap-0.5 rounded-full border-[1.5px] bg-white px-1 text-[10px] font-extrabold shadow-xs transition-transform hover:scale-110"
+          className="prevent-canvas-drag absolute top-1/2 z-30 flex h-6 min-w-[24px] -translate-y-1/2 items-center justify-center gap-0.5 rounded-full border-2 px-1 text-[10.5px] font-black transition-transform hover:scale-115 active:scale-95 shadow-sm"
         >
           {collapsed ? (
             <>
               <span>{hiddenCount}</span>
-              <Plus size={9} strokeWidth={3.5} />
+              <Plus size={10} strokeWidth={3.5} />
             </>
           ) : (
             <Minus size={11} strokeWidth={3.5} />
@@ -140,19 +193,21 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
   const [explanation, setExplanation] = useState("");
   const [explaining, setExplaining] = useState(false);
   const [explainError, setExplainError] = useState("");
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  // A fresh node means the previous explanation no longer applies.
   useEffect(() => {
     setExplanation("");
     setExplainError("");
     setExplaining(false);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    setIsPlayingAudio(false);
   }, [node.id]);
 
-  const runExplain = async () => {
+  const runExplain = async (promptType = "") => {
     setExplaining(true);
     setExplainError("");
     try {
-      const data = await explainMindMapNode(mapId, node.id, language);
+      const data = await explainMindMapNode(mapId, node.id, language, promptType);
       setExplanation(data.explanation || "");
     } catch (err) {
       setExplainError(
@@ -164,81 +219,156 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
     setExplaining(false);
   };
 
+  // Text-to-speech reading for auditory student comprehension
+  const toggleSpeech = () => {
+    if (!window.speechSynthesis) return;
+
+    if (isPlayingAudio) {
+      window.speechSynthesis.cancel();
+      setIsPlayingAudio(false);
+      return;
+    }
+
+    const textToRead = [
+      node.label,
+      node.formula ? `${isTa ? "சூத்திரம்:" : "Formula:"} ${node.formula}` : "",
+      node.summary || "",
+      ...(node.points || []),
+      explanation || "",
+    ]
+      .filter(Boolean)
+      .join(". ");
+
+    const utterance = new SpeechSynthesisUtterance(textToRead);
+    utterance.lang = isTa ? "ta-IN" : "en-US";
+    utterance.rate = 0.95;
+
+    utterance.onend = () => setIsPlayingAudio(false);
+    utterance.onerror = () => setIsPlayingAudio(false);
+
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    setIsPlayingAudio(true);
+  };
+
   return (
     <motion.aside
-      initial={{ x: 40, opacity: 0 }}
+      initial={{ x: 60, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      exit={{ x: 40, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 320, damping: 32 }}
-      className="absolute bottom-3 right-3 top-3 z-40 flex w-[19rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:w-[21rem]"
+      exit={{ x: 60, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 340, damping: 30 }}
+      className="absolute bottom-3 right-3 top-3 z-40 flex w-[20rem] sm:w-[22rem] flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white/95 backdrop-blur-2xl shadow-2xl"
     >
+      {/* Header Banner */}
       <div
-        className="flex items-start justify-between gap-2 px-4 py-3"
-        style={{ background: accentColor }}
+        className="flex items-start justify-between gap-2 px-5 py-4 text-white shadow-sm"
+        style={{ background: `linear-gradient(135deg, ${accentColor}, ${branch.strong || accentColor})` }}
       >
         <div className="min-w-0">
-          <div className="text-[10px] font-bold uppercase tracking-wide text-white/70">
-            {isRoot
-              ? isTa
-                ? "மைய தலைப்பு"
-                : "Central Topic"
-              : `${isTa ? "நிலை" : "Level"} ${entry.depth}`}
+          <div className="text-[10px] font-extrabold uppercase tracking-wider text-white/80 flex items-center gap-1.5">
+            <BookOpen size={12} />
+            <span>
+              {isRoot
+                ? isTa
+                  ? "மையக் கருத்து"
+                  : "Central Curriculum Core"
+                : `${isTa ? "நிலை" : "Taxonomy Level"} ${entry.depth} • ${branch.label}`}
+            </span>
           </div>
-          <h3 className="flex items-start gap-1.5 text-[15px] font-extrabold leading-snug text-white">
+          <h3 className="mt-1 flex items-start gap-2 text-base sm:text-lg font-black leading-snug text-white font-display">
             {node.icon && <span className="shrink-0">{node.icon}</span>}
             <span className="break-words">{node.label}</span>
           </h3>
         </div>
-        <button
-          onClick={onClose}
-          className="shrink-0 rounded-lg p-1 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
-          title={isTa ? "மூடு" : "Close"}
-        >
-          <X size={16} />
-        </button>
+
+        <div className="flex items-center gap-1 shrink-0">
+          <button
+            onClick={toggleSpeech}
+            className={`p-1.5 rounded-xl transition-all ${
+              isPlayingAudio ? "bg-white text-indigo-700 shadow-sm" : "text-white/80 hover:bg-white/20 hover:text-white"
+            }`}
+            title={isPlayingAudio ? "Stop reading" : "Read aloud"}
+          >
+            {isPlayingAudio ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          </button>
+
+          <button
+            onClick={onClose}
+            className="rounded-xl p-1.5 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+            title={isTa ? "மூடு" : "Close"}
+          >
+            <X size={16} />
+          </button>
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 py-3">
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+        {/* Prominent Formula Callout */}
         {node.formula && (
           <div
-            className="mb-3 rounded-lg border px-3 py-2 text-center font-mono text-sm font-bold"
-            style={{ background: branch.tint, borderColor: branch.border, color: branch.strong }}
+            className="rounded-2xl border-2 p-3 text-center font-mono shadow-xs"
+            style={{
+              background: branch.tint,
+              borderColor: branch.border,
+              color: branch.strong,
+            }}
           >
-            {node.formula}
+            <span className="text-[10px] font-black uppercase tracking-wider block opacity-75 mb-0.5">
+              {isTa ? "முக்கிய கணிதச் சூத்திரம்" : "Key Curriculum Formula"}
+            </span>
+            <div className="text-base sm:text-lg font-bold tracking-wide">
+              {node.formula}
+            </div>
           </div>
         )}
 
+        {/* Conceptual Summary */}
         {node.summary && (
-          <p className="text-[13px] leading-relaxed text-slate-700">{node.summary}</p>
+          <div className="text-[13px] leading-relaxed text-slate-700 bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200">
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-1">
+              {isTa ? "கருத்துச் சுருக்கம்" : "Concept Overview"}
+            </span>
+            <p className="font-medium">{node.summary}</p>
+          </div>
         )}
 
+        {/* Key Takeaways / Points */}
         {node.points?.length > 0 && (
-          <ul className="mt-3 space-y-2">
-            {node.points.map((point, i) => (
-              <li key={i} className="flex gap-2 text-[12.5px] leading-relaxed text-slate-700">
-                <span
-                  className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
-                  style={{ background: accentColor }}
-                />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2">
+              {isTa ? "கற்றல் குறிப்புகள்" : "Key Study Takeaways"}
+            </span>
+            <ul className="space-y-2">
+              {node.points.map((point, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-slate-700 bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs"
+                >
+                  <span
+                    className="mt-1 h-2 w-2 shrink-0 rounded-full"
+                    style={{ background: accentColor }}
+                  />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
 
+        {/* Child Sub-Branches */}
         {node.children?.length > 0 && (
-          <div className="mt-4">
-            <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">
-              <GitBranch size={11} />
+          <div>
+            <div className="mb-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">
+              <GitBranch size={12} className="text-slate-500" />
               <span>
-                {isTa ? "உட்பிரிவுகள்" : "Branches from here"} ({node.children.length})
+                {isTa ? "உட்பிரிவுகள்" : "Child Branches"} ({node.children.length})
               </span>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {node.children.map((child) => (
                 <span
                   key={child.id}
-                  className="rounded-full border px-2 py-0.5 text-[11px] font-semibold"
+                  className="rounded-xl border px-2.5 py-1 text-[11px] font-bold shadow-2xs"
                   style={{
                     background: branch.tint,
                     borderColor: branch.border,
@@ -252,43 +382,47 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
           </div>
         )}
 
-        {!node.summary && !node.points?.length && !node.formula && !node.children?.length && (
-          <p className="text-[12.5px] italic text-slate-400">
-            {isTa ? "இந்த முனைக்கு குறிப்புகள் இல்லை." : "No notes stored on this node yet."}
-          </p>
-        )}
+        {/* Socratic AI Study Assistant */}
+        <div className="border-t border-slate-200 pt-3.5 space-y-2.5">
+          <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+            {isTa ? "AI சாக்ரடிக் வழிகாட்டி" : "Socratic Concept Explainer"}
+          </span>
 
-        {/* AI expansion, grounded in what this node already says */}
-        <div className="mt-4 border-t border-slate-100 pt-3">
-          <button
-            onClick={runExplain}
-            disabled={explaining}
-            className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-xs font-bold text-[#0284c7] transition-all hover:bg-brand-100 active:scale-95 disabled:opacity-60"
-          >
-            {explaining ? <Loader2 size={13} className="animate-spin" /> : <Sparkles size={13} />}
-            <span>
-              {explaining
-                ? isTa
-                  ? "விளக்கம் தயாராகிறது..."
-                  : "Explaining..."
-                : explanation
-                ? isTa
-                  ? "மீண்டும் விளக்கு"
-                  : "Explain again"
-                : isTa
-                ? "AI விளக்கம் பெறு"
-                : "Explain with AI"}
-            </span>
-          </button>
+          <div className="grid grid-cols-2 gap-1.5">
+            <button
+              onClick={() => runExplain("summary")}
+              disabled={explaining}
+              className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2 text-xs font-bold text-slate-700 transition-all hover:bg-slate-50 hover:border-indigo-400 active:scale-95 disabled:opacity-50 shadow-2xs"
+            >
+              <Sparkles size={12} className="text-indigo-600" />
+              <span>{isTa ? "எளிய விளக்கம்" : "Simple Analogy"}</span>
+            </button>
+
+            <button
+              onClick={() => runExplain("exam")}
+              disabled={explaining}
+              className="flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2 text-xs font-bold text-slate-700 transition-all hover:bg-slate-50 hover:border-amber-400 active:scale-95 disabled:opacity-50 shadow-2xs"
+            >
+              <Target size={12} className="text-amber-500" />
+              <span>{isTa ? "தேர்வுக் குறிப்புகள்" : "Exam Tips"}</span>
+            </button>
+          </div>
+
+          {explaining && (
+            <div className="flex items-center justify-center gap-2 rounded-xl bg-indigo-50/70 p-3 text-xs font-bold text-indigo-700">
+              <Loader2 size={14} className="animate-spin text-indigo-600" />
+              <span>{isTa ? "AI விளக்கம் திரட்டுகிறது..." : "Synthesizing student explanation..."}</span>
+            </div>
+          )}
 
           {explainError && (
-            <p className="mt-2 rounded-lg bg-red-50 px-2.5 py-1.5 text-[11.5px] font-medium text-red-600">
+            <p className="rounded-xl bg-red-50 p-2.5 text-[11.5px] font-semibold text-red-600 border border-red-200">
               {explainError}
             </p>
           )}
 
           {explanation && (
-            <div className="mt-2.5 whitespace-pre-wrap rounded-lg bg-slate-50 px-3 py-2.5 text-[12.5px] leading-relaxed text-slate-700">
+            <div className="whitespace-pre-wrap rounded-2xl bg-slate-50 border border-slate-200 p-3.5 text-[12.5px] leading-relaxed text-slate-800 shadow-inner">
               {explanation}
             </div>
           )}
@@ -312,10 +446,13 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
   const [selectedId, setSelectedId] = useState("");
   const [query, setQuery] = useState("");
 
-  const [zoom, setZoom] = useState(0.75);
+  const [zoom, setZoom] = useState(0.85);
   const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
   const viewportRef = useRef(null);
   const dragRef = useRef(null);
+  const hasMovedRef = useRef(false);
 
   /* Catalogue of maps */
   useEffect(() => {
@@ -343,9 +480,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     try {
       const data = await fetchMindMap(activeMapId, language);
       setMindMap(data.map);
-      // Open two levels deep: the branches and what sits directly under them.
-      // That is enough to read the shape of the topic without the twigs turning
-      // the canvas into a wall of text.
+      // Open two levels deep by default so the tree is immediately rich and legible
       const branchIds = new Set((data.map.root.children || []).map((b) => b.id));
       const folded = (data.map.root.children || [])
         .flatMap((branch) => collectParentIds(branch))
@@ -363,7 +498,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     loadMap();
   }, [loadMap, refreshToken]);
 
-  /* Search widens the tree so every hit is actually on screen */
+  /* Search widens the tree so every hit is on screen */
   const { matches, ancestors } = useMemo(
     () => searchMindMap(mindMap?.root, query),
     [mindMap, query]
@@ -389,23 +524,17 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
   );
 
   /**
-   * Fit the drawing into the viewport.
-   *
-   * `floor` keeps the opening view readable: when a map is too big to shrink
-   * into the frame without turning the labels to dust, it stays at the floor
-   * and centres on the root instead, leaving the student to pan.
-   * Returns false when the viewport has not been measured yet, so the caller
-   * knows the fit still has to happen.
+   * Fit the drawing into the viewport with student readability floor
    */
   const fitToScreen = useCallback(
-    (floor = MIN_ZOOM) => {
+    (floor = 0.5) => {
       const viewport = viewportRef.current;
       if (!viewport || !layout.width || !layout.height) return false;
 
       const { clientWidth, clientHeight } = viewport;
       if (!clientWidth || !clientHeight) return false;
 
-      const ideal = Math.min(clientWidth / layout.width, clientHeight / layout.height) * 0.94;
+      const ideal = Math.min(clientWidth / layout.width, clientHeight / layout.height) * 0.92;
       const scale = clampZoom(Math.max(ideal, floor));
       setZoom(scale);
 
@@ -425,17 +554,17 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     [layout.width, layout.height, layout.rootPoint]
   );
 
-  // Fit once per map, not on every expand — otherwise the canvas would jump
-  // around under the student while they are opening branches.
   const needsFitRef = useRef(false);
-
-  // Opening or folding a limb changes the drawing's size, which moves every
-  // coordinate including the root's. Counter that shift so the central topic
-  // stays exactly where it was on screen and the map grows around it.
   const zoomRef = useRef(zoom);
+  const panRef = useRef(pan);
+
   useEffect(() => {
     zoomRef.current = zoom;
   }, [zoom]);
+
+  useEffect(() => {
+    panRef.current = pan;
+  }, [pan]);
 
   const lastRootRef = useRef(null);
   useEffect(() => {
@@ -443,7 +572,6 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     const current = layout.rootPoint;
     lastRootRef.current = current;
 
-    // A pending fit is about to position the canvas itself; don't fight it.
     if (!previous || needsFitRef.current) return;
 
     const dx = (current.x - previous.x) * zoomRef.current;
@@ -455,14 +583,12 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     if (mindMap) needsFitRef.current = true;
   }, [mindMap]);
 
-  // The viewport can still measure zero on the first paint (a hidden tab, a
-  // panel mid-transition), so wait for a real size before fitting.
   useEffect(() => {
     const viewport = viewportRef.current;
     if (!viewport) return undefined;
 
     const tryFit = () => {
-      if (needsFitRef.current && fitToScreen(0.42)) needsFitRef.current = false;
+      if (needsFitRef.current && fitToScreen(0.55)) needsFitRef.current = false;
     };
 
     tryFit();
@@ -471,38 +597,126 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     return () => observer.disconnect();
   }, [fitToScreen]);
 
-  /* Drag to pan */
+  /* ── Direct Mouse Scroll Wheel Zoom (Cursor-Centric Zoom) ───────────────────
+     Scrolling the mouse wheel zooms in/out centered directly at the cursor position.
+     Calling preventDefault() and stopPropagation() on non-passive listeners
+     completely blocks unwanted browser-level page/document zooming! */
+  const handleWheel = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    const rect = viewport.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Direct scroll wheel zoom:
+    // deltaY < 0 (scrolling up) -> zoom in
+    // deltaY > 0 (scrolling down) -> zoom out
+    const zoomFactor = e.deltaY < 0 ? 1.10 : 0.90;
+
+    const currentZoom = zoomRef.current;
+    const nextZoom = clampZoom(currentZoom * zoomFactor);
+    if (nextZoom === currentZoom) return;
+
+    const currentPan = panRef.current;
+    const nextPanX = mouseX - (mouseX - currentPan.x) * (nextZoom / currentZoom);
+    const nextPanY = mouseY - (mouseY - currentPan.y) * (nextZoom / currentZoom);
+
+    zoomRef.current = nextZoom;
+    panRef.current = { x: nextPanX, y: nextPanY };
+
+    setZoom(nextZoom);
+    setPan({ x: nextPanX, y: nextPanY });
+  }, []);
+
+  // Attach non-passive wheel listener directly to canvas viewport
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+
+    viewport.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      viewport.removeEventListener("wheel", handleWheel);
+    };
+  }, [mindMap, loading, handleWheel]);
+
+  // Window-level guard: intercept Ctrl + scroll when cursor is over the canvas to stop browser zoom
+  useEffect(() => {
+    const handleGlobalWheel = (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        const viewport = viewportRef.current;
+        if (!viewport) return;
+        const rect = viewport.getBoundingClientRect();
+        if (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        ) {
+          e.preventDefault();
+          handleWheel(e);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleGlobalWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleGlobalWheel);
+  }, [handleWheel]);
+
+  /* ── Robust Click & Move (Drag to Pan) ──────────────────────────────────────
+     Clicking and moving the mouse effortlessly pans the whole map canvas.
+     Small clicks open node details; deliberate drags move the canvas without
+     accidentally triggering node clicks. */
   const onPointerDown = (e) => {
-    if (e.button !== 0) return;
-    // Let clicks on a card or its expand handle through — capturing the pointer
-    // here would swallow the click those buttons are waiting for.
-    if (e.target.closest?.("button")) return;
-    dragRef.current = { x: e.clientX, y: e.clientY, pan: { ...pan } };
+    if (e.button !== 0 && e.button !== 1) return;
+    // Don't capture pointer when clicking on cards, buttons, or drawers
+    if (e.target.closest?.(".prevent-canvas-drag, .map-node-card, button, input, select, aside")) {
+      return;
+    }
+
+    dragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startPanX: pan.x,
+      startPanY: pan.y,
+      pointerId: e.pointerId,
+    };
     e.currentTarget.setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e) => {
     const drag = dragRef.current;
     if (!drag) return;
-    setPan({
-      x: drag.pan.x + (e.clientX - drag.x),
-      y: drag.pan.y + (e.clientY - drag.y),
-    });
+
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+
+    if (!hasMovedRef.current && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      hasMovedRef.current = true;
+      setIsDragging(true);
+    }
+
+    if (hasMovedRef.current) {
+      setPan({
+        x: drag.startPanX + dx,
+        y: drag.startPanY + dy,
+      });
+    }
   };
 
   const endDrag = (e) => {
     if (!dragRef.current) return;
-    dragRef.current = null;
-    if (e.currentTarget.hasPointerCapture?.(e.pointerId)) {
-      e.currentTarget.releasePointerCapture(e.pointerId);
+    if (e.currentTarget.hasPointerCapture?.(dragRef.current.pointerId)) {
+      e.currentTarget.releasePointerCapture(dragRef.current.pointerId);
     }
-  };
-
-  /* Ctrl/⌘ + wheel zooms; a plain wheel keeps scrolling the page */
-  const onWheel = (e) => {
-    if (!e.ctrlKey && !e.metaKey) return;
-    e.preventDefault();
-    setZoom((z) => clampZoom(z - e.deltaY * 0.0015));
+    dragRef.current = null;
+    setTimeout(() => {
+      setIsDragging(false);
+      hasMovedRef.current = false;
+    }, 60);
   };
 
   const toggleNode = (id) =>
@@ -515,18 +729,24 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
 
   const expandAll = () => setCollapsed(new Set());
 
-  // Fold every limb shut, leaving the central topic and its ten branches — the
-  // bird's-eye view of the chapter.
   const collapseToBranches = () => {
     if (!mindMap) return;
     setCollapsed(new Set((mindMap.root.children || []).map((branch) => branch.id)));
   };
 
-  /* Centre one branch in the viewport, used by the legend chips */
+  /* Focus and center smoothly on any branch */
   const focusNode = (nodeId) => {
     const viewport = viewportRef.current;
     const entry = layout.nodes.find((n) => n.id === nodeId);
     if (!viewport || !entry) return;
+
+    // Ensure parents and children are visible
+    setCollapsed((prev) => {
+      const next = new Set(prev);
+      next.delete(nodeId);
+      return next;
+    });
+
     setPan({
       x: viewport.clientWidth / 2 - (entry.x + entry.w / 2) * zoom,
       y: viewport.clientHeight / 2 - entry.y * zoom,
@@ -534,14 +754,32 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
     setSelectedId(nodeId);
   };
 
+  /* Step-by-Step Concept Tour for Students */
+  const topBranches = useMemo(() => mindMap?.root?.children || [], [mindMap]);
+  const [tourIndex, setTourIndex] = useState(0);
+
+  const nextTourStep = () => {
+    if (!topBranches.length) return;
+    const nextIdx = (tourIndex + 1) % topBranches.length;
+    setTourIndex(nextIdx);
+    focusNode(topBranches[nextIdx].id);
+  };
+
+  const prevTourStep = () => {
+    if (!topBranches.length) return;
+    const prevIdx = (tourIndex - 1 + topBranches.length) % topBranches.length;
+    setTourIndex(prevIdx);
+    focusNode(topBranches[prevIdx].id);
+  };
+
   const searching = query.trim().length > 0;
 
   if (loading && !mindMap) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-slate-400">
-        <Loader2 size={28} className="animate-spin text-[#0284c7]" />
-        <p className="text-sm font-semibold">
-          {isTa ? "கருத்து வரைபடம் ஏற்றப்படுகிறது..." : "Loading the concept map..."}
+      <div className="flex h-[65vh] flex-col items-center justify-center gap-3 text-slate-400">
+        <Loader2 size={32} className="animate-spin text-indigo-600" />
+        <p className="text-sm font-bold text-slate-700">
+          {isTa ? "பாடத்திட்ட கருத்து இணைப்பு வரைபடம் ஏற்றப்படுகிறது..." : "Loading curriculum knowledge constellation..."}
         </p>
       </div>
     );
@@ -549,18 +787,18 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
 
   if (error || !mindMap) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-3 px-6 text-center">
-        <Network size={30} className="text-slate-300" />
-        <p className="text-sm font-semibold text-slate-600">
+      <div className="flex h-[65vh] flex-col items-center justify-center gap-3 px-6 text-center">
+        <Network size={36} className="text-slate-300" />
+        <p className="text-sm font-bold text-slate-600">
           {isTa
             ? "வரைபடத்தை ஏற்ற முடியவில்லை. சேவையகம் இயங்குகிறதா எனச் சரிபார்க்கவும்."
-            : "Could not load the mind map. Check that the backend server is running."}
+            : "Could not load the mind map. Please check server connection."}
         </p>
         <button
           onClick={loadMap}
-          className="flex items-center gap-1.5 rounded-lg bg-[#0284c7] px-3 py-1.5 text-xs font-bold text-white transition-all hover:bg-[#026aa2] active:scale-95"
+          className="flex items-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95"
         >
-          <RefreshCw size={13} />
+          <RefreshCw size={14} />
           <span>{isTa ? "மீண்டும் முயற்சி" : "Try again"}</span>
         </button>
       </div>
@@ -568,110 +806,146 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
   }
 
   return (
-    <div className="space-y-3">
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-xs">
-        {maps.length > 1 && (
-          <select
-            value={activeMapId}
-            onChange={(e) => setActiveMapId(e.target.value)}
-            className="rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs font-semibold text-slate-700 outline-none focus:border-brand-400"
-          >
-            {maps.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.icon} {m.title}
-              </option>
-            ))}
-          </select>
-        )}
-
-        <div className="relative min-w-[10rem] flex-1">
-          <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={isTa ? "கருத்து அல்லது சூத்திரம் தேடு..." : "Search a concept or formula..."}
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-8 text-xs font-medium text-slate-700 outline-none transition-colors focus:border-brand-400 focus:bg-white"
-          />
-          {query && (
-            <button
-              onClick={() => setQuery("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+    <div className="space-y-3.5">
+      {/* ── Top Navigation & Interactive Student Toolbar ────────────────────── */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5 rounded-2xl border border-slate-200 bg-white p-2.5 shadow-xs">
+        <div className="flex flex-1 items-center gap-2 min-w-[280px]">
+          {maps.length > 1 && (
+            <select
+              value={activeMapId}
+              onChange={(e) => setActiveMapId(e.target.value)}
+              className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 outline-none focus:border-indigo-500"
             >
-              <X size={14} />
-            </button>
+              {maps.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.icon} {m.title}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {/* Search Input */}
+          <div className="relative flex-1">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={isTa ? "கருத்து அல்லது சூத்திரம் தேடவும் (எ.கா: F = ma, நியூட்டன்)..." : "Search a concept, formula, or law (e.g. F = ma, Inertia)..."}
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-8 text-xs font-semibold text-slate-800 outline-none transition-all focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/20"
+            />
+            {query && (
+              <button
+                onClick={() => setQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          {searching && (
+            <span className="rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-[11px] font-bold text-amber-800 shrink-0">
+              {matches.size} {isTa ? "பொருத்தம்" : matches.size === 1 ? "match" : "matches"}
+            </span>
           )}
         </div>
 
-        {searching && (
-          <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-700">
-            {matches.size} {isTa ? "பொருத்தம்" : matches.size === 1 ? "match" : "matches"}
-          </span>
-        )}
+        {/* Action Controls & Zoom HUD */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Student Guided Tour Control */}
+          <div className="flex items-center gap-1 rounded-xl bg-indigo-50/80 border border-indigo-200/80 px-2 py-1">
+            <button
+              onClick={prevTourStep}
+              className="p-1 rounded text-indigo-700 hover:bg-indigo-100/60"
+              title="Previous topic"
+            >
+              <ChevronLeft size={13} />
+            </button>
+            <button
+              onClick={nextTourStep}
+              className="flex items-center gap-1 text-[11px] font-extrabold text-indigo-800 hover:text-indigo-900"
+              title="Next topic"
+            >
+              <Compass size={12} className="text-indigo-600" />
+              <span>{isTa ? "வழிகாட்டப்பட்ட உலா" : "Concept Tour"}</span>
+              <ChevronRight size={13} />
+            </button>
+          </div>
 
-        <div className="flex items-center gap-1">
-          <button
-            onClick={expandAll}
-            className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-all hover:border-brand-300 hover:text-[#0284c7] active:scale-95"
-            title={isTa ? "அனைத்தையும் விரி" : "Expand all"}
-          >
-            <ChevronDown size={13} />
-            <span className="hidden sm:inline">{isTa ? "அனைத்தும்" : "Expand"}</span>
-          </button>
-          <button
-            onClick={collapseToBranches}
-            className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-all hover:border-brand-300 hover:text-[#0284c7] active:scale-95"
-            title={isTa ? "கிளைகளாக மடக்கு" : "Collapse to branches"}
-          >
-            <ChevronRight size={13} />
-            <span className="hidden sm:inline">{isTa ? "மடக்கு" : "Collapse"}</span>
-          </button>
-        </div>
+          {/* Expand / Collapse */}
+          <div className="flex items-center gap-1 border-l border-slate-200 pl-2">
+            <button
+              onClick={expandAll}
+              className="flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-bold text-slate-700 transition-all hover:bg-white active:scale-95"
+              title={isTa ? "அனைத்தையும் விரி" : "Expand all"}
+            >
+              <ChevronDown size={13} />
+              <span className="hidden sm:inline">{isTa ? "விரி" : "Expand"}</span>
+            </button>
+            <button
+              onClick={collapseToBranches}
+              className="flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-bold text-slate-700 transition-all hover:bg-white active:scale-95"
+              title={isTa ? "கிளைகளாக மடக்கு" : "Collapse"}
+            >
+              <ChevronRight size={13} />
+              <span className="hidden sm:inline">{isTa ? "மடக்கு" : "Collapse"}</span>
+            </button>
+          </div>
 
-        <div className="flex items-center gap-0.5 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
-          <button
-            onClick={() => setZoom((z) => clampZoom(z - 0.15))}
-            className="rounded-md p-1.5 text-slate-600 transition-colors hover:bg-white hover:text-[#0284c7]"
-            title={isTa ? "சிறிதாக்கு" : "Zoom out"}
-          >
-            <Minus size={13} />
-          </button>
-          <span className="w-9 text-center text-[10px] font-bold text-slate-500">
-            {Math.round(zoom * 100)}%
-          </span>
-          <button
-            onClick={() => setZoom((z) => clampZoom(z + 0.15))}
-            className="rounded-md p-1.5 text-slate-600 transition-colors hover:bg-white hover:text-[#0284c7]"
-            title={isTa ? "பெரிதாக்கு" : "Zoom in"}
-          >
-            <Plus size={13} />
-          </button>
-          <button
-            onClick={() => fitToScreen()}
-            className="rounded-md p-1.5 text-slate-600 transition-colors hover:bg-white hover:text-[#0284c7]"
-            title={isTa ? "திரைக்கு பொருத்து" : "Fit to screen"}
-          >
-            <Maximize2 size={13} />
-          </button>
+          {/* Zoom Buttons */}
+          <div className="flex items-center gap-0.5 rounded-xl border border-slate-200 bg-slate-50 p-0.5">
+            <button
+              onClick={() => setZoom((z) => clampZoom(z - 0.15))}
+              className="rounded-lg p-1.5 text-slate-600 hover:bg-white hover:text-indigo-600 shadow-2xs"
+              title={isTa ? "சிறிதாக்கு" : "Zoom out"}
+            >
+              <Minus size={13} />
+            </button>
+            <span className="w-10 text-center text-[10px] font-black text-slate-600">
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              onClick={() => setZoom((z) => clampZoom(z + 0.15))}
+              className="rounded-lg p-1.5 text-slate-600 hover:bg-white hover:text-indigo-600 shadow-2xs"
+              title={isTa ? "பெரிதாக்கு" : "Zoom in"}
+            >
+              <Plus size={13} />
+            </button>
+            <button
+              onClick={() => fitToScreen()}
+              className="rounded-lg p-1.5 text-slate-600 hover:bg-white hover:text-indigo-600 shadow-2xs"
+              title={isTa ? "திரைக்கு பொருத்து" : "Fit to screen"}
+            >
+              <Maximize2 size={13} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Branch legend — a click flies the canvas to that limb */}
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">
-          {isTa ? "கிளைகள்" : "Branches"}
+      {/* ── Branch Legend Pills (Instant Jump & Highlight) ──────────────────── */}
+      <div className="flex flex-wrap items-center gap-1.5 px-1">
+        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mr-1 flex items-center gap-1">
+          <Layers size={11} />
+          <span>{isTa ? "பாடப் பிரிவுகள்:" : "Branches:"}</span>
         </span>
-        {(mindMap.root.children || []).map((branch) => {
+        {topBranches.map((branch) => {
           const theme = getBranch(branch.accent);
+          const isCurrent = selectedEntry?.branchId === branch.id || selectedEntry?.id === branch.id;
           return (
             <button
               key={branch.id}
               onClick={() => focusNode(branch.id)}
-              className="flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold transition-transform hover:scale-105 active:scale-95"
-              style={{ background: theme.tint, borderColor: theme.border, color: theme.text }}
+              className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold transition-all hover:scale-105 active:scale-95 ${
+                isCurrent ? "ring-2 ring-indigo-500/40 shadow-xs scale-105" : "shadow-2xs"
+              }`}
+              style={{
+                background: isCurrent ? theme.soft : theme.tint,
+                borderColor: theme.stroke,
+                color: theme.text,
+              }}
             >
               <span
-                className="h-1.5 w-1.5 rounded-full"
+                className="h-2 w-2 rounded-full shrink-0 shadow-xs"
                 style={{ background: theme.stroke }}
               />
               {branch.icon && <span>{branch.icon}</span>}
@@ -681,19 +955,22 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
         })}
       </div>
 
-      {/* Canvas */}
+      {/* ── Interactive Mind Map Canvas (Scroll to Zoom • Drag to Pan) ──────── */}
       <div
         ref={viewportRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
-        onWheel={onWheel}
-        className="relative h-[70vh] min-h-[26rem] cursor-grab touch-none select-none overflow-hidden rounded-2xl border border-slate-200 bg-white active:cursor-grabbing"
+        onWheel={handleWheel}
+        className={`relative h-[74vh] min-h-[30rem] touch-none select-none overflow-hidden rounded-3xl border border-slate-200 bg-[#F8FAFC] shadow-inner transition-colors overscroll-contain ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
         style={{
           backgroundImage:
-            "radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0)",
-          backgroundSize: "22px 22px",
+            "radial-gradient(circle at 1.5px 1.5px, #CBD5E1 1.5px, transparent 0)",
+          backgroundSize: "28px 28px",
+          overscrollBehavior: "contain",
         }}
       >
         <div
@@ -703,31 +980,50 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
             transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
             transformOrigin: "0 0",
           }}
-          className="relative"
+          className="relative pointer-events-auto"
         >
-          {/* Connectors sit behind the cards */}
+          {/* Luminous Connector Curves */}
           <svg
             width={layout.width}
             height={layout.height}
             className="pointer-events-none absolute inset-0"
           >
+            <defs>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
             {layout.links.map((link) => {
               const theme = getBranch(link.accent);
               const dim = searching && !matches.has(link.id.split("->")[1]);
+              const isHighlighted = selectedEntry && link.id.includes(selectedEntry.id);
               return (
-                <path
-                  key={link.id}
-                  d={link.d}
-                  fill="none"
-                  stroke={theme.stroke}
-                  strokeWidth={link.depth === 1 ? 2.6 : link.depth === 2 ? 1.9 : 1.4}
-                  strokeLinecap="round"
-                  opacity={dim ? 0.16 : link.depth === 1 ? 0.85 : 0.6}
-                />
+                <g key={link.id}>
+                  {/* Subtle ambient branch glow */}
+                  <path
+                    d={link.d}
+                    fill="none"
+                    stroke={theme.stroke}
+                    strokeWidth={link.depth === 1 ? 6 : 4}
+                    strokeLinecap="round"
+                    opacity={dim ? 0.03 : isHighlighted ? 0.4 : 0.16}
+                  />
+                  {/* Main connection line */}
+                  <path
+                    d={link.d}
+                    fill="none"
+                    stroke={theme.stroke}
+                    strokeWidth={link.depth === 1 ? 2.8 : link.depth === 2 ? 2.0 : 1.5}
+                    strokeLinecap="round"
+                    opacity={dim ? 0.12 : isHighlighted ? 1 : 0.85}
+                  />
+                </g>
               );
             })}
           </svg>
 
+          {/* Cards for each curriculum concept */}
           {layout.nodes.map((entry) => (
             <MapNode
               key={entry.id}
@@ -735,22 +1031,33 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
               isSelected={entry.id === selectedId}
               isMatch={searching && matches.has(entry.id)}
               isDimmed={searching && !matches.has(entry.id)}
-              onSelect={(e) => setSelectedId(e.id)}
+              onSelect={(selectedNodeEntry) => setSelectedId(selectedNodeEntry.id)}
               onToggle={toggleNode}
             />
           ))}
         </div>
 
-        {/* Drag hint, and the detail drawer */}
-        <div className="pointer-events-none absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-white/90 px-2.5 py-1 text-[10.5px] font-semibold text-slate-500 shadow-xs backdrop-blur-sm">
-          <Move size={11} />
+        {/* Floating Navigation Instructions HUD */}
+        <div className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 rounded-2xl bg-white/90 px-3.5 py-2 text-[11px] font-bold text-slate-600 border border-slate-200 shadow-md backdrop-blur-md">
+          <Move size={14} className="text-indigo-600" />
           <span>
             {isTa
-              ? "இழுத்து நகர்த்தவும் • Ctrl+சக்கரம் பெரிதாக்க • முனையைத் தட்டவும்"
-              : "Drag to pan • Ctrl + wheel to zoom • Tap a node for details"}
+              ? "🖱️ சக்கரத்தை உருட்டி பெரிதாக்கவும் • கிளிக் செய்து இழுக்கவும் • முனையைத் தட்டவும்"
+              : "🖱️ Scroll mouse to zoom • Click & drag to move • Tap any concept to learn"}
           </span>
         </div>
 
+        {/* Reset to Center Button */}
+        <button
+          onClick={() => fitToScreen()}
+          className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-2xl bg-white/90 border border-slate-200 px-3 py-2 text-xs font-bold text-slate-700 shadow-md backdrop-blur-md hover:bg-white active:scale-95"
+          title="Recenter view"
+        >
+          <Target size={14} className="text-indigo-600" />
+          <span>{isTa ? "மையப்படுத்து" : "Center Map"}</span>
+        </button>
+
+        {/* Selected Node Details Drawer */}
         <AnimatePresence>
           {selectedEntry && (
             <NodeDetail
@@ -764,12 +1071,16 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
         </AnimatePresence>
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-2 px-1 text-[11px] font-semibold text-slate-400">
-        <span>
-          {mindMap.nodeCount} {isTa ? "முனைகள்" : "concepts"} • {mindMap.branchCount}{" "}
-          {isTa ? "முதன்மைக் கிளைகள்" : "main branches"}
+      {/* Footer Metrics */}
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1 text-xs font-bold text-slate-500">
+        <span className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+          <span>
+            {mindMap.nodeCount} {isTa ? "கற்றல் கருத்துகள்" : "curriculum concepts"} • {mindMap.branchCount}{" "}
+            {isTa ? "முதன்மை பிரிவுகள்" : "core branches"}
+          </span>
         </span>
-        <span>{mindMap.blurb}</span>
+        <span className="text-slate-400 font-medium">{mindMap.blurb}</span>
       </div>
     </div>
   );

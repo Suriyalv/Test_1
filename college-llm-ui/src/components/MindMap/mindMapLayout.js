@@ -8,15 +8,15 @@
 // Everything here is pure geometry — it returns plain numbers, so the view can
 // render the same layout as absolutely positioned cards plus one SVG of curves.
 
-const GAP_X = 74; // horizontal breathing room between two levels
-const ROW_GAP = 16; // vertical gap between two stacked leaves
+const GAP_X = 82; // horizontal breathing room between two levels
+const ROW_GAP = 18; // vertical gap between two stacked leaves
 const PAD = 60; // padding around the whole drawing
 
 /** Card width for a given depth: the deeper the node, the more compact. */
-export const nodeWidth = (depth) => (depth === 0 ? 216 : depth === 1 ? 192 : 168);
+export const nodeWidth = (depth) => (depth === 0 ? 230 : depth === 1 ? 204 : 176);
 
 /** Font size the view paints the label at, mirrored here so heights line up. */
-export const nodeFontSize = (depth) => (depth === 0 ? 16 : depth === 1 ? 13.5 : 12.5);
+export const nodeFontSize = (depth) => (depth === 0 ? 16 : depth === 1 ? 14 : 12.8);
 
 const nodePadY = (depth) => (depth === 0 ? 15 : depth === 1 ? 12 : 10);
 

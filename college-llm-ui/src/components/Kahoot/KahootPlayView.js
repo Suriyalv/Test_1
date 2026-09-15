@@ -29,8 +29,8 @@ const QuizPicker = ({ quizzes, loading, onPick, isTa }) => {
 
   if (quizzes.length === 0) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-xs">
-        <Trophy size={30} className="mx-auto mb-2 text-[#0284c7] opacity-70" />
+      <div className="rounded-2xl border border-white/50 bg-white/70 backdrop-blur-xl p-10 text-center shadow-xs">
+        <Trophy size={30} className="mx-auto mb-2 text-zinc-400 opacity-70" />
         <h3 className="mb-1 text-sm font-bold text-slate-900">
           {isTa ? "இன்னும் வினாடி வினாக்கள் இல்லை" : "No live quizzes yet"}
         </h3>
@@ -55,22 +55,22 @@ const QuizPicker = ({ quizzes, loading, onPick, isTa }) => {
           transition={{ duration: 0.25, delay: Math.min(i * 0.04, 0.2) }}
           whileHover={{ y: -4 }}
           whileTap={{ scale: 0.97 }}
-          className="group flex flex-col items-start rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-xs transition-all hover:border-[#0284c7]/40 hover:shadow-lg"
+          className="group flex flex-col items-start rounded-[20px] border border-white/50 bg-white/70 backdrop-blur-xl p-5 text-left shadow-sm transition-all hover:border-[#007AFF]/40 hover:shadow-apple-sm"
         >
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0284c7] to-[#0ba5ec] text-white shadow-sm transition-transform group-hover:scale-110">
+          <div className="flex h-11 w-11 items-center justify-center rounded-[14px] bg-[#007AFF] text-white shadow-sm transition-transform group-hover:scale-110">
             <Zap size={20} />
           </div>
           <h3 className="mt-3 text-base font-extrabold tracking-tight text-slate-900">{quiz.title}</h3>
           {quiz.description ? (
             <p className="mt-0.5 line-clamp-2 text-xs font-medium text-slate-500">{quiz.description}</p>
           ) : null}
-          <div className="mt-3 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#0284c7]">
+          <div className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
             <ListChecks size={13} />
             <span>
               {quiz.questionCount} {isTa ? "வினாக்கள்" : quiz.questionCount === 1 ? "Question" : "Questions"}
             </span>
           </div>
-          <div className="mt-3 flex items-center gap-1.5 rounded-lg bg-brand-50 px-3 py-1.5 text-xs font-bold text-[#0284c7] transition-colors group-hover:bg-[#0284c7] group-hover:text-white">
+          <div className="mt-3 flex items-center gap-1.5 rounded-lg bg-zinc-100 px-3 py-1.5 text-xs font-semibold text-[#007AFF] transition-colors group-hover:bg-[#007AFF] group-hover:text-white">
             <Play size={13} />
             <span>{isTa ? "தொடங்கு" : "Start Quiz"}</span>
           </div>
@@ -81,54 +81,69 @@ const QuizPicker = ({ quizzes, loading, onPick, isTa }) => {
 };
 
 /* ── Stage 2: lobby / get-ready screen ───────────────────────────────────────── */
-const Lobby = ({ quiz, nickname, setNickname, onStart, onBack, isTa }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.98 }}
-    animate={{ opacity: 1, scale: 1 }}
-    className="mx-auto max-w-lg rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-lg sm:p-8"
-  >
-    <button
-      onClick={onBack}
-      className="mb-4 flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-[#0284c7]"
+/* ── Stage 2: lobby / get-ready screen ───────────────────────────────────────── */
+const Lobby = ({ quiz, nickname, setNickname, onStart, onBack, isTa }) => {
+  const hasQuestions = Boolean(
+    (quiz?.questions && quiz.questions.length > 0) || (quiz?.questionCount && quiz.questionCount > 0)
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="mx-auto max-w-lg rounded-[24px] border border-white/50 bg-white/70 backdrop-blur-xl p-6 text-center shadow-apple-lg sm:p-8"
     >
-      <ArrowLeft size={13} /> {isTa ? "வினாடி வினா பட்டியல்" : "Back to quiz list"}
-    </button>
+      <button
+        onClick={onBack}
+        className="mb-4 flex items-center gap-1 text-xs font-semibold text-zinc-500 hover:text-zinc-900"
+      >
+        <ArrowLeft size={13} /> {isTa ? "வினாடி வினா பட்டியல்" : "Back to quiz list"}
+      </button>
 
-    <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0284c7] to-[#0ba5ec] text-white shadow-md">
-      <Trophy size={26} />
-    </div>
-    <h2 className="text-xl font-extrabold tracking-tight text-slate-900">{quiz.title}</h2>
-    <p className="mt-1 text-xs font-semibold text-slate-500">
-      {quiz.questionCount} {isTa ? "வினாக்கள் • விரைவாக பதில் அளித்தால் அதிக மதிப்பெண்" : "questions • answer fast for bonus points"}
-    </p>
+      <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-[16px] bg-[#18181B] text-white shadow-sm">
+        <Trophy size={26} />
+      </div>
+      <h2 className="text-xl font-extrabold tracking-tight text-slate-900">{quiz.title}</h2>
+      <p className="mt-1 text-xs font-semibold text-slate-500">
+        {quiz.questionCount} {isTa ? "வினாக்கள் • விரைவாக பதில் அளித்தால் அதிக மதிப்பெண்" : "questions • answer fast for bonus points"}
+      </p>
 
-    <div className="mt-5 text-left">
-      <label className="mb-1.5 block text-xs font-bold text-slate-700 uppercase tracking-wider">
-        {isTa ? "உங்கள் பெயர்" : "Your Nickname"}
-      </label>
-      <input
-        type="text"
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-        placeholder={isTa ? "பெயரை உள்ளிடவும்..." : "Enter your name..."}
-        className="w-full rounded-xl border border-slate-300 bg-slate-50 p-3 text-sm font-semibold outline-none transition-all focus:border-[#0284c7] focus:bg-white focus:ring-1 focus:ring-[#0284c7]"
-      />
-    </div>
+      {!hasQuestions && (
+        <div className="mt-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-800">
+          {isTa ? "⚠️ இந்த வினாடி வினாவில் கேள்விகள் எதுவும் இல்லை. வேறு வினாடி வினாவைத் தேர்ந்தெடுக்கவும்." : "⚠️ This quiz has no questions yet. Please choose another quiz or add questions in Manage tab."}
+        </div>
+      )}
 
-    <button
-      onClick={onStart}
-      disabled={!nickname.trim()}
-      className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#0284c7] py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-[#026aa2] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-    >
-      <Play size={16} />
-      {isTa ? "வினாடி வினாவைத் தொடங்கு" : "Start the Quiz"}
-    </button>
-  </motion.div>
-);
+      <div className="mt-5 text-left">
+        <label className="mb-1.5 block text-xs font-bold text-slate-700 uppercase tracking-wider">
+          {isTa ? "உங்கள் பெயர்" : "Your Nickname"}
+        </label>
+        <input
+          type="text"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          placeholder={isTa ? "பெயரை உள்ளிடவும்..." : "Enter your name..."}
+          className="w-full rounded-xl border border-white/60 bg-white/50 backdrop-blur-sm p-3 text-[14.5px] font-semibold outline-none transition-all focus:border-[#007AFF] focus:bg-white/80 focus:ring-2 focus:ring-[#007AFF]/20 shadow-inner"
+        />
+      </div>
+
+      <button
+        onClick={onStart}
+        disabled={!nickname.trim() || !hasQuestions}
+        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#007AFF] py-3 text-[14.5px] font-semibold text-white shadow-sm transition-all hover:bg-[#0062CC] active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <Play size={16} />
+        {!hasQuestions
+          ? (isTa ? "வினாக்கள் இல்லை" : "No Questions Available")
+          : (isTa ? "வினாடி வினாவைத் தொடங்கு" : "Start the Quiz")}
+      </button>
+    </motion.div>
+  );
+};
 
 /* ── Stage 3: one live question — image, timer bar, 4 colour tiles ──────────── */
 const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
-  const timeLimit = question.timeLimit || 20;
+  const timeLimit = question?.timeLimit || 20;
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const startRef = useRef(Date.now());
   const answeredRef = useRef(false);
@@ -145,6 +160,7 @@ const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
   );
 
   useEffect(() => {
+    if (!question) return;
     answeredRef.current = false;
     startRef.current = Date.now();
     setTimeLeft(timeLimit);
@@ -161,7 +177,17 @@ const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [question.id, timeLimit]);
+  }, [question?.id, timeLimit]);
+
+  if (!question) {
+    return (
+      <div className="mx-auto max-w-lg rounded-2xl bg-white p-8 text-center shadow-md space-y-4">
+        <p className="text-slate-600 font-bold text-sm">
+          {isTa ? "வினாக்கள் எதுவும் கிடைக்கவில்லை." : "No question found at this index."}
+        </p>
+      </div>
+    );
+  }
 
   const pct = Math.max(0, (timeLeft / timeLimit) * 100);
   const urgent = pct < 25;
@@ -173,21 +199,21 @@ const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
         <span>
           {isTa ? "வினா" : "Question"} {index + 1} / {total}
         </span>
-        <span className={`flex items-center gap-1 ${urgent ? "text-red-600" : "text-[#0284c7]"}`}>
+        <span className={`flex items-center gap-1 ${urgent ? "text-red-600" : "text-[#007AFF]"}`}>
           <Timer size={13} />
           {Math.ceil(timeLeft)}s
         </span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200">
         <motion.div
-          className={`h-full rounded-full ${urgent ? "bg-red-500" : "bg-[#0284c7]"}`}
+          className={`h-full rounded-full ${urgent ? "bg-red-500" : "bg-[#007AFF]"}`}
           animate={{ width: `${pct}%` }}
           transition={{ ease: "linear", duration: 0.1 }}
         />
       </div>
 
       {/* Question card */}
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xs">
+      <div className="overflow-hidden rounded-[20px] border border-zinc-200 bg-white shadow-sm">
         {question.image && !imgBroken ? (
           <img
             src={question.image}
@@ -218,7 +244,7 @@ const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
               type="button"
               whileTap={{ scale: 0.96 }}
               onClick={() => submit(i)}
-              className={`flex items-center gap-3 rounded-xl px-4 py-4 text-left text-sm font-bold text-white shadow-md transition-colors active:scale-95 ${tile.bg} ${tile.hoverBg}`}
+              className={`flex items-center gap-3 rounded-[16px] px-4 py-4 text-left text-sm font-bold text-white shadow-sm transition-all hover:shadow-md active:scale-95 ${tile.bg} ${tile.hoverBg}`}
             >
               <Icon size={20} className="shrink-0 fill-white/90" />
               <span className="leading-snug">{opt}</span>
@@ -232,7 +258,9 @@ const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
 
 /* ── Reveal screen after each question ───────────────────────────────────────── */
 const AnswerReveal = ({ question, selectedIndex, pointsEarned, onNext, isLast, isTa }) => {
+  if (!question) return null;
   const isCorrect = selectedIndex === question.correctIndex;
+  const correctOptionText = (question.options && question.options[question.correctIndex]) || "";
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -253,18 +281,18 @@ const AnswerReveal = ({ question, selectedIndex, pointsEarned, onNext, isLast, i
             ? isTa ? "நேரம் முடிந்தது!" : "Time's up!"
             : isTa ? "தவறான விடை" : "Not quite"}
       </h3>
-      <p className="text-sm font-semibold text-slate-500">
+      <p className="text-sm font-semibold text-zinc-500">
         {isTa ? "சரியான விடை: " : "Correct answer: "}
-        <span className="font-extrabold text-[#0284c7]">{question.options[question.correctIndex]}</span>
+        <span className="font-extrabold text-[#007AFF]">{correctOptionText}</span>
       </p>
       {isCorrect && (
-        <div className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-4 py-1.5 text-sm font-bold text-[#0284c7]">
+        <div className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-4 py-1.5 text-sm font-bold text-[#007AFF]">
           <Zap size={14} /> +{pointsEarned} {isTa ? "மதிப்பெண்கள்" : "points"}
         </div>
       )}
       <button
         onClick={onNext}
-        className="mx-auto flex items-center justify-center gap-2 rounded-xl bg-[#0284c7] px-6 py-2.5 text-sm font-bold text-white shadow-md transition-all hover:bg-[#026aa2] active:scale-95"
+        className="mx-auto flex items-center justify-center gap-2 rounded-xl bg-[#007AFF] px-6 py-2.5 text-[14.5px] font-bold text-white shadow-sm transition-all hover:bg-[#0062CC] active:scale-95"
       >
         {isLast ? (isTa ? "முடிவுகளைப் பார்" : "See Results") : isTa ? "அடுத்த வினா" : "Next Question"}
       </button>
@@ -279,9 +307,9 @@ const ResultsScreen = ({ nickname, totalScore, maxScore, correctCount, total, on
     <motion.div
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="mx-auto max-w-lg space-y-5 rounded-2xl border border-slate-200 bg-white p-6 text-center shadow-lg sm:p-8"
+      className="mx-auto max-w-lg space-y-5 rounded-[24px] border border-zinc-200 bg-white p-6 text-center shadow-apple-lg sm:p-8"
     >
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white shadow-md">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[16px] bg-[#18181B] text-white shadow-sm">
         <Trophy size={30} />
       </div>
       <div>
@@ -294,31 +322,31 @@ const ResultsScreen = ({ nickname, totalScore, maxScore, correctCount, total, on
       </div>
 
       <div className="grid grid-cols-3 gap-2">
-        <div className="rounded-xl bg-brand-50 p-3">
-          <div className="text-xl font-extrabold text-[#0284c7]">{totalScore}</div>
-          <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
+        <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
+          <div className="text-xl font-extrabold text-[#007AFF]">{totalScore}</div>
+          <div className="text-[10px] font-bold uppercase tracking-wide text-zinc-500">
             {isTa ? "மதிப்பெண்" : "Score"}
           </div>
         </div>
-        <div className="rounded-xl bg-emerald-50 p-3">
-          <div className="text-xl font-extrabold text-emerald-700">
+        <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
+          <div className="text-xl font-extrabold text-zinc-800">
             {correctCount}/{total}
           </div>
-          <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
+          <div className="text-[10px] font-bold uppercase tracking-wide text-zinc-500">
             {isTa ? "சரியானவை" : "Correct"}
           </div>
         </div>
-        <div className="rounded-xl bg-amber-50 p-3">
-          <div className="text-xl font-extrabold text-amber-700">{pct}%</div>
-          <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
+        <div className="rounded-xl bg-zinc-50 border border-zinc-200 p-3">
+          <div className="text-xl font-extrabold text-zinc-800">{pct}%</div>
+          <div className="text-[10px] font-bold uppercase tracking-wide text-zinc-500">
             {isTa ? "துல்லியம்" : "Accuracy"}
           </div>
         </div>
       </div>
 
-      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-[#0284c7] to-[#38bdf8]"
+          className="h-full rounded-full bg-[#007AFF]"
           style={{ width: `${maxScore > 0 ? (totalScore / maxScore) * 100 : 0}%` }}
         />
       </div>
@@ -326,13 +354,13 @@ const ResultsScreen = ({ nickname, totalScore, maxScore, correctCount, total, on
       <div className="flex flex-col gap-2 sm:flex-row">
         <button
           onClick={onPlayAgain}
-          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#0284c7] py-2.5 text-sm font-bold text-white shadow-xs transition-all hover:bg-[#026aa2] active:scale-95"
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[#007AFF] py-2.5 text-[14.5px] font-bold text-white shadow-sm transition-all hover:bg-[#0062CC] active:scale-95"
         >
           <RefreshCw size={14} /> {isTa ? "மீண்டும் விளையாடு" : "Play Again"}
         </button>
         <button
           onClick={onBackToList}
-          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-100 py-2.5 text-sm font-bold text-slate-700 transition-all hover:bg-slate-200 active:scale-95"
+          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-white py-2.5 text-[14.5px] font-bold text-zinc-700 shadow-sm transition-all hover:bg-zinc-50 active:scale-95"
         >
           <ArrowLeft size={14} /> {isTa ? "பட்டியல்" : "Quiz List"}
         </button>
@@ -382,13 +410,18 @@ const KahootPlayView = ({ language = "en" }) => {
   };
 
   const handleStart = () => {
+    if (!activeQuiz?.questions || activeQuiz.questions.length === 0) {
+      alert(isTa ? "இந்த வினாடி வினாவில் கேள்விகள் எதுவும் இல்லை." : "This quiz has no questions yet.");
+      return;
+    }
     setQIndex(0);
     setAnswers([]);
     setStage("playing");
   };
 
   const handleAnswer = (selectedIndex, takenSec) => {
-    const question = activeQuiz.questions[qIndex];
+    const question = activeQuiz?.questions?.[qIndex];
+    if (!question) return;
     const isCorrect = selectedIndex === question.correctIndex;
     const points = scoreForAnswer(isCorrect, takenSec, question.timeLimit || 20);
     setAnswers((prev) => [...prev, { questionId: question.id, selectedIndex, isCorrect, points }]);
@@ -397,7 +430,7 @@ const KahootPlayView = ({ language = "en" }) => {
   };
 
   const handleNext = () => {
-    if (qIndex < activeQuiz.questions.length - 1) {
+    if (activeQuiz?.questions && qIndex < activeQuiz.questions.length - 1) {
       setQIndex((prev) => prev + 1);
       setStage("playing");
     } else {
@@ -407,7 +440,7 @@ const KahootPlayView = ({ language = "en" }) => {
 
   const totalScore = answers.reduce((sum, a) => sum + a.points, 0);
   const correctCount = answers.filter((a) => a.isCorrect).length;
-  const maxScore = activeQuiz ? activeQuiz.questions.length * 1000 : 0;
+  const maxScore = activeQuiz && activeQuiz.questions ? activeQuiz.questions.length * 1000 : 0;
 
   return (
     <div className="space-y-5">
@@ -431,7 +464,7 @@ const KahootPlayView = ({ language = "en" }) => {
           </motion.div>
         )}
 
-        {stage === "playing" && activeQuiz && (
+        {stage === "playing" && activeQuiz && activeQuiz.questions?.[qIndex] && (
           <motion.div key={`q-${qIndex}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <QuestionStage
               question={activeQuiz.questions[qIndex]}
@@ -443,7 +476,7 @@ const KahootPlayView = ({ language = "en" }) => {
           </motion.div>
         )}
 
-        {stage === "reveal" && activeQuiz && lastAnswer && (
+        {stage === "reveal" && activeQuiz && activeQuiz.questions?.[qIndex] && lastAnswer && (
           <motion.div key="reveal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <AnswerReveal
               question={activeQuiz.questions[qIndex]}

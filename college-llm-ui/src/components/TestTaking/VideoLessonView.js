@@ -21,6 +21,7 @@ import {
   Lock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import sounds from "../../utils/soundEffects";
 
 const YT_API_SRC = "https://www.youtube.com/iframe_api";
 let ytApiPromise = null;
@@ -413,28 +414,31 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
   return (
     <div className="space-y-5">
       {/* Lesson header */}
-      <div className="bg-white border border-slate-200 p-3 sm:p-4 rounded-xl shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-        <div className="flex items-start gap-2.5">
-          <div className="w-8 h-8 shrink-0 rounded-lg bg-brand-50 text-[#0284c7] border border-brand-100 flex items-center justify-center">
-            <Video size={16} />
+      <div className="bg-white border-2 border-[#e5e5e5] p-3.5 sm:p-4 rounded-2xl shadow-[0_4px_0_0_#e5e5e5] flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+        <div className="flex items-start gap-3">
+          <div className="w-9 h-9 shrink-0 rounded-xl bg-sky-50 text-[#1cb0f6] border-2 border-sky-200 flex items-center justify-center shadow-xs">
+            <Video size={18} />
           </div>
           <div>
-            <div className="text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
+            <div className="text-[10px] font-black text-[#1cb0f6] uppercase tracking-wider">
               {lesson.subject}
             </div>
-            <h2 className="text-sm font-extrabold text-slate-900 tracking-tight leading-snug">
+            <h2 className="text-sm sm:text-base font-black text-slate-900 tracking-tight leading-snug">
               {lesson.title}
             </h2>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="px-2 py-1 bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-600">
+        <div className="flex items-center gap-2.5 shrink-0">
+          <span className="px-2.5 py-1 bg-sky-50 border border-sky-200 rounded-xl text-xs font-black text-[#1cb0f6]">
             {totalConcepts} {isTa ? "கருத்துகள்" : "concepts"}
           </span>
           <button
-            onClick={() => changeLang(currentLang === "en" ? "ta" : "en")}
-            className="flex items-center gap-1.5 px-3 py-1 bg-brand-50 hover:bg-brand-100 border border-brand-200 text-[#0284c7] rounded-lg text-xs font-bold transition-all active:scale-95"
+            onClick={() => {
+              sounds.playClick();
+              changeLang(currentLang === "en" ? "ta" : "en");
+            }}
+            className="btn-3d btn-3d-white flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-[#1cb0f6]"
           >
             <Languages size={14} />
             <span>{currentLang === "en" ? "English (EN)" : "தமிழ் (TA)"}</span>
@@ -445,7 +449,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       {/* Player + concept rail */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-3">
-          <div className="bg-slate-900 border border-slate-200 rounded-xl overflow-hidden shadow-xs relative">
+          <div className="bg-slate-900 border-2 border-slate-700 rounded-2xl overflow-hidden shadow-md relative">
             <div className="aspect-video w-full">
               <div ref={containerRef} className="w-full h-full" />
             </div>
@@ -458,22 +462,22 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute inset-0 bg-slate-900/80 backdrop-blur-[2px] flex flex-col items-center justify-center text-center px-6 pointer-events-none"
+                  className="absolute inset-0 bg-slate-900/85 backdrop-blur-[2px] flex flex-col items-center justify-center text-center px-6 pointer-events-none"
                 >
-                  <PauseCircle size={30} className="text-white/90 mb-2" />
-                  <p className="text-white font-bold text-sm">
+                  <PauseCircle size={36} className="text-[#1cb0f6] mb-2 animate-bounce-pop" />
+                  <p className="text-white font-black text-base sm:text-lg">
                     {phase === "final"
-                      ? (isTa ? "இறுதி மதிப்பாய்வு" : "Final Review")
-                      : (isTa ? "வீடியோ இடைநிறுத்தப்பட்டது" : "Video paused for a question")}
+                      ? (isTa ? "இறுதி மதிப்பாய்வு" : "Final Assessment Review")
+                      : (isTa ? "வீடியோ இடைநிறுத்தப்பட்டது" : "Interactive Checkpoint Paused")}
                   </p>
-                  <p className="text-white/70 text-xs mt-1 max-w-sm">
+                  <p className="text-white/80 text-xs mt-1 max-w-sm font-semibold">
                     {phase === "final"
                       ? (isTa
                           ? "அனைத்து கருத்துகளையும் பற்றிய வினாக்களுக்கு விடையளிக்கவும்."
-                          : "Answer one question on every concept to finish the lesson.")
+                          : "Answer one question on every concept to complete the quest.")
                       : (isTa
                           ? "கீழே உள்ள வினாவிற்கு விடையளித்ததும் வீடியோ தொடரும்."
-                          : "The video resumes as soon as you answer the question below.")}
+                          : "The lesson continues as soon as you evaluate your answer below.")}
                   </p>
                 </motion.div>
               )}
@@ -489,21 +493,24 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                   transition={{ duration: 0.15 }}
                   className="absolute inset-0 bg-slate-900/90 flex flex-col items-center justify-center text-center px-6"
                 >
-                  <Sparkles size={26} className="text-brand-300 mb-2" />
-                  <p className="text-white font-bold text-sm sm:text-base">
-                    {isTa ? "பார்த்து, யோசித்து, விடையளிக்கவும்" : "Watch, think, answer"}
+                  <Sparkles size={28} className="text-amber-400 mb-2 animate-bounce-pop" />
+                  <p className="text-white font-black text-base sm:text-lg">
+                    {isTa ? "பார்த்து, யோசித்து, விடையளிக்கவும்" : "Watch, Think, and Answer"}
                   </p>
-                  <p className="text-white/70 text-xs mt-1.5 max-w-md leading-relaxed">
+                  <p className="text-white/75 text-xs mt-1.5 max-w-md leading-relaxed font-semibold">
                     {isTa
                       ? `ஒவ்வொரு கருத்தும் விளக்கப்பட்ட பிறகு வீடியோ தானாக நிற்கும், AI ஒரு வினா கேட்கும். விடையளித்ததும் வீடியோ தொடரும். இறுதியில் ${totalConcepts} கருத்துகளும் மீண்டும் கேட்கப்படும்.`
-                      : `After each concept the video pauses on its own and the AI asks you one question about it. Answer, and the video continues. At the end, all ${totalConcepts} concepts are asked again.`}
+                      : `After each concept the video pauses on its own and the AI tests your active recall. Answer, and the video continues smoothly.`}
                   </p>
                   <button
-                    onClick={startWatching}
+                    onClick={() => {
+                      sounds.playClick();
+                      startWatching();
+                    }}
                     disabled={!playerReady}
-                    className="mt-4 flex items-center gap-2 px-4 py-2 bg-[#0ba5ec] hover:bg-[#026aa2] disabled:bg-slate-600 disabled:cursor-not-allowed text-white rounded-lg font-bold text-xs sm:text-sm transition-all active:scale-95 shadow-xs"
+                    className="btn-3d btn-3d-blue mt-5 flex items-center gap-2 px-6 py-2.5 rounded-2xl font-black text-sm text-white shadow-lg disabled:opacity-50"
                   >
-                    <PlayCircle size={16} />
+                    <PlayCircle size={18} />
                     <span>
                       {playerReady
                         ? (isTa ? "பாடத்தைத் தொடங்கு" : "Start the lesson")
@@ -516,19 +523,20 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
           </div>
 
           {/* Progress bar */}
-          <div className="bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 shadow-xs">
-            <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-1.5">
-              <span>
-                {isTa ? "கருத்து முன்னேற்றம்" : "Concept progress"}:{" "}
-                <span className="text-[#0284c7] font-extrabold">{answeredCount}</span> / {totalConcepts}
+          <div className="bg-white border-2 border-[#e5e5e5] rounded-2xl px-4 py-3 shadow-[0_3px_0_0_#e5e5e5]">
+            <div className="flex items-center justify-between text-xs font-black text-slate-500 mb-2">
+              <span className="flex items-center gap-1.5">
+                <Sparkles size={13} className="text-[#1cb0f6]" />
+                {isTa ? "கருத்து முன்னேற்றம்" : "Concept Progress"}:{" "}
+                <span className="text-[#1cb0f6] font-black">{answeredCount}</span> / {totalConcepts}
               </span>
-              <span className="tabular-nums">
+              <span className="tabular-nums font-mono text-slate-400">
                 {formatTime(elapsed)} / {formatTime(lesson.duration)}
               </span>
             </div>
-            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+            <div className="h-2.5 w-full bg-[#f0f2f5] rounded-full overflow-hidden p-0.5 border border-[#e5e5e5] shadow-inner">
               <div
-                className="h-full bg-[#0284c7] rounded-full transition-all duration-300"
+                className="h-full bg-gradient-to-r from-[#1cb0f6] to-[#007AFF] rounded-full transition-all duration-300"
                 style={{ width: `${totalConcepts ? (answeredCount / totalConcepts) * 100 : 0}%` }}
               />
             </div>
@@ -536,15 +544,15 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
         </div>
 
         {/* Concept checklist */}
-        <div className="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs">
-          <div className="flex items-center gap-1.5 pb-2 mb-2 border-b border-slate-100">
-            <ListChecks size={14} className="text-[#0284c7]" />
-            <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wide">
-              {isTa ? "பாட கருத்துகள்" : "Lesson concepts"}
+        <div className="bg-white border-2 border-[#e5e5e5] rounded-2xl p-4 shadow-[0_4px_0_0_#e5e5e5]">
+          <div className="flex items-center gap-2 pb-2.5 mb-2.5 border-b-2 border-[#f0f2f5]">
+            <ListChecks size={16} className="text-[#1cb0f6]" />
+            <h3 className="text-xs font-black text-slate-900 uppercase tracking-wider">
+              {isTa ? "பாட கருத்துகள்" : "Lesson Concepts"}
             </h3>
           </div>
 
-          <ol className="space-y-1.5">
+          <ol className="space-y-2">
             {lesson.concepts.map((concept) => {
               const scored = checkpointResults.find((r) => r.conceptId === concept.id);
               const isActive = activeConcept && activeConcept.id === concept.id;
@@ -553,32 +561,32 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
               return (
                 <li
                   key={concept.id}
-                  className={`flex items-start gap-2 p-2 rounded-lg border text-xs transition-all ${
+                  className={`flex items-start gap-2.5 p-2.5 rounded-xl border-2 text-xs transition-all ${
                     isActive
-                      ? "bg-brand-50 border-[#0284c7]"
+                      ? "bg-sky-50 border-[#1cb0f6] shadow-[0_2px_0_0_#1899d6]"
                       : isDone
-                      ? "bg-slate-50 border-slate-200"
-                      : "bg-white border-slate-100"
+                      ? "bg-emerald-50/60 border-emerald-200"
+                      : "bg-[#f9fafb] border-[#e5e5e5]"
                   }`}
                 >
                   <span className="shrink-0 mt-0.5">
                     {isDone ? (
                       scored.correct ? (
-                        <CheckCircle2 size={14} className="text-emerald-600" />
+                        <CheckCircle2 size={15} className="text-[#58cc02]" />
                       ) : (
-                        <XCircle size={14} className="text-red-500" />
+                        <XCircle size={15} className="text-rose-500" />
                       )
                     ) : isActive ? (
-                      <PauseCircle size={14} className="text-[#0284c7]" />
+                      <PauseCircle size={15} className="text-[#1cb0f6]" />
                     ) : (
-                      <Lock size={13} className="text-slate-300" />
+                      <Lock size={14} className="text-slate-300" />
                     )}
                   </span>
                   <div className="min-w-0">
-                    <p className={`font-semibold leading-snug ${isDone || isActive ? "text-slate-900" : "text-slate-500"}`}>
+                    <p className={`font-black leading-snug ${isDone || isActive ? "text-slate-900" : "text-slate-500"}`}>
                       {concept.title}
                     </p>
-                    <p className="text-[10px] text-slate-400 font-medium tabular-nums mt-0.5">
+                    <p className="text-[10px] text-slate-400 font-bold tabular-nums mt-0.5 font-mono">
                       {formatTime(concept.start)} – {formatTime(concept.end)}
                     </p>
                   </div>
@@ -599,34 +607,34 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="bg-white border-2 border-[#0284c7] rounded-xl p-5 sm:p-6 shadow-xs"
+            className="bg-white border-2 border-[#e5e5e5] rounded-3xl p-6 sm:p-7 shadow-[0_8px_0_0_#e5e5e5]"
           >
             {/* Card header */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100 mb-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b-2 border-[#f0f2f5] mb-4">
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 bg-[#0284c7] text-white rounded text-[11px] font-bold uppercase">
+                <span className="px-2.5 py-1 bg-[#1cb0f6] text-white rounded-xl text-[11px] font-black uppercase tracking-wider shadow-xs">
                   {phase === "final"
                     ? (isTa ? "இறுதி மதிப்பாய்வு" : "Final Review")
                     : (isTa ? "கருத்து சோதனை" : "Concept Check")}
                 </span>
                 {currentQuestion && (
-                  <span className="text-xs font-semibold text-[#0284c7] bg-brand-50 border border-brand-100 px-2 py-0.5 rounded">
+                  <span className="text-xs font-black text-[#1cb0f6] bg-sky-50 border border-sky-200 px-2.5 py-1 rounded-xl">
                     {currentQuestion.conceptTitle}
                   </span>
                 )}
               </div>
 
-              <div className="text-xs font-bold text-slate-500">
+              <div className="text-xs font-black text-slate-500">
                 {phase === "final" ? (
                   <>
                     {isTa ? "வினா:" : "Question:"}{" "}
-                    <span className="text-[#0284c7] font-extrabold">{finalIndex + 1}</span> /{" "}
+                    <span className="text-[#1cb0f6] font-extrabold">{finalIndex + 1}</span> /{" "}
                     {finalQuestions.length || "…"}
                   </>
                 ) : (
                   <>
                     {isTa ? "சோதனை:" : "Checkpoint:"}{" "}
-                    <span className="text-[#0284c7] font-extrabold">{answeredCount + 1}</span> / {totalConcepts}
+                    <span className="text-[#1cb0f6] font-extrabold">{answeredCount + 1}</span> / {totalConcepts}
                   </>
                 )}
               </div>
@@ -635,20 +643,20 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
             {/* Body */}
             {questionLoading || finalLoading ? (
               <div className="py-8 text-center">
-                <RefreshCw size={20} className="animate-spin text-[#0284c7] mx-auto mb-2" />
-                <p className="font-medium text-xs text-slate-600">
+                <RefreshCw size={24} className="animate-spin text-[#1cb0f6] mx-auto mb-2" />
+                <p className="font-black text-xs text-slate-600">
                   {phase === "final"
-                    ? (isTa ? "இறுதி வினாக்களை AI உருவாக்குகிறது..." : "The AI is preparing the final questions...")
-                    : (isTa ? "இந்தக் கருத்தில் இருந்து AI வினா உருவாக்குகிறது..." : "The AI is writing a question on this concept...")}
+                    ? (isTa ? "இறுதி வினாக்களை AI உருவாக்குகிறது..." : "The AI is preparing the final challenges...")
+                    : (isTa ? "இந்தக் கருத்தில் இருந்து AI வினா உருவாக்குகிறது..." : "The AI is crafting a challenge on this concept...")}
                 </p>
               </div>
             ) : questionError ? (
               <div className="py-6 text-center">
-                <XCircle size={22} className="text-red-500 mx-auto mb-2" />
-                <p className="text-xs text-slate-600 mb-3">{questionError}</p>
+                <XCircle size={24} className="text-rose-500 mx-auto mb-2" />
+                <p className="text-xs text-slate-600 mb-3 font-semibold">{questionError}</p>
                 <button
                   onClick={handleRetryQuestion}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#0284c7] hover:bg-[#026aa2] text-white rounded-lg text-xs font-bold transition-all active:scale-95"
+                  className="btn-3d btn-3d-white inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-[#1cb0f6]"
                 >
                   <RefreshCw size={14} />
                   <span>{isTa ? "மீண்டும் முயற்சிக்க" : "Try again"}</span>
@@ -656,33 +664,33 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
               </div>
             ) : currentQuestion ? (
               <>
-                <div className="mb-5 bg-slate-50 p-3.5 rounded-lg border border-slate-200">
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-relaxed">
+                <div className="mb-5 bg-[#f9fafb] p-4 rounded-2xl border-2 border-[#e5e5e5] shadow-inner">
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900 leading-relaxed">
                     {currentQuestion.question}
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {currentQuestion.options.map((option, i) => {
                     const isPicked = selectedIndex === i;
                     const isRightAnswer = result && result.correctIndex === i;
                     const isWrongPick = result && isPicked && !result.correct;
 
-                    let optionClass = "bg-white text-slate-800 border-slate-200 hover:border-brand-300";
+                    let optionClass = "bg-white text-slate-800 border-[#e5e5e5] shadow-[0_4px_0_0_#e5e5e5] hover:border-[#1cb0f6]/60";
                     if (result) {
-                      if (isRightAnswer) optionClass = "bg-emerald-50 text-emerald-900 border-emerald-500";
-                      else if (isWrongPick) optionClass = "bg-red-50 text-red-900 border-red-400";
-                      else optionClass = "bg-white text-slate-400 border-slate-200";
+                      if (isRightAnswer) optionClass = "bg-emerald-50 text-emerald-900 border-emerald-500 shadow-[0_4px_0_0_#46a302]";
+                      else if (isWrongPick) optionClass = "bg-rose-50 text-rose-900 border-rose-400 shadow-[0_4px_0_0_#d93838]";
+                      else optionClass = "bg-white text-slate-400 border-slate-200 shadow-none";
                     } else if (isPicked) {
-                      optionClass = "bg-brand-50 text-[#0284c7] border-[#0284c7] shadow-xs";
+                      optionClass = "bg-sky-50 text-sky-950 border-[#1cb0f6] shadow-[0_4px_0_0_#1899d6] font-black";
                     }
 
-                    let badgeClass = "bg-slate-100 text-slate-700";
+                    let badgeClass = "bg-[#f7f7f7] text-slate-700 border-[#e5e5e5]";
                     if (result) {
-                      if (isRightAnswer) badgeClass = "bg-emerald-600 text-white";
-                      else if (isWrongPick) badgeClass = "bg-red-500 text-white";
+                      if (isRightAnswer) badgeClass = "bg-[#58cc02] text-white border-[#46a302]";
+                      else if (isWrongPick) badgeClass = "bg-rose-500 text-white border-rose-600";
                     } else if (isPicked) {
-                      badgeClass = "bg-[#0284c7] text-white";
+                      badgeClass = "bg-[#1cb0f6] text-white border-[#1899d6]";
                     }
 
                     return (
@@ -690,13 +698,16 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                         key={i}
                         type="button"
                         disabled={Boolean(result) || submitting}
-                        onClick={() => setSelectedIndex(i)}
-                        className={`p-3 rounded-lg border text-left text-xs font-semibold transition-all flex items-start gap-2.5 disabled:cursor-default ${optionClass}`}
+                        onClick={() => {
+                          sounds.playPop();
+                          setSelectedIndex(i);
+                        }}
+                        className={`p-3.5 rounded-2xl border-2 text-left text-xs font-bold transition-all flex items-start gap-3 disabled:cursor-default cursor-pointer ${optionClass}`}
                       >
-                        <span className={`w-6 h-6 rounded text-xs font-bold flex items-center justify-center shrink-0 ${badgeClass}`}>
+                        <span className={`w-7 h-7 rounded-xl text-xs font-black flex items-center justify-center shrink-0 border ${badgeClass}`}>
                           {OPTION_LABELS[i]}
                         </span>
-                        <span className="leading-relaxed pt-0.5">{option}</span>
+                        <span className="leading-relaxed pt-1 font-semibold">{option}</span>
                       </button>
                     );
                   })}
@@ -709,52 +720,58 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                       initial={{ opacity: 0, y: 6 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.15 }}
-                      className={`mt-4 p-3.5 rounded-lg border ${
+                      className={`mt-4 p-4 rounded-2xl border-2 ${
                         result.correct
-                          ? "bg-emerald-50 border-emerald-200"
-                          : "bg-amber-50 border-amber-200"
+                          ? "bg-emerald-50 border-emerald-300 text-emerald-900"
+                          : "bg-amber-50 border-amber-300 text-amber-900"
                       }`}
                     >
-                      <div className="flex items-center gap-1.5 mb-1">
+                      <div className="flex items-center gap-2 mb-1.5">
                         {result.correct ? (
-                          <CheckCircle2 size={15} className="text-emerald-600" />
+                          <CheckCircle2 size={18} className="text-[#58cc02]" />
                         ) : (
-                          <XCircle size={15} className="text-amber-600" />
+                          <XCircle size={18} className="text-amber-600" />
                         )}
-                        <span className={`text-xs font-extrabold ${result.correct ? "text-emerald-800" : "text-amber-800"}`}>
+                        <span className="text-xs font-black">
                           {result.correct
-                            ? (isTa ? "சரியான விடை!" : "Correct!")
-                            : (isTa ? "சரியான விடை அல்ல" : "Not quite")}
+                            ? (isTa ? "சரியான விடை! அருமை!" : "Correct! Excellent recall!")
+                            : (isTa ? "சரியான விடை அல்ல" : "Not quite, but good effort!")}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-700 leading-relaxed">{result.explanation}</p>
+                      <p className="text-xs text-slate-700 leading-relaxed font-medium">{result.explanation}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
 
                 {/* Actions */}
-                <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-                  <p className="text-[11px] text-slate-400 font-medium">
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-3 pt-3 border-t-2 border-[#f0f2f5]">
+                  <p className="text-[11px] text-slate-400 font-bold">
                     {result
                       ? phase === "final"
-                        ? (isTa ? "அடுத்த வினாவிற்குச் செல்லவும்." : "Move on to the next question.")
-                        : (isTa ? "வீடியோவைத் தொடர பொத்தானை அழுத்தவும்." : "Press continue to resume the video.")
+                        ? (isTa ? "அடுத்த வினாவிற்குச் செல்லவும்." : "Move on to the next trial.")
+                        : (isTa ? "வீடியோவைத் தொடர பொத்தானை அழுத்தவும்." : "Press continue to resume the lesson.")
                       : (isTa ? "விடையளித்த பிறகே வீடியோ தொடரும்." : "The video stays paused until you answer.")}
                   </p>
 
                   {!result ? (
                     <button
-                      onClick={handleSubmitAnswer}
+                      onClick={() => {
+                        sounds.playClick();
+                        handleSubmitAnswer();
+                      }}
                       disabled={selectedIndex === null || submitting}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#0284c7] hover:bg-[#026aa2] disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-lg font-bold text-xs transition-all active:scale-95 shadow-xs"
+                      className="btn-3d btn-3d-blue flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs text-white shadow-md disabled:opacity-50"
                     >
                       {submitting ? <RefreshCw size={14} className="animate-spin" /> : <CheckCircle2 size={14} />}
                       <span>{isTa ? "விடையைச் சமர்ப்பி" : "Submit answer"}</span>
                     </button>
                   ) : phase === "final" ? (
                     <button
-                      onClick={handleNextFinalQuestion}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#0284c7] hover:bg-[#026aa2] text-white rounded-lg font-bold text-xs transition-all active:scale-95 shadow-xs"
+                      onClick={() => {
+                        sounds.playClick();
+                        handleNextFinalQuestion();
+                      }}
+                      className="btn-3d btn-3d-green flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs text-white shadow-md"
                     >
                       <span>
                         {finalIndex < finalQuestions.length - 1
@@ -765,11 +782,14 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                     </button>
                   ) : (
                     <button
-                      onClick={handleResumeVideo}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#0ba5ec] hover:bg-[#026aa2] text-white rounded-lg font-bold text-xs transition-all active:scale-95 shadow-xs"
+                      onClick={() => {
+                        sounds.playClick();
+                        handleResumeVideo();
+                      }}
+                      className="btn-3d btn-3d-green flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs text-white shadow-md"
                     >
-                      <PlayCircle size={15} />
-                      <span>{isTa ? "வீடியோவைத் தொடர்" : "Continue video"}</span>
+                      <span>{isTa ? "தொடர்க" : "Continue video"}</span>
+                      <ArrowRight size={14} />
                     </button>
                   )}
                 </div>

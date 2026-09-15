@@ -290,46 +290,63 @@ def mascot_generate_question():
     """
     data = request.get_json() or {}
     language = data.get("language", "en")
+    subject = (data.get("subject") or "").strip()
     used_questions = data.get("used_questions", [])  # avoid repeating same questions
 
     used_str = ""
     if used_questions:
         used_str = "\n\nAVOID these questions (already asked):\n- " + "\n- ".join(used_questions[-10:])
 
-    # Select a real curriculum topic/concept to ground the question
-    concept_sample = knowledge_base.get_random_concept()
+    # Select a real curriculum topic/concept grounded in the requested subject if provided
+    concept_sample = None
+    if subject:
+        # Search the knowledge base for relevant chunks matching this subject
+        subject_chunks = knowledge_base.search(subject, top_k=6)
+        if subject_chunks:
+            concept_sample = random.choice(subject_chunks)
+    if not concept_sample:
+        concept_sample = knowledge_base.get_random_concept()
+
     topic_hint = ""
     if concept_sample:
         topic_hint = f"\n\nBase your question on this syllabus topic:\nChapter {concept_sample.get('chapter_no')}: {concept_sample.get('topic')} - {concept_sample.get('subtopic')}\nConcept summary: {concept_sample.get('content')[:300]}"
 
+    subject_instruction = ""
+    if subject:
+        subject_instruction = f"\nCRITICAL REQUIREMENT: The question MUST be specifically and strictly about the curriculum subject '{subject}'. Do not ask questions outside of this subject."
+
     if language == "ta":
         system_instruction = (
             "நீங்கள் 'கல்வி மித்ரன்' — பள்ளி மாணவர்களுக்கான அன்பான கல்வி உதவியாளர்.\n"
-            "ஒரு சுவாரஸ்யமான, குறுகிய அறிவியல்/கணினி/கணிதம்/பொது அறிவு "
-            "சம்பந்தமான கேள்வியை தமிழில் உருவாக்கவும்.\n"
+            f"தேர்ந்தெடுக்கப்பட்ட பாடம்: {subject if subject else 'பொதுக் கல்வி'}.\n"
+            "ஒரு சுவாரஸ்யமான, குறுகிய அறிவியல்/கணினி சம்பந்தமான கேள்வியை தமிழில் உருவாக்கவும்.\n"
             "கேள்வி: 1-2 வரிகளில் மட்டும் இருக்க வேண்டும். சுவாரஸ்யமாக இருக்க வேண்டும்.\n"
             "பதில்: தெளிவான, குறுகிய விடை மட்டும்.\n"
+            "குறிப்பு (hint): மாணவருக்கு உதவும் 1 எளிய குறிப்பு.\n"
             "கண்டிப்பாக இந்த JSON மட்டும் திருப்பவும் (வேறு எதுவும் வேண்டாம்):\n"
-            "{\"question\": \"...\", \"answer\": \"...\", \"topic\": \"...\"}"
+            "{\"question\": \"...\", \"answer\": \"...\", \"topic\": \"...\", \"hint\": \"...\"}"
             + used_str
             + topic_hint
+            + subject_instruction
         )
     else:
         system_instruction = (
             "You are 'Kalvi Mithran' — an educational mascot and study assistant for school students.\n"
-            "Generate ONE interesting, short computer science / science / general knowledge quiz question "
-            "appropriate for school students (Class 6-12 level).\n"
+            f"Selected Subject: {subject if subject else 'General Computer Science'}.\n"
+            "Generate ONE interesting, short quiz question strictly testing concepts from this syllabus subject.\n"
             "Question: max 1-2 lines, engaging and clear.\n"
             "Answer: short and factual.\n"
+            "Hint: a short, gentle clue (1 sentence) without revealing the answer.\n"
             "Respond ONLY with this JSON (no extra text):\n"
-            "{\"question\": \"...\", \"answer\": \"...\", \"topic\": \"...\"}"
+            "{\"question\": \"...\", \"answer\": \"...\", \"topic\": \"...\", \"hint\": \"...\"}"
             + used_str
             + topic_hint
+            + subject_instruction
         )
 
     messages_payload = [
         {"role": "system", "content": system_instruction},
-        {"role": "user", "content": "Generate a fresh quiz question now."}
+        {"role": "user", "content": f"Generate a fresh quiz question on {subject if subject else 'the curriculum'} now."}
     ]
 
     models_to_try = [MODEL_ID] + FALLBACK_MODELS
@@ -352,12 +369,14 @@ def mascot_generate_question():
                 return jsonify({
                     "question": parsed.get("question", raw),
                     "answer": parsed.get("answer", ""),
-                    "topic": parsed.get("topic", "General"),
+                    "topic": parsed.get("topic", subject or "General"),
+                    "hint": parsed.get("hint", ""),
+                    "subject": subject,
                     "language": language,
                     "model_used": model_name
                 })
             else:
-                return jsonify({"question": raw, "answer": "", "topic": "General", "language": language})
+                return jsonify({"question": raw, "answer": "", "topic": subject or "General", "hint": "", "subject": subject, "language": language})
         except Exception as model_error:
             print(f"[WARN] mascot/question model {model_name} error: {model_error}")
             continue

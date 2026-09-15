@@ -6,59 +6,74 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Official/branding navy — used only for the header strip & footer chrome.
-        navy: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a', // Deep Navy
-          950: '#0f172a', // Dark Navy / Slate
+        minimal: {
+          50: '#fafafa',
+          100: '#f4f4f5',
+          200: '#e4e4e7',
+          300: '#d4d4d8',
+          400: '#a1a1aa',
+          500: '#71717a',
+          600: '#52525b',
+          700: '#3f3f46',
+          800: '#27272a',
+          900: '#18181b',
         },
-        // Primary vibrant brand color for every interactive module (chat, flashcards,
-        // kahoot, mindmap, tests). A brighter, more saturated blue than the official
-        // navy, so it still reads as energetic/teen-friendly while staying blue.
-        brand: {
-          50: '#eff9ff',
-          100: '#dcf3ff',
-          200: '#b6e6ff',
-          300: '#7fd3ff',
-          400: '#3ebeff',
-          500: '#0ba5ec',
-          600: '#0284c7',
-          700: '#026aa2',
-          800: '#075985',
-          900: '#0c4a6e',
+        apple: {
+          blue: '#007AFF',
+          blueHover: '#0062CC',
+          lightBlue: '#E5F1FF',
         },
+        atlas: {
+          50: '#fcfaf7',
+          100: '#f6f1e8',
+          200: '#eee3d1',
+          300: '#e3d0b2',
+          400: '#d4b78a',
+          500: '#c59f63',
+          600: '#b4864b',
+          700: '#946a3c',
+          800: '#795434',
+          900: '#452e1f',
+          gold: '#f59e0b',
+          goldDark: '#d97706',
+          amber: '#fef3c7',
+          teal: '#0d9488',
+          cyan: '#0284c7',
+          sky: '#0284c7',
+          indigo: '#4f46e5',
+          emerald: '#059669',
+          rose: '#e11d48',
+          night: '#0c1222',
+        }
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', '"Noto Sans Tamil"', 'system-ui', 'sans-serif'],
-        // Baloo 2 — rounded, bubbly display face for headings/titles/badges (teen energy).
-        display: ['"Baloo 2"', '"Plus Jakarta Sans"', '"Mukta Malar"', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Inter"', '"SF Pro Text"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', '"Cabinet Grotesk"', 'sans-serif'],
         tamil: ['"Noto Sans Tamil"', '"Mukta Malar"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"Fira Code"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        pop: '0 8px 24px -6px rgba(2, 132, 199, 0.35)',
-        'pop-lg': '0 16px 40px -8px rgba(2, 132, 199, 0.4)',
-      },
-      keyframes: {
-        'wiggle': {
-          '0%, 100%': { transform: 'rotate(-3deg)' },
-          '50%': { transform: 'rotate(3deg)' },
-        },
-        'pop-in': {
-          '0%': { transform: 'scale(0.9)', opacity: 0 },
-          '100%': { transform: 'scale(1)', opacity: 1 },
-        },
+        'atlas-sm': '0 2px 8px -1px rgba(15, 23, 42, 0.05), 0 1px 3px -1px rgba(15, 23, 42, 0.03)',
+        'atlas-card': '0 10px 25px -4px rgba(15, 23, 42, 0.06), 0 4px 10px -2px rgba(15, 23, 42, 0.03)',
+        'atlas-hover': '0 22px 45px -8px rgba(15, 23, 42, 0.12), 0 10px 25px -5px rgba(245, 158, 11, 0.18)',
+        'atlas-glow': '0 0 24px -2px rgba(245, 158, 11, 0.3)',
+        'atlas-cyan-glow': '0 0 24px -2px rgba(14, 165, 233, 0.3)',
+        apple: '0 4px 24px -6px rgba(0, 0, 0, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.04)',
+        'apple-sm': '0 2px 10px -2px rgba(0, 0, 0, 0.04)',
+        'apple-lg': '0 12px 32px -8px rgba(0, 0, 0, 0.12)',
+        float: '0 20px 40px -10px rgba(0, 0, 0, 0.1)',
       },
       animation: {
-        wiggle: 'wiggle 0.4s ease-in-out',
-        'pop-in': 'pop-in 0.25s ease-out',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-slow': 'spin 20s linear infinite',
+        'float': 'float 5s ease-in-out infinite',
       },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        }
+      }
     },
   },
   plugins: [],

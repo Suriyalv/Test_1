@@ -454,9 +454,9 @@ const AdminMindMapManager = ({ language = "en", onChanged }) => {
 
                 <label className="block">
                   <span className="mb-1 block text-[11px] font-bold text-slate-600">
-                    {isTa ? "ஐகான் (எமோஜி)" : "Icon (emoji)"}
+                    {isTa ? "ஐகான்" : "Icon"}
                   </span>
-                  <input {...field("icon")} className={inputClass} placeholder="💥" maxLength={4} />
+                  <input {...field("icon")} className={inputClass} placeholder="*" maxLength={4} />
                 </label>
 
                 <label className="block">

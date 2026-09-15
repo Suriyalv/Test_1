@@ -152,11 +152,11 @@ export const fetchMascotHint = async ({ message, context_question, history, lang
     return response.json();
 };
 
-export const fetchMascotQuestion = async ({ language = "en", used_questions = [] }) => {
+export const fetchMascotQuestion = async ({ language = "en", subject = "", used_questions = [] }) => {
     const response = await fetch(`${API_BASE_URL}/mascot/question`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ language, used_questions }),
+        body: JSON.stringify({ language, subject, used_questions }),
     });
     if (!response.ok) throw new Error("Failed to generate mascot question");
     return response.json();

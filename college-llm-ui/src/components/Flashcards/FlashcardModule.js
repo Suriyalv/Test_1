@@ -1,90 +1,71 @@
 import React, { useState } from "react";
 import FlashcardView from "./FlashcardView";
 import AdminFlashcardManager from "./AdminFlashcardManager";
-import { ArrowLeft, Layers, ShieldCheck, Languages } from "lucide-react";
+import { Layers, ShieldCheck, Compass } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const FlashcardModule = ({ onBackToChat, initialLanguage = "en" }) => {
+const FlashcardModule = ({ onBackToChat, initialLanguage = "en", language: propsLanguage }) => {
   const [activeTab, setActiveTab] = useState("cards"); // "cards" | "admin"
-  const [language, setLanguage] = useState(initialLanguage);
+  const [language, setLanguage] = useState(propsLanguage || initialLanguage);
+
+  React.useEffect(() => {
+    if (propsLanguage) setLanguage(propsLanguage);
+  }, [propsLanguage]);
 
   const isTa = language === "ta";
 
   return (
-    <div className="min-h-screen bg-[#faf8ff] pb-16 font-sans text-slate-900 selection:bg-brand-600 selection:text-white">
-      {/* Top Header Accent Strip */}
-      <div className="tngov-tricolor-strip fixed left-0 right-0 top-0 z-50"></div>
-
-      <header className="sticky top-[3px] z-40 flex items-center justify-between gap-3 border-b border-brand-100 bg-white/95 px-4 py-2.5 shadow-xs backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          {onBackToChat && (
-            <button
-              onClick={onBackToChat}
-              className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-200 hover:text-[#0284c7] active:scale-95"
-              title="Return to Chat"
-            >
-              <ArrowLeft size={15} />
-              <span className="hidden sm:inline">{isTa ? "AI அரட்டை" : "Back to Chat"}</span>
-            </button>
-          )}
-
+    <div className="flex-1 pb-16 font-sans text-slate-900 selection:bg-emerald-200 selection:text-emerald-900">
+      {/* Module Sub-Header: Context & View Switcher */}
+      <div className="bg-slate-50/80 border-b border-[#e5e5e5] px-4 sm:px-6 py-2.5 backdrop-blur-sm shadow-xs">
+        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-wide text-[#0284c7]">
-              {isTa ? "விரைவு திருப்புதல் & நினைவாற்றல்" : "Quick Revision & Recall"}
+            <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-[#ffc800]">
+              <Compass size={12} className="text-[#ffc800]" />
+              <span>{isTa ? "நினைவாற்றல் களம் // பிரிவு 03" : "VAULT OF RUNES // LEVEL 03"}</span>
             </div>
-            <h1 className="text-sm font-extrabold tracking-tight text-slate-900 sm:text-base">
-              {isTa ? "கருத்து அட்டைத் தளம்" : "Concept Flashcard Portal"}
+            <h1 className="text-sm sm:text-base font-black tracking-tight text-slate-900">
+              {isTa ? "கருத்து அட்டைத் தளம் & மீள்பார்வை" : "Concept Flashcard Vault & Active Recall"}
             </h1>
           </div>
-        </div>
 
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 p-0.5">
+          <div className="flex items-center bg-[#f7f7f7] p-1 rounded-2xl border border-[#e5e5e5] gap-1 shadow-inner">
             <button
               onClick={() => setActiveTab("cards")}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
                 activeTab === "cards"
-                  ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
-                  : "text-slate-600 hover:text-[#0284c7]"
+                  ? "bg-white text-[#ffc800] shadow-sm border border-[#e5e5e5]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
               }`}
             >
-              <Layers size={14} />
-              <span>{isTa ? "அட்டைகள்" : "Cards"}</span>
+              <Layers size={14} className={activeTab === "cards" ? "text-[#ffc800]" : ""} />
+              <span>{isTa ? "அட்டைகள்" : "Runes"}</span>
             </button>
 
             <button
               onClick={() => setActiveTab("admin")}
-              className={`flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
                 activeTab === "admin"
-                  ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
-                  : "text-slate-600 hover:text-[#0284c7]"
+                  ? "bg-white text-[#af70e6] shadow-sm border border-[#e5e5e5]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
               }`}
             >
-              <ShieldCheck size={14} />
-              <span className="hidden sm:inline">{isTa ? "அட்டை மேலாண்மை" : "Manage Cards"}</span>
+              <ShieldCheck size={14} className={activeTab === "admin" ? "text-[#af70e6]" : ""} />
+              <span className="hidden sm:inline">{isTa ? "அட்டை மேலாண்மை" : "Manage"}</span>
               <span className="sm:hidden">{isTa ? "ஆசிரியர்" : "Admin"}</span>
             </button>
           </div>
-
-          <button
-            onClick={() => setLanguage(isTa ? "en" : "ta")}
-            title={isTa ? "Switch to English" : "தமிழுக்கு மாற்றவும்"}
-            className="flex items-center gap-1 rounded-lg border border-brand-200 bg-brand-50 px-2.5 py-1.5 text-xs font-bold text-[#0284c7] transition-all hover:bg-brand-100 active:scale-95"
-          >
-            <Languages size={14} />
-            <span>{isTa ? "English" : "தமிழ்"}</span>
-          </button>
         </div>
-      </header>
+      </div>
 
-      <main className="mx-auto max-w-5xl px-4 pt-6">
+      <main className="mx-auto max-w-5xl px-4 pt-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
           >
             {activeTab === "cards" ? (
               <FlashcardView language={language} />

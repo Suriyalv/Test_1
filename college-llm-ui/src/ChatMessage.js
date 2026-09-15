@@ -1,5 +1,6 @@
 import StructuredResponse from "./StructuredResponse";
 import React from "react";
+import { BarChart2, Palette, Download, FileText } from "lucide-react";
 
 function ChatMessage({ role, text, type, imageUrl, imageBase64, prompt, generationTime, mermaidCode, diagramType, files }) {
 
@@ -19,7 +20,7 @@ function ChatMessage({ role, text, type, imageUrl, imageBase64, prompt, generati
     return (
       <div className={`message ${role}`}>
         <div className="bubble diagram-bubble">
-          <div className="diagram-label">📊 Generated Diagram</div>
+          <div className="diagram-label flex items-center gap-2"><BarChart2 size={16} /> Generated Diagram</div>
           {prompt && <div className="diagram-prompt-text">Prompt: "{prompt}"</div>}
           <div className="diagram-container">
             {imageBase64 ? (
@@ -60,7 +61,7 @@ function ChatMessage({ role, text, type, imageUrl, imageBase64, prompt, generati
     return (
       <div className={`message ${role}`}>
         <div className="bubble image-bubble">
-          <div className="image-prompt-label">🎨 Generated Image</div>
+          <div className="image-prompt-label flex items-center gap-2"><Palette size={16} /> Generated Image</div>
           {prompt && <div className="image-prompt-text">Prompt: "{prompt}"</div>}
           <div className="generated-image-container">
             <img
@@ -70,8 +71,8 @@ function ChatMessage({ role, text, type, imageUrl, imageBase64, prompt, generati
             />
           </div>
           <div className="image-actions">
-            <button onClick={downloadImage} className="download-btn">
-              ⬇️ Download
+            <button onClick={downloadImage} className="download-btn flex items-center gap-1.5">
+              <Download size={14} /> Download
             </button>
             {generationTime && (
               <span className="generation-time">Generated in {generationTime.toFixed(1)}s</span>
@@ -97,7 +98,7 @@ function ChatMessage({ role, text, type, imageUrl, imageBase64, prompt, generati
         {/* Render suggested files if available */}
         {role === "assistant" && files && files.length > 0 && (
           <div className="message-files" style={{ marginTop: '16px', borderTop: '1px solid #e5e7eb', paddingTop: '8px' }}>
-            <div style={{ marginBottom: '8px', fontSize: '13px', color: 'black' }}>📄 Referenced Question Papers:</div>
+            <div style={{ marginBottom: '8px', fontSize: '13px', color: 'black', display: 'flex', alignItems: 'center', gap: '4px' }}><FileText size={14} /> Referenced Question Papers:</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {files.map((file, idx) => (
                 <a
@@ -122,10 +123,10 @@ function ChatMessage({ role, text, type, imageUrl, imageBase64, prompt, generati
                   onMouseOver={(e) => e.currentTarget.style.background = '#e5e7eb'}
                   onMouseOut={(e) => e.currentTarget.style.background = '#f3f4f6'}
                 >
-                  <span style={{ fontSize: '16px' }}>{file.type === 'pdf' ? '📕' : '📘'}</span>
+                  <span style={{ display: 'flex' }}><FileText size={16} color={file.type === 'pdf' ? '#ef4444' : '#3b82f6'} /></span>
                   {file.name}
-                  <span style={{ marginLeft: 'auto', fontSize: '14px', color: 'black' }}>
-                    ⬇️
+                  <span style={{ marginLeft: 'auto', display: 'flex' }}>
+                    <Download size={14} />
                   </span>
                 </a>
               ))}

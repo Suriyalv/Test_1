@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader2, Mic, MicOff, BookOpen } from 'lucide-react';
+import { Send, Loader2, Mic, MicOff, BookOpen, Sparkles } from 'lucide-react';
 
 const ChatInput = ({ onSend, loading, language = "en" }) => {
     const [input, setInput] = useState("");
@@ -106,22 +106,22 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
     };
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-brand-100 px-4 py-3 z-30">
-            <div className="max-w-4xl mx-auto flex flex-col gap-2">
+        <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-[#e5e5e5] px-4 py-3 z-30 shadow-[0_-6px_25px_-10px_rgba(0,0,0,0.06)]">
+            <div className="max-w-3xl mx-auto flex flex-col gap-2">
 
-                {/* Subject Selector & Mic Indicator */}
+                {/* Subject Selector & Live Listening Indicator */}
                 <div className="flex items-center justify-between gap-2 text-xs">
-                    <div className="flex items-center gap-1.5 text-slate-600">
-                        <BookOpen size={13} className="text-brand-600" />
-                        <span className="font-semibold text-[11px] text-slate-500">
+                    <div className="flex items-center gap-2 bg-[#f7f9fa] border-2 border-[#e5e5e5] px-3 py-1 rounded-xl">
+                        <BookOpen size={13} className="text-[#58cc02]" />
+                        <span className="font-extrabold text-[11px] text-[#777] uppercase">
                             {language === "ta" ? "பாடம்:" : "Subject:"}
                         </span>
                         <select
                             value={selectedSubject}
                             onChange={(e) => setSelectedSubject(e.target.value)}
-                            className="bg-brand-50 text-slate-800 text-xs rounded-full border border-brand-200 focus:border-brand-500 px-2.5 py-1 outline-none cursor-pointer font-medium"
+                            className="bg-transparent text-[#3c3c3c] text-xs font-black outline-none cursor-pointer"
                         >
-                            <option value="">{language === "ta" ? "அனைத்து பாடங்கள் (General)" : "General Academic"}</option>
+                            <option value="">{language === "ta" ? "அனைத்துப் பாடங்கள் (General)" : "General Academic"}</option>
                             {subjects.map(sub => (
                                 <option key={sub.id} value={sub.id}>
                                     {sub.label}
@@ -130,28 +130,34 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
                         </select>
                     </div>
 
-                    {isListening && (
-                        <div className="flex items-center gap-1.5 text-red-600 text-xs font-semibold animate-pulse">
-                            <span className="w-2 h-2 bg-red-600 rounded-full"></span>
-                            <span>{language === "ta" ? "கேட்கிறது..." : "Listening..."}</span>
+                    <div className="flex items-center gap-2">
+                        {isListening && (
+                            <div className="flex items-center gap-1.5 text-red-600 text-xs font-black animate-pulse bg-red-50 border border-red-200 px-2.5 py-0.5 rounded-lg">
+                                <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+                                <span>{language === "ta" ? "குரல் கேட்கிறது..." : "Listening..."}</span>
+                            </div>
+                        )}
+                        <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold text-[#777]">
+                            <Sparkles size={12} className="text-yellow-500 fill-yellow-400" />
+                            <span>{language === "ta" ? "+15 மணிகள் / கேள்வி" : "+15 Gems per inquiry"}</span>
                         </div>
-                    )}
+                    </div>
                 </div>
 
-                {/* Main Input Box */}
-                <div className="relative flex items-center">
+                {/* 3D Tactile Input Box */}
+                <div className="relative flex items-center bg-white border-2 border-[#e5e5e5] focus-within:border-[#58cc02] rounded-2xl p-1.5 shadow-sm transition-all">
                     <input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
                         placeholder={language === "ta"
-                            ? "உங்கள் கேள்வியை இங்கே தட்டச்சு செய்யவும் அல்லது பேசவும்..."
-                            : "Ask any subject question or use voice..."}
-                        className="w-full pl-4 pr-24 py-3 bg-brand-50/60 border-2 border-brand-200 rounded-full text-slate-900 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-brand-500 focus:ring-2 focus:ring-brand-200 text-sm font-medium transition-all"
+                            ? "உங்கள் பாடச் சந்தேகத்தை இங்கே கேட்கவும் அல்லது பேசவும்..."
+                            : "Ask any curriculum doubt or use voice dictation..."}
+                        className="w-full pl-4 pr-28 py-2.5 bg-transparent text-[#3c3c3c] placeholder-[#999] focus:outline-none text-[14.5px] font-bold"
                     />
 
                     {/* Action Controls */}
-                    <div className="absolute right-1.5 flex items-center gap-1">
+                    <div className="absolute right-2 flex items-center gap-1.5">
                         {/* Mic Voice Dictation */}
                         {micSupported && (
                             <button
@@ -159,30 +165,30 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
                                 disabled={loading}
                                 type="button"
                                 title={isListening ? "Stop" : "Voice Input"}
-                                className={`p-2 rounded-full transition-all ${
+                                className={`btn-3d btn-3d-white p-2 rounded-xl flex items-center justify-center ${
                                     isListening
-                                        ? "bg-red-600 text-white animate-pulse"
-                                        : "text-slate-500 hover:bg-brand-100 hover:text-brand-600"
+                                        ? "bg-red-500 text-white border-red-700 animate-pulse"
+                                        : "text-[#777]"
                                 }`}
                             >
                                 {isListening ? <MicOff size={16} /> : <Mic size={16} />}
                             </button>
                         )}
 
-                        {/* Send Button */}
+                        {/* 3D Send Button */}
                         <button
                             onClick={handleSend}
                             disabled={!input.trim() || loading}
                             type="button"
-                            className="p-2 sm:px-3.5 sm:py-2 bg-gradient-to-r from-brand-600 to-cyan-600 hover:brightness-110 text-white rounded-full disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center gap-1.5 text-xs font-semibold shadow-pop active:scale-95"
+                            className="btn-3d btn-3d-green px-4 py-2 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5 text-xs font-black shadow-sm"
                             title="Send"
                         >
                             {loading ? (
-                                <Loader2 size={16} className="animate-spin" />
+                                <Loader2 size={15} className="animate-spin" />
                             ) : (
                                 <>
-                                    <Send size={15} />
-                                    <span className="hidden sm:inline">{language === "ta" ? "அனுப்பு" : "Send"}</span>
+                                    <Send size={14} />
+                                    <span>{language === "ta" ? "கேள்" : "Ask"}</span>
                                 </>
                             )}
                         </button>
@@ -191,10 +197,10 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
 
                 {/* Footer Disclaimer */}
                 <div className="text-center">
-                    <p className="text-[10px] text-slate-400">
+                    <p className="text-[10px] font-bold text-[#999]">
                         {language === "ta"
-                            ? "கல்வி AI • ஸ்மார்ட் கற்றல் மற்றும் தேர்வு வழிகாட்டி"
-                            : "AI Educational Learning & Assessment Platform"}
+                            ? "கல்வி AI • தமிழ்நாடு பாடத்திட்டம் மற்றும் மாதிரித் தேர்வு வழிகாட்டி"
+                            : "Tamil Nadu Academic AI • Socratic Guidance & Curriculum Reasoning"}
                     </p>
                 </div>
             </div>
@@ -203,7 +209,3 @@ const ChatInput = ({ onSend, loading, language = "en" }) => {
 };
 
 export default ChatInput;
-
-
-
-
