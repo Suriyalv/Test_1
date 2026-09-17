@@ -40,6 +40,9 @@ module.exports = {
         // Baloo 2 — rounded, bubbly display face for headings/titles/badges (teen energy).
         display: ['"Baloo 2"', '"Plus Jakarta Sans"', '"Mukta Malar"', 'sans-serif'],
         tamil: ['"Noto Sans Tamil"', '"Mukta Malar"', 'sans-serif'],
+        // Ark's chat bubble — Fredoka is round and friendly; Tamil letters fall
+        // through to Baloo Thambi 2, which has the same rounded feel.
+        ark: ['Fredoka', '"Baloo Thambi 2"', '"Noto Sans Tamil"', 'sans-serif'],
       },
       boxShadow: {
         pop: '0 8px 24px -6px rgba(2, 132, 199, 0.35)',
@@ -54,10 +57,15 @@ module.exports = {
           '0%': { transform: 'scale(0.9)', opacity: 0 },
           '100%': { transform: 'scale(1)', opacity: 1 },
         },
+        'bounce-slow': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
       },
       animation: {
         wiggle: 'wiggle 0.4s ease-in-out',
         'pop-in': 'pop-in 0.25s ease-out',
+        'bounce-slow': 'bounce-slow 2s ease-in-out infinite',
       },
     },
   },

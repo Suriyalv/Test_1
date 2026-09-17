@@ -1,6 +1,648 @@
 {
   "maps": [
     {
+      "id": "physics-quick-revision",
+      "subject": "Physics",
+      "icon": "⚛️",
+      "title": {
+        "en": "Physics Quick Revision — 7 Key Laws",
+        "ta": "இயற்பியல் விரைவுத் திருப்புதல் — 7 முக்கிய விதிகள்"
+      },
+      "blurb": {
+        "en": "The same 7 topics as the Physics flashcards, on one map.",
+        "ta": "இயற்பியல் அட்டைகளில் உள்ள அதே 7 தலைப்புகள், ஒரே வரைபடத்தில்."
+      },
+      "createdAt": "2026-09-16T12:00:00Z",
+      "root": {
+        "id": "root",
+        "icon": "⚛️",
+        "label": {
+          "en": "Force & Motion",
+          "ta": "விசையும் இயக்கமும்"
+        },
+        "summary": {
+          "en": "Seven key laws that explain how forces push, pull, turn and move objects.",
+          "ta": "விசைகள் பொருள்களை எப்படித் தள்ளுகின்றன, இழுக்கின்றன, திருப்புகின்றன, நகர்த்துகின்றன என்பதை விளக்கும் ஏழு முக்கிய விதிகள்."
+        },
+        "children": [
+          {
+            "id": "newtons-second-law",
+            "accent": "blue",
+            "icon": "🚀",
+            "side": "left",
+            "label": {
+              "en": "Newton's Second Law",
+              "ta": "நியூட்டனின் இரண்டாம் விதி"
+            },
+            "formula": "F = ma",
+            "summary": {
+              "en": "Force makes an object accelerate in the direction of the force.",
+              "ta": "விசை ஒரு பொருளை அவ்விசையின் திசையில் முடுக்குகிறது."
+            },
+            "children": [
+              {
+                "id": "newtons-second-law-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "Force causes acceleration.",
+                  "ta": "விசை முடுக்கத்தை உண்டாக்குகிறது."
+                },
+                "points": {
+                  "en": [
+                    "Force applied to an object makes it accelerate in the direction of the force.",
+                    "Force is proportional to the rate of change of momentum."
+                  ],
+                  "ta": [
+                    "பொருளின் மீது செலுத்தப்படும் விசை, அவ்விசையின் திசையில் அதை முடுக்குகிறது.",
+                    "விசையானது உந்த மாற்றத்தின் வீதத்திற்கு நேர்விகிதத்தில் இருக்கும்."
+                  ]
+                }
+              },
+              {
+                "id": "newtons-second-law-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "F = ma",
+                "summary": {
+                  "en": "SI unit: Newton (N) = kg·m/s²",
+                  "ta": "SI அலகு: நியூட்டன் (N) = kg·m/s²"
+                },
+                "points": {
+                  "en": [
+                    "F = force",
+                    "m = mass",
+                    "a = acceleration"
+                  ],
+                  "ta": [
+                    "F = விசை",
+                    "m = நிறை",
+                    "a = முடுக்கம்"
+                  ]
+                }
+              },
+              {
+                "id": "newtons-second-law-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "Double the force → double the acceleration. Double the mass → half the acceleration.",
+                  "ta": "விசை இருமடங்கு → முடுக்கம் இருமடங்கு. நிறை இருமடங்கு → முடுக்கம் பாதி."
+                }
+              },
+              {
+                "id": "newtons-second-law-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "An empty trolley speeds up easily; a full trolley needs a bigger push for the same acceleration.",
+                  "ta": "காலி தள்ளுவண்டி எளிதாக வேகமெடுக்கும்; நிரம்பிய வண்டிக்கு அதே முடுக்கத்திற்கு அதிக விசை தேவை."
+                }
+              }
+            ]
+          },
+          {
+            "id": "gravitation",
+            "accent": "violet",
+            "icon": "🪐",
+            "side": "left",
+            "label": {
+              "en": "Universal Law of Gravitation",
+              "ta": "பொது ஈர்ப்பியல் விதி"
+            },
+            "formula": "F = G·m₁·m₂ / r²",
+            "summary": {
+              "en": "Every object with mass attracts every other object in the universe.",
+              "ta": "நிறை கொண்ட ஒவ்வொரு பொருளும் மற்ற ஒவ்வொரு பொருளையும் ஈர்க்கிறது."
+            },
+            "children": [
+              {
+                "id": "gravitation-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "Every mass pulls on every other mass.",
+                  "ta": "ஒவ்வொரு நிறையும் மற்ற நிறையை ஈர்க்கிறது."
+                },
+                "points": {
+                  "en": [
+                    "More mass = stronger gravitational pull.",
+                    "More distance = much weaker gravitational pull."
+                  ],
+                  "ta": [
+                    "நிறை அதிகம் = ஈர்ப்பு விசை வலிமை.",
+                    "தொலைவு அதிகம் = ஈர்ப்பு விசை மிகவும் குறைவு."
+                  ]
+                }
+              },
+              {
+                "id": "gravitation-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "F = G·m₁·m₂ / r²",
+                "summary": {
+                  "en": "SI unit of force: Newton (N)",
+                  "ta": "விசையின் SI அலகு: நியூட்டன் (N)"
+                },
+                "points": {
+                  "en": [
+                    "G = Universal Gravitational Constant",
+                    "m₁, m₂ = masses of the two objects",
+                    "r = distance between their centres"
+                  ],
+                  "ta": [
+                    "G = பொது ஈர்ப்பியல் மாறிலி",
+                    "m₁, m₂ = இரு பொருள்களின் நிறைகள்",
+                    "r = மையங்களுக்கு இடையிலான தொலைவு"
+                  ]
+                }
+              },
+              {
+                "id": "gravitation-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "Double the distance → the force becomes one-fourth (because of r²).",
+                  "ta": "தொலைவு இருமடங்கு → விசை நான்கில் ஒரு பங்காகும் (r² காரணமாக)."
+                }
+              },
+              {
+                "id": "gravitation-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "The Sun's gravity keeps the planets in orbit; the Moon's gravity causes ocean tides.",
+                  "ta": "சூரியனின் ஈர்ப்பு கோள்களைச் சுற்றுப்பாதையில் வைத்திருக்கிறது; சந்திரனின் ஈர்ப்பு ஓதங்களை உண்டாக்குகிறது."
+                }
+              }
+            ]
+          },
+          {
+            "id": "mass-vs-weight",
+            "accent": "emerald",
+            "icon": "⚖️",
+            "side": "left",
+            "label": {
+              "en": "Mass vs. Weight",
+              "ta": "நிறை மற்றும் எடை"
+            },
+            "formula": "W = mg",
+            "summary": {
+              "en": "Mass is the amount of matter; weight is the pull of gravity on that mass.",
+              "ta": "நிறை என்பது பருப்பொருளின் அளவு; எடை என்பது அந்த நிறையின் மீதான ஈர்ப்பு விசை."
+            },
+            "children": [
+              {
+                "id": "mass-vs-weight-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "Mass stays the same; weight changes with gravity.",
+                  "ta": "நிறை மாறாது; எடை ஈர்ப்பைப் பொறுத்து மாறும்."
+                },
+                "points": {
+                  "en": [
+                    "Mass (m): quantity of matter — constant everywhere in the universe.",
+                    "Weight (W): gravitational force pulling an object toward a planet — changes with local gravity (g)."
+                  ],
+                  "ta": [
+                    "நிறை (m): பருப்பொருளின் அளவு — பிரபஞ்சத்தில் எங்கும் மாறாது.",
+                    "எடை (W): பொருளைக் கோளை நோக்கி இழுக்கும் ஈர்ப்பு விசை — அந்த இடத்தின் g-ஐப் பொறுத்து மாறும்."
+                  ]
+                }
+              },
+              {
+                "id": "mass-vs-weight-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "W = mg",
+                "summary": {
+                  "en": "Mass: kilogram (kg) • Weight: Newton (N)",
+                  "ta": "நிறை: கிலோகிராம் (kg) • எடை: நியூட்டன் (N)"
+                },
+                "points": {
+                  "en": [
+                    "W = weight",
+                    "m = mass",
+                    "g = acceleration due to gravity"
+                  ],
+                  "ta": [
+                    "W = எடை",
+                    "m = நிறை",
+                    "g = ஈர்ப்பு முடுக்கம்"
+                  ]
+                }
+              },
+              {
+                "id": "mass-vs-weight-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "Mass = constant. Weight = variable.",
+                  "ta": "நிறை = மாறிலி. எடை = மாறக்கூடியது."
+                }
+              },
+              {
+                "id": "mass-vs-weight-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "An astronaut has the same mass on the Moon, but weighs about 1/6 of their Earth weight.",
+                  "ta": "விண்வெளி வீரரின் நிறை சந்திரனிலும் அதேதான்; ஆனால் எடை பூமி எடையில் சுமார் 1/6 மட்டுமே."
+                }
+              }
+            ]
+          },
+          {
+            "id": "torque",
+            "accent": "amber",
+            "icon": "🔧",
+            "side": "right",
+            "label": {
+              "en": "Torque / Moment of Force",
+              "ta": "திருப்பு விசை"
+            },
+            "formula": "τ = F × d",
+            "summary": {
+              "en": "The turning effect of a force around a pivot point.",
+              "ta": "சுழல் புள்ளியைச் சுற்றி விசை உண்டாக்கும் திருப்பு விளைவு."
+            },
+            "children": [
+              {
+                "id": "torque-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "A force that turns things.",
+                  "ta": "பொருள்களைத் திருப்பும் விசை."
+                },
+                "points": {
+                  "en": [
+                    "The turning effect or rotational force applied around a pivot.",
+                    "Depends on the size of the force AND how far from the pivot you push."
+                  ],
+                  "ta": [
+                    "சுழல் புள்ளியைச் சுற்றி செலுத்தப்படும் திருப்பு விளைவு.",
+                    "விசையின் அளவையும், சுழல் புள்ளியிலிருந்து தள்ளும் தொலைவையும் பொறுத்தது."
+                  ]
+                }
+              },
+              {
+                "id": "torque-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "τ = F × d",
+                "summary": {
+                  "en": "SI unit: Newton-metre (N·m)",
+                  "ta": "SI அலகு: நியூட்டன்-மீட்டர் (N·m)"
+                },
+                "points": {
+                  "en": [
+                    "τ = torque",
+                    "F = force",
+                    "d = distance from the pivot"
+                  ],
+                  "ta": [
+                    "τ = திருப்பு விசை",
+                    "F = விசை",
+                    "d = சுழல் புள்ளியிலிருந்து தொலைவு"
+                  ]
+                }
+              },
+              {
+                "id": "torque-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "Push farther from the pivot → turning becomes much easier.",
+                  "ta": "சுழல் புள்ளியிலிருந்து தொலைவில் தள்ளினால் → திருப்புவது மிக எளிது."
+                }
+              },
+              {
+                "id": "torque-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "A long spanner loosens a tight bolt easily; door handles are placed far from the hinges.",
+                  "ta": "நீளமான ஸ்பானர் இறுகிய போல்ட்டை எளிதாகத் திறக்கும்; கதவுக் கைப்பிடி கீல்களிலிருந்து தொலைவில் இருக்கும்."
+                }
+              }
+            ]
+          },
+          {
+            "id": "principle-of-moments",
+            "accent": "rose",
+            "icon": "🎢",
+            "side": "right",
+            "label": {
+              "en": "Principle of Moments",
+              "ta": "திருப்புத்திறன் தத்துவம்"
+            },
+            "formula": "F₁d₁ = F₂d₂",
+            "summary": {
+              "en": "An object is balanced when the clockwise and anticlockwise turning effects are equal.",
+              "ta": "கடிகாரச் சுற்று மற்றும் எதிர்க் கடிகாரச் சுற்று திருப்பு விளைவுகள் சமமாக இருந்தால் பொருள் சமநிலையில் இருக்கும்."
+            },
+            "children": [
+              {
+                "id": "principle-of-moments-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "Balanced turning forces = equilibrium.",
+                  "ta": "சமமான திருப்பு விசைகள் = சமநிலை."
+                },
+                "points": {
+                  "en": [
+                    "Total Clockwise Moment = Total Anticlockwise Moment.",
+                    "The net sum of all moments about the pivot is zero (Στ = 0)."
+                  ],
+                  "ta": [
+                    "மொத்த கடிகாரச் சுற்று திருப்புத்திறன் = மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்.",
+                    "சுழல் புள்ளியைப் பொறுத்து அனைத்துத் திருப்புத்திறன்களின் கூடுதல் பூஜ்ஜியம் (Στ = 0)."
+                  ]
+                }
+              },
+              {
+                "id": "principle-of-moments-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "F₁d₁ = F₂d₂",
+                "summary": {
+                  "en": "Each moment is measured in N·m",
+                  "ta": "ஒவ்வொரு திருப்புத்திறனும் N·m-இல் அளக்கப்படும்"
+                },
+                "points": {
+                  "en": [
+                    "F₁, F₂ = forces on each side",
+                    "d₁, d₂ = their distances from the pivot"
+                  ],
+                  "ta": [
+                    "F₁, F₂ = இருபுறமும் உள்ள விசைகள்",
+                    "d₁, d₂ = சுழல் புள்ளியிலிருந்து அவற்றின் தொலைவுகள்"
+                  ]
+                }
+              },
+              {
+                "id": "principle-of-moments-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "A lighter person sitting farther away can balance a heavier person sitting closer.",
+                  "ta": "எடை குறைந்தவர் தொலைவில் அமர்ந்தால், அருகில் அமர்ந்த எடை அதிகமானவரைச் சமன் செய்யலாம்."
+                }
+              },
+              {
+                "id": "principle-of-moments-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "A see-saw in the park and a shopkeeper's beam balance both work on this principle.",
+                  "ta": "பூங்காவின் ஏற்ற இறக்க ஊஞ்சலும், கடைக்காரரின் தராசும் இந்தத் தத்துவத்தில் இயங்குகின்றன."
+                }
+              }
+            ]
+          },
+          {
+            "id": "conservation-of-momentum",
+            "accent": "cyan",
+            "icon": "🎱",
+            "side": "right",
+            "label": {
+              "en": "Conservation of Momentum",
+              "ta": "உந்த அழிவின்மை விதி"
+            },
+            "formula": "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+            "summary": {
+              "en": "Total momentum before a collision equals total momentum after, if no external force acts.",
+              "ta": "புறவிசை இல்லாதபோது, மோதலுக்கு முன் உள்ள மொத்த உந்தம் = மோதலுக்குப் பின் உள்ள மொத்த உந்தம்."
+            },
+            "children": [
+              {
+                "id": "conservation-of-momentum-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "Momentum is never lost — only transferred.",
+                  "ta": "உந்தம் அழிவதில்லை — மாற்றப்படுகிறது மட்டுமே."
+                },
+                "points": {
+                  "en": [
+                    "Works for collisions and explosions.",
+                    "Holds only when no external force acts on the system."
+                  ],
+                  "ta": [
+                    "மோதல்களுக்கும் வெடிப்புகளுக்கும் பொருந்தும்.",
+                    "அமைப்பின் மீது புறவிசை செயல்படாதபோது மட்டுமே பொருந்தும்."
+                  ]
+                }
+              },
+              {
+                "id": "conservation-of-momentum-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+                "summary": {
+                  "en": "Momentum unit: kg·m/s",
+                  "ta": "உந்தத்தின் அலகு: kg·m/s"
+                },
+                "points": {
+                  "en": [
+                    "u₁, u₂ = initial velocities",
+                    "v₁, v₂ = final velocities"
+                  ],
+                  "ta": [
+                    "u₁, u₂ = தொடக்கத் திசைவேகங்கள்",
+                    "v₁, v₂ = இறுதித் திசைவேகங்கள்"
+                  ]
+                }
+              },
+              {
+                "id": "conservation-of-momentum-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "Total momentum before = total momentum after.",
+                  "ta": "முன் உள்ள மொத்த உந்தம் = பின் உள்ள மொத்த உந்தம்."
+                }
+              },
+              {
+                "id": "conservation-of-momentum-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "In carrom, the striker slows down as the coin shoots forward; a gun recoils when a bullet is fired.",
+                  "ta": "கேரமில் ஸ்ட்ரைக்கர் வேகம் குறைய, காய் முன்னோக்கிப் பாய்கிறது; குண்டு சுடும்போது துப்பாக்கி பின்னோக்கித் தள்ளப்படுகிறது."
+                }
+              }
+            ]
+          },
+          {
+            "id": "impulse",
+            "accent": "indigo",
+            "icon": "🏏",
+            "side": "right",
+            "label": {
+              "en": "Impulse",
+              "ta": "கணத்தாக்கு"
+            },
+            "formula": "J = F × t = Δp",
+            "summary": {
+              "en": "The total effect of a force acting over a period of time.",
+              "ta": "ஒரு குறிப்பிட்ட நேரத்திற்குச் செயல்படும் விசையின் மொத்த விளைவு."
+            },
+            "children": [
+              {
+                "id": "impulse-meaning",
+                "icon": "💡",
+                "label": {
+                  "en": "What it means",
+                  "ta": "பொருள் என்ன?"
+                },
+                "summary": {
+                  "en": "Force × time = change in momentum.",
+                  "ta": "விசை × நேரம் = உந்த மாற்றம்."
+                },
+                "points": {
+                  "en": [
+                    "Impulse equals the change in linear momentum (Δp).",
+                    "The same change in momentum can come from a big force for a short time or a small force for a long time."
+                  ],
+                  "ta": [
+                    "கணத்தாக்கு = நேர்க்கோட்டு உந்த மாற்றம் (Δp).",
+                    "அதே உந்த மாற்றம் குறுகிய நேரத்தில் பெரிய விசையாலோ, நீண்ட நேரத்தில் சிறிய விசையாலோ வரலாம்."
+                  ]
+                }
+              },
+              {
+                "id": "impulse-formula",
+                "icon": "📐",
+                "label": {
+                  "en": "Formula & Unit",
+                  "ta": "சூத்திரம் & அலகு"
+                },
+                "formula": "J = F × t = Δp",
+                "summary": {
+                  "en": "SI unit: Newton-second (N·s) or kg·m/s",
+                  "ta": "SI அலகு: நியூட்டன்-வினாடி (N·s) அல்லது kg·m/s"
+                },
+                "points": {
+                  "en": [
+                    "J = impulse",
+                    "F = force",
+                    "t = time",
+                    "Δp = change in momentum"
+                  ],
+                  "ta": [
+                    "J = கணத்தாக்கு",
+                    "F = விசை",
+                    "t = நேரம்",
+                    "Δp = உந்த மாற்றம்"
+                  ]
+                }
+              },
+              {
+                "id": "impulse-rule",
+                "icon": "⚡",
+                "label": {
+                  "en": "Quick Rule",
+                  "ta": "விரைவு விதி"
+                },
+                "summary": {
+                  "en": "Increase the collision time (t) → the impact force (F) goes down.",
+                  "ta": "மோதல் நேரத்தை (t) அதிகரித்தால் → தாக்கு விசை (F) குறையும்."
+                }
+              },
+              {
+                "id": "impulse-example",
+                "icon": "🌍",
+                "label": {
+                  "en": "Real-life Example",
+                  "ta": "அன்றாட உதாரணம்"
+                },
+                "summary": {
+                  "en": "A fielder pulls their hands back while catching a ball; airbags make a crash last longer and hurt less.",
+                  "ta": "பந்தைப் பிடிக்கும்போது வீரர் கைகளைப் பின்னோக்கி இழுக்கிறார்; காற்றுப்பைகள் மோதல் நேரத்தை நீட்டித்துக் காயத்தைக் குறைக்கின்றன."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "id": "laws-of-motion",
       "subject": "Physics",
       "icon": "🚀",

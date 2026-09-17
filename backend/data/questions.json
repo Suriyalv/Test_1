@@ -1,122 +1,2814 @@
 [
   {
-    "id": "q_cs_mcq_1",
-    "category": "MCQ",
-    "language": "en",
-    "question": "Which of the following is an iterative or looping control structure in Python?",
-    "options": ["if-else", "while", "break", "pass"],
-    "correctOption": "while",
-    "sampleAnswer": "while",
-    "keywords": ["while", "looping", "iteration"],
-    "marks": 1,
-    "createdAt": "2026-08-16T12:00:00Z"
-  },
-  {
-    "id": "q_cs_mcq_2",
-    "category": "MCQ",
-    "language": "ta",
-    "question": "பைத்தானில் பின்வருவனவற்றுள் எது மடக்கு அல்லது சுழற்சி (Looping) கட்டுப்பாட்டு அமைப்பு?",
-    "options": ["if-else", "while", "break", "pass"],
-    "correctOption": "while",
-    "sampleAnswer": "while",
-    "keywords": ["while", "மடக்கு", "சுழற்சி"],
-    "marks": 1,
-    "createdAt": "2026-08-16T12:00:00Z"
-  },
-  {
-    "id": "q_cs_mcq_3",
-    "category": "MCQ",
-    "language": "en",
-    "question": "Which constraint uniquely identifies each record in a database table?",
-    "options": ["Foreign Key", "Primary Key", "Check Constraint", "Default Constraint"],
-    "correctOption": "Primary Key",
-    "sampleAnswer": "Primary Key",
-    "keywords": ["primary key", "unique identification"],
-    "marks": 1,
-    "createdAt": "2026-08-16T12:00:00Z"
-  },
-  {
-    "id": "q_cs_mcq_4",
-    "category": "MCQ",
-    "language": "ta",
-    "question": "ஒரு தரவுத்தள அட்டவணையில் ஒவ்வொரு பதிவையும் தனித்துவமாக அடையாளம் காணப் பயன்படும் சாவி எது?",
-    "options": ["வெளிச் சாவி (Foreign Key)", "முதன்மைச் சாவி (Primary Key)", "சரிபார்ப்பு வரம்பு", "முன்னிருப்பு வரம்பு"],
-    "correctOption": "முதன்மைச் சாவி (Primary Key)",
-    "sampleAnswer": "முதன்மைச் சாவி (Primary Key)",
-    "keywords": ["முதன்மைச் சாவி", "primary key"],
-    "marks": 1,
-    "createdAt": "2026-08-16T12:00:00Z"
-  },
-  {
-    "id": "q_cs_2m_1",
+    "id": "phy_newtons-second-law_2m_easy_en",
     "category": "2 Marks",
     "language": "en",
-    "question": "What is a Control Structure in programming? Mention its three main types.",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "easy",
+    "question": "State Newton's second law of motion and write its formula.",
     "options": [],
     "correctOption": "",
-    "sampleAnswer": "A control structure is a program statement that changes the default sequential flow of execution. The three main types are: 1. Sequential statements, 2. Alternative or Branching statements (e.g., if-else), and 3. Iterative or Looping statements (e.g., while, for).",
-    "keywords": ["control structure", "sequential", "branching", "alternative", "iterative", "looping", "flow of execution"],
+    "sampleAnswer": "Newton's second law states that the force acting on a body is directly proportional to the rate of change of its momentum, and the change takes place in the direction of the force. For a body of constant mass, F = ma, where F is the force, m is the mass and a is the acceleration.",
+    "keywords": [
+      "rate of change of momentum",
+      "directly proportional",
+      "F = ma",
+      "mass",
+      "acceleration"
+    ],
     "marks": 2,
-    "createdAt": "2026-08-16T12:00:00Z"
+    "createdAt": "2026-09-16T14:00:00Z"
   },
   {
-    "id": "q_cs_2m_2",
+    "id": "phy_newtons-second-law_2m_easy_ta",
     "category": "2 Marks",
     "language": "ta",
-    "question": "கட்டுப்பாட்டு அமைப்பு (Control Structure) என்றால் என்ன? அதன் மூன்று முக்கிய வகைகளைக் குறிப்பிடுக.",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "easy",
+    "question": "நியூட்டனின் இரண்டாம் இயக்க விதியைக் கூறி, அதன் சூத்திரத்தை எழுதுக.",
     "options": [],
     "correctOption": "",
-    "sampleAnswer": "நிரலின் இயல்புநிலை தொடர் இயக்க வரிசையை மாற்றியமைக்கும் கூற்றுகள் கட்டுப்பாட்டு அமைப்புகள் எனப்படும். இதன் மூன்று வகைகள்: 1. தொடர் கூற்றுகள் (Sequential), 2. கிளைப்பிரிப்பு அல்லது மாற்று கூற்றுகள் (Branching / Alternative), 3. சுழற்சி அல்லது மடக்கு கூற்றுகள் (Iterative / Looping).",
-    "keywords": ["கட்டுப்பாட்டு அமைப்பு", "தொடர் கூற்றுகள்", "கிளைப்பிரிப்பு", "மடக்கு", "சுழற்சி", "மாற்று கூற்றுகள்"],
+    "sampleAnswer": "ஒரு பொருளின் மீது செயல்படும் விசை, அப்பொருளின் உந்த மாற்ற வீதத்திற்கு நேர்விகிதத்தில் இருக்கும்; உந்த மாற்றம் விசையின் திசையிலேயே நிகழும். மாறாத நிறை கொண்ட பொருளுக்கு F = ma. இங்கு F = விசை, m = நிறை, a = முடுக்கம்.",
+    "keywords": [
+      "உந்த மாற்ற வீதம்",
+      "நேர்விகிதம்",
+      "F = ma",
+      "நிறை",
+      "முடுக்கம்"
+    ],
     "marks": 2,
-    "createdAt": "2026-08-16T12:00:00Z"
+    "createdAt": "2026-09-16T14:00:00Z"
   },
   {
-    "id": "q_cs_2m_3",
+    "id": "phy_newtons-second-law_2m_medium_en",
     "category": "2 Marks",
     "language": "en",
-    "question": "What is a DBMS? Mention any two advantages of DBMS over the file processing system.",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "medium",
+    "question": "The same force is applied to a light ball and a heavy ball. Which one accelerates more? Explain using Newton's second law.",
     "options": [],
     "correctOption": "",
-    "sampleAnswer": "A DBMS (Database Management System) is software used to store, manage, and retrieve data efficiently. Two advantages are: 1. Reduces data redundancy (duplication) and ensures data consistency. 2. Provides enhanced data security and supports multi-user concurrent access.",
-    "keywords": ["dbms", "database management system", "redundancy", "consistency", "security", "concurrent access"],
+    "sampleAnswer": "The light ball accelerates more. From F = ma, a = F / m. For the same force, acceleration is inversely proportional to mass, so the body with the smaller mass gets the larger acceleration.",
+    "keywords": [
+      "light ball",
+      "a = F / m",
+      "inversely proportional",
+      "smaller mass",
+      "acceleration"
+    ],
     "marks": 2,
-    "createdAt": "2026-08-16T12:00:00Z"
+    "createdAt": "2026-09-16T14:00:00Z"
   },
   {
-    "id": "q_cs_2m_4",
+    "id": "phy_newtons-second-law_2m_medium_ta",
     "category": "2 Marks",
     "language": "ta",
-    "question": "தரவுத்தள மேலாண்மை அமைப்பு (DBMS) என்றால் என்ன? கோப்பு முறையை விட இதன் இரண்டு நன்மைகளைக் கூறுக.",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "medium",
+    "question": "இலேசான பந்து, கனமான பந்து ஆகிய இரண்டின் மீதும் ஒரே விசை செலுத்தப்படுகிறது. எது அதிக முடுக்கம் பெறும்? நியூட்டனின் இரண்டாம் விதியைக் கொண்டு விளக்குக.",
     "options": [],
     "correctOption": "",
-    "sampleAnswer": "DBMS என்பது தரவுகளை திறம்பட சேமிக்கவும், நிர்வகிக்கவும் மற்றும் மீட்டெடுக்கவும் பயன்படும் மென்பொருள் அமைப்பு. நன்மைகள்: 1. தரவு நகல் பெருக்கத்தைக் (Redundancy) குறைத்து நிலைத்தன்மையை உறுதி செய்கிறது. 2. சிறந்த தரவுப் பாதுகாப்பு மற்றும் பல பயனர்கள் ஒரே நேரத்தில் அணுகும் வசதியை வழங்குகிறது.",
-    "keywords": ["தரவுத்தள மேலாண்மை அமைப்பு", "dbms", "நகல் பெருக்கம்", "redundancy", "பாதுகாப்பு", "நிலைத்தன்மை"],
+    "sampleAnswer": "இலேசான பந்து அதிக முடுக்கம் பெறும். F = ma என்பதிலிருந்து a = F / m. ஒரே விசைக்கு முடுக்கம் நிறைக்கு எதிர்விகிதத்தில் இருக்கும்; எனவே குறைந்த நிறை கொண்ட பொருள் அதிக முடுக்கம் பெறும்.",
+    "keywords": [
+      "இலேசான பந்து",
+      "a = F / m",
+      "எதிர்விகிதம்",
+      "குறைந்த நிறை",
+      "முடுக்கம்"
+    ],
     "marks": 2,
-    "createdAt": "2026-08-16T12:00:00Z"
+    "createdAt": "2026-09-16T14:00:00Z"
   },
   {
-    "id": "q_cs_5m_1",
+    "id": "phy_newtons-second-law_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "hard",
+    "question": "A force of 20 N acts on a body of mass 4 kg. Find its acceleration. If the mass is doubled, what will the acceleration be?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Acceleration a = F / m = 20 / 4 = 5 m/s². If the mass is doubled to 8 kg, a = 20 / 8 = 2.5 m/s². So doubling the mass makes the acceleration half.",
+    "keywords": [
+      "a = F / m",
+      "5 m/s²",
+      "8 kg",
+      "2.5 m/s²",
+      "half"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "hard",
+    "question": "4 kg நிறையுள்ள பொருளின் மீது 20 N விசை செயல்படுகிறது. அதன் முடுக்கத்தைக் காண்க. நிறை இருமடங்கானால் முடுக்கம் என்ன?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "முடுக்கம் a = F / m = 20 / 4 = 5 m/s². நிறை இருமடங்காகி 8 kg ஆனால், a = 20 / 8 = 2.5 m/s². எனவே நிறை இருமடங்கானால் முடுக்கம் பாதியாகும்.",
+    "keywords": [
+      "a = F / m",
+      "5 m/s²",
+      "8 kg",
+      "2.5 m/s²",
+      "பாதி"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_5m_easy_en",
     "category": "5 Marks",
     "language": "en",
-    "question": "Explain the different types of Python control structures with suitable syntax and examples.",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "easy",
+    "question": "Explain Newton's second law of motion with its formula, SI unit and one example from daily life.",
     "options": [],
     "correctOption": "",
-    "sampleAnswer": "1. Sequential Statements: Statements execute line by line in the order written (e.g., a = 5; b = 10; c = a + b).\n2. Alternative / Branching Statements: Directs program flow based on Boolean conditions.\n   - if statement: Simple condition evaluation.\n   - if-else statement: Chooses between true and false blocks.\n   - if-elif-else ladder: Evaluates multiple conditions.\n3. Iterative / Looping Statements: Repeats a block of code while a condition is satisfied.\n   - while loop: Entry-controlled loop repeating while condition is true.\n   - for loop: Iterates over sequences (lists, strings, range()).\nControl structures improve modularity, avoid code duplication, and handle complex decision logic.",
-    "keywords": ["sequential", "alternative", "branching", "if-else", "elif", "iterative", "looping", "while loop", "for loop", "indentation", "syntax"],
+    "sampleAnswer": "Newton's second law states that the force acting on a body is directly proportional to the rate of change of its momentum and acts in the direction of the force.\nFor a body of constant mass this gives F = ma, where F is force, m is mass and a is acceleration.\nThe SI unit of force is the newton (N). One newton is the force that produces an acceleration of 1 m/s² in a body of mass 1 kg, so 1 N = 1 kg·m/s².\nThe law tells us that a larger force gives a larger acceleration, and a larger mass needs a larger force for the same acceleration.\nExample: an empty shopping trolley speeds up easily with a small push, but a fully loaded trolley needs a much bigger push to get the same acceleration.",
+    "keywords": [
+      "rate of change of momentum",
+      "F = ma",
+      "newton",
+      "1 kg",
+      "1 m/s²",
+      "larger mass",
+      "trolley"
+    ],
     "marks": 5,
-    "createdAt": "2026-08-16T12:00:00Z"
+    "createdAt": "2026-09-16T14:00:00Z"
   },
   {
-    "id": "q_cs_5m_2",
+    "id": "phy_newtons-second-law_5m_easy_ta",
     "category": "5 Marks",
     "language": "ta",
-    "question": "பைத்தானில் உள்ள பல்வேறு கட்டுப்பாட்டு அமைப்புகளை தொடரியல் (Syntax) மற்றும் எடுத்துக்காட்டுகளுடன் விரிவாக விளக்குக.",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "easy",
+    "question": "நியூட்டனின் இரண்டாம் இயக்க விதியை அதன் சூத்திரம், SI அலகு மற்றும் ஓர் அன்றாட உதாரணத்துடன் விளக்குக.",
     "options": [],
     "correctOption": "",
-    "sampleAnswer": "1. தொடர் கூற்றுகள் (Sequential): கூற்றுகள் வரிசையாக ஒன்றன்பின் ஒன்றாக நிறைவேற்றப்படுகின்றன (எ.கா: a = 5, b = 10, c = a + b).\n2. மாற்று அல்லது கிளைப்பிரிப்பு கூற்றுகள் (Branching / Alternative): நிபந்தனையின் அடிப்படையில் பாதையைத் தேர்ந்தெடுக்கின்றன.\n   - if கூற்று: எளிய நிபந்தனை சரிபார்ப்பு.\n   - if-else கூற்று: நிபந்தனை சரி அல்லது தவறான நிலைகளுக்கான இருவழிப் பிரிவு.\n   - if-elif-else: பல நிபந்தனைகளை வரிசையாக சோதிக்கிறது.\n3. சுழற்சி அல்லது மடக்கு கூற்றுகள் (Looping / Iterative): குறிப்பிட்ட கூற்றுகளை மீண்டும் மீண்டும் செயல்படுத்துகிறது.\n   - while மடக்கு: நுழைவு சோதிப்பு மடக்கு, நிபந்தனை மெய்யாக இருக்கும் வரை சுழலும்.\n   - for மடக்கு: தொடர்வரிசைகளை (range, list) சுழற்ற உதவுகிறது.",
-    "keywords": ["தொடர் கூற்றுகள்", "கிளைப்பிரிப்பு", "if", "if-else", "if-elif-else", "மடக்கு", "while", "for", "சுழற்சி", "நிபந்தனை", "தொடரியல்"],
+    "sampleAnswer": "ஒரு பொருளின் மீது செயல்படும் விசை, அதன் உந்த மாற்ற வீதத்திற்கு நேர்விகிதத்தில் இருக்கும்; அது விசையின் திசையில் செயல்படும்.\nமாறாத நிறை கொண்ட பொருளுக்கு F = ma. இங்கு F = விசை, m = நிறை, a = முடுக்கம்.\nவிசையின் SI அலகு நியூட்டன் (N). 1 kg நிறையுள்ள பொருளில் 1 m/s² முடுக்கத்தை உண்டாக்கும் விசையே ஒரு நியூட்டன்; 1 N = 1 kg·m/s².\nஅதிக விசை அதிக முடுக்கத்தைத் தரும்; அதிக நிறைக்கு அதே முடுக்கம் பெற அதிக விசை தேவை.\nஉதாரணம்: காலியான தள்ளுவண்டி சிறிய தள்ளுதலில் எளிதாக வேகமெடுக்கும்; நிரம்பிய தள்ளுவண்டிக்கு அதே முடுக்கம் பெற மிக அதிக விசை தேவை.",
+    "keywords": [
+      "உந்த மாற்ற வீதம்",
+      "F = ma",
+      "நியூட்டன்",
+      "1 kg",
+      "1 m/s²",
+      "அதிக நிறை",
+      "தள்ளுவண்டி"
+    ],
     "marks": 5,
-    "createdAt": "2026-08-16T12:00:00Z"
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "medium",
+    "question": "Derive the equation F = ma from Newton's second law of motion.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Consider a body of mass m moving with initial velocity u. A force F acts on it for time t and its velocity changes to v.\nInitial momentum = mu and final momentum = mv.\nChange in momentum = mv − mu = m(v − u).\nRate of change of momentum = m(v − u) / t.\nSince acceleration a = (v − u) / t, the rate of change of momentum = ma.\nBy Newton's second law, F ∝ ma, so F = kma, where k is a constant.\nIn SI units the unit of force is chosen so that k = 1. Therefore F = ma.",
+    "keywords": [
+      "initial momentum",
+      "mu",
+      "mv",
+      "m(v − u)",
+      "rate of change of momentum",
+      "a = (v − u) / t",
+      "F = kma",
+      "k = 1",
+      "F = ma"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "medium",
+    "question": "நியூட்டனின் இரண்டாம் இயக்க விதியிலிருந்து F = ma என்ற சமன்பாட்டைத் தருவிக்க.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "m நிறையுள்ள பொருள் u என்ற தொடக்கத் திசைவேகத்தில் இயங்குகிறது என்க. t நேரத்திற்கு F விசை செயல்பட்டு அதன் திசைவேகம் v ஆக மாறுகிறது.\nதொடக்க உந்தம் = mu, இறுதி உந்தம் = mv.\nஉந்த மாற்றம் = mv − mu = m(v − u).\nஉந்த மாற்ற வீதம் = m(v − u) / t.\nமுடுக்கம் a = (v − u) / t என்பதால், உந்த மாற்ற வீதம் = ma.\nநியூட்டனின் இரண்டாம் விதிப்படி F ∝ ma, எனவே F = kma (k ஒரு மாறிலி).\nSI அலகுகளில் k = 1 ஆகுமாறு விசையின் அலகு தேர்ந்தெடுக்கப்படுகிறது. எனவே F = ma.",
+    "keywords": [
+      "தொடக்க உந்தம்",
+      "mu",
+      "mv",
+      "m(v − u)",
+      "உந்த மாற்ற வீதம்",
+      "a = (v − u) / t",
+      "F = kma",
+      "k = 1",
+      "F = ma"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "hard",
+    "question": "A car of mass 1000 kg moving at 10 m/s is brought to rest in 5 s by applying the brakes. (i) Find the deceleration. (ii) Find the braking force. (iii) What force would be needed to stop a 2000 kg car with the same deceleration? Explain your answer using Newton's second law.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) u = 10 m/s, v = 0, t = 5 s. a = (v − u) / t = (0 − 10) / 5 = −2 m/s². So the deceleration is 2 m/s².\n(ii) Braking force F = ma = 1000 × 2 = 2000 N, acting opposite to the direction of motion.\n(iii) For a 2000 kg car with the same deceleration, F = 2000 × 2 = 4000 N.\nExplanation: from F = ma, for the same acceleration the force is directly proportional to the mass. Doubling the mass needs double the braking force.",
+    "keywords": [
+      "a = (v − u) / t",
+      "−2 m/s²",
+      "deceleration",
+      "2000 N",
+      "4000 N",
+      "directly proportional",
+      "double"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "hard",
+    "question": "10 m/s வேகத்தில் இயங்கும் 1000 kg நிறையுள்ள கார், தடை (brake) செலுத்தப்பட்டு 5 s-இல் ஓய்வுக்கு வருகிறது. (i) எதிர்முடுக்கத்தைக் காண்க. (ii) தடை விசையைக் காண்க. (iii) அதே எதிர்முடுக்கத்துடன் 2000 kg காரை நிறுத்த எவ்வளவு விசை தேவை? நியூட்டனின் இரண்டாம் விதியைக் கொண்டு விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) u = 10 m/s, v = 0, t = 5 s. a = (v − u) / t = (0 − 10) / 5 = −2 m/s². எனவே எதிர்முடுக்கம் 2 m/s².\n(ii) தடை விசை F = ma = 1000 × 2 = 2000 N; இது இயக்கத்திற்கு எதிர்த் திசையில் செயல்படும்.\n(iii) அதே எதிர்முடுக்கத்துடன் 2000 kg காருக்கு F = 2000 × 2 = 4000 N.\nவிளக்கம்: F = ma என்பதால், அதே முடுக்கத்திற்கு விசை நிறைக்கு நேர்விகிதத்தில் இருக்கும். நிறை இருமடங்கானால் இருமடங்கு தடை விசை தேவை.",
+    "keywords": [
+      "a = (v − u) / t",
+      "−2 m/s²",
+      "எதிர்முடுக்கம்",
+      "2000 N",
+      "4000 N",
+      "நேர்விகிதம்",
+      "இருமடங்கு"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_2m_easy_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "easy",
+    "question": "State the universal law of gravitation.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Every object in the universe attracts every other object with a force that is directly proportional to the product of their masses and inversely proportional to the square of the distance between their centres. F = G m₁m₂ / r².",
+    "keywords": [
+      "every object",
+      "attracts",
+      "product of their masses",
+      "inversely proportional",
+      "square of the distance"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_2m_easy_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "easy",
+    "question": "பொது ஈர்ப்பியல் விதியைக் கூறுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "பிரபஞ்சத்திலுள்ள ஒவ்வொரு பொருளும் மற்ற ஒவ்வொரு பொருளையும் ஒரு விசையுடன் ஈர்க்கிறது. இவ்விசை அவற்றின் நிறைகளின் பெருக்கற்பலனுக்கு நேர்விகிதத்திலும், அவற்றின் மையங்களுக்கு இடையிலான தொலைவின் இருமடிக்கு எதிர்விகிதத்திலும் இருக்கும். F = G m₁m₂ / r².",
+    "keywords": [
+      "ஒவ்வொரு பொருளும்",
+      "ஈர்க்கிறது",
+      "நிறைகளின் பெருக்கற்பலன்",
+      "எதிர்விகிதம்",
+      "தொலைவின் இருமடி"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_2m_medium_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "medium",
+    "question": "How does the gravitational force between two objects change if (i) the mass of one object is doubled, (ii) the distance between them is doubled?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) The force doubles, because F is directly proportional to the product of the masses (F ∝ m₁m₂).\n(ii) The force becomes one-fourth, because F ∝ 1 / r² and (2r)² = 4r².",
+    "keywords": [
+      "doubles",
+      "product of the masses",
+      "one-fourth",
+      "1 / r²",
+      "4r²"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_2m_medium_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "medium",
+    "question": "இரு பொருள்களுக்கு இடையிலான ஈர்ப்பு விசை எவ்வாறு மாறும்? (i) ஒரு பொருளின் நிறை இருமடங்கானால், (ii) அவற்றுக்கு இடையிலான தொலைவு இருமடங்கானால்.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) விசை இருமடங்காகும்; ஏனெனில் F நிறைகளின் பெருக்கற்பலனுக்கு நேர்விகிதத்தில் உள்ளது (F ∝ m₁m₂).\n(ii) விசை நான்கில் ஒரு பங்காகும்; ஏனெனில் F ∝ 1 / r² மற்றும் (2r)² = 4r².",
+    "keywords": [
+      "இருமடங்கு",
+      "நிறைகளின் பெருக்கற்பலன்",
+      "நான்கில் ஒரு பங்கு",
+      "1 / r²",
+      "4r²"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "hard",
+    "question": "The mass of each of two objects is doubled and the distance between them is reduced to half. How many times does the gravitational force change?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "F = G m₁m₂ / r². New force F' = G (2m₁)(2m₂) / (r/2)² = 4 G m₁m₂ / (r²/4) = 16 G m₁m₂ / r². So the gravitational force becomes 16 times the original force.",
+    "keywords": [
+      "2m₁",
+      "2m₂",
+      "r/2",
+      "r²/4",
+      "16 times"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "hard",
+    "question": "இரு பொருள்களின் நிறைகள் ஒவ்வொன்றும் இருமடங்காக்கப்பட்டு, அவற்றுக்கு இடையிலான தொலைவு பாதியாகக் குறைக்கப்படுகிறது. ஈர்ப்பு விசை எத்தனை மடங்கு மாறும்?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "F = G m₁m₂ / r². புதிய விசை F' = G (2m₁)(2m₂) / (r/2)² = 4 G m₁m₂ / (r²/4) = 16 G m₁m₂ / r². எனவே ஈர்ப்பு விசை 16 மடங்காகும்.",
+    "keywords": [
+      "2m₁",
+      "2m₂",
+      "r/2",
+      "r²/4",
+      "16 மடங்கு"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_5m_easy_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "easy",
+    "question": "Explain the universal law of gravitation with its formula and the meaning of each term. Give two examples.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "The universal law of gravitation states that every object in the universe attracts every other object with a force that is directly proportional to the product of their masses and inversely proportional to the square of the distance between their centres.\nFormula: F = G m₁m₂ / r².\nF = gravitational force, m₁ and m₂ = masses of the two objects, r = distance between their centres, G = universal gravitational constant (6.674 × 10⁻¹¹ N m² kg⁻²).\nExamples: (1) the Sun's gravity keeps the planets moving in their orbits; (2) the Moon's gravity causes tides in Earth's oceans. Objects falling to the ground are also pulled by Earth's gravity.",
+    "keywords": [
+      "product of their masses",
+      "square of the distance",
+      "F = G m₁m₂ / r²",
+      "universal gravitational constant",
+      "6.674 × 10⁻¹¹",
+      "orbits",
+      "tides"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_5m_easy_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "easy",
+    "question": "பொது ஈர்ப்பியல் விதியை அதன் சூத்திரம் மற்றும் ஒவ்வொரு உறுப்பின் பொருளுடன் விளக்குக. இரண்டு உதாரணங்கள் தருக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "பொது ஈர்ப்பியல் விதி: பிரபஞ்சத்திலுள்ள ஒவ்வொரு பொருளும் மற்ற ஒவ்வொரு பொருளையும், அவற்றின் நிறைகளின் பெருக்கற்பலனுக்கு நேர்விகிதத்திலும், அவற்றின் மையங்களுக்கு இடையிலான தொலைவின் இருமடிக்கு எதிர்விகிதத்திலும் உள்ள விசையுடன் ஈர்க்கிறது.\nசூத்திரம்: F = G m₁m₂ / r².\nF = ஈர்ப்பு விசை, m₁, m₂ = இரு பொருள்களின் நிறைகள், r = மையங்களுக்கு இடையிலான தொலைவு, G = பொது ஈர்ப்பியல் மாறிலி (6.674 × 10⁻¹¹ N m² kg⁻²).\nஉதாரணங்கள்: (1) சூரியனின் ஈர்ப்பு கோள்களை அவற்றின் சுற்றுப்பாதையில் இயங்க வைக்கிறது; (2) சந்திரனின் ஈர்ப்பு பூமியின் கடல்களில் ஓதங்களை உண்டாக்குகிறது. பொருள்கள் தரையில் விழுவதும் பூமியின் ஈர்ப்பால்தான்.",
+    "keywords": [
+      "நிறைகளின் பெருக்கற்பலன்",
+      "தொலைவின் இருமடி",
+      "F = G m₁m₂ / r²",
+      "பொது ஈர்ப்பியல் மாறிலி",
+      "6.674 × 10⁻¹¹",
+      "சுற்றுப்பாதை",
+      "ஓதங்கள்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "medium",
+    "question": "Explain how the gravitational force depends on mass and distance, with examples. Why do we not feel the gravitational attraction between two people standing near each other?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Gravitational force is directly proportional to the product of the masses: if one mass is doubled, the force doubles.\nIt is inversely proportional to the square of the distance: if the distance is doubled, the force becomes one-fourth; if the distance is halved, the force becomes four times.\nExample: the Earth and the Moon are very massive, so the force between them is huge even though they are far apart. The Sun's huge mass holds all planets in orbit.\nTwo people have very small masses compared with planets, and the gravitational constant G is extremely small (6.674 × 10⁻¹¹ N m² kg⁻²). So the force between two people is extremely tiny and we cannot feel it.",
+    "keywords": [
+      "directly proportional",
+      "product of the masses",
+      "square of the distance",
+      "one-fourth",
+      "four times",
+      "small masses",
+      "G is extremely small"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "medium",
+    "question": "ஈர்ப்பு விசை நிறையையும் தொலைவையும் எவ்வாறு சார்ந்துள்ளது என்பதை உதாரணங்களுடன் விளக்குக. அருகருகே நிற்கும் இரு மனிதர்களுக்கு இடையிலான ஈர்ப்பை நாம் ஏன் உணர்வதில்லை?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "ஈர்ப்பு விசை நிறைகளின் பெருக்கற்பலனுக்கு நேர்விகிதத்தில் இருக்கும்: ஒரு நிறை இருமடங்கானால் விசை இருமடங்காகும்.\nஅது தொலைவின் இருமடிக்கு எதிர்விகிதத்தில் இருக்கும்: தொலைவு இருமடங்கானால் விசை நான்கில் ஒரு பங்காகும்; தொலைவு பாதியானால் விசை நான்கு மடங்காகும்.\nஉதாரணம்: பூமியும் சந்திரனும் மிகப் பெரிய நிறை கொண்டவை; எனவே தொலைவில் இருந்தாலும் அவற்றுக்கிடையே விசை மிக அதிகம். சூரியனின் பெரிய நிறை அனைத்துக் கோள்களையும் சுற்றுப்பாதையில் வைத்திருக்கிறது.\nமனிதர்களின் நிறைகள் கோள்களுடன் ஒப்பிடும்போது மிகச் சிறியவை; ஈர்ப்பியல் மாறிலி G-யும் மிக மிகச் சிறியது (6.674 × 10⁻¹¹ N m² kg⁻²). எனவே இரு மனிதர்களுக்கு இடையிலான விசை மிக நுண்ணியது; நாம் அதை உணர முடியாது.",
+    "keywords": [
+      "நேர்விகிதம்",
+      "நிறைகளின் பெருக்கற்பலன்",
+      "தொலைவின் இருமடி",
+      "நான்கில் ஒரு பங்கு",
+      "நான்கு மடங்கு",
+      "சிறிய நிறை",
+      "G மிகச் சிறியது"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "hard",
+    "question": "Calculate the gravitational force between the Earth and a 50 kg student standing on its surface. (Mass of Earth = 6 × 10²⁴ kg, radius of Earth = 6.4 × 10⁶ m, G = 6.67 × 10⁻¹¹ N m² kg⁻²). Compare your answer with the student's weight using g = 9.8 m/s² and explain the result.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "F = G m₁m₂ / r².\nF = (6.67 × 10⁻¹¹ × 6 × 10²⁴ × 50) / (6.4 × 10⁶)².\nNumerator = 6.67 × 10⁻¹¹ × 3 × 10²⁶ = 2.001 × 10¹⁶.\nDenominator = 40.96 × 10¹² = 4.096 × 10¹³.\nF ≈ 2.001 × 10¹⁶ / 4.096 × 10¹³ ≈ 489 N.\nWeight W = mg = 50 × 9.8 = 490 N.\nThe two values are almost equal. This shows that the weight of an object is simply the gravitational force with which the Earth attracts it.",
+    "keywords": [
+      "F = G m₁m₂ / r²",
+      "6.4 × 10⁶",
+      "489 N",
+      "W = mg",
+      "490 N",
+      "almost equal",
+      "weight is the gravitational force"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "hard",
+    "question": "பூமியின் மேற்பரப்பில் நிற்கும் 50 kg மாணவருக்கும் பூமிக்கும் இடையிலான ஈர்ப்பு விசையைக் கணக்கிடுக. (பூமியின் நிறை = 6 × 10²⁴ kg, பூமியின் ஆரம் = 6.4 × 10⁶ m, G = 6.67 × 10⁻¹¹ N m² kg⁻²). g = 9.8 m/s² எனக் கொண்டு மாணவரின் எடையுடன் ஒப்பிட்டு, முடிவை விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "F = G m₁m₂ / r².\nF = (6.67 × 10⁻¹¹ × 6 × 10²⁴ × 50) / (6.4 × 10⁶)².\nதொகுதி = 6.67 × 10⁻¹¹ × 3 × 10²⁶ = 2.001 × 10¹⁶.\nபகுதி = 40.96 × 10¹² = 4.096 × 10¹³.\nF ≈ 2.001 × 10¹⁶ / 4.096 × 10¹³ ≈ 489 N.\nஎடை W = mg = 50 × 9.8 = 490 N.\nஇரண்டு மதிப்புகளும் கிட்டத்தட்டச் சமம். ஒரு பொருளின் எடை என்பது பூமி அதை ஈர்க்கும் ஈர்ப்பு விசையே என்பதை இது காட்டுகிறது.",
+    "keywords": [
+      "F = G m₁m₂ / r²",
+      "6.4 × 10⁶",
+      "489 N",
+      "W = mg",
+      "490 N",
+      "கிட்டத்தட்டச் சமம்",
+      "எடை என்பது ஈர்ப்பு விசை"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_2m_easy_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "easy",
+    "question": "Define mass and weight. Write their SI units.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Mass is the quantity of matter contained in a body; its SI unit is the kilogram (kg). Weight is the gravitational force with which the Earth attracts a body; W = mg and its SI unit is the newton (N).",
+    "keywords": [
+      "quantity of matter",
+      "kilogram",
+      "gravitational force",
+      "W = mg",
+      "newton"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_2m_easy_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "easy",
+    "question": "நிறை, எடை — வரையறு. அவற்றின் SI அலகுகளை எழுதுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "ஒரு பொருளில் உள்ள பருப்பொருளின் அளவே நிறை; அதன் SI அலகு கிலோகிராம் (kg). பூமி ஒரு பொருளை ஈர்க்கும் ஈர்ப்பு விசையே எடை; W = mg, அதன் SI அலகு நியூட்டன் (N).",
+    "keywords": [
+      "பருப்பொருளின் அளவு",
+      "கிலோகிராம்",
+      "ஈர்ப்பு விசை",
+      "W = mg",
+      "நியூட்டன்"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_2m_medium_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "medium",
+    "question": "Why is mass a constant quantity while weight is a variable quantity?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Mass is the amount of matter in a body, which does not change from place to place. Weight W = mg depends on the acceleration due to gravity g, which changes from place to place (for example on the Moon, at the poles and the equator, or at a height). So weight changes but mass stays the same.",
+    "keywords": [
+      "amount of matter",
+      "does not change",
+      "W = mg",
+      "acceleration due to gravity",
+      "changes from place to place"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_2m_medium_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "medium",
+    "question": "நிறை ஏன் மாறாத அளவு, எடை ஏன் மாறும் அளவு?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "நிறை என்பது பொருளில் உள்ள பருப்பொருளின் அளவு; அது இடத்திற்கு இடம் மாறாது. எடை W = mg என்பது ஈர்ப்பு முடுக்கம் g-ஐச் சார்ந்தது; g இடத்திற்கு இடம் மாறும் (சந்திரன், துருவங்கள், நிலநடுக்கோடு, உயரம்). எனவே எடை மாறும், நிறை மாறாது.",
+    "keywords": [
+      "பருப்பொருளின் அளவு",
+      "மாறாது",
+      "W = mg",
+      "ஈர்ப்பு முடுக்கம்",
+      "இடத்திற்கு இடம் மாறும்"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "hard",
+    "question": "A body weighs 60 N on the Earth. Find its mass, and its weight on the Moon. (Take g on Earth = 10 m/s² and g on the Moon = 1/6 of that on Earth.)",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Mass m = W / g = 60 / 10 = 6 kg. The mass stays 6 kg on the Moon. g on the Moon = 10 / 6 m/s². Weight on the Moon = mg = 6 × 10 / 6 = 10 N (one-sixth of 60 N).",
+    "keywords": [
+      "m = W / g",
+      "6 kg",
+      "same mass",
+      "10 N",
+      "one-sixth"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "hard",
+    "question": "ஒரு பொருளின் எடை பூமியில் 60 N. அதன் நிறையையும், சந்திரனில் அதன் எடையையும் காண்க. (பூமியில் g = 10 m/s², சந்திரனில் g = பூமியின் 1/6 பங்கு.)",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "நிறை m = W / g = 60 / 10 = 6 kg. சந்திரனிலும் நிறை 6 kg-தான். சந்திரனில் g = 10 / 6 m/s². சந்திரனில் எடை = mg = 6 × 10 / 6 = 10 N (60 N-இல் ஆறில் ஒரு பங்கு).",
+    "keywords": [
+      "m = W / g",
+      "6 kg",
+      "நிறை மாறாது",
+      "10 N",
+      "ஆறில் ஒரு பங்கு"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_5m_easy_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "easy",
+    "question": "Write any five differences between mass and weight.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "1. Mass is the quantity of matter in a body; weight is the gravitational force acting on the body.\n2. The SI unit of mass is the kilogram (kg); the SI unit of weight is the newton (N).\n3. Mass is constant everywhere; weight changes from place to place because g changes.\n4. Mass is a scalar quantity (magnitude only); weight is a vector quantity (acts towards the centre of the Earth).\n5. Mass is measured using a beam balance; weight is measured using a spring balance.\nAlso, mass can never be zero, but weight can become zero where there is no gravity.",
+    "keywords": [
+      "quantity of matter",
+      "gravitational force",
+      "kilogram",
+      "newton",
+      "constant",
+      "changes",
+      "scalar",
+      "vector",
+      "beam balance",
+      "spring balance"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_5m_easy_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "easy",
+    "question": "நிறைக்கும் எடைக்கும் இடையிலான ஐந்து வேறுபாடுகளை எழுதுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "1. நிறை என்பது பொருளில் உள்ள பருப்பொருளின் அளவு; எடை என்பது பொருளின் மீது செயல்படும் ஈர்ப்பு விசை.\n2. நிறையின் SI அலகு கிலோகிராம் (kg); எடையின் SI அலகு நியூட்டன் (N).\n3. நிறை எங்கும் மாறாது; g மாறுவதால் எடை இடத்திற்கு இடம் மாறும்.\n4. நிறை ஒரு ஸ்கேலர் அளவு (எண்மதிப்பு மட்டும்); எடை ஒரு வெக்டர் அளவு (பூமியின் மையத்தை நோக்கிச் செயல்படும்).\n5. நிறை பொதுத் தராசு (beam balance) மூலம் அளக்கப்படுகிறது; எடை சுருள்வில் தராசு (spring balance) மூலம் அளக்கப்படுகிறது.\nமேலும், நிறை ஒருபோதும் பூஜ்ஜியம் ஆகாது; ஈர்ப்பு இல்லாத இடத்தில் எடை பூஜ்ஜியம் ஆகலாம்.",
+    "keywords": [
+      "பருப்பொருளின் அளவு",
+      "ஈர்ப்பு விசை",
+      "கிலோகிராம்",
+      "நியூட்டன்",
+      "மாறாது",
+      "மாறும்",
+      "ஸ்கேலர்",
+      "வெக்டர்",
+      "பொதுத் தராசு",
+      "சுருள்வில் தராசு"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "medium",
+    "question": "Explain why an astronaut's weight changes on the Moon but their mass does not. How is the measuring of mass different from the measuring of weight?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Mass is the amount of matter in the astronaut's body. Going to the Moon does not add or remove any matter, so the mass stays the same.\nWeight is the gravitational pull: W = mg. The Moon's gravity is much weaker (about 1/6 of Earth's), so the value of g is smaller and the astronaut's weight becomes about one-sixth.\nMass is measured using a beam balance, which compares the unknown mass with standard masses. Since gravity acts equally on both pans, it shows the same reading on the Earth and the Moon.\nWeight is measured using a spring balance, whose spring stretches according to the gravitational pull. So it shows a smaller reading on the Moon.",
+    "keywords": [
+      "amount of matter",
+      "same",
+      "W = mg",
+      "weaker",
+      "one-sixth",
+      "beam balance",
+      "both pans",
+      "spring balance",
+      "smaller reading"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "medium",
+    "question": "சந்திரனில் விண்வெளி வீரரின் எடை மாறுகிறது, ஆனால் நிறை மாறுவதில்லை — ஏன் என விளக்குக. நிறையை அளப்பது எடையை அளப்பதிலிருந்து எவ்வாறு வேறுபடுகிறது?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "நிறை என்பது விண்வெளி வீரரின் உடலில் உள்ள பருப்பொருளின் அளவு. சந்திரனுக்குச் செல்வதால் பருப்பொருள் கூடுவதோ குறைவதோ இல்லை; எனவே நிறை மாறாது.\nஎடை என்பது ஈர்ப்பு இழுவை: W = mg. சந்திரனின் ஈர்ப்பு மிகக் குறைவு (பூமியின் சுமார் 1/6); எனவே g குறைவு, விண்வெளி வீரரின் எடை சுமார் ஆறில் ஒரு பங்காகும்.\nநிறை பொதுத் தராசு மூலம் அளக்கப்படுகிறது; அது தெரியாத நிறையை படித்தர நிறைகளுடன் ஒப்பிடுகிறது. ஈர்ப்பு இரு தட்டுகளிலும் சமமாகச் செயல்படுவதால் பூமியிலும் சந்திரனிலும் ஒரே அளவீட்டைக் காட்டும்.\nஎடை சுருள்வில் தராசு மூலம் அளக்கப்படுகிறது; அதன் சுருள்வில் ஈர்ப்பு இழுவைக்கு ஏற்ப நீளும். எனவே சந்திரனில் குறைந்த அளவீட்டைக் காட்டும்.",
+    "keywords": [
+      "பருப்பொருளின் அளவு",
+      "மாறாது",
+      "W = mg",
+      "ஈர்ப்பு குறைவு",
+      "ஆறில் ஒரு பங்கு",
+      "பொதுத் தராசு",
+      "இரு தட்டுகள்",
+      "சுருள்வில் தராசு",
+      "குறைந்த அளவீடு"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "hard",
+    "question": "An object of mass 12 kg is taken from the Earth to the Moon. (i) Find its weight on the Earth (g = 9.8 m/s²). (ii) Find its weight on the Moon (g = 1.63 m/s²). (iii) What is its mass on the Moon? (iv) What would a spring balance and a beam balance show on the Moon? Explain.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) Weight on Earth = mg = 12 × 9.8 = 117.6 N.\n(ii) Weight on Moon = mg = 12 × 1.63 = 19.56 N.\n(iii) Mass on the Moon = 12 kg, because mass does not change with place.\n(iv) A spring balance measures the pull of gravity, so on the Moon it shows a much smaller reading (about 19.56 N, about one-sixth of the Earth value).\nA beam balance compares the object with standard masses. Gravity is weaker on both pans equally, so it still balances with 12 kg and shows the same mass.",
+    "keywords": [
+      "117.6 N",
+      "19.56 N",
+      "12 kg",
+      "mass does not change",
+      "spring balance",
+      "smaller reading",
+      "beam balance",
+      "same mass"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "hard",
+    "question": "12 kg நிறையுள்ள ஒரு பொருள் பூமியிலிருந்து சந்திரனுக்கு எடுத்துச் செல்லப்படுகிறது. (i) பூமியில் அதன் எடையைக் காண்க (g = 9.8 m/s²). (ii) சந்திரனில் அதன் எடையைக் காண்க (g = 1.63 m/s²). (iii) சந்திரனில் அதன் நிறை என்ன? (iv) சந்திரனில் சுருள்வில் தராசும் பொதுத் தராசும் என்ன காட்டும்? விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) பூமியில் எடை = mg = 12 × 9.8 = 117.6 N.\n(ii) சந்திரனில் எடை = mg = 12 × 1.63 = 19.56 N.\n(iii) சந்திரனில் நிறை = 12 kg; ஏனெனில் நிறை இடத்திற்கு இடம் மாறாது.\n(iv) சுருள்வில் தராசு ஈர்ப்பு இழுவையை அளக்கிறது; எனவே சந்திரனில் மிகக் குறைந்த அளவீட்டைக் காட்டும் (சுமார் 19.56 N, பூமி மதிப்பில் சுமார் ஆறில் ஒரு பங்கு).\nபொதுத் தராசு பொருளை படித்தர நிறைகளுடன் ஒப்பிடுகிறது. இரு தட்டுகளிலும் ஈர்ப்பு சமமாகக் குறைவதால், அது 12 kg-உடனேயே சமநிலையடைந்து அதே நிறையைக் காட்டும்.",
+    "keywords": [
+      "117.6 N",
+      "19.56 N",
+      "12 kg",
+      "நிறை மாறாது",
+      "சுருள்வில் தராசு",
+      "குறைந்த அளவீடு",
+      "பொதுத் தராசு",
+      "அதே நிறை"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_2m_easy_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "easy",
+    "question": "What is torque (moment of force)? Write its formula and SI unit.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Torque or moment of force is the turning effect of a force about a fixed point or axis. τ = F × d, where F is the force and d is the perpendicular distance of the line of action of the force from the axis. Its SI unit is newton metre (N m).",
+    "keywords": [
+      "turning effect",
+      "fixed point",
+      "τ = F × d",
+      "perpendicular distance",
+      "N m"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_2m_easy_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "easy",
+    "question": "திருப்பு விசை (விசையின் திருப்புத்திறன்) என்றால் என்ன? அதன் சூத்திரம் மற்றும் SI அலகை எழுதுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "ஒரு நிலையான புள்ளி அல்லது அச்சைப் பொறுத்து விசை உண்டாக்கும் திருப்பு விளைவே திருப்பு விசை (விசையின் திருப்புத்திறன்). τ = F × d; இங்கு F = விசை, d = அச்சிலிருந்து விசையின் செயல்கோட்டுக்கு உள்ள செங்குத்துத் தொலைவு. SI அலகு நியூட்டன் மீட்டர் (N m).",
+    "keywords": [
+      "திருப்பு விளைவு",
+      "நிலையான புள்ளி",
+      "τ = F × d",
+      "செங்குத்துத் தொலைவு",
+      "N m"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_2m_medium_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "medium",
+    "question": "Why is it easier to open a door by pushing at the handle than by pushing near the hinges?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Torque τ = F × d. The handle is far from the hinges, so the perpendicular distance d is large and the same force produces a large torque, turning the door easily. Near the hinges d is very small, so a much larger force is needed to produce the same torque.",
+    "keywords": [
+      "τ = F × d",
+      "far from the hinges",
+      "distance is large",
+      "large torque",
+      "larger force"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_2m_medium_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "medium",
+    "question": "கீல்களுக்கு அருகில் தள்ளுவதை விட, கைப்பிடியில் தள்ளும்போது கதவைத் திறப்பது ஏன் எளிது?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "திருப்பு விசை τ = F × d. கைப்பிடி கீல்களிலிருந்து தொலைவில் உள்ளதால் செங்குத்துத் தொலைவு d அதிகம்; அதே விசை அதிக திருப்பு விசையை உண்டாக்கி கதவை எளிதாகத் திருப்புகிறது. கீல்களுக்கு அருகில் d மிகக் குறைவு; எனவே அதே திருப்பு விசை பெற மிக அதிக விசை தேவை.",
+    "keywords": [
+      "τ = F × d",
+      "கீல்களிலிருந்து தொலைவு",
+      "தொலைவு அதிகம்",
+      "அதிக திருப்பு விசை",
+      "அதிக விசை"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "hard",
+    "question": "A force of 40 N is applied on a spanner at a perpendicular distance of 0.25 m from the nut. Find the torque. What force is needed to produce the same torque if the spanner is held at 0.5 m?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Torque τ = F × d = 40 × 0.25 = 10 N m. For the same torque at 0.5 m, F = τ / d = 10 / 0.5 = 20 N. Doubling the distance halves the force needed.",
+    "keywords": [
+      "τ = F × d",
+      "10 N m",
+      "F = τ / d",
+      "20 N",
+      "halves"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "hard",
+    "question": "நட்டிலிருந்து 0.25 m செங்குத்துத் தொலைவில் ஸ்பானரின் மீது 40 N விசை செலுத்தப்படுகிறது. திருப்பு விசையைக் காண்க. ஸ்பானரை 0.5 m தொலைவில் பிடித்தால் அதே திருப்பு விசை பெற எவ்வளவு விசை தேவை?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "திருப்பு விசை τ = F × d = 40 × 0.25 = 10 N m. 0.5 m-இல் அதே திருப்பு விசைக்கு F = τ / d = 10 / 0.5 = 20 N. தொலைவு இருமடங்கானால் தேவையான விசை பாதியாகும்.",
+    "keywords": [
+      "τ = F × d",
+      "10 N m",
+      "F = τ / d",
+      "20 N",
+      "பாதி"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_5m_easy_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "easy",
+    "question": "Explain moment of force (torque) with its formula, SI unit and three examples from daily life.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "The moment of force or torque is the turning effect of a force about a fixed point or axis (pivot).\nFormula: τ = F × d, where F is the applied force and d is the perpendicular distance between the line of action of the force and the axis of rotation.\nSI unit: newton metre (N m).\nTorque increases when the force increases or when the force is applied farther from the axis.\nExamples: (1) opening a door by pushing at the handle; (2) loosening a nut with a spanner; (3) turning the steering wheel of a vehicle. A bicycle pedal and a see-saw are also examples.",
+    "keywords": [
+      "turning effect",
+      "axis",
+      "τ = F × d",
+      "perpendicular distance",
+      "N m",
+      "door",
+      "spanner",
+      "steering wheel"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_5m_easy_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "easy",
+    "question": "விசையின் திருப்புத்திறனை (திருப்பு விசை) அதன் சூத்திரம், SI அலகு மற்றும் மூன்று அன்றாட உதாரணங்களுடன் விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "ஒரு நிலையான புள்ளி அல்லது அச்சைப் (சுழல் புள்ளி) பொறுத்து விசை உண்டாக்கும் திருப்பு விளைவே விசையின் திருப்புத்திறன் அல்லது திருப்பு விசை.\nசூத்திரம்: τ = F × d; இங்கு F = செலுத்தப்படும் விசை, d = விசையின் செயல்கோட்டுக்கும் சுழற்சி அச்சுக்கும் இடையிலான செங்குத்துத் தொலைவு.\nSI அலகு: நியூட்டன் மீட்டர் (N m).\nவிசை அதிகரித்தாலோ, அச்சிலிருந்து தொலைவில் விசை செலுத்தப்பட்டாலோ திருப்பு விசை அதிகரிக்கும்.\nஉதாரணங்கள்: (1) கைப்பிடியில் தள்ளிக் கதவைத் திறத்தல்; (2) ஸ்பானர் கொண்டு நட்டைத் தளர்த்துதல்; (3) வாகனத்தின் ஸ்டீயரிங் சக்கரத்தைத் திருப்புதல். மிதிவண்டிப் பெடல், ஏற்ற இறக்க ஊஞ்சல் ஆகியவையும் உதாரணங்கள்.",
+    "keywords": [
+      "திருப்பு விளைவு",
+      "அச்சு",
+      "τ = F × d",
+      "செங்குத்துத் தொலைவு",
+      "N m",
+      "கதவு",
+      "ஸ்பானர்",
+      "ஸ்டீயரிங்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "medium",
+    "question": "Explain how torque depends on the force and on the perpendicular distance from the axis. Why are spanners with long handles used to loosen tight nuts, and why is a door handle fixed far from the hinges?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Torque τ = F × d.\n1. Dependence on force: for a fixed distance, torque is directly proportional to the force. A bigger push gives a bigger turning effect.\n2. Dependence on distance: for a fixed force, torque is directly proportional to the perpendicular distance from the axis. Applying the force farther away gives a bigger turning effect.\nLong spanner: a long handle increases d, so a small force produces a large torque, which is enough to loosen a tight nut.\nDoor handle: the handle is placed far from the hinges (the axis), so d is large and the door opens with a small force. Pushing near the hinges would need a very large force.",
+    "keywords": [
+      "τ = F × d",
+      "directly proportional to the force",
+      "perpendicular distance",
+      "long handle",
+      "increases d",
+      "small force",
+      "large torque",
+      "far from the hinges"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "medium",
+    "question": "திருப்பு விசை, விசையையும் அச்சிலிருந்து உள்ள செங்குத்துத் தொலைவையும் எவ்வாறு சார்ந்துள்ளது என விளக்குக. இறுகிய நட்டுகளைத் தளர்த்த நீண்ட கைப்பிடி கொண்ட ஸ்பானர் ஏன் பயன்படுகிறது? கதவின் கைப்பிடி ஏன் கீல்களிலிருந்து தொலைவில் பொருத்தப்படுகிறது?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "திருப்பு விசை τ = F × d.\n1. விசையைச் சார்ந்திருத்தல்: தொலைவு மாறாதபோது திருப்பு விசை விசைக்கு நேர்விகிதத்தில் இருக்கும். அதிக தள்ளுதல் அதிக திருப்பு விளைவைத் தரும்.\n2. தொலைவைச் சார்ந்திருத்தல்: விசை மாறாதபோது திருப்பு விசை அச்சிலிருந்து உள்ள செங்குத்துத் தொலைவுக்கு நேர்விகிதத்தில் இருக்கும். தொலைவில் விசை செலுத்தினால் அதிக திருப்பு விளைவு கிடைக்கும்.\nநீண்ட ஸ்பானர்: நீண்ட கைப்பிடி d-ஐ அதிகரிக்கிறது; எனவே சிறிய விசையே அதிக திருப்பு விசையை உண்டாக்கி இறுகிய நட்டைத் தளர்த்துகிறது.\nகதவின் கைப்பிடி: கைப்பிடி கீல்களிலிருந்து (அச்சு) தொலைவில் உள்ளதால் d அதிகம்; சிறிய விசையிலேயே கதவு திறக்கும். கீல்களுக்கு அருகில் தள்ளினால் மிக அதிக விசை தேவை.",
+    "keywords": [
+      "τ = F × d",
+      "விசைக்கு நேர்விகிதம்",
+      "செங்குத்துத் தொலைவு",
+      "நீண்ட கைப்பிடி",
+      "d அதிகரிக்கிறது",
+      "சிறிய விசை",
+      "அதிக திருப்பு விசை",
+      "கீல்களிலிருந்து தொலைவு"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "hard",
+    "question": "Two students push a merry-go-round. Student A pushes with 50 N at 2 m from the centre; Student B pushes with 80 N at 1 m from the centre, in the same direction. (i) Calculate each torque. (ii) Find the total torque. (iii) Who produces the larger turning effect and why? (iv) If B pushes in the opposite direction, find the net torque and the direction of turning.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) Torque by A = 50 × 2 = 100 N m. Torque by B = 80 × 1 = 80 N m.\n(ii) Both act in the same direction, so total torque = 100 + 80 = 180 N m.\n(iii) Student A produces the larger turning effect even though A's force is smaller, because A pushes at a larger distance from the axis (τ = F × d).\n(iv) If B pushes in the opposite direction, net torque = 100 − 80 = 20 N m. The merry-go-round turns in the direction of A's push, because A's torque is larger.",
+    "keywords": [
+      "100 N m",
+      "80 N m",
+      "180 N m",
+      "larger distance",
+      "τ = F × d",
+      "20 N m",
+      "direction of A"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_torque_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "hard",
+    "question": "இரு மாணவர்கள் ஒரு சுழல் ராட்டினத்தை (merry-go-round) தள்ளுகின்றனர். மாணவர் A மையத்திலிருந்து 2 m தொலைவில் 50 N விசையுடனும், மாணவர் B மையத்திலிருந்து 1 m தொலைவில் 80 N விசையுடனும் ஒரே திசையில் தள்ளுகின்றனர். (i) ஒவ்வொருவரின் திருப்பு விசையைக் கணக்கிடுக. (ii) மொத்த திருப்பு விசையைக் காண்க. (iii) யார் அதிக திருப்பு விளைவை உண்டாக்குகிறார், ஏன்? (iv) B எதிர்த் திசையில் தள்ளினால், தொகுபயன் திருப்பு விசையையும் சுழலும் திசையையும் காண்க.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) A-இன் திருப்பு விசை = 50 × 2 = 100 N m. B-இன் திருப்பு விசை = 80 × 1 = 80 N m.\n(ii) இரண்டும் ஒரே திசையில் செயல்படுவதால், மொத்த திருப்பு விசை = 100 + 80 = 180 N m.\n(iii) A-இன் விசை குறைவாக இருந்தாலும், A அச்சிலிருந்து அதிக தொலைவில் தள்ளுவதால் அதிக திருப்பு விளைவை உண்டாக்குகிறார் (τ = F × d).\n(iv) B எதிர்த் திசையில் தள்ளினால், தொகுபயன் திருப்பு விசை = 100 − 80 = 20 N m. A-இன் திருப்பு விசை அதிகம் என்பதால், ராட்டினம் A தள்ளும் திசையில் சுழலும்.",
+    "keywords": [
+      "100 N m",
+      "80 N m",
+      "180 N m",
+      "அதிக தொலைவு",
+      "τ = F × d",
+      "20 N m",
+      "A தள்ளும் திசை"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_2m_easy_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "easy",
+    "question": "State the principle of moments.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "When a body is in equilibrium under the action of several forces, the sum of the clockwise moments about the pivot is equal to the sum of the anticlockwise moments about the same pivot. F₁d₁ = F₂d₂.",
+    "keywords": [
+      "equilibrium",
+      "clockwise moments",
+      "anticlockwise moments",
+      "pivot",
+      "F₁d₁ = F₂d₂"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_2m_easy_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "easy",
+    "question": "திருப்புத்திறன் தத்துவத்தைக் கூறுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "பல விசைகளின் செயலால் ஒரு பொருள் சமநிலையில் இருக்கும்போது, சுழல் புள்ளியைப் பொறுத்து கடிகாரச் சுற்று திருப்புத்திறன்களின் கூடுதல், அதே புள்ளியைப் பொறுத்து எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்களின் கூடுதலுக்குச் சமம். F₁d₁ = F₂d₂.",
+    "keywords": [
+      "சமநிலை",
+      "கடிகாரச் சுற்று திருப்புத்திறன்",
+      "எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+      "சுழல் புள்ளி",
+      "F₁d₁ = F₂d₂"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_2m_medium_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "medium",
+    "question": "How does a see-saw work on the principle of moments? How can a light child balance a heavy child?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "A see-saw is balanced when the clockwise moment equals the anticlockwise moment about the pivot (F₁d₁ = F₂d₂). The light child sits farther from the pivot and the heavy child sits closer to it, so the smaller weight × larger distance equals the larger weight × smaller distance.",
+    "keywords": [
+      "clockwise moment",
+      "anticlockwise moment",
+      "F₁d₁ = F₂d₂",
+      "farther from the pivot",
+      "closer"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_2m_medium_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "medium",
+    "question": "ஏற்ற இறக்க ஊஞ்சல் (see-saw) திருப்புத்திறன் தத்துவத்தில் எவ்வாறு இயங்குகிறது? எடை குறைந்த குழந்தை எடை அதிகமான குழந்தையை எவ்வாறு சமன் செய்ய முடியும்?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "சுழல் புள்ளியைப் பொறுத்து கடிகாரச் சுற்று திருப்புத்திறன் எதிர்க் கடிகாரச் சுற்று திருப்புத்திறனுக்குச் சமமாகும்போது ஊஞ்சல் சமநிலையில் இருக்கும் (F₁d₁ = F₂d₂). எடை குறைந்த குழந்தை சுழல் புள்ளியிலிருந்து தொலைவிலும், எடை அதிகமான குழந்தை அருகிலும் அமர்கின்றனர்; எனவே குறைந்த எடை × அதிக தொலைவு = அதிக எடை × குறைந்த தொலைவு.",
+    "keywords": [
+      "கடிகாரச் சுற்று திருப்புத்திறன்",
+      "எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+      "F₁d₁ = F₂d₂",
+      "சுழல் புள்ளியிலிருந்து தொலைவு",
+      "அருகில்"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "hard",
+    "question": "A boy of weight 300 N sits 2 m from the pivot of a see-saw. Where must a girl of weight 400 N sit on the other side to balance the see-saw?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "By the principle of moments, F₁d₁ = F₂d₂. 300 × 2 = 400 × d. d = 600 / 400 = 1.5 m. The girl must sit 1.5 m from the pivot on the other side.",
+    "keywords": [
+      "F₁d₁ = F₂d₂",
+      "300 × 2",
+      "600",
+      "1.5 m",
+      "other side"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "hard",
+    "question": "300 N எடையுள்ள சிறுவன் ஊஞ்சலின் சுழல் புள்ளியிலிருந்து 2 m தொலைவில் அமர்ந்துள்ளான். ஊஞ்சலைச் சமன் செய்ய 400 N எடையுள்ள சிறுமி மறுபுறம் எங்கு அமர வேண்டும்?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "திருப்புத்திறன் தத்துவப்படி F₁d₁ = F₂d₂. 300 × 2 = 400 × d. d = 600 / 400 = 1.5 m. சிறுமி மறுபுறம் சுழல் புள்ளியிலிருந்து 1.5 m தொலைவில் அமர வேண்டும்.",
+    "keywords": [
+      "F₁d₁ = F₂d₂",
+      "300 × 2",
+      "600",
+      "1.5 m",
+      "மறுபுறம்"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_5m_easy_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "easy",
+    "question": "State and explain the principle of moments using a see-saw. Write the formula and two applications.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Principle of moments: when a body is in equilibrium, the sum of the clockwise moments about the pivot is equal to the sum of the anticlockwise moments about the same pivot.\nFormula: F₁d₁ = F₂d₂ (clockwise moment = anticlockwise moment), i.e. the net moment is zero.\nSee-saw: the child on one side turns the see-saw clockwise and the child on the other side turns it anticlockwise. When weight × distance is the same on both sides, the see-saw stays balanced. A lighter child can balance a heavier child by sitting farther from the pivot.\nApplications: (1) beam balance used in shops; (2) see-saw in a park. Levers such as a crowbar also work on this principle.",
+    "keywords": [
+      "equilibrium",
+      "clockwise moments",
+      "anticlockwise moments",
+      "F₁d₁ = F₂d₂",
+      "see-saw",
+      "farther from the pivot",
+      "beam balance"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_5m_easy_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "easy",
+    "question": "திருப்புத்திறன் தத்துவத்தைக் கூறி, ஏற்ற இறக்க ஊஞ்சலைக் கொண்டு விளக்குக. சூத்திரத்தையும் இரண்டு பயன்பாடுகளையும் எழுதுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "திருப்புத்திறன் தத்துவம்: ஒரு பொருள் சமநிலையில் இருக்கும்போது, சுழல் புள்ளியைப் பொறுத்து கடிகாரச் சுற்று திருப்புத்திறன்களின் கூடுதல், அதே புள்ளியைப் பொறுத்து எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்களின் கூடுதலுக்குச் சமம்.\nசூத்திரம்: F₁d₁ = F₂d₂ (கடிகாரச் சுற்று திருப்புத்திறன் = எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்); அதாவது தொகுபயன் திருப்புத்திறன் பூஜ்ஜியம்.\nஊஞ்சல்: ஒருபுறம் உள்ள குழந்தை ஊஞ்சலைக் கடிகாரச் சுற்றிலும், மறுபுறம் உள்ள குழந்தை எதிர்க் கடிகாரச் சுற்றிலும் திருப்புகின்றனர். இருபுறமும் எடை × தொலைவு சமமாக இருந்தால் ஊஞ்சல் சமநிலையில் இருக்கும். எடை குறைந்த குழந்தை சுழல் புள்ளியிலிருந்து தொலைவில் அமர்ந்து எடை அதிகமான குழந்தையைச் சமன் செய்யலாம்.\nபயன்பாடுகள்: (1) கடைகளில் பயன்படும் பொதுத் தராசு; (2) பூங்காவிலுள்ள ஏற்ற இறக்க ஊஞ்சல். கடப்பாரை போன்ற நெம்புகோல்களும் இத்தத்துவத்தில் இயங்குகின்றன.",
+    "keywords": [
+      "சமநிலை",
+      "கடிகாரச் சுற்று திருப்புத்திறன்",
+      "எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+      "F₁d₁ = F₂d₂",
+      "ஊஞ்சல்",
+      "சுழல் புள்ளியிலிருந்து தொலைவு",
+      "பொதுத் தராசு"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "medium",
+    "question": "Explain clockwise and anticlockwise moments with examples. How does a beam balance use the principle of moments to measure mass?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "A clockwise moment tends to turn a body in the direction in which the hands of a clock move; an anticlockwise moment tends to turn it in the opposite direction.\nExample: on a see-saw, the child on the right side produces a clockwise moment and the child on the left side produces an anticlockwise moment.\nA body is balanced when the total clockwise moment equals the total anticlockwise moment (F₁d₁ = F₂d₂).\nBeam balance: it is a lever with two pans at equal distances from the pivot. The object is kept in one pan and standard masses in the other. When the beam is horizontal, the moments are equal. Since the distances are equal, the weights on both sides are equal, so the mass of the object equals the standard masses.",
+    "keywords": [
+      "clockwise moment",
+      "anticlockwise moment",
+      "see-saw",
+      "F₁d₁ = F₂d₂",
+      "equal distances",
+      "pivot",
+      "moments are equal",
+      "standard masses"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "medium",
+    "question": "கடிகாரச் சுற்று மற்றும் எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்களை உதாரணங்களுடன் விளக்குக. பொதுத் தராசு திருப்புத்திறன் தத்துவத்தைப் பயன்படுத்தி நிறையை எவ்வாறு அளக்கிறது?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "கடிகார முட்கள் சுழலும் திசையில் பொருளைத் திருப்ப முயலும் திருப்புத்திறன் கடிகாரச் சுற்று திருப்புத்திறன்; அதற்கு எதிர்த் திசையில் திருப்ப முயல்வது எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்.\nஉதாரணம்: ஊஞ்சலில் வலப்புறம் உள்ள குழந்தை கடிகாரச் சுற்று திருப்புத்திறனையும், இடப்புறம் உள்ள குழந்தை எதிர்க் கடிகாரச் சுற்று திருப்புத்திறனையும் உண்டாக்குகின்றனர்.\nமொத்த கடிகாரச் சுற்று திருப்புத்திறன் = மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன் ஆகும்போது பொருள் சமநிலையில் இருக்கும் (F₁d₁ = F₂d₂).\nபொதுத் தராசு: சுழல் புள்ளியிலிருந்து சம தொலைவுகளில் இரு தட்டுகள் கொண்ட நெம்புகோல் இது. ஒரு தட்டில் பொருளும், மறு தட்டில் படித்தர நிறைகளும் வைக்கப்படுகின்றன. தண்டு கிடைமட்டமாக இருக்கும்போது திருப்புத்திறன்கள் சமம். தொலைவுகள் சமம் என்பதால் இருபுற எடைகளும் சமம்; எனவே பொருளின் நிறை = படித்தர நிறைகள்.",
+    "keywords": [
+      "கடிகாரச் சுற்று திருப்புத்திறன்",
+      "எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+      "ஊஞ்சல்",
+      "F₁d₁ = F₂d₂",
+      "சம தொலைவு",
+      "சுழல் புள்ளி",
+      "திருப்புத்திறன்கள் சமம்",
+      "படித்தர நிறைகள்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "hard",
+    "question": "A uniform metre rule is balanced at its 50 cm mark. A 20 g mass is hung at the 10 cm mark. (i) Find the anticlockwise moment. (ii) Where should a 50 g mass be hung to balance the rule? (iii) If the 50 g mass is then moved to the 90 cm mark, which side goes down? Explain using the principle of moments.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) Distance of the 20 g mass from the pivot = 50 − 10 = 40 cm. Anticlockwise moment = 20 × 40 = 800 g cm.\n(ii) For balance, clockwise moment = anticlockwise moment: 50 × d = 800, so d = 16 cm. The 50 g mass must be hung at 50 + 16 = 66 cm mark.\n(iii) At the 90 cm mark, d = 40 cm, clockwise moment = 50 × 40 = 2000 g cm.\nSince 2000 g cm is greater than 800 g cm, the clockwise moment is larger, so the right side (the side with the 50 g mass) goes down.",
+    "keywords": [
+      "40 cm",
+      "800",
+      "50 × d = 800",
+      "16 cm",
+      "66 cm",
+      "2000",
+      "clockwise moment is larger",
+      "right side goes down"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "hard",
+    "question": "ஒரு சீரான மீட்டர் அளவுகோல் அதன் 50 cm குறியில் சமநிலையில் உள்ளது. 10 cm குறியில் 20 g நிறை தொங்கவிடப்படுகிறது. (i) எதிர்க் கடிகாரச் சுற்று திருப்புத்திறனைக் காண்க. (ii) அளவுகோலைச் சமன் செய்ய 50 g நிறையை எங்கு தொங்கவிட வேண்டும்? (iii) பின்னர் 50 g நிறை 90 cm குறிக்கு நகர்த்தப்பட்டால் எந்தப் பக்கம் கீழிறங்கும்? திருப்புத்திறன் தத்துவத்தைக் கொண்டு விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) சுழல் புள்ளியிலிருந்து 20 g நிறையின் தொலைவு = 50 − 10 = 40 cm. எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன் = 20 × 40 = 800 g cm.\n(ii) சமநிலைக்கு, கடிகாரச் சுற்று திருப்புத்திறன் = எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்: 50 × d = 800, எனவே d = 16 cm. 50 g நிறையை 50 + 16 = 66 cm குறியில் தொங்கவிட வேண்டும்.\n(iii) 90 cm குறியில் d = 40 cm; கடிகாரச் சுற்று திருப்புத்திறன் = 50 × 40 = 2000 g cm.\n2000 g cm, 800 g cm-ஐ விட அதிகம்; கடிகாரச் சுற்று திருப்புத்திறன் அதிகம் என்பதால், வலப்பக்கம் (50 g நிறை உள்ள பக்கம்) கீழிறங்கும்.",
+    "keywords": [
+      "40 cm",
+      "800",
+      "50 × d = 800",
+      "16 cm",
+      "66 cm",
+      "2000",
+      "கடிகாரச் சுற்று திருப்புத்திறன் அதிகம்",
+      "வலப்பக்கம் கீழிறங்கும்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_2m_easy_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "easy",
+    "question": "State the law of conservation of linear momentum.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "When no external force acts on a system of bodies, the total momentum of the system before a collision is equal to the total momentum after the collision. m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂.",
+    "keywords": [
+      "no external force",
+      "total momentum",
+      "before",
+      "after",
+      "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_2m_easy_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "easy",
+    "question": "நேர்க்கோட்டு உந்த அழிவின்மை விதியைக் கூறுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "ஒரு பொருள்களின் அமைப்பின் மீது புறவிசை எதுவும் செயல்படாதபோது, மோதலுக்கு முன் அமைப்பின் மொத்த உந்தம், மோதலுக்குப் பின் உள்ள மொத்த உந்தத்திற்குச் சமம். m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂.",
+    "keywords": [
+      "புறவிசை இல்லாதபோது",
+      "மொத்த உந்தம்",
+      "மோதலுக்கு முன்",
+      "மோதலுக்குப் பின்",
+      "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_2m_medium_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "medium",
+    "question": "Why does a gun recoil when a bullet is fired?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Before firing, the gun and bullet are at rest, so the total momentum is zero. When the bullet is fired forward it gains momentum. To keep the total momentum zero, the gun gains an equal momentum in the opposite direction and moves backwards. The gun is much heavier, so its recoil velocity is small.",
+    "keywords": [
+      "total momentum is zero",
+      "bullet gains momentum",
+      "equal momentum",
+      "opposite direction",
+      "heavier"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_2m_medium_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "medium",
+    "question": "குண்டு சுடப்படும்போது துப்பாக்கி ஏன் பின்னோக்கித் தள்ளப்படுகிறது?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "சுடுவதற்கு முன் துப்பாக்கியும் குண்டும் ஓய்வில் உள்ளன; மொத்த உந்தம் பூஜ்ஜியம். குண்டு முன்னோக்கிச் சுடப்படும்போது அது உந்தம் பெறுகிறது. மொத்த உந்தம் பூஜ்ஜியமாகவே இருக்க, துப்பாக்கி எதிர்த் திசையில் சம அளவு உந்தம் பெற்று பின்னோக்கி நகர்கிறது. துப்பாக்கி மிகக் கனமானது என்பதால் அதன் பின்னியக்கத் திசைவேகம் குறைவு.",
+    "keywords": [
+      "மொத்த உந்தம் பூஜ்ஜியம்",
+      "குண்டு உந்தம் பெறுகிறது",
+      "சம அளவு உந்தம்",
+      "எதிர்த் திசை",
+      "கனமானது"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "hard",
+    "question": "A gun of mass 2 kg fires a bullet of mass 0.02 kg with a velocity of 200 m/s. Find the recoil velocity of the gun.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Total momentum before firing = 0. After firing: m₁v₁ + m₂v₂ = 0, so 0.02 × 200 + 2 × v = 0. 4 + 2v = 0, v = −2 m/s. The gun recoils with a velocity of 2 m/s in the opposite direction to the bullet.",
+    "keywords": [
+      "momentum before firing = 0",
+      "0.02 × 200",
+      "4 + 2v = 0",
+      "−2 m/s",
+      "opposite direction"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "hard",
+    "question": "2 kg நிறையுள்ள துப்பாக்கி, 0.02 kg நிறையுள்ள குண்டை 200 m/s திசைவேகத்தில் சுடுகிறது. துப்பாக்கியின் பின்னியக்கத் திசைவேகத்தைக் காண்க.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "சுடுவதற்கு முன் மொத்த உந்தம் = 0. சுட்ட பின்: m₁v₁ + m₂v₂ = 0; 0.02 × 200 + 2 × v = 0. 4 + 2v = 0, v = −2 m/s. துப்பாக்கி குண்டுக்கு எதிர்த் திசையில் 2 m/s திசைவேகத்தில் பின்னோக்கி நகரும்.",
+    "keywords": [
+      "சுடுவதற்கு முன் உந்தம் = 0",
+      "0.02 × 200",
+      "4 + 2v = 0",
+      "−2 m/s",
+      "எதிர்த் திசை"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_5m_easy_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "easy",
+    "question": "State and explain the law of conservation of linear momentum with its formula and two examples.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Law: when no external force acts on a system, the total linear momentum of the system remains constant. The total momentum before a collision is equal to the total momentum after the collision.\nFormula: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂, where m₁ and m₂ are the masses, u₁ and u₂ are the initial velocities and v₁ and v₂ are the final velocities.\nMomentum is not lost in a collision; it is only transferred from one body to another.\nExamples: (1) when a bullet is fired, the gun recoils backwards; (2) in carrom, the striker slows down after hitting a coin and the coin moves forward. The motion of a rocket is another example.",
+    "keywords": [
+      "no external force",
+      "total momentum",
+      "remains constant",
+      "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+      "initial velocities",
+      "final velocities",
+      "transferred",
+      "recoils",
+      "carrom"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_5m_easy_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "easy",
+    "question": "நேர்க்கோட்டு உந்த அழிவின்மை விதியைக் கூறி, அதன் சூத்திரம் மற்றும் இரண்டு உதாரணங்களுடன் விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "விதி: ஒரு அமைப்பின் மீது புறவிசை எதுவும் செயல்படாதபோது, அமைப்பின் மொத்த நேர்க்கோட்டு உந்தம் மாறாமல் இருக்கும். மோதலுக்கு முன் உள்ள மொத்த உந்தம், மோதலுக்குப் பின் உள்ள மொத்த உந்தத்திற்குச் சமம்.\nசூத்திரம்: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂; இங்கு m₁, m₂ = நிறைகள், u₁, u₂ = தொடக்கத் திசைவேகங்கள், v₁, v₂ = இறுதித் திசைவேகங்கள்.\nமோதலில் உந்தம் அழிவதில்லை; அது ஒரு பொருளிலிருந்து மற்றொன்றுக்கு மாற்றப்படுகிறது.\nஉதாரணங்கள்: (1) குண்டு சுடப்படும்போது துப்பாக்கி பின்னோக்கித் தள்ளப்படுகிறது; (2) கேரமில் ஸ்ட்ரைக்கர் காயை அடித்ததும் வேகம் குறைகிறது, காய் முன்னோக்கி நகர்கிறது. ராக்கெட்டின் இயக்கமும் ஓர் உதாரணம்.",
+    "keywords": [
+      "புறவிசை இல்லாதபோது",
+      "மொத்த உந்தம்",
+      "மாறாமல் இருக்கும்",
+      "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+      "தொடக்கத் திசைவேகங்கள்",
+      "இறுதித் திசைவேகங்கள்",
+      "மாற்றப்படுகிறது",
+      "துப்பாக்கி",
+      "கேரம்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "medium",
+    "question": "Prove the law of conservation of linear momentum using Newton's second and third laws of motion.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Consider two bodies A and B of masses m₁ and m₂ moving with initial velocities u₁ and u₂. They collide for a time t and their final velocities are v₁ and v₂.\nBy Newton's second law, force on A by B: F_AB = m₁(v₁ − u₁) / t.\nForce on B by A: F_BA = m₂(v₂ − u₂) / t.\nBy Newton's third law, F_AB = −F_BA.\nSo m₁(v₁ − u₁) / t = −m₂(v₂ − u₂) / t.\nm₁v₁ − m₁u₁ = −m₂v₂ + m₂u₂.\nRearranging: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂.\nTotal momentum before the collision = total momentum after the collision, which proves the law (when no external force acts).",
+    "keywords": [
+      "m₁",
+      "m₂",
+      "Newton's second law",
+      "m₁(v₁ − u₁) / t",
+      "Newton's third law",
+      "F_AB = −F_BA",
+      "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "medium",
+    "question": "நியூட்டனின் இரண்டாம் மற்றும் மூன்றாம் இயக்க விதிகளைப் பயன்படுத்தி நேர்க்கோட்டு உந்த அழிவின்மை விதியை நிரூபிக்க.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "m₁, m₂ நிறையுள்ள A, B என்ற இரு பொருள்கள் u₁, u₂ தொடக்கத் திசைவேகங்களுடன் இயங்குகின்றன என்க. அவை t நேரம் மோதி, v₁, v₂ இறுதித் திசைவேகங்களைப் பெறுகின்றன.\nநியூட்டனின் இரண்டாம் விதிப்படி, B-ஆல் A மீது செயல்படும் விசை: F_AB = m₁(v₁ − u₁) / t.\nA-ஆல் B மீது செயல்படும் விசை: F_BA = m₂(v₂ − u₂) / t.\nநியூட்டனின் மூன்றாம் விதிப்படி F_AB = −F_BA.\nஎனவே m₁(v₁ − u₁) / t = −m₂(v₂ − u₂) / t.\nm₁v₁ − m₁u₁ = −m₂v₂ + m₂u₂.\nமாற்றி அமைக்க: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂.\nமோதலுக்கு முன் மொத்த உந்தம் = மோதலுக்குப் பின் மொத்த உந்தம்; இது விதியை நிரூபிக்கிறது (புறவிசை இல்லாதபோது).",
+    "keywords": [
+      "m₁",
+      "m₂",
+      "நியூட்டனின் இரண்டாம் விதி",
+      "m₁(v₁ − u₁) / t",
+      "நியூட்டனின் மூன்றாம் விதி",
+      "F_AB = −F_BA",
+      "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "hard",
+    "question": "A ball of mass 4 kg moving at 6 m/s collides with a ball of mass 2 kg at rest. After the collision they move together. (i) Find the total momentum before the collision. (ii) Find their common velocity after the collision. (iii) Show that momentum is conserved. (iv) Is kinetic energy conserved? Explain.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) Momentum before = 4 × 6 + 2 × 0 = 24 kg m/s.\n(ii) After the collision the combined mass = 6 kg moves with velocity v. 6 × v = 24, so v = 4 m/s.\n(iii) Momentum after = 6 × 4 = 24 kg m/s, which is equal to the momentum before. So momentum is conserved.\n(iv) Kinetic energy before = ½ × 4 × 6² = 72 J. Kinetic energy after = ½ × 6 × 4² = 48 J.\nKinetic energy is not conserved: 24 J is changed into heat and sound during the collision. Momentum is conserved but kinetic energy is not, because the balls stick together (inelastic collision).",
+    "keywords": [
+      "24 kg m/s",
+      "6 kg",
+      "4 m/s",
+      "momentum is conserved",
+      "72 J",
+      "48 J",
+      "not conserved",
+      "heat and sound"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "hard",
+    "question": "6 m/s வேகத்தில் இயங்கும் 4 kg நிறையுள்ள பந்து, ஓய்வில் உள்ள 2 kg நிறையுள்ள பந்துடன் மோதுகிறது. மோதலுக்குப் பின் இரண்டும் இணைந்து இயங்குகின்றன. (i) மோதலுக்கு முன் மொத்த உந்தத்தைக் காண்க. (ii) மோதலுக்குப் பின் அவற்றின் பொதுத் திசைவேகத்தைக் காண்க. (iii) உந்தம் மாறவில்லை எனக் காட்டுக. (iv) இயக்க ஆற்றல் மாறாமல் உள்ளதா? விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) மோதலுக்கு முன் உந்தம் = 4 × 6 + 2 × 0 = 24 kg m/s.\n(ii) மோதலுக்குப் பின் இணைந்த நிறை = 6 kg, திசைவேகம் v. 6 × v = 24, எனவே v = 4 m/s.\n(iii) மோதலுக்குப் பின் உந்தம் = 6 × 4 = 24 kg m/s; இது முன் உள்ள உந்தத்திற்குச் சமம். எனவே உந்தம் மாறவில்லை.\n(iv) முன் இயக்க ஆற்றல் = ½ × 4 × 6² = 72 J. பின் இயக்க ஆற்றல் = ½ × 6 × 4² = 48 J.\nஇயக்க ஆற்றல் மாறாமல் இல்லை: மோதலின்போது 24 J வெப்பமாகவும் ஒலியாகவும் மாறுகிறது. பந்துகள் ஒட்டிக்கொள்வதால் (மீட்சியற்ற மோதல்) உந்தம் மாறவில்லை, ஆனால் இயக்க ஆற்றல் மாறுகிறது.",
+    "keywords": [
+      "24 kg m/s",
+      "6 kg",
+      "4 m/s",
+      "உந்தம் மாறவில்லை",
+      "72 J",
+      "48 J",
+      "இயக்க ஆற்றல் மாறுகிறது",
+      "வெப்பம், ஒலி"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_2m_easy_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "easy",
+    "question": "Define impulse. Write its formula and SI unit.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Impulse is the product of the force and the time for which it acts. It is equal to the change in momentum. J = F × t = Δp. Its SI unit is newton second (N s), which is the same as kg m/s.",
+    "keywords": [
+      "product of the force and the time",
+      "change in momentum",
+      "J = F × t",
+      "Δp",
+      "N s"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_2m_easy_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "easy",
+    "question": "கணத்தாக்கு — வரையறு. அதன் சூத்திரம் மற்றும் SI அலகை எழுதுக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "விசைக்கும் அது செயல்படும் நேரத்திற்கும் உள்ள பெருக்கற்பலனே கணத்தாக்கு. இது உந்த மாற்றத்திற்குச் சமம். J = F × t = Δp. அதன் SI அலகு நியூட்டன் வினாடி (N s); இது kg m/s-க்குச் சமம்.",
+    "keywords": [
+      "விசை மற்றும் நேரத்தின் பெருக்கற்பலன்",
+      "உந்த மாற்றம்",
+      "J = F × t",
+      "Δp",
+      "N s"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_2m_medium_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "medium",
+    "question": "Why does a cricket fielder pull their hands back while catching a fast ball?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "The ball's change in momentum while stopping is fixed. By pulling the hands back, the fielder increases the time taken to stop the ball. Since F = Δp / t, a longer time means a smaller force on the hands, so the hands do not get hurt.",
+    "keywords": [
+      "change in momentum",
+      "increases the time",
+      "F = Δp / t",
+      "smaller force",
+      "not get hurt"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_2m_medium_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "medium",
+    "question": "வேகமான பந்தைப் பிடிக்கும்போது கிரிக்கெட் வீரர் ஏன் கைகளைப் பின்னோக்கி இழுக்கிறார்?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "பந்தை நிறுத்தும்போது அதன் உந்த மாற்றம் மாறாதது. கைகளைப் பின்னோக்கி இழுப்பதால் பந்தை நிறுத்த ஆகும் நேரம் அதிகரிக்கிறது. F = Δp / t என்பதால், நேரம் அதிகமானால் கைகளின் மீதான விசை குறையும்; கைகளுக்குக் காயம் ஏற்படாது.",
+    "keywords": [
+      "உந்த மாற்றம்",
+      "நேரம் அதிகரிக்கிறது",
+      "F = Δp / t",
+      "விசை குறையும்",
+      "காயம் ஏற்படாது"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_2m_hard_en",
+    "category": "2 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "hard",
+    "question": "A ball of mass 0.5 kg moving at 20 m/s is stopped in 0.1 s. Find the impulse and the average force. What would the force be if the ball were stopped in 0.4 s?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Impulse = change in momentum = m(v − u) = 0.5 × (0 − 20) = −10 N s, so its magnitude is 10 N s. Average force F = impulse / t = 10 / 0.1 = 100 N. If stopped in 0.4 s, F = 10 / 0.4 = 25 N, which is four times smaller.",
+    "keywords": [
+      "10 N s",
+      "change in momentum",
+      "F = impulse / t",
+      "100 N",
+      "25 N"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_2m_hard_ta",
+    "category": "2 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "hard",
+    "question": "20 m/s வேகத்தில் இயங்கும் 0.5 kg நிறையுள்ள பந்து 0.1 s-இல் நிறுத்தப்படுகிறது. கணத்தாக்கையும் சராசரி விசையையும் காண்க. பந்து 0.4 s-இல் நிறுத்தப்பட்டால் விசை என்ன?",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "கணத்தாக்கு = உந்த மாற்றம் = m(v − u) = 0.5 × (0 − 20) = −10 N s; அதன் எண்மதிப்பு 10 N s. சராசரி விசை F = கணத்தாக்கு / t = 10 / 0.1 = 100 N. 0.4 s-இல் நிறுத்தப்பட்டால் F = 10 / 0.4 = 25 N; இது நான்கு மடங்கு குறைவு.",
+    "keywords": [
+      "10 N s",
+      "உந்த மாற்றம்",
+      "F = கணத்தாக்கு / t",
+      "100 N",
+      "25 N"
+    ],
+    "marks": 2,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_5m_easy_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "easy",
+    "question": "Explain impulse with its formula, SI unit and examples from daily life.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Impulse is the total effect of a force acting on a body for a period of time. It is the product of the force and the time for which it acts.\nFormula: J = F × t. Impulse is also equal to the change in momentum: J = Δp = mv − mu.\nSI unit: newton second (N s), which is the same as kg m/s.\nFor the same change in momentum, a larger time means a smaller force, and a shorter time means a larger force.\nExamples: (1) a cricket fielder pulls their hands back while catching a ball; (2) airbags in cars increase the stopping time and reduce injury; (3) a long jumper lands on a sand pit.",
+    "keywords": [
+      "product of the force and the time",
+      "J = F × t",
+      "change in momentum",
+      "N s",
+      "larger time",
+      "smaller force",
+      "fielder",
+      "airbags",
+      "sand pit"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_5m_easy_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "easy",
+    "question": "கணத்தாக்கை அதன் சூத்திரம், SI அலகு மற்றும் அன்றாட உதாரணங்களுடன் விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "ஒரு குறிப்பிட்ட நேரத்திற்குப் பொருளின் மீது செயல்படும் விசையின் மொத்த விளைவே கணத்தாக்கு. இது விசைக்கும் அது செயல்படும் நேரத்திற்கும் உள்ள பெருக்கற்பலன்.\nசூத்திரம்: J = F × t. கணத்தாக்கு உந்த மாற்றத்திற்கும் சமம்: J = Δp = mv − mu.\nSI அலகு: நியூட்டன் வினாடி (N s); இது kg m/s-க்குச் சமம்.\nஅதே உந்த மாற்றத்திற்கு, அதிக நேரம் என்றால் குறைந்த விசை; குறைந்த நேரம் என்றால் அதிக விசை.\nஉதாரணங்கள்: (1) பந்தைப் பிடிக்கும்போது கிரிக்கெட் வீரர் கைகளைப் பின்னோக்கி இழுக்கிறார்; (2) கார்களில் உள்ள காற்றுப்பைகள் நிற்கும் நேரத்தை அதிகரித்துக் காயத்தைக் குறைக்கின்றன; (3) நீளம் தாண்டுபவர் மணல் குழியில் குதிக்கிறார்.",
+    "keywords": [
+      "விசை மற்றும் நேரத்தின் பெருக்கற்பலன்",
+      "J = F × t",
+      "உந்த மாற்றம்",
+      "N s",
+      "அதிக நேரம்",
+      "குறைந்த விசை",
+      "கிரிக்கெட் வீரர்",
+      "காற்றுப்பை",
+      "மணல்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_5m_medium_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "medium",
+    "question": "Show that impulse is equal to the change in momentum. Using examples, explain why increasing the time of impact reduces the force.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "Consider a body of mass m with initial velocity u. A force F acts on it for time t and its velocity becomes v.\nBy Newton's second law, F = ma = m(v − u) / t.\nMultiplying both sides by t: F × t = mv − mu.\nF × t is the impulse and mv − mu is the change in momentum. So impulse = change in momentum (J = Δp).\nSince F = Δp / t, for a fixed change in momentum, increasing the time t decreases the force F.\nExamples: (1) airbags and crumple zones in cars make the collision last longer, reducing the force on passengers; (2) long jumpers land on sand so their stopping time increases; (3) fragile items are packed with thermocol or straw to increase the time of impact; (4) vehicles have shock absorbers.",
+    "keywords": [
+      "F = ma",
+      "m(v − u) / t",
+      "F × t = mv − mu",
+      "change in momentum",
+      "F = Δp / t",
+      "increasing the time",
+      "decreases the force",
+      "airbags",
+      "sand"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_5m_medium_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "medium",
+    "question": "கணத்தாக்கு உந்த மாற்றத்திற்குச் சமம் எனக் காட்டுக. மோதல் நேரத்தை அதிகரித்தால் விசை ஏன் குறைகிறது என்பதை உதாரணங்களுடன் விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "m நிறையும் u தொடக்கத் திசைவேகமும் கொண்ட பொருள் என்க. t நேரத்திற்கு F விசை செயல்பட்டு அதன் திசைவேகம் v ஆகிறது.\nநியூட்டனின் இரண்டாம் விதிப்படி F = ma = m(v − u) / t.\nஇருபுறமும் t-ஆல் பெருக்க: F × t = mv − mu.\nF × t என்பது கணத்தாக்கு; mv − mu என்பது உந்த மாற்றம். எனவே கணத்தாக்கு = உந்த மாற்றம் (J = Δp).\nF = Δp / t என்பதால், மாறாத உந்த மாற்றத்திற்கு நேரம் t அதிகரித்தால் விசை F குறையும்.\nஉதாரணங்கள்: (1) கார்களின் காற்றுப்பைகளும் நசுங்கும் பகுதிகளும் மோதல் நேரத்தை நீட்டித்துப் பயணிகளின் மீதான விசையைக் குறைக்கின்றன; (2) நீளம் தாண்டுபவர்கள் மணலில் குதிப்பதால் நிற்கும் நேரம் அதிகரிக்கிறது; (3) உடையக்கூடிய பொருள்கள் தெர்மகோல் அல்லது வைக்கோலுடன் அடைக்கப்படுகின்றன; (4) வாகனங்களில் அதிர்வு தாங்கிகள் உள்ளன.",
+    "keywords": [
+      "F = ma",
+      "m(v − u) / t",
+      "F × t = mv − mu",
+      "உந்த மாற்றம்",
+      "F = Δp / t",
+      "நேரம் அதிகரித்தால்",
+      "விசை குறையும்",
+      "காற்றுப்பை",
+      "மணல்"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_5m_hard_en",
+    "category": "5 Marks",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "hard",
+    "question": "A car of mass 1000 kg moving at 20 m/s hits a wall and stops. (i) Find the change in momentum. (ii) Find the average force if it stops in 0.05 s. (iii) Find the average force if airbags and crumple zones increase the stopping time to 0.5 s. (iv) Explain how this protects the passengers.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) Change in momentum Δp = m(v − u) = 1000 × (0 − 20) = −20000 kg m/s, so its magnitude is 20000 kg m/s (20000 N s).\n(ii) Average force F = Δp / t = 20000 / 0.05 = 400000 N.\n(iii) With a stopping time of 0.5 s, F = 20000 / 0.5 = 40000 N.\n(iv) The change in momentum is the same in both cases, but increasing the stopping time ten times makes the force ten times smaller. Airbags and crumple zones make the collision last longer, so a much smaller force acts on the passengers and injuries are reduced.",
+    "keywords": [
+      "20000 kg m/s",
+      "F = Δp / t",
+      "400000 N",
+      "40000 N",
+      "same change in momentum",
+      "ten times smaller",
+      "stopping time",
+      "smaller force"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_impulse_5m_hard_ta",
+    "category": "5 Marks",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "hard",
+    "question": "20 m/s வேகத்தில் இயங்கும் 1000 kg நிறையுள்ள கார் சுவரில் மோதி நிற்கிறது. (i) உந்த மாற்றத்தைக் காண்க. (ii) 0.05 s-இல் நின்றால் சராசரி விசையைக் காண்க. (iii) காற்றுப்பைகளும் நசுங்கும் பகுதிகளும் நிற்கும் நேரத்தை 0.5 s ஆக அதிகரித்தால் சராசரி விசையைக் காண்க. (iv) இது பயணிகளை எவ்வாறு பாதுகாக்கிறது என விளக்குக.",
+    "options": [],
+    "correctOption": "",
+    "sampleAnswer": "(i) உந்த மாற்றம் Δp = m(v − u) = 1000 × (0 − 20) = −20000 kg m/s; அதன் எண்மதிப்பு 20000 kg m/s (20000 N s).\n(ii) சராசரி விசை F = Δp / t = 20000 / 0.05 = 400000 N.\n(iii) நிற்கும் நேரம் 0.5 s எனில் F = 20000 / 0.5 = 40000 N.\n(iv) இரு நிலைகளிலும் உந்த மாற்றம் ஒன்றே; ஆனால் நிற்கும் நேரம் பத்து மடங்கானதால் விசை பத்து மடங்கு குறைகிறது. காற்றுப்பைகளும் நசுங்கும் பகுதிகளும் மோதல் நேரத்தை நீட்டிப்பதால், பயணிகள் மீது மிகக் குறைந்த விசை செயல்பட்டு காயங்கள் குறைகின்றன.",
+    "keywords": [
+      "20000 kg m/s",
+      "F = Δp / t",
+      "400000 N",
+      "40000 N",
+      "உந்த மாற்றம் ஒன்றே",
+      "பத்து மடங்கு குறைவு",
+      "நிற்கும் நேரம்",
+      "குறைந்த விசை"
+    ],
+    "marks": 5,
+    "createdAt": "2026-09-16T14:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "easy",
+    "question": "Which is the formula of Newton's second law?",
+    "options": [
+      "F = mv",
+      "F = ma",
+      "F = m / a",
+      "F = a / m"
+    ],
+    "correctOption": "F = ma",
+    "sampleAnswer": "Answer: F = ma. F = ma. Force = mass × acceleration.",
+    "keywords": [
+      "F = ma"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "easy",
+    "question": "நியூட்டனின் இரண்டாம் விதியின் சூத்திரம் எது?",
+    "options": [
+      "F = mv",
+      "F = ma",
+      "F = m / a",
+      "F = a / m"
+    ],
+    "correctOption": "F = ma",
+    "sampleAnswer": "விடை: F = ma. F = ma. விசை = நிறை × முடுக்கம்.",
+    "keywords": [
+      "F = ma"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "medium",
+    "question": "The same force acts on a body. If its mass becomes double, its acceleration becomes ___.",
+    "options": [
+      "double",
+      "four times",
+      "the same",
+      "half"
+    ],
+    "correctOption": "half",
+    "sampleAnswer": "Answer: half. a = F / m. Double the mass gives half the acceleration.",
+    "keywords": [
+      "half"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "medium",
+    "question": "ஒரு பொருளின் மீது அதே விசை செயல்படுகிறது. நிறை இருமடங்கானால் முடுக்கம் ___ ஆகும்.",
+    "options": [
+      "இருமடங்கு",
+      "நான்கு மடங்கு",
+      "மாறாது",
+      "பாதி"
+    ],
+    "correctOption": "பாதி",
+    "sampleAnswer": "விடை: பாதி. a = F / m. நிறை இருமடங்கானால் முடுக்கம் பாதியாகும்.",
+    "keywords": [
+      "பாதி"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "hard",
+    "question": "A force of 10 N acts on a body of mass 2 kg. What is its acceleration?",
+    "options": [
+      "20 m/s²",
+      "12 m/s²",
+      "5 m/s²",
+      "0.2 m/s²"
+    ],
+    "correctOption": "5 m/s²",
+    "sampleAnswer": "Answer: 5 m/s². a = F / m = 10 / 2 = 5 m/s².",
+    "keywords": [
+      "5 m/s²"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_newtons-second-law_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "newtons-second-law",
+    "level": "hard",
+    "question": "2 kg நிறையுள்ள பொருளின் மீது 10 N விசை செயல்படுகிறது. அதன் முடுக்கம் என்ன?",
+    "options": [
+      "20 m/s²",
+      "12 m/s²",
+      "5 m/s²",
+      "0.2 m/s²"
+    ],
+    "correctOption": "5 m/s²",
+    "sampleAnswer": "விடை: 5 m/s². a = F / m = 10 / 2 = 5 m/s².",
+    "keywords": [
+      "5 m/s²"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "easy",
+    "question": "Gravitational force acts between ___.",
+    "options": [
+      "any two objects that have mass",
+      "only planets",
+      "only magnets",
+      "only charged objects"
+    ],
+    "correctOption": "any two objects that have mass",
+    "sampleAnswer": "Answer: any two objects that have mass. Every object with mass pulls every other object with mass.",
+    "keywords": [
+      "any two objects that have mass"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "easy",
+    "question": "ஈர்ப்பு விசை ___ இடையே செயல்படும்.",
+    "options": [
+      "நிறை கொண்ட எந்த இரு பொருள்களுக்கும்",
+      "கோள்களுக்கு மட்டும்",
+      "காந்தங்களுக்கு மட்டும்",
+      "மின்னூட்டம் உள்ள பொருள்களுக்கு மட்டும்"
+    ],
+    "correctOption": "நிறை கொண்ட எந்த இரு பொருள்களுக்கும்",
+    "sampleAnswer": "விடை: நிறை கொண்ட எந்த இரு பொருள்களுக்கும். நிறை கொண்ட ஒவ்வொரு பொருளும் மற்ற நிறை கொண்ட பொருளை ஈர்க்கிறது.",
+    "keywords": [
+      "நிறை கொண்ட எந்த இரு பொருள்களுக்கும்"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "medium",
+    "question": "What is the value of the universal gravitational constant G?",
+    "options": [
+      "9.8 m/s²",
+      "3 × 10⁸ m/s",
+      "1.6 × 10⁻¹⁹ C",
+      "6.674 × 10⁻¹¹ N m² kg⁻²"
+    ],
+    "correctOption": "6.674 × 10⁻¹¹ N m² kg⁻²",
+    "sampleAnswer": "Answer: 6.674 × 10⁻¹¹ N m² kg⁻². G = 6.674 × 10⁻¹¹ N m² kg⁻². (9.8 m/s² is g, not G.)",
+    "keywords": [
+      "6.674 × 10⁻¹¹ N m² kg⁻²"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "medium",
+    "question": "பொது ஈர்ப்பியல் மாறிலி G-யின் மதிப்பு என்ன?",
+    "options": [
+      "9.8 m/s²",
+      "3 × 10⁸ m/s",
+      "1.6 × 10⁻¹⁹ C",
+      "6.674 × 10⁻¹¹ N m² kg⁻²"
+    ],
+    "correctOption": "6.674 × 10⁻¹¹ N m² kg⁻²",
+    "sampleAnswer": "விடை: 6.674 × 10⁻¹¹ N m² kg⁻². G = 6.674 × 10⁻¹¹ N m² kg⁻². (9.8 m/s² என்பது g, G அல்ல.)",
+    "keywords": [
+      "6.674 × 10⁻¹¹ N m² kg⁻²"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "hard",
+    "question": "The distance between two objects is made 3 times. The gravitational force becomes ___.",
+    "options": [
+      "3 times",
+      "1/3",
+      "1/9",
+      "9 times"
+    ],
+    "correctOption": "1/9",
+    "sampleAnswer": "Answer: 1/9. F depends on 1/r². (3)² = 9, so the force becomes 1/9.",
+    "keywords": [
+      "1/9"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_gravitation_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "gravitation",
+    "level": "hard",
+    "question": "இரு பொருள்களுக்கு இடையிலான தொலைவு 3 மடங்காக்கப்படுகிறது. ஈர்ப்பு விசை ___ ஆகும்.",
+    "options": [
+      "3 மடங்கு",
+      "1/3",
+      "1/9",
+      "9 மடங்கு"
+    ],
+    "correctOption": "1/9",
+    "sampleAnswer": "விடை: 1/9. F என்பது 1/r²-ஐப் பொறுத்தது. (3)² = 9, எனவே விசை 1/9 ஆகும்.",
+    "keywords": [
+      "1/9"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "easy",
+    "question": "What is the SI unit of weight?",
+    "options": [
+      "newton (N)",
+      "kilogram (kg)",
+      "metre (m)",
+      "joule (J)"
+    ],
+    "correctOption": "newton (N)",
+    "sampleAnswer": "Answer: newton (N). Weight is a force, so its unit is newton (N).",
+    "keywords": [
+      "newton (N)"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "easy",
+    "question": "எடையின் SI அலகு என்ன?",
+    "options": [
+      "நியூட்டன் (N)",
+      "கிலோகிராம் (kg)",
+      "மீட்டர் (m)",
+      "ஜூல் (J)"
+    ],
+    "correctOption": "நியூட்டன் (N)",
+    "sampleAnswer": "விடை: நியூட்டன் (N). எடை ஒரு விசை; எனவே அதன் அலகு நியூட்டன் (N).",
+    "keywords": [
+      "நியூட்டன் (N)"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "medium",
+    "question": "Which one does NOT change when you go to the Moon?",
+    "options": [
+      "weight",
+      "value of g",
+      "mass",
+      "pull of gravity"
+    ],
+    "correctOption": "mass",
+    "sampleAnswer": "Answer: mass. Mass is the amount of matter. It is the same everywhere.",
+    "keywords": [
+      "mass"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "medium",
+    "question": "சந்திரனுக்குச் செல்லும்போது எது மாறாது?",
+    "options": [
+      "எடை",
+      "g-யின் மதிப்பு",
+      "நிறை",
+      "ஈர்ப்பு இழுவை"
+    ],
+    "correctOption": "நிறை",
+    "sampleAnswer": "விடை: நிறை. நிறை என்பது பருப்பொருளின் அளவு. அது எங்கும் மாறாது.",
+    "keywords": [
+      "நிறை"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "hard",
+    "question": "A body has a mass of 5 kg. What is its weight on Earth? (g = 9.8 m/s²)",
+    "options": [
+      "49 N",
+      "5 N",
+      "9.8 N",
+      "14.8 N"
+    ],
+    "correctOption": "49 N",
+    "sampleAnswer": "Answer: 49 N. W = mg = 5 × 9.8 = 49 N.",
+    "keywords": [
+      "49 N"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_mass-vs-weight_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "mass-vs-weight",
+    "level": "hard",
+    "question": "ஒரு பொருளின் நிறை 5 kg. பூமியில் அதன் எடை என்ன? (g = 9.8 m/s²)",
+    "options": [
+      "49 N",
+      "5 N",
+      "9.8 N",
+      "14.8 N"
+    ],
+    "correctOption": "49 N",
+    "sampleAnswer": "விடை: 49 N. W = mg = 5 × 9.8 = 49 N.",
+    "keywords": [
+      "49 N"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_torque_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "easy",
+    "question": "What is the SI unit of torque?",
+    "options": [
+      "N",
+      "N / m",
+      "N s",
+      "N m"
+    ],
+    "correctOption": "N m",
+    "sampleAnswer": "Answer: N m. Torque = force × distance, so the unit is newton metre (N m).",
+    "keywords": [
+      "N m"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_torque_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "easy",
+    "question": "திருப்பு விசையின் SI அலகு என்ன?",
+    "options": [
+      "N",
+      "N / m",
+      "N s",
+      "N m"
+    ],
+    "correctOption": "N m",
+    "sampleAnswer": "விடை: N m. திருப்பு விசை = விசை × தொலைவு; எனவே அலகு நியூட்டன் மீட்டர் (N m).",
+    "keywords": [
+      "N m"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_torque_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "medium",
+    "question": "A door opens most easily when you push ___.",
+    "options": [
+      "near the hinges",
+      "far from the hinges, at the handle",
+      "on the hinges",
+      "anywhere — it is the same"
+    ],
+    "correctOption": "far from the hinges, at the handle",
+    "sampleAnswer": "Answer: far from the hinges, at the handle. τ = F × d. A bigger distance from the hinges gives more torque.",
+    "keywords": [
+      "far from the hinges, at the handle"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_torque_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "medium",
+    "question": "கதவை ___ தள்ளினால் மிக எளிதாகத் திறக்கும்.",
+    "options": [
+      "கீல்களுக்கு அருகில்",
+      "கீல்களிலிருந்து தொலைவில், கைப்பிடியில்",
+      "கீல்களின் மேல்",
+      "எங்கு தள்ளினாலும் ஒன்றே"
+    ],
+    "correctOption": "கீல்களிலிருந்து தொலைவில், கைப்பிடியில்",
+    "sampleAnswer": "விடை: கீல்களிலிருந்து தொலைவில், கைப்பிடியில். τ = F × d. கீல்களிலிருந்து அதிக தொலைவு என்றால் அதிக திருப்பு விசை.",
+    "keywords": [
+      "கீல்களிலிருந்து தொலைவில், கைப்பிடியில்"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_torque_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "hard",
+    "question": "A force of 20 N acts 0.5 m from the pivot. What is the torque?",
+    "options": [
+      "40 N m",
+      "10 N m",
+      "20.5 N m",
+      "4 N m"
+    ],
+    "correctOption": "10 N m",
+    "sampleAnswer": "Answer: 10 N m. τ = F × d = 20 × 0.5 = 10 N m.",
+    "keywords": [
+      "10 N m"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_torque_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "torque",
+    "level": "hard",
+    "question": "சுழல் புள்ளியிலிருந்து 0.5 m தொலைவில் 20 N விசை செயல்படுகிறது. திருப்பு விசை என்ன?",
+    "options": [
+      "40 N m",
+      "10 N m",
+      "20.5 N m",
+      "4 N m"
+    ],
+    "correctOption": "10 N m",
+    "sampleAnswer": "விடை: 10 N m. τ = F × d = 20 × 0.5 = 10 N m.",
+    "keywords": [
+      "10 N m"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "easy",
+    "question": "A see-saw works on the ___.",
+    "options": [
+      "law of gravitation",
+      "principle of moments",
+      "conservation of momentum",
+      "Newton's first law"
+    ],
+    "correctOption": "principle of moments",
+    "sampleAnswer": "Answer: principle of moments. A see-saw balances when the moments on both sides are equal.",
+    "keywords": [
+      "principle of moments"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "easy",
+    "question": "ஏற்ற இறக்க ஊஞ்சல் (see-saw) ___ அடிப்படையில் இயங்குகிறது.",
+    "options": [
+      "ஈர்ப்பியல் விதி",
+      "திருப்புத்திறன் தத்துவம்",
+      "உந்த அழிவின்மை விதி",
+      "நியூட்டனின் முதல் விதி"
+    ],
+    "correctOption": "திருப்புத்திறன் தத்துவம்",
+    "sampleAnswer": "விடை: திருப்புத்திறன் தத்துவம். இருபுறமும் திருப்புத்திறன்கள் சமமாக இருக்கும்போது ஊஞ்சல் சமநிலையில் இருக்கும்.",
+    "keywords": [
+      "திருப்புத்திறன் தத்துவம்"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "medium",
+    "question": "When a body is balanced, the total clockwise moment is equal to ___.",
+    "options": [
+      "zero",
+      "the total force",
+      "the total anticlockwise moment",
+      "the distance"
+    ],
+    "correctOption": "the total anticlockwise moment",
+    "sampleAnswer": "Answer: the total anticlockwise moment. Principle of moments: clockwise moment = anticlockwise moment.",
+    "keywords": [
+      "the total anticlockwise moment"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "medium",
+    "question": "ஒரு பொருள் சமநிலையில் இருக்கும்போது, மொத்த கடிகாரச் சுற்று திருப்புத்திறன் ___ க்குச் சமம்.",
+    "options": [
+      "பூஜ்ஜியம்",
+      "மொத்த விசை",
+      "மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+      "தொலைவு"
+    ],
+    "correctOption": "மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+    "sampleAnswer": "விடை: மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன். திருப்புத்திறன் தத்துவம்: கடிகாரச் சுற்று திருப்புத்திறன் = எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்.",
+    "keywords": [
+      "மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "hard",
+    "question": "A 30 N weight is 2 m from the pivot. What weight at 3 m on the other side will balance it?",
+    "options": [
+      "45 N",
+      "30 N",
+      "60 N",
+      "20 N"
+    ],
+    "correctOption": "20 N",
+    "sampleAnswer": "Answer: 20 N. F₁d₁ = F₂d₂. 30 × 2 = F × 3, so F = 20 N.",
+    "keywords": [
+      "20 N"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_principle-of-moments_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "principle-of-moments",
+    "level": "hard",
+    "question": "சுழல் புள்ளியிலிருந்து 2 m தொலைவில் 30 N எடை உள்ளது. மறுபுறம் 3 m தொலைவில் எவ்வளவு எடை அதைச் சமன் செய்யும்?",
+    "options": [
+      "45 N",
+      "30 N",
+      "60 N",
+      "20 N"
+    ],
+    "correctOption": "20 N",
+    "sampleAnswer": "விடை: 20 N. F₁d₁ = F₂d₂. 30 × 2 = F × 3, எனவே F = 20 N.",
+    "keywords": [
+      "20 N"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "easy",
+    "question": "What is the SI unit of momentum?",
+    "options": [
+      "kg m/s²",
+      "N m",
+      "kg m/s",
+      "J"
+    ],
+    "correctOption": "kg m/s",
+    "sampleAnswer": "Answer: kg m/s. Momentum = mass × velocity, so the unit is kg m/s.",
+    "keywords": [
+      "kg m/s"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "easy",
+    "question": "உந்தத்தின் SI அலகு என்ன?",
+    "options": [
+      "kg m/s²",
+      "N m",
+      "kg m/s",
+      "J"
+    ],
+    "correctOption": "kg m/s",
+    "sampleAnswer": "விடை: kg m/s. உந்தம் = நிறை × திசைவேகம்; எனவே அலகு kg m/s.",
+    "keywords": [
+      "kg m/s"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "medium",
+    "question": "The total momentum of a system stays the same when ___.",
+    "options": [
+      "no external force acts on it",
+      "the speed is high",
+      "the mass is small",
+      "the objects stop"
+    ],
+    "correctOption": "no external force acts on it",
+    "sampleAnswer": "Answer: no external force acts on it. Momentum is conserved only when no outside force acts.",
+    "keywords": [
+      "no external force acts on it"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "medium",
+    "question": "ஒரு அமைப்பின் மொத்த உந்தம் ___ மாறாமல் இருக்கும்.",
+    "options": [
+      "புறவிசை எதுவும் செயல்படாதபோது",
+      "வேகம் அதிகமாக இருக்கும்போது",
+      "நிறை குறைவாக இருக்கும்போது",
+      "பொருள்கள் நிற்கும்போது"
+    ],
+    "correctOption": "புறவிசை எதுவும் செயல்படாதபோது",
+    "sampleAnswer": "விடை: புறவிசை எதுவும் செயல்படாதபோது. புறவிசை இல்லாதபோது மட்டுமே உந்தம் மாறாமல் இருக்கும்.",
+    "keywords": [
+      "புறவிசை எதுவும் செயல்படாதபோது"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "hard",
+    "question": "A 1 kg gun fires a 0.01 kg bullet at 100 m/s. What is the recoil speed of the gun?",
+    "options": [
+      "100 m/s",
+      "1 m/s",
+      "10 m/s",
+      "0.1 m/s"
+    ],
+    "correctOption": "1 m/s",
+    "sampleAnswer": "Answer: 1 m/s. 0 = 0.01 × 100 + 1 × v, so v = −1 m/s. The gun moves back at 1 m/s.",
+    "keywords": [
+      "1 m/s"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_conservation-of-momentum_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "conservation-of-momentum",
+    "level": "hard",
+    "question": "1 kg துப்பாக்கி 0.01 kg குண்டை 100 m/s வேகத்தில் சுடுகிறது. துப்பாக்கியின் பின்னியக்க வேகம் என்ன?",
+    "options": [
+      "100 m/s",
+      "1 m/s",
+      "10 m/s",
+      "0.1 m/s"
+    ],
+    "correctOption": "1 m/s",
+    "sampleAnswer": "விடை: 1 m/s. 0 = 0.01 × 100 + 1 × v, எனவே v = −1 m/s. துப்பாக்கி 1 m/s வேகத்தில் பின்னோக்கி நகரும்.",
+    "keywords": [
+      "1 m/s"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_impulse_1m_easy_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "easy",
+    "question": "Impulse is equal to ___.",
+    "options": [
+      "force × distance",
+      "mass × acceleration",
+      "mass × gravity",
+      "force × time"
+    ],
+    "correctOption": "force × time",
+    "sampleAnswer": "Answer: force × time. Impulse J = F × t. It is also the change in momentum.",
+    "keywords": [
+      "force × time"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_impulse_1m_easy_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "easy",
+    "question": "கணத்தாக்கு = ___.",
+    "options": [
+      "விசை × தொலைவு",
+      "நிறை × முடுக்கம்",
+      "நிறை × ஈர்ப்பு முடுக்கம்",
+      "விசை × நேரம்"
+    ],
+    "correctOption": "விசை × நேரம்",
+    "sampleAnswer": "விடை: விசை × நேரம். கணத்தாக்கு J = F × t. இது உந்த மாற்றத்திற்கும் சமம்.",
+    "keywords": [
+      "விசை × நேரம்"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_impulse_1m_medium_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "medium",
+    "question": "Why does a fielder pull the hands back while catching a fast ball?",
+    "options": [
+      "to increase the force",
+      "to increase the time and reduce the force",
+      "to throw the ball faster",
+      "to stop the ball in less time"
+    ],
+    "correctOption": "to increase the time and reduce the force",
+    "sampleAnswer": "Answer: to increase the time and reduce the force. F = Δp / t. More time means less force on the hands.",
+    "keywords": [
+      "to increase the time and reduce the force"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_impulse_1m_medium_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "medium",
+    "question": "வேகமான பந்தைப் பிடிக்கும்போது வீரர் ஏன் கைகளைப் பின்னோக்கி இழுக்கிறார்?",
+    "options": [
+      "விசையை அதிகரிக்க",
+      "நேரத்தை அதிகரித்து விசையைக் குறைக்க",
+      "பந்தை வேகமாக எறிய",
+      "பந்தைக் குறைந்த நேரத்தில் நிறுத்த"
+    ],
+    "correctOption": "நேரத்தை அதிகரித்து விசையைக் குறைக்க",
+    "sampleAnswer": "விடை: நேரத்தை அதிகரித்து விசையைக் குறைக்க. F = Δp / t. நேரம் அதிகமானால் கைகளின் மீதான விசை குறையும்.",
+    "keywords": [
+      "நேரத்தை அதிகரித்து விசையைக் குறைக்க"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_impulse_1m_hard_en",
+    "category": "MCQ",
+    "language": "en",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "hard",
+    "question": "A 2 kg ball moving at 5 m/s is stopped. What is the impulse?",
+    "options": [
+      "10 N s",
+      "2.5 N s",
+      "7 N s",
+      "0.4 N s"
+    ],
+    "correctOption": "10 N s",
+    "sampleAnswer": "Answer: 10 N s. Impulse = change in momentum = 2 × 5 = 10 N s.",
+    "keywords": [
+      "10 N s"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
+  },
+  {
+    "id": "phy_impulse_1m_hard_ta",
+    "category": "MCQ",
+    "language": "ta",
+    "subject": "Physics",
+    "topic": "impulse",
+    "level": "hard",
+    "question": "5 m/s வேகத்தில் இயங்கும் 2 kg பந்து நிறுத்தப்படுகிறது. கணத்தாக்கு என்ன?",
+    "options": [
+      "10 N s",
+      "2.5 N s",
+      "7 N s",
+      "0.4 N s"
+    ],
+    "correctOption": "10 N s",
+    "sampleAnswer": "விடை: 10 N s. கணத்தாக்கு = உந்த மாற்றம் = 2 × 5 = 10 N s.",
+    "keywords": [
+      "10 N s"
+    ],
+    "marks": 1,
+    "createdAt": "2026-09-17T09:00:00Z"
   }
 ]

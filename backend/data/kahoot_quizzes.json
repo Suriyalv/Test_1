@@ -1,6 +1,629 @@
 {
   "quizzes": [
     {
+      "id": "kq_physics_quick_revision",
+      "title": {
+        "en": "Physics Quick Revision Quiz",
+        "ta": "இயற்பியல் விரைவுத் திருப்புதல் வினாடி வினா"
+      },
+      "description": {
+        "en": "21 quick questions on the 7 Physics flashcard topics — formulas, units, definitions, examples and match the pair.",
+        "ta": "7 இயற்பியல் அட்டைத் தலைப்புகளில் 21 விரைவு வினாக்கள் — சூத்திரங்கள், அலகுகள், வரையறைகள், உதாரணங்கள், பொருத்துக."
+      },
+      "questions": [
+        {
+          "id": "phy_q01",
+          "type": "formula",
+          "question": {
+            "en": "What is the formula for Newton's Second Law of Motion?",
+            "ta": "நியூட்டனின் இரண்டாம் இயக்க விதியின் சூத்திரம் என்ன?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "F = m / a",
+              "F = mv",
+              "F = ma",
+              "F = a / m"
+            ],
+            "ta": [
+              "F = m / a",
+              "F = mv",
+              "F = ma",
+              "F = a / m"
+            ]
+          },
+          "correctIndex": 2,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Force = mass × acceleration, so F = ma.",
+            "ta": "விசை = நிறை × முடுக்கம், எனவே F = ma."
+          }
+        },
+        {
+          "id": "phy_q02",
+          "type": "unit",
+          "question": {
+            "en": "What is the SI unit of force?",
+            "ta": "விசையின் SI அலகு என்ன?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Joule (J)",
+              "Newton (N)",
+              "Watt (W)",
+              "Pascal (Pa)"
+            ],
+            "ta": [
+              "ஜூல் (J)",
+              "நியூட்டன் (N)",
+              "வாட் (W)",
+              "பாஸ்கல் (Pa)"
+            ]
+          },
+          "correctIndex": 1,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Force is measured in Newtons. 1 N = 1 kg·m/s².",
+            "ta": "விசை நியூட்டனில் அளக்கப்படுகிறது. 1 N = 1 kg·m/s²."
+          }
+        },
+        {
+          "id": "phy_q03",
+          "type": "concept",
+          "question": {
+            "en": "The same force is applied, but the mass is doubled. What happens to the acceleration?",
+            "ta": "அதே விசை செலுத்தப்படுகிறது, ஆனால் நிறை இருமடங்காகிறது. முடுக்கத்திற்கு என்ன ஆகும்?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "It doubles",
+              "It becomes four times",
+              "It stays the same",
+              "It becomes half"
+            ],
+            "ta": [
+              "இருமடங்காகும்",
+              "நான்கு மடங்காகும்",
+              "மாறாது",
+              "பாதியாகும்"
+            ]
+          },
+          "correctIndex": 3,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "a = F / m. Double the mass → half the acceleration.",
+            "ta": "a = F / m. நிறை இருமடங்கு → முடுக்கம் பாதி."
+          }
+        },
+        {
+          "id": "phy_q04",
+          "type": "definition",
+          "question": {
+            "en": "What does the Universal Law of Gravitation say?",
+            "ta": "பொது ஈர்ப்பியல் விதி என்ன கூறுகிறது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Every object with mass attracts every other object",
+              "Only planets attract each other",
+              "Heavy objects push light objects away",
+              "Gravity works only on Earth"
+            ],
+            "ta": [
+              "நிறை கொண்ட ஒவ்வொரு பொருளும் மற்ற ஒவ்வொரு பொருளையும் ஈர்க்கிறது",
+              "கோள்கள் மட்டுமே ஒன்றையொன்று ஈர்க்கின்றன",
+              "கனமான பொருள்கள் இலேசான பொருள்களைத் தள்ளுகின்றன",
+              "ஈர்ப்பு பூமியில் மட்டுமே செயல்படும்"
+            ]
+          },
+          "correctIndex": 0,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "Gravity acts between ALL objects that have mass, anywhere in the universe.",
+            "ta": "பிரபஞ்சத்தில் எங்கும், நிறை கொண்ட அனைத்துப் பொருள்களுக்கும் இடையே ஈர்ப்பு செயல்படுகிறது."
+          }
+        },
+        {
+          "id": "phy_q05",
+          "type": "concept",
+          "question": {
+            "en": "If the distance between two objects is doubled, the gravitational force becomes…",
+            "ta": "இரு பொருள்களுக்கு இடையிலான தொலைவு இருமடங்கானால், ஈர்ப்பு விசை…"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Half",
+              "One-fourth",
+              "Double",
+              "Unchanged"
+            ],
+            "ta": [
+              "பாதியாகும்",
+              "நான்கில் ஒரு பங்காகும்",
+              "இருமடங்காகும்",
+              "மாறாது"
+            ]
+          },
+          "correctIndex": 1,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "F depends on 1/r². Doubling r makes the force 1/(2²) = 1/4.",
+            "ta": "F என்பது 1/r²-ஐப் பொறுத்தது. r இருமடங்கானால் விசை 1/(2²) = 1/4 ஆகும்."
+          }
+        },
+        {
+          "id": "phy_q06",
+          "type": "match",
+          "question": {
+            "en": "In F = G·m₁·m₂ / r², what does 'r' stand for?",
+            "ta": "F = G·m₁·m₂ / r² என்பதில் 'r' எதைக் குறிக்கிறது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Radius of the Earth",
+              "Rate of motion",
+              "Distance between the centres of the two objects",
+              "Resistance"
+            ],
+            "ta": [
+              "பூமியின் ஆரம்",
+              "இயக்க வீதம்",
+              "இரு பொருள்களின் மையங்களுக்கு இடையிலான தொலைவு",
+              "மின்தடை"
+            ]
+          },
+          "correctIndex": 2,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "r is the distance between the centres of the two masses.",
+            "ta": "r என்பது இரு நிறைகளின் மையங்களுக்கு இடையிலான தொலைவு."
+          }
+        },
+        {
+          "id": "phy_q07",
+          "type": "definition",
+          "question": {
+            "en": "Which of these stays the same everywhere in the universe?",
+            "ta": "இவற்றில் பிரபஞ்சத்தில் எங்கும் மாறாமல் இருப்பது எது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Weight",
+              "Gravitational force",
+              "Acceleration due to gravity (g)",
+              "Mass"
+            ],
+            "ta": [
+              "எடை",
+              "ஈர்ப்பு விசை",
+              "ஈர்ப்பு முடுக்கம் (g)",
+              "நிறை"
+            ]
+          },
+          "correctIndex": 3,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Mass is the quantity of matter — it never changes. Weight changes with gravity.",
+            "ta": "நிறை என்பது பருப்பொருளின் அளவு — அது மாறாது. எடை ஈர்ப்பைப் பொறுத்து மாறும்."
+          }
+        },
+        {
+          "id": "phy_q08",
+          "type": "formula",
+          "question": {
+            "en": "What is the formula for weight?",
+            "ta": "எடையின் சூத்திரம் என்ன?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "W = mg",
+              "W = m / g",
+              "W = F × d",
+              "W = F × t"
+            ],
+            "ta": [
+              "W = mg",
+              "W = m / g",
+              "W = F × d",
+              "W = F × t"
+            ]
+          },
+          "correctIndex": 0,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Weight = mass × acceleration due to gravity, so W = mg.",
+            "ta": "எடை = நிறை × ஈர்ப்பு முடுக்கம், எனவே W = mg."
+          }
+        },
+        {
+          "id": "phy_q09",
+          "type": "example",
+          "question": {
+            "en": "An astronaut goes from the Earth to the Moon. What happens?",
+            "ta": "ஒரு விண்வெளி வீரர் பூமியிலிருந்து சந்திரனுக்குச் செல்கிறார். என்ன நடக்கும்?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Mass and weight both decrease",
+              "Mass decreases, weight stays the same",
+              "Mass stays the same, weight decreases",
+              "Both mass and weight stay the same"
+            ],
+            "ta": [
+              "நிறை, எடை இரண்டும் குறையும்",
+              "நிறை குறையும், எடை மாறாது",
+              "நிறை மாறாது, எடை குறையும்",
+              "நிறை, எடை இரண்டும் மாறாது"
+            ]
+          },
+          "correctIndex": 2,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "The Moon's gravity is weaker, so weight drops (to about 1/6), but mass does not change.",
+            "ta": "சந்திரனின் ஈர்ப்பு குறைவு, எனவே எடை (சுமார் 1/6 ஆக) குறையும்; நிறை மாறாது."
+          }
+        },
+        {
+          "id": "phy_q10",
+          "type": "unit",
+          "question": {
+            "en": "What is the SI unit of torque?",
+            "ta": "திருப்பு விசையின் SI அலகு என்ன?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "N / m",
+              "kg·m/s",
+              "N·s",
+              "N·m"
+            ],
+            "ta": [
+              "N / m",
+              "kg·m/s",
+              "N·s",
+              "N·m"
+            ]
+          },
+          "correctIndex": 3,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Torque = force × distance, so its unit is Newton-metre (N·m).",
+            "ta": "திருப்பு விசை = விசை × தொலைவு, எனவே அதன் அலகு நியூட்டன்-மீட்டர் (N·m)."
+          }
+        },
+        {
+          "id": "phy_q11",
+          "type": "example",
+          "question": {
+            "en": "Why is a door handle fixed far away from the hinges?",
+            "ta": "கதவின் கைப்பிடி ஏன் கீல்களிலிருந்து தொலைவில் பொருத்தப்படுகிறது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "To make the door lighter",
+              "A larger distance gives more torque, so the door opens easily",
+              "To reduce friction",
+              "To make the door look better"
+            ],
+            "ta": [
+              "கதவை இலேசாக்க",
+              "அதிக தொலைவு அதிக திருப்பு விசை தருவதால் கதவு எளிதாகத் திறக்கும்",
+              "உராய்வைக் குறைக்க",
+              "கதவை அழகாகக் காட்ட"
+            ]
+          },
+          "correctIndex": 1,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "τ = F × d. A bigger d gives more turning effect for the same push.",
+            "ta": "τ = F × d. அதிக d, அதே தள்ளுதலுக்கு அதிக திருப்பு விளைவைத் தரும்."
+          }
+        },
+        {
+          "id": "phy_q12",
+          "type": "match",
+          "question": {
+            "en": "Match the pair: which one is correctly matched?",
+            "ta": "பொருத்துக: எது சரியாகப் பொருத்தப்பட்டுள்ளது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Weight — W = F × t",
+              "Impulse — F = ma",
+              "Momentum — W = mg",
+              "Torque — τ = F × d"
+            ],
+            "ta": [
+              "எடை — W = F × t",
+              "கணத்தாக்கு — F = ma",
+              "உந்தம் — W = mg",
+              "திருப்பு விசை — τ = F × d"
+            ]
+          },
+          "correctIndex": 3,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "Torque is τ = F × d. (Weight: W = mg • Impulse: J = F × t • Newton's 2nd law: F = ma)",
+            "ta": "திருப்பு விசை τ = F × d. (எடை: W = mg • கணத்தாக்கு: J = F × t • நியூட்டன் 2-ம் விதி: F = ma)"
+          }
+        },
+        {
+          "id": "phy_q13",
+          "type": "definition",
+          "question": {
+            "en": "According to the Principle of Moments, an object is balanced when…",
+            "ta": "திருப்புத்திறன் தத்துவத்தின்படி, ஒரு பொருள் எப்போது சமநிலையில் இருக்கும்?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "The clockwise moment is bigger",
+              "Total clockwise moment = total anticlockwise moment",
+              "No force acts on it",
+              "The anticlockwise moment is zero"
+            ],
+            "ta": [
+              "கடிகாரச் சுற்று திருப்புத்திறன் அதிகமாக இருக்கும்போது",
+              "மொத்த கடிகாரச் சுற்று = மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+              "எந்த விசையும் செயல்படாதபோது",
+              "எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன் பூஜ்ஜியமாக இருக்கும்போது"
+            ]
+          },
+          "correctIndex": 1,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "Balance happens when the turning effects on both sides are equal: F₁d₁ = F₂d₂.",
+            "ta": "இருபுறமும் திருப்பு விளைவுகள் சமமாக இருக்கும்போது சமநிலை: F₁d₁ = F₂d₂."
+          }
+        },
+        {
+          "id": "phy_q14",
+          "type": "concept",
+          "question": {
+            "en": "A 2 N force acts 3 m from the pivot. What force at 1 m on the other side will balance it?",
+            "ta": "சுழல் புள்ளியிலிருந்து 3 m தொலைவில் 2 N விசை செயல்படுகிறது. மறுபுறம் 1 m தொலைவில் எவ்வளவு விசை அதைச் சமன் செய்யும்?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "2 N",
+              "3 N",
+              "6 N",
+              "1 N"
+            ],
+            "ta": [
+              "2 N",
+              "3 N",
+              "6 N",
+              "1 N"
+            ]
+          },
+          "correctIndex": 2,
+          "timeLimit": 30,
+          "explanation": {
+            "en": "F₁d₁ = F₂d₂ → 2 × 3 = F₂ × 1 → F₂ = 6 N.",
+            "ta": "F₁d₁ = F₂d₂ → 2 × 3 = F₂ × 1 → F₂ = 6 N."
+          }
+        },
+        {
+          "id": "phy_q15",
+          "type": "example",
+          "question": {
+            "en": "Which of these works on the Principle of Moments?",
+            "ta": "இவற்றில் எது திருப்புத்திறன் தத்துவத்தில் இயங்குகிறது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "A see-saw",
+              "A rocket launch",
+              "A melting ice cube",
+              "A glowing bulb"
+            ],
+            "ta": [
+              "ஏற்ற இறக்க ஊஞ்சல் (see-saw)",
+              "ராக்கெட் ஏவுதல்",
+              "உருகும் பனிக்கட்டி",
+              "ஒளிரும் மின்விளக்கு"
+            ]
+          },
+          "correctIndex": 0,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "A see-saw balances when the moments on both sides are equal.",
+            "ta": "இருபுறமும் திருப்புத்திறன்கள் சமமாக இருக்கும்போது see-saw சமநிலையில் இருக்கும்."
+          }
+        },
+        {
+          "id": "phy_q16",
+          "type": "definition",
+          "question": {
+            "en": "Total momentum before a collision equals total momentum after it, when…",
+            "ta": "மோதலுக்கு முன் உள்ள மொத்த உந்தம், மோதலுக்குப் பின் உள்ள மொத்த உந்தத்திற்குச் சமம் — எப்போது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "No external force acts",
+              "Both objects have the same mass",
+              "Both objects stop",
+              "The speed is constant"
+            ],
+            "ta": [
+              "புறவிசை எதுவும் செயல்படாதபோது",
+              "இரு பொருள்களுக்கும் ஒரே நிறை இருக்கும்போது",
+              "இரு பொருள்களும் நின்றுவிடும்போது",
+              "வேகம் மாறாமல் இருக்கும்போது"
+            ]
+          },
+          "correctIndex": 0,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "Momentum is conserved only if no external force acts on the system.",
+            "ta": "அமைப்பின் மீது புறவிசை செயல்படாதபோது மட்டுமே உந்தம் மாறாமல் இருக்கும்."
+          }
+        },
+        {
+          "id": "phy_q17",
+          "type": "match",
+          "question": {
+            "en": "In m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂, what does 'u' stand for?",
+            "ta": "m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂ என்பதில் 'u' எதைக் குறிக்கிறது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "Final velocity",
+              "Upward force",
+              "Unit mass",
+              "Initial velocity"
+            ],
+            "ta": [
+              "இறுதித் திசைவேகம்",
+              "மேல்நோக்கிய விசை",
+              "அலகு நிறை",
+              "தொடக்கத் திசைவேகம்"
+            ]
+          },
+          "correctIndex": 3,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "u = initial velocity (before collision), v = final velocity (after collision).",
+            "ta": "u = தொடக்கத் திசைவேகம் (மோதலுக்கு முன்), v = இறுதித் திசைவேகம் (மோதலுக்குப் பின்)."
+          }
+        },
+        {
+          "id": "phy_q18",
+          "type": "example",
+          "question": {
+            "en": "Which of these is an example of conservation of momentum?",
+            "ta": "இவற்றில் உந்த அழிவின்மைக்கு உதாரணம் எது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "A gun recoils when a bullet is fired",
+              "A ball falls to the ground",
+              "Ice melting in the sun",
+              "A bulb glowing"
+            ],
+            "ta": [
+              "குண்டு சுடும்போது துப்பாக்கி பின்னோக்கித் தள்ளப்படுதல்",
+              "பந்து தரையில் விழுதல்",
+              "வெயிலில் பனிக்கட்டி உருகுதல்",
+              "மின்விளக்கு ஒளிர்தல்"
+            ]
+          },
+          "correctIndex": 0,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "The bullet gains forward momentum, so the gun gains equal momentum backwards.",
+            "ta": "குண்டு முன்னோக்கி உந்தம் பெறுவதால், துப்பாக்கி அதே அளவு உந்தத்தைப் பின்னோக்கிப் பெறுகிறது."
+          }
+        },
+        {
+          "id": "phy_q19",
+          "type": "formula",
+          "question": {
+            "en": "What is the formula for impulse?",
+            "ta": "கணத்தாக்கின் சூத்திரம் என்ன?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "J = m × a",
+              "J = F × d",
+              "J = F × t",
+              "J = m × g"
+            ],
+            "ta": [
+              "J = m × a",
+              "J = F × d",
+              "J = F × t",
+              "J = m × g"
+            ]
+          },
+          "correctIndex": 2,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Impulse = force × time = change in momentum (J = F × t = Δp).",
+            "ta": "கணத்தாக்கு = விசை × நேரம் = உந்த மாற்றம் (J = F × t = Δp)."
+          }
+        },
+        {
+          "id": "phy_q20",
+          "type": "example",
+          "question": {
+            "en": "Why does a cricket fielder pull their hands back while catching a fast ball?",
+            "ta": "வேகமான பந்தைப் பிடிக்கும்போது கிரிக்கெட் வீரர் ஏன் கைகளைப் பின்னோக்கி இழுக்கிறார்?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "To increase the force on the hands",
+              "To increase the time and reduce the force",
+              "To throw the ball back faster",
+              "To make the ball heavier"
+            ],
+            "ta": [
+              "கைகளின் மீதான விசையை அதிகரிக்க",
+              "நேரத்தை அதிகரித்து விசையைக் குறைக்க",
+              "பந்தை வேகமாகத் திருப்பி எறிய",
+              "பந்தைக் கனமாக்க"
+            ]
+          },
+          "correctIndex": 1,
+          "timeLimit": 25,
+          "explanation": {
+            "en": "Same change in momentum over a longer time means a smaller force (F = Δp / t).",
+            "ta": "அதே உந்த மாற்றம் நீண்ட நேரத்தில் நடந்தால் விசை குறையும் (F = Δp / t)."
+          }
+        },
+        {
+          "id": "phy_q21",
+          "type": "match",
+          "question": {
+            "en": "Match the unit: which unit belongs to impulse?",
+            "ta": "அலகைப் பொருத்துக: கணத்தாக்கின் அலகு எது?"
+          },
+          "image": "",
+          "options": {
+            "en": [
+              "N·m",
+              "kg",
+              "N·s",
+              "m/s²"
+            ],
+            "ta": [
+              "N·m",
+              "kg",
+              "N·s",
+              "m/s²"
+            ]
+          },
+          "correctIndex": 2,
+          "timeLimit": 20,
+          "explanation": {
+            "en": "Impulse = force × time, so its unit is Newton-second (N·s), same as kg·m/s.",
+            "ta": "கணத்தாக்கு = விசை × நேரம், எனவே அதன் அலகு நியூட்டன்-வினாடி (N·s), அதாவது kg·m/s."
+          }
+        }
+      ],
+      "createdAt": "2026-09-16T13:00:00Z"
+    },
+    {
       "id": "kq_1789189421814",
       "title": {
         "en": "tell me about you",

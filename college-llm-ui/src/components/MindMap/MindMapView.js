@@ -29,68 +29,106 @@ const MAX_ZOOM = 1.8;
 const clampZoom = (value) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, value));
 
 /* ── One card on the canvas ───────────────────────────────────────────────────
-   The root is the single dark node; every other node is painted in its branch
-   colour. A node with hidden children wears a count badge so nothing feels lost. */
+   Three looks, so the hierarchy reads at a glance:
+   • root     — a glowing gradient pill, the one thing the eye lands on first;
+   • branches — solid gradient cards in the branch colour, icon in a bubble;
+   • leaves   — clean white cards with a coloured edge tying them to their branch.
+   A node with hidden children wears a count badge so nothing feels lost. */
 const MapNode = ({ entry, isSelected, isMatch, isDimmed, onSelect, onToggle }) => {
   const { node, depth, w, h, x, y, side, hasChildren, collapsed } = entry;
   const isRoot = depth === 0;
+  const isBranch = depth === 1;
   const branch = getBranch(node.accent);
   const fontSize = nodeFontSize(depth);
 
   const hiddenCount = collapsed ? (node.children || []).length : 0;
   const toggleOnLeft = side === "left";
 
+  const highlight = isSelected || isMatch;
+
   const style = isRoot
     ? {
-        background: ROOT_THEME.fill,
-        borderColor: ROOT_THEME.fill,
+        background: `linear-gradient(135deg, ${ROOT_THEME.fill} 0%, ${ROOT_THEME.fillEnd} 100%)`,
+        borderColor: "rgba(255,255,255,.35)",
         color: ROOT_THEME.text,
+        borderRadius: 22,
+        boxShadow: isSelected
+          ? `0 0 0 4px #bae6fd, 0 18px 40px -12px ${ROOT_THEME.glow}`
+          : `0 14px 34px -12px ${ROOT_THEME.glow}`,
+      }
+    : isBranch
+    ? {
+        background: `linear-gradient(135deg, ${branch.stroke} 0%, ${branch.strong} 100%)`,
+        borderColor: highlight ? "#ffffff" : "rgba(255,255,255,.25)",
+        color: "#ffffff",
+        borderRadius: 16,
+        boxShadow: highlight
+          ? `0 0 0 3px ${branch.border}, 0 12px 26px -10px ${branch.stroke}`
+          : `0 8px 20px -10px ${branch.stroke}`,
       }
     : {
-        background: depth === 1 ? branch.tint : "#ffffff",
-        borderColor: isSelected || isMatch ? branch.stroke : branch.border,
+        background: highlight ? branch.tint : "#ffffff",
+        borderStyle: "solid",
+        borderWidth: "1.5px 1.5px 1.5px 5px",
+        // Long-hand sides only — mixing borderColor with borderLeftColor makes React warn.
+        borderTopColor: highlight ? branch.stroke : branch.border,
+        borderRightColor: highlight ? branch.stroke : branch.border,
+        borderBottomColor: highlight ? branch.stroke : branch.border,
+        borderLeftColor: branch.stroke,
         color: branch.text,
+        borderRadius: 12,
+        boxShadow: isSelected
+          ? `0 0 0 3px ${branch.soft}, 0 10px 22px -10px rgba(15,23,42,.35)`
+          : "0 2px 8px -3px rgba(15,23,42,.18)",
       };
 
+  const onDark = isRoot || isBranch;
+
   return (
-    <div
+    <motion.div
       className="absolute"
+      initial={{ opacity: 0, scale: 0.85 }}
+      animate={{ opacity: isDimmed ? 0.28 : 1, scale: 1 }}
+      transition={{ type: "spring", stiffness: 380, damping: 28 }}
       style={{
         left: x,
         top: y - h / 2,
         width: w,
         minHeight: h,
-        opacity: isDimmed ? 0.28 : 1,
-        transition: "opacity 160ms ease",
         zIndex: isSelected ? 20 : 10,
       }}
     >
       <button
         type="button"
         onClick={() => onSelect(entry)}
-        style={{
-          ...style,
-          borderWidth: isRoot ? 2 : depth === 1 ? 2 : 1.5,
-          boxShadow: isSelected
-            ? `0 0 0 3px ${isRoot ? "#93c5fd" : branch.soft}, 0 10px 22px -10px rgba(15,23,42,.45)`
-            : "0 2px 8px -3px rgba(15,23,42,.25)",
-        }}
-        className="flex w-full flex-col items-start gap-1 rounded-xl border px-3 py-2 text-left transition-shadow hover:shadow-lg"
+        style={style}
+        className={`flex w-full flex-col items-start gap-1.5 border text-left transition-all duration-150 hover:-translate-y-0.5 hover:brightness-105 ${
+          isRoot ? "px-4 py-3" : "px-3 py-2"
+        }`}
       >
         <span
-          className="flex w-full items-start gap-1.5 font-bold leading-snug"
+          className="flex w-full items-center gap-2 font-bold leading-snug"
           style={{ fontSize }}
         >
-          {node.icon && <span className="shrink-0 leading-none">{node.icon}</span>}
+          {node.icon && (
+            <span
+              className={`flex shrink-0 items-center justify-center rounded-full leading-none ${
+                isRoot ? "h-8 w-8 text-lg" : onDark ? "h-6 w-6 text-sm" : "text-[13px]"
+              }`}
+              style={onDark ? { background: "rgba(255,255,255,.22)" } : undefined}
+            >
+              {node.icon}
+            </span>
+          )}
           <span className="break-words">{node.label}</span>
         </span>
 
         {node.formula && (
           <span
-            className="max-w-full truncate rounded px-1.5 py-0.5 font-mono text-[10.5px] font-semibold"
+            className="max-w-full truncate rounded-md px-1.5 py-0.5 font-mono text-[10.5px] font-bold"
             style={{
-              background: isRoot ? "rgba(255,255,255,.16)" : branch.soft,
-              color: isRoot ? "#e0e7ff" : branch.strong,
+              background: onDark ? "rgba(255,255,255,.2)" : branch.soft,
+              color: onDark ? "#ffffff" : branch.strong,
             }}
           >
             {node.formula}
@@ -124,7 +162,7 @@ const MapNode = ({ entry, isSelected, isMatch, isDimmed, onSelect, onToggle }) =
           )}
         </button>
       )}
-    </div>
+    </motion.div>
   );
 };
 
@@ -157,7 +195,7 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
       setExplainError(
         isTa
           ? "விளக்கத்தைப் பெற முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
-          : "Could not fetch an explanation. Please try again."
+          : "Could not get the explanation. Please try again."
       );
     }
     setExplaining(false);
@@ -180,7 +218,7 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
             {isRoot
               ? isTa
                 ? "மைய தலைப்பு"
-                : "Central Topic"
+                : "Main topic"
               : `${isTa ? "நிலை" : "Level"} ${entry.depth}`}
           </div>
           <h3 className="flex items-start gap-1.5 text-[15px] font-extrabold leading-snug text-white">
@@ -230,7 +268,7 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
             <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">
               <GitBranch size={11} />
               <span>
-                {isTa ? "உட்பிரிவுகள்" : "Branches from here"} ({node.children.length})
+                {isTa ? "உட்பிரிவுகள்" : "Parts of this topic"} ({node.children.length})
               </span>
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -253,7 +291,7 @@ const NodeDetail = ({ mapId, entry, language, onClose }) => {
 
         {!node.summary && !node.points?.length && !node.formula && !node.children?.length && (
           <p className="text-[12.5px] italic text-slate-400">
-            {isTa ? "இந்த முனைக்கு குறிப்புகள் இல்லை." : "No notes stored on this node yet."}
+            {isTa ? "இந்த முனைக்கு குறிப்புகள் இல்லை." : "No notes for this box yet."}
           </p>
         )}
 
@@ -537,7 +575,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
       <div className="flex h-[60vh] flex-col items-center justify-center gap-3 text-slate-400">
         <Loader2 size={28} className="animate-spin text-[#0284c7]" />
         <p className="text-sm font-semibold">
-          {isTa ? "கருத்து வரைபடம் ஏற்றப்படுகிறது..." : "Loading the concept map..."}
+          {isTa ? "கருத்து வரைபடம் ஏற்றப்படுகிறது..." : "Loading the mind map..."}
         </p>
       </div>
     );
@@ -550,7 +588,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
         <p className="text-sm font-semibold text-slate-600">
           {isTa
             ? "வரைபடத்தை ஏற்ற முடியவில்லை. சேவையகம் இயங்குகிறதா எனச் சரிபார்க்கவும்."
-            : "Could not load the mind map. Check that the backend server is running."}
+            : "Could not load the mind map. Please try again."}
         </p>
         <button
           onClick={loadMap}
@@ -586,7 +624,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={isTa ? "கருத்து அல்லது சூத்திரம் தேடு..." : "Search a concept or formula..."}
+            placeholder={isTa ? "கருத்து அல்லது சூத்திரம் தேடு..." : "Search a topic or formula..."}
             className="w-full rounded-lg border border-slate-200 bg-slate-50 py-1.5 pl-8 pr-8 text-xs font-medium text-slate-700 outline-none transition-colors focus:border-brand-400 focus:bg-white"
           />
           {query && (
@@ -617,7 +655,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
           <button
             onClick={collapseToBranches}
             className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-all hover:border-brand-300 hover:text-[#0284c7] active:scale-95"
-            title={isTa ? "கிளைகளாக மடக்கு" : "Collapse to branches"}
+            title={isTa ? "கிளைகளாக மடக்கு" : "Close all branches"}
           >
             <ChevronRight size={13} />
             <span className="hidden sm:inline">{isTa ? "மடக்கு" : "Collapse"}</span>
@@ -687,9 +725,12 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
         onWheel={onWheel}
         className="relative h-[70vh] min-h-[26rem] cursor-grab touch-none select-none overflow-hidden rounded-2xl border border-slate-200 bg-white active:cursor-grabbing"
         style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0)",
-          backgroundSize: "22px 22px",
+          backgroundColor: "#f8fbff",
+          backgroundImage: [
+            "radial-gradient(circle at 1px 1px, #dbe4f0 1px, transparent 0)",
+            "radial-gradient(ellipse at 50% 45%, rgba(56,189,248,.12) 0%, transparent 60%)",
+          ].join(", "),
+          backgroundSize: "24px 24px, 100% 100%",
         }}
       >
         <div
@@ -710,16 +751,32 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
             {layout.links.map((link) => {
               const theme = getBranch(link.accent);
               const dim = searching && !matches.has(link.id.split("->")[1]);
+              const width = link.depth === 1 ? 5 : link.depth === 2 ? 2.6 : 1.8;
               return (
-                <path
-                  key={link.id}
-                  d={link.d}
-                  fill="none"
-                  stroke={theme.stroke}
-                  strokeWidth={link.depth === 1 ? 2.6 : link.depth === 2 ? 1.9 : 1.4}
-                  strokeLinecap="round"
-                  opacity={dim ? 0.16 : link.depth === 1 ? 0.85 : 0.6}
-                />
+                <g key={link.id} opacity={dim ? 0.16 : 1}>
+                  {/* Soft halo under the main branches so they read as thick limbs */}
+                  {link.depth === 1 && (
+                    <path
+                      d={link.d}
+                      fill="none"
+                      stroke={theme.stroke}
+                      strokeWidth={14}
+                      strokeLinecap="round"
+                      opacity={0.12}
+                    />
+                  )}
+                  {/* Draws itself outward the first time the connector appears */}
+                  <motion.path
+                    d={link.d}
+                    fill="none"
+                    stroke={theme.stroke}
+                    strokeWidth={width}
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    animate={{ pathLength: 1, opacity: link.depth === 1 ? 0.9 : 0.65 }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                  />
+                </g>
               );
             })}
           </svg>
@@ -743,7 +800,7 @@ const MindMapView = ({ language = "en", refreshToken = 0 }) => {
           <span>
             {isTa
               ? "இழுத்து நகர்த்தவும் • Ctrl+சக்கரம் பெரிதாக்க • முனையைத் தட்டவும்"
-              : "Drag to pan • Ctrl + wheel to zoom • Tap a node for details"}
+              : "Drag to move • Ctrl + mouse wheel to zoom • Tap a box to read more"}
           </span>
         </div>
 

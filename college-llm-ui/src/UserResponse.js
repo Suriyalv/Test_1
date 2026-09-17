@@ -3,7 +3,7 @@ import { fetchFeedbackStats } from './api';
 import { ThumbsUp, ThumbsDown, ArrowLeft, BarChart3, RefreshCw, CheckCircle2, AlertTriangle, Languages } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const UserResponse = ({ onBackToChat, language: initialLang = "en" }) => {
+const UserResponse = ({ onBackToHome, language: initialLang = "en" }) => {
     const [stats, setStats] = useState({ likes: 0, dislikes: 0, feedback_history: [] });
     const [loading, setLoading] = useState(true);
     const [language, setLanguage] = useState(initialLang);
@@ -34,8 +34,8 @@ const UserResponse = ({ onBackToChat, language: initialLang = "en" }) => {
     const badPrompts = stats.feedback_history?.filter(item => item.type === 'bad') || [];
 
     const handleBack = () => {
-        if (onBackToChat) {
-            onBackToChat();
+        if (onBackToHome) {
+            onBackToHome();
         } else {
             window.history.pushState({}, "", "/");
             window.dispatchEvent(new PopStateEvent("popstate"));
@@ -55,7 +55,7 @@ const UserResponse = ({ onBackToChat, language: initialLang = "en" }) => {
                         className="px-2.5 py-1.5 sm:px-3 sm:py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#0284c7] rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-bold active:scale-95"
                     >
                         <ArrowLeft size={16} />
-                        <span className="hidden sm:inline">{isTa ? "AI அரட்டைக்கு திரும்பு" : "Back to Chat"}</span>
+                        <span className="hidden sm:inline">{isTa ? "முகப்பு" : "Home"}</span>
                     </button>
                     <div className="flex items-center gap-2">
                         <div>
@@ -102,10 +102,10 @@ const UserResponse = ({ onBackToChat, language: initialLang = "en" }) => {
                             </div>
                             <div>
                                 <h2 className="text-base font-bold text-slate-900">
-                                    {isTa ? "பின்னூட்ட மேலோட்டம் (Feedback Overview)" : "Feedback Overview & Quality Metrics"}
+                                    {isTa ? "பின்னூட்ட மேலோட்டம் (Feedback Overview)" : "Student Feedback"}
                                 </h2>
                                 <p className="text-slate-500 text-xs">
-                                    {isTa ? "AI பதில்களுக்கான மாணவர்களின் நேரலை திருப்தி குறியீடு" : "Real-time student satisfaction and response evaluation metrics"}
+                                    {isTa ? "AI பதில்களுக்கான மாணவர்களின் நேரலை திருப்தி குறியீடு" : "See how students rate the AI answers."}
                                 </p>
                             </div>
                         </div>
@@ -187,7 +187,7 @@ const UserResponse = ({ onBackToChat, language: initialLang = "en" }) => {
                             <div className="bg-white rounded-xl shadow-xs border border-slate-200 overflow-hidden flex flex-col">
                                 <div className="px-4 py-3 bg-red-50 border-b border-red-100 flex items-center justify-between">
                                     <h3 className="font-bold text-xs sm:text-sm text-red-800 flex items-center gap-1.5">
-                                        <AlertTriangle size={15} /> {isTa ? "மறுபரிசீலனை தேவைப்படும் கேள்விகள்" : "Flagged Queries for Review"}
+                                        <AlertTriangle size={15} /> {isTa ? "மறுபரிசீலனை தேவைப்படும் கேள்விகள்" : "Questions to check"}
                                     </h3>
                                     <span className="bg-red-200 text-red-900 text-xs font-extrabold px-2 py-0.5 rounded-full">{badPrompts.length}</span>
                                 </div>

@@ -1,214 +1,189 @@
 {
   "cards": [
     {
-      "id": "fc_1001",
-      "deck": "Python Programming",
+      "id": "fc_phy_001",
+      "deck": "Physics",
       "accent": "blue",
-      "image": "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=800&q=70",
+      "image": "/flashcards/newtons-second-law.webp",
       "title": {
-        "en": "Functions in Python",
-        "ta": "பைத்தானில் சார்புகள்"
+        "en": "Newton's Second Law (F = ma)",
+        "ta": "நியூட்டனின் இரண்டாம் விதி (F = ma)"
       },
       "description": {
         "en": [
-          "A function is a named block of reusable code that performs one specific task.",
-          "It is defined with the def keyword, followed by the function name and parentheses.",
-          "Values go in as parameters and come back out through the return statement.",
-          "One fix inside a function applies everywhere it is called, so programs stay short and easy to debug."
+          "Definition: Force applied to an object causes it to accelerate in the direction of the force.",
+          "Key Concept: Force is proportional to the rate of change of momentum.",
+          "Formula: F = ma",
+          "SI Unit: Newton (N or kg·m/s²)",
+          "Quick Rule: Double the force = double the acceleration. Double the mass = half the acceleration."
         ],
         "ta": [
-          "சார்பு (Function) என்பது ஒரு குறிப்பிட்ட பணியைச் செய்யும், மீண்டும் பயன்படுத்தக்கூடிய பெயரிடப்பட்ட நிரல் தொகுதி ஆகும்.",
-          "def என்ற முக்கியச் சொல், சார்பின் பெயர், அடைப்புக்குறிகள் ஆகியவற்றுடன் இது வரையறுக்கப்படுகிறது.",
-          "அளபுருக்கள் (Parameters) வழியாக மதிப்புகள் உள்ளே செல்கின்றன; return வழியாக விடை வெளியே வருகிறது.",
-          "சார்பினுள் ஒரு முறை செய்யும் திருத்தம், அது அழைக்கப்படும் எல்லா இடங்களிலும் பொருந்தும்."
+          "வரையறை: ஒரு பொருளின் மீது செலுத்தப்படும் விசை, அவ்விசையின் திசையில் அப்பொருளை முடுக்குகிறது.",
+          "முக்கியக் கருத்து: விசையானது உந்த மாற்றத்தின் வீதத்திற்கு நேர்விகிதத்தில் இருக்கும்.",
+          "சூத்திரம்: F = ma",
+          "SI அலகு: நியூட்டன் (N அல்லது kg·m/s²)",
+          "விரைவு விதி: விசை இருமடங்கானால் முடுக்கம் இருமடங்காகும். நிறை இருமடங்கானால் முடுக்கம் பாதியாகும்."
         ]
       },
-      "createdAt": "2026-01-05T09:00:00Z"
+      "createdAt": "2026-09-16T09:00:00Z"
     },
     {
-      "id": "fc_1002",
-      "deck": "Python Programming",
+      "id": "fc_phy_002",
+      "deck": "Physics",
       "accent": "violet",
-      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=70",
+      "image": "/flashcards/universal-law-of-gravitation.webp",
       "title": {
-        "en": "Control Structures",
-        "ta": "கட்டுப்பாட்டு கட்டமைப்புகள்"
+        "en": "Universal Law of Gravitation (F = Gm₁m₂ / r²)",
+        "ta": "பொது ஈர்ப்பியல் விதி (F = Gm₁m₂ / r²)"
       },
       "description": {
         "en": [
-          "Control structures decide the order in which statements run.",
-          "Sequential: statements execute top to bottom, one after another.",
-          "Alternative (branching): if, if-else and if-elif-else pick a path based on a condition.",
-          "Iterative (looping): for and while repeat a block until the condition turns false."
+          "Definition: Every object with mass attracts every other object in the universe.",
+          "Key Concept: More mass = stronger gravitational pull.",
+          "Key Concept: More distance = much weaker gravitational pull.",
+          "Formula: F = G·m₁·m₂ / r²",
+          "Key Terms: G = Universal Gravitational Constant, r = distance between centres."
         ],
         "ta": [
-          "நிரல் கூற்றுகள் எந்த வரிசையில் இயங்க வேண்டும் என்பதைத் தீர்மானிப்பவை கட்டுப்பாட்டு கட்டமைப்புகள்.",
-          "வரிசை முறை: கூற்றுகள் மேலிருந்து கீழாக ஒன்றன்பின் ஒன்றாக இயங்கும்.",
-          "மாற்று (கிளை) முறை: if, if-else, if-elif-else ஒரு நிபந்தனையின் அடிப்படையில் பாதையைத் தேர்வு செய்யும்.",
-          "மீள்செயல் (சுழற்சி) முறை: for மற்றும் while நிபந்தனை பொய்யாகும் வரை தொகுதியை மீண்டும் இயக்கும்."
+          "வரையறை: நிறை கொண்ட ஒவ்வொரு பொருளும் பிரபஞ்சத்திலுள்ள மற்ற ஒவ்வொரு பொருளையும் ஈர்க்கிறது.",
+          "முக்கியக் கருத்து: நிறை அதிகமானால் ஈர்ப்பு விசை வலிமையாகும்.",
+          "முக்கியக் கருத்து: தொலைவு அதிகமானால் ஈர்ப்பு விசை மிகவும் குறையும்.",
+          "சூத்திரம்: F = G·m₁·m₂ / r²",
+          "முக்கியச் சொற்கள்: G = பொது ஈர்ப்பியல் மாறிலி, r = மையங்களுக்கு இடையிலான தொலைவு."
         ]
       },
-      "createdAt": "2026-01-05T09:05:00Z"
+      "createdAt": "2026-09-16T09:01:00Z"
     },
     {
-      "id": "fc_1003",
-      "deck": "Data Structures",
+      "id": "fc_phy_003",
+      "deck": "Physics",
       "accent": "emerald",
-      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=70",
+      "image": "/flashcards/mass-vs-weight.webp",
       "title": {
-        "en": "List vs Tuple",
-        "ta": "பட்டியல் மற்றும் டியூப்பிள்"
+        "en": "Mass vs. Weight",
+        "ta": "நிறை மற்றும் எடை"
       },
       "description": {
         "en": [
-          "Both hold an ordered collection of items and support indexing.",
-          "A list is mutable and written with square brackets.",
-          "A tuple is immutable and written with parentheses.",
-          "Lists allow append, insert and remove; a tuple cannot change after it is created.",
-          "Being immutable makes tuples faster and safe to use as dictionary keys."
+          "Mass (m): Quantity of matter in a body.",
+          "Mass is constant — it does NOT change anywhere in the universe. SI Unit: Kilogram (kg).",
+          "Weight (W): The gravitational force pulling an object toward a planet/Earth.",
+          "Weight is variable — it changes depending on local gravity (g).",
+          "Formula: W = mg. SI Unit: Newton (N)."
         ],
         "ta": [
-          "இரண்டுமே வரிசைப்படுத்தப்பட்ட உறுப்புகளின் தொகுப்பைச் சேமித்து, குறியீட்டு அணுகலை (Indexing) அனுமதிக்கின்றன.",
-          "பட்டியல் (List) மாற்றக்கூடியது; சதுர அடைப்புக்குறிகளில் எழுதப்படுகிறது.",
-          "டியூப்பிள் (Tuple) மாற்ற முடியாதது; வளைவு அடைப்புக்குறிகளில் எழுதப்படுகிறது.",
-          "பட்டியலில் append, insert, remove செய்யலாம்; டியூப்பிளை உருவாக்கிய பின் மாற்ற முடியாது.",
-          "மாற்ற முடியாத தன்மையால் டியூப்பிள் வேகமானது; அகராதி விசைகளாகவும் பயன்படுத்தலாம்."
+          "நிறை (m): ஒரு பொருளில் உள்ள பருப்பொருளின் அளவு.",
+          "நிறை மாறாதது — பிரபஞ்சத்தின் எந்த இடத்திலும் மாறாது. SI அலகு: கிலோகிராம் (kg).",
+          "எடை (W): ஒரு பொருளைக் கோள்/பூமியை நோக்கி இழுக்கும் ஈர்ப்பு விசை.",
+          "எடை மாறக்கூடியது — அந்த இடத்தின் ஈர்ப்பு முடுக்கத்தை (g) பொறுத்து மாறும்.",
+          "சூத்திரம்: W = mg. SI அலகு: நியூட்டன் (N)."
         ]
       },
-      "createdAt": "2026-01-05T09:10:00Z"
+      "createdAt": "2026-09-16T09:02:00Z"
     },
     {
-      "id": "fc_1004",
-      "deck": "Algorithms",
+      "id": "fc_phy_004",
+      "deck": "Physics",
       "accent": "amber",
-      "image": "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=800&q=70",
+      "image": "/flashcards/torque.webp",
       "title": {
-        "en": "Bubble Sort",
-        "ta": "குமிழி வரிசையாக்கம்"
+        "en": "Torque / Moment of Force (τ = F × d)",
+        "ta": "திருப்பு விசை / விசையின் திருப்புத்திறன் (τ = F × d)"
       },
       "description": {
         "en": [
-          "Compares each pair of adjacent elements and swaps them when they are out of order.",
-          "After every pass the largest remaining value bubbles to the end of the list.",
-          "The passes repeat until a complete pass needs no swaps at all.",
-          "It is simple to write and understand, which makes it a good teaching example.",
-          "Time complexity is O(n^2), so it suits only small data sets."
+          "Definition: The turning effect or rotational force applied around a pivot point.",
+          "Key Concept: Depends on the force magnitude AND how far from the hinge/pivot you push.",
+          "Formula: τ = F × d",
+          "SI Unit: Newton-metre (N·m)",
+          "Quick Rule: Pushing farther from the pivot (d) makes turning much easier."
         ],
         "ta": [
-          "அருகருகே உள்ள ஒவ்வொரு ஜோடி உறுப்புகளையும் ஒப்பிட்டு, வரிசை தவறாக இருந்தால் இடமாற்றம் செய்கிறது.",
-          "ஒவ்வொரு சுற்று முடிவிலும் மிகப்பெரிய மதிப்பு பட்டியலின் இறுதிக்குச் செல்கிறது.",
-          "எந்த இடமாற்றமும் தேவைப்படாத ஒரு முழுச் சுற்று வரும் வரை சுற்றுகள் தொடர்கின்றன.",
-          "எழுதவும் புரிந்துகொள்ளவும் எளிது என்பதால் கற்பித்தலுக்கு ஏற்ற எடுத்துக்காட்டு.",
-          "கால சிக்கலான்மை O(n^2) என்பதால் சிறிய தரவுத் தொகுப்புகளுக்கு மட்டுமே ஏற்றது."
+          "வரையறை: ஒரு சுழல் புள்ளியைச் சுற்றி செலுத்தப்படும் திருப்பு விளைவு அல்லது சுழற்சி விசை.",
+          "முக்கியக் கருத்து: விசையின் அளவையும், சுழல் புள்ளியிலிருந்து எவ்வளவு தொலைவில் தள்ளுகிறோம் என்பதையும் பொறுத்தது.",
+          "சூத்திரம்: τ = F × d",
+          "SI அலகு: நியூட்டன்-மீட்டர் (N·m)",
+          "விரைவு விதி: சுழல் புள்ளியிலிருந்து அதிக தொலைவில் (d) தள்ளினால் திருப்புவது மிக எளிதாகும்."
         ]
       },
-      "createdAt": "2026-01-05T09:15:00Z"
+      "createdAt": "2026-09-16T09:03:00Z"
     },
     {
-      "id": "fc_1005",
-      "deck": "Database & SQL",
+      "id": "fc_phy_005",
+      "deck": "Physics",
       "accent": "rose",
-      "image": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=800&q=70",
+      "image": "",
       "title": {
-        "en": "Primary Key vs Foreign Key",
-        "ta": "முதன்மைச் சாவி மற்றும் வெளிச் சாவி"
+        "en": "Principle of Moments (F₁d₁ = F₂d₂)",
+        "ta": "திருப்புத்திறன் தத்துவம் (F₁d₁ = F₂d₂)"
       },
       "description": {
         "en": [
-          "A primary key uniquely identifies every row in a table.",
-          "It can never hold a null value and never repeats.",
-          "A foreign key is a column that refers to the primary key of another table.",
-          "Foreign keys are what link two tables together.",
-          "They enforce referential integrity, so a row cannot point at a parent that does not exist."
+          "Definition: An object is in rotational balance (equilibrium) when the total turning forces are balanced.",
+          "Key Law: Total Clockwise Moment = Total Anticlockwise Moment",
+          "Formula: F₁d₁ = F₂d₂",
+          "Condition: The net sum of all moments about any pivot point equals zero (Στ = 0)."
         ],
         "ta": [
-          "முதன்மைச் சாவி (Primary Key) ஒரு அட்டவணையின் ஒவ்வொரு வரிசையையும் தனித்துவமாக அடையாளம் காட்டுகிறது.",
-          "இது வெறுமையாக (Null) இருக்கவோ மீண்டும் வரவோ கூடாது.",
-          "வெளிச் சாவி (Foreign Key) என்பது மற்றொரு அட்டவணையின் முதன்மைச் சாவியைக் குறிக்கும் நெடுவரிசை.",
-          "இரு அட்டவணைகளை இணைப்பது வெளிச் சாவியே.",
-          "இது குறிப்பு ஒருமைப்பாட்டை உறுதி செய்வதால், இல்லாத ஒரு வரிசையைச் சுட்ட முடியாது."
+          "வரையறை: மொத்த திருப்பு விசைகள் சமமாக இருக்கும்போது ஒரு பொருள் சுழற்சிச் சமநிலையில் இருக்கும்.",
+          "முக்கிய விதி: மொத்த கடிகாரச் சுற்று திருப்புத்திறன் = மொத்த எதிர்க் கடிகாரச் சுற்று திருப்புத்திறன்",
+          "சூத்திரம்: F₁d₁ = F₂d₂",
+          "நிபந்தனை: எந்தச் சுழல் புள்ளியைப் பொறுத்தும் அனைத்துத் திருப்புத்திறன்களின் கூடுதல் பூஜ்ஜியம் (Στ = 0)."
         ]
       },
-      "createdAt": "2026-01-05T09:20:00Z"
+      "createdAt": "2026-09-16T09:04:00Z"
     },
     {
-      "id": "fc_1006",
-      "deck": "Database & SQL",
+      "id": "fc_phy_006",
+      "deck": "Physics",
       "accent": "cyan",
-      "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=70",
+      "image": "/flashcards/conservation-of-momentum.webp",
       "title": {
-        "en": "Why DBMS over File Systems",
-        "ta": "கோப்பு முறைக்கு மேலான DBMS"
+        "en": "Conservation of Linear Momentum",
+        "ta": "நேர்க்கோட்டு உந்த அழிவின்மை விதி"
       },
       "description": {
         "en": [
-          "A file system stores data in separate files with no shared structure.",
-          "That leads to duplicated data and inconsistent records.",
-          "A DBMS keeps data in one controlled store with defined relationships.",
-          "It adds data independence, security controls, and backup and recovery.",
-          "Many users can work at once, and a query language returns exactly the rows needed."
+          "Definition: Total momentum before a collision or explosion equals total momentum after, if no external force acts on it.",
+          "Formula: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+          "Key Terms: u₁, u₂ = initial velocities; v₁, v₂ = final velocities.",
+          "Quick Rule: Momentum is never lost — it is only transferred between colliding objects."
         ],
         "ta": [
-          "கோப்பு முறை (File System) தரவைப் பொதுவான அமைப்பு இல்லாத தனித்தனி கோப்புகளில் சேமிக்கிறது.",
-          "இதனால் தரவு நகல் ஏற்பட்டு, பதிவுகளில் முரண்பாடு உருவாகிறது.",
-          "DBMS தரவை வரையறுக்கப்பட்ட உறவுகளுடன் ஒரே கட்டுப்பாட்டுக் களஞ்சியத்தில் வைத்திருக்கிறது.",
-          "தரவு சார்பின்மை, பாதுகாப்புக் கட்டுப்பாடுகள், காப்புப்பிரதி மற்றும் மீட்டெடுப்பு ஆகியவற்றை வழங்குகிறது.",
-          "பலர் ஒரே நேரத்தில் பணியாற்றலாம்; வினவு மொழி தேவையான வரிசைகளை மட்டும் திருப்பித் தருகிறது."
+          "வரையறை: புறவிசை எதுவும் செயல்படாதபோது, மோதல் அல்லது வெடிப்புக்கு முன் உள்ள மொத்த உந்தம், அதற்குப் பின் உள்ள மொத்த உந்தத்திற்குச் சமம்.",
+          "சூத்திரம்: m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂",
+          "முக்கியச் சொற்கள்: u₁, u₂ = தொடக்கத் திசைவேகங்கள்; v₁, v₂ = இறுதித் திசைவேகங்கள்.",
+          "விரைவு விதி: உந்தம் ஒருபோதும் அழிவதில்லை — மோதும் பொருள்களுக்கு இடையே மட்டுமே மாற்றப்படுகிறது."
         ]
       },
-      "createdAt": "2026-01-05T09:25:00Z"
+      "createdAt": "2026-09-16T09:05:00Z"
     },
     {
-      "id": "fc_1007",
-      "deck": "Computer Science Basics",
+      "id": "fc_phy_007",
+      "deck": "Physics",
       "accent": "indigo",
-      "image": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=800&q=70",
+      "image": "/flashcards/impulse.webp",
       "title": {
-        "en": "Abstraction",
-        "ta": "சுருக்கமாக்கல்"
+        "en": "Impulse (J = F × t = Δp)",
+        "ta": "கணத்தாக்கு (J = F × t = Δp)"
       },
       "description": {
         "en": [
-          "Abstraction shows only the essential features of something and hides the inner details.",
-          "Calling a built-in function needs its name and arguments, not the code inside it.",
-          "It lets a programmer reason about a large system one layer at a time.",
-          "The same idea drives functions, classes and modules."
+          "Definition: The total effect of a force acting over a period of time.",
+          "Key Concept: Impulse equals the change in linear momentum (Δp).",
+          "Formula: J = F × t = Δp",
+          "SI Unit: Newton-second (N·s) or kg·m/s",
+          "Quick Rule: Increasing the collision time (t) reduces the impact force (F) — e.g. catching a ball or an airbag deploying."
         ],
         "ta": [
-          "சுருக்கமாக்கல் (Abstraction) அத்தியாவசியப் பண்புகளை மட்டும் காட்டி, உள் விவரங்களை மறைக்கிறது.",
-          "ஒரு உள்ளமைந்த சார்பை அழைக்க அதன் பெயரும் அளபுருக்களும் போதும்; உள்ளே உள்ள நிரல் தேவையில்லை.",
-          "ஒரு பெரிய அமைப்பை அடுக்கு அடுக்காகப் புரிந்துகொள்ள இது உதவுகிறது.",
-          "சார்புகள், வகுப்புகள், தொகுதிகள் அனைத்தும் இதே கருத்தை அடிப்படையாகக் கொண்டவை."
+          "வரையறை: ஒரு குறிப்பிட்ட நேரத்திற்குச் செயல்படும் விசையின் மொத்த விளைவு.",
+          "முக்கியக் கருத்து: கணத்தாக்கு என்பது நேர்க்கோட்டு உந்த மாற்றத்திற்கு (Δp) சமம்.",
+          "சூத்திரம்: J = F × t = Δp",
+          "SI அலகு: நியூட்டன்-வினாடி (N·s) அல்லது kg·m/s",
+          "விரைவு விதி: மோதல் நேரத்தை (t) அதிகரித்தால் தாக்கு விசை (F) குறையும் — எ.கா. பந்தைப் பிடித்தல், காற்றுப்பை (airbag) விரிதல்."
         ]
       },
-      "createdAt": "2026-01-05T09:30:00Z"
-    },
-    {
-      "id": "fc_1008",
-      "deck": "Computer Science Basics",
-      "accent": "teal",
-      "image": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=70",
-      "title": {
-        "en": "Scope of a Variable",
-        "ta": "மாறியின் நோக்கெல்லை"
-      },
-      "description": {
-        "en": [
-          "Scope is the region of a program where a name is visible and usable.",
-          "Python resolves names by the LEGB rule: Local, Enclosing, Global, then Built-in.",
-          "A variable created inside a function is local to it.",
-          "That local variable disappears as soon as the function returns.",
-          "Declaring it global lets the function change a module-level variable instead."
-        ],
-        "ta": [
-          "நோக்கெல்லை (Scope) என்பது ஒரு நிரலில் ஒரு பெயர் தெரியக்கூடிய, பயன்படுத்தக்கூடிய பகுதி.",
-          "பைத்தான் LEGB விதிப்படி பெயர்களைக் கண்டறிகிறது: Local, Enclosing, Global, பின்னர் Built-in.",
-          "ஒரு சார்புக்குள் உருவாக்கப்படும் மாறி அந்தச் சார்புக்கு மட்டுமே உரியது.",
-          "சார்பு முடிந்ததும் அந்த உள்ளூர் மாறி மறைந்துவிடும்.",
-          "global எனச் சொன்னால், தொகுதி நிலை மாறியை அந்தச் சார்பு மாற்ற முடியும்."
-        ]
-      },
-      "createdAt": "2026-01-05T09:35:00Z"
+      "createdAt": "2026-09-16T09:06:00Z"
     }
   ]
 }

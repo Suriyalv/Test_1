@@ -5,8 +5,8 @@ import VideoLessonView from "./VideoLessonView";
 import { GraduationCap, ShieldCheck, ArrowLeft, Video } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
-  const [activeTab, setActiveTab] = useState("student"); // "student" | "video" | "admin"
+const TestModule = ({ onBackToHome, initialLanguage = "en", initialTab = "student" }) => {
+  const [activeTab, setActiveTab] = useState(initialTab); // "student" | "video" | "admin"
   const [language, setLanguage] = useState(initialLanguage);
 
   return (
@@ -17,15 +17,15 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
       {/* Clean Minimal Exam Header */}
       <header className="sticky top-[3px] z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs px-4 py-2.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {onBackToChat && (
+          {onBackToHome && (
             <button
-              onClick={onBackToChat}
+              onClick={onBackToHome}
               className="px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#0284c7] rounded-lg border border-slate-200 transition-all flex items-center gap-1.5 text-xs font-semibold active:scale-95"
-              title="Return to Chat"
+              title="Back to Home"
             >
               <ArrowLeft size={15} />
               <span className="hidden sm:inline">
-                {language === "ta" ? "AI அரட்டை" : "Back to Chat"}
+                {language === "ta" ? "முகப்பு" : "Home"}
               </span>
             </button>
           )}
@@ -33,10 +33,10 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
           <div className="flex items-center gap-2">
             <div>
               <div className="text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
-                {language === "ta" ? "ஸ்மார்ட் தேர்வு & திறன் மதிப்பீடு" : "Academic Assessment & Examination"}
+                {language === "ta" ? "ஸ்மார்ட் தேர்வு & திறன் மதிப்பீடு" : "Practise and test yourself"}
               </div>
               <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight">
-                {language === "ta" ? "தானியங்கி மாதிரித் தேர்வு தளம்" : "Automated Test & Assessment Portal"}
+                {language === "ta" ? "தானியங்கி மாதிரித் தேர்வு தளம்" : "Tests"}
               </h1>
             </div>
           </div>
@@ -63,7 +63,7 @@ const TestModule = ({ onBackToChat, initialLanguage = "en" }) => {
                 ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
                 : "text-slate-600 hover:text-[#0284c7]"
             }`}
-            title={language === "ta" ? "வீடியோ பாடம் & வினாக்கள்" : "Video Lesson with Questions"}
+            title={language === "ta" ? "வீடியோ பாடம் & வினாக்கள்" : "Video Lesson"}
           >
             <Video size={14} />
             <span>{language === "ta" ? "வீடியோ பாடம்" : "Video Lesson"}</span>

@@ -4,7 +4,7 @@ import AdminMindMapManager from "./AdminMindMapManager";
 import { ArrowLeft, Network, ShieldCheck, Languages } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const MindMapModule = ({ onBackToChat, initialLanguage = "en" }) => {
+const MindMapModule = ({ onBackToHome, initialLanguage = "en" }) => {
   const [activeTab, setActiveTab] = useState("map"); // "map" | "admin"
   const [language, setLanguage] = useState(initialLanguage);
   // Bumped whenever the teacher console saves, so the canvas picks up the change.
@@ -19,23 +19,23 @@ const MindMapModule = ({ onBackToChat, initialLanguage = "en" }) => {
 
       <header className="sticky top-[3px] z-40 flex items-center justify-between gap-3 border-b border-brand-100 bg-white/95 px-4 py-2.5 shadow-xs backdrop-blur-md">
         <div className="flex items-center gap-3">
-          {onBackToChat && (
+          {onBackToHome && (
             <button
-              onClick={onBackToChat}
+              onClick={onBackToHome}
               className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-200 hover:text-[#0284c7] active:scale-95"
-              title="Return to Chat"
+              title="Back to Home"
             >
               <ArrowLeft size={15} />
-              <span className="hidden sm:inline">{isTa ? "AI அரட்டை" : "Back to Chat"}</span>
+              <span className="hidden sm:inline">{isTa ? "முகப்பு" : "Home"}</span>
             </button>
           )}
 
           <div>
             <div className="text-[10px] font-bold uppercase tracking-wide text-[#0284c7]">
-              {isTa ? "கருத்து இணைப்பு & திருப்புதல்" : "Concept Connections & Revision"}
+              {isTa ? "கருத்து இணைப்பு & திருப்புதல்" : "See how ideas connect"}
             </div>
             <h1 className="text-sm font-extrabold tracking-tight text-slate-900 sm:text-base">
-              {isTa ? "கருத்து வரைபடத் தளம்" : "Concept Mind Map Portal"}
+              {isTa ? "கருத்து வரைபடத் தளம்" : "Mind Maps"}
             </h1>
           </div>
         </div>

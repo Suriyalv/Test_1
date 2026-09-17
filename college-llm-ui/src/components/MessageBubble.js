@@ -94,7 +94,7 @@ const MessageBubble = ({ message, language = "en" }) => {
                             <div className="flex items-center gap-1.5">
                                 <span className="text-[11px] font-bold text-brand-600 tracking-wide uppercase flex items-center gap-1">
                                     <Sparkles size={12} className="text-cyan-500" />
-                                    {language === "ta" ? "AI கல்வி உதவியாளர்" : "AI Learning Assistant"}
+                                    {language === "ta" ? "AI கல்வி உதவியாளர்" : "AI Study Helper"}
                                 </span>
                             </div>
 

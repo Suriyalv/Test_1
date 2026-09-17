@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "./firebase";
 import { chatWithAI } from "./api";
 import ChatContainer from "./components/ChatContainer";
 import MessageBubble from "./components/MessageBubble";
@@ -9,9 +12,17 @@ import TestModule from "./components/TestTaking/TestModule";
 import FlashcardModule from "./components/Flashcards/FlashcardModule";
 import MindMapModule from "./components/MindMap/MindMapModule";
 import KahootModule from "./components/Kahoot/KahootModule";
+import ConceptBridgeModule from "./components/ConceptBridge/ConceptBridgeModule";
+import MoviePhysicsModule from "./components/MoviePhysics/MoviePhysicsModule";
+import MyProgress from "./components/Progress/MyProgress";
+import AdminActivityDashboard from "./components/Admin/AdminActivityDashboard";
 import FloatingMascotBot from "./components/FloatingMascotBot";
+import { MascotProvider } from "./mascotContext";
 import HomePage from "./components/Home/HomePage";
+import HomePathway from "./components/Home/HomePathway";
 import PageLoader from "./components/Loader/PageLoader";
+import LoginPage from "./components/Auth/LoginPage";
+import SignUpPage from "./components/Auth/SignUpPage";
 import "./index.css";
 import {
   Trash2,
@@ -21,8 +32,12 @@ import {
   Sparkles,
   Layers,
   Network,
-  Home,
+  ArrowLeft,
   Trophy,
+  LogOut,
+  Lightbulb,
+  LineChart,
+  ShieldCheck,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -34,9 +49,46 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [language, setLanguage] = useState("en"); // Default English
+  // Which Test Module tab to land on next time "/test" is opened — set by the
+  // pathway homepage before navigating there so its "Video Lesson" node can
+  // deep-link straight into that tab instead of the default Student Test one.
+  const [pendingTestTab, setPendingTestTab] = useState("student");
   // Starts true so the loading page covers the very first paint, then every
   // route change raises it again until the new screen has mounted.
   const [navigating, setNavigating] = useState(true);
+
+  // undefined while Firebase is still resolving the session, null once it's
+  // confirmed nobody is signed in, or the Firebase user object once they are.
+  const [authUser, setAuthUser] = useState(undefined);
+  // Which of the two signed-out screens to show; irrelevant once authUser is set.
+  const [authScreen, setAuthScreen] = useState("login"); // "login" | "signup"
+  // "admin" only when the user's Firestore profile has role:"admin" set —
+  // that field is never writable from the client, only via the Firebase
+  // console, so this can't be self-granted. Defaults to "student".
+  const [role, setRole] = useState("student");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => setAuthUser(user));
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (!authUser) {
+      setRole("student");
+      return;
+    }
+    let cancelled = false;
+    getDoc(doc(db, "users", authUser.uid))
+      .then((snap) => {
+        if (!cancelled) setRole(snap.data()?.role === "admin" ? "admin" : "student");
+      })
+      .catch(() => {
+        if (!cancelled) setRole("student");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [authUser]);
 
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === "en" ? "ta" : "en"));
@@ -108,7 +160,7 @@ function App() {
           role: "assistant",
           content: language === "ta"
             ? "⚠️ சேவையகத்தை தொடர்பு கொள்ள முடியவில்லை. தயவுசெய்து உங்கள் இணைய இணைப்பை சரிபார்க்கவும்."
-            : "⚠️ Server not reachable. Please check your backend connection.",
+            : "⚠️ Cannot connect to the server. Please try again.",
           timestamp: new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -123,7 +175,7 @@ function App() {
   const clearChat = () => {
     const confirmText = language === "ta"
       ? "உரையாடல் வரலாற்றை அழிக்க நிச்சயமாக விரும்புகிறீர்களா?"
-      : "Are you sure you want to clear the chat?";
+      : "Do you want to delete this chat?";
     if (window.confirm(confirmText)) {
       setMessages([]);
       localStorage.removeItem("chatMessages");
@@ -141,42 +193,41 @@ function App() {
 
           {/* Title & Branding */}
           <div className="flex items-center gap-2">
+            {/* Back to Home — top-left, same spot as every other module */}
+            <button
+              onClick={() => navigateTo("/")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-slate-100 px-2.5 font-semibold text-xs text-slate-700 transition-all hover:bg-slate-200 hover:text-brand-700 active:scale-95"
+              title="Back to Home"
+            >
+              <ArrowLeft size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "முகப்பு" : "Home"}
+              </span>
+            </button>
             <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-brand-600 to-cyan-500 text-white flex items-center justify-center shadow-pop">
               <Sparkles size={18} />
             </div>
             <div className="hidden md:block">
               <div className="text-[10px] font-bold text-brand-600 tracking-wide uppercase whitespace-nowrap">
-                {language === "ta" ? "கல்வி AI • கற்றல் & திறன் தளம்" : "AI Academic Learning & Examination"}
+                {language === "ta" ? "கல்வி AI • கற்றல் & திறன் தளம்" : "Learn with AI"}
               </div>
               <h1 className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight font-display whitespace-nowrap">
-                {language === "ta" ? "ஸ்மார்ட் AI கல்வி வழிகாட்டி" : "Smart AI Educational Portal"}
+                {language === "ta" ? "ஸ்மார்ட் AI கல்வி வழிகாட்டி" : "Smart Study Helper"}
               </h1>
             </div>
           </div>
 
           {/* Navigation Controls */}
           <div className="flex items-center gap-2">
-            {/* Nav: Home */}
-            <button
-              onClick={() => navigateTo("/")}
-              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-brand-100 bg-brand-50 px-2.5 font-semibold text-xs sm:text-sm text-brand-700 transition-all hover:border-brand-300 hover:bg-brand-100 active:scale-95"
-              title="Home"
-            >
-              <Home size={15} />
-              <span className="hidden sm:inline">
-                {language === "ta" ? "முகப்பு" : "Home"}
-              </span>
-            </button>
-
             {/* Nav: Test Taking */}
             <button
               onClick={() => navigateTo("/test")}
               className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl bg-gradient-to-r from-brand-600 to-cyan-600 px-2.5 font-semibold text-xs sm:text-sm text-white shadow-pop transition-all hover:brightness-110 active:scale-95"
-              title="Test Portal"
+              title="Tests"
             >
               <GraduationCap size={15} />
               <span className="hidden sm:inline">
-                {language === "ta" ? "தேர்வு போர்ட்டல்" : "Test Portal"}
+                {language === "ta" ? "தேர்வு போர்ட்டல்" : "Tests"}
               </span>
             </button>
 
@@ -184,7 +235,7 @@ function App() {
             <button
               onClick={() => navigateTo("/flashcards")}
               className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600 active:scale-95"
-              title="Concept Flashcards"
+              title="Flashcards"
             >
               <Layers size={15} />
               <span className="hidden sm:inline">
@@ -196,7 +247,7 @@ function App() {
             <button
               onClick={() => navigateTo("/mindmap")}
               className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-600 active:scale-95"
-              title="Concept Mind Map"
+              title="Mind Map"
             >
               <Network size={15} />
               <span className="hidden sm:inline">
@@ -208,13 +259,51 @@ function App() {
             <button
               onClick={() => navigateTo("/kahoot")}
               className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 active:scale-95"
-              title="Live Quiz Arena"
+              title="Live Quiz"
             >
               <Trophy size={15} />
               <span className="hidden sm:inline">
                 {language === "ta" ? "வினாடி வினா" : "Live Quiz"}
               </span>
             </button>
+
+            {/* Nav: Concept Bridge */}
+            <button
+              onClick={() => navigateTo("/concept-bridge")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-600 active:scale-95"
+              title="Concept Bridge"
+            >
+              <Lightbulb size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "கருத்து பாலம்" : "Concept Bridge"}
+              </span>
+            </button>
+
+            {/* Nav: My Progress */}
+            <button
+              onClick={() => navigateTo("/progress")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 active:scale-95"
+              title="My Progress"
+            >
+              <LineChart size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "என் முன்னேற்றம்" : "My Progress"}
+              </span>
+            </button>
+
+            {/* Nav: Admin Activity Monitoring — only for role:"admin" accounts */}
+            {role === "admin" && (
+              <button
+                onClick={() => navigateTo("/admin/activity")}
+                className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-slate-900 px-2.5 font-semibold text-xs sm:text-sm text-white transition-all hover:bg-slate-800 active:scale-95"
+                title="Admin"
+              >
+                <ShieldCheck size={15} />
+                <span className="hidden sm:inline">
+                  {language === "ta" ? "நிர்வாகம்" : "Admin"}
+                </span>
+              </button>
+            )}
 
             {/* Nav: Feedback Insights */}
             <button
@@ -248,6 +337,15 @@ function App() {
                 <Trash2 size={15} />
               </button>
             )}
+
+            {/* Log Out */}
+            <button
+              onClick={() => signOut(auth)}
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+              title={language === "ta" ? "வெளியேறு" : "Log Out"}
+            >
+              <LogOut size={15} />
+            </button>
           </div>
         </div>
       </header>
@@ -273,22 +371,22 @@ function App() {
                   <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight font-display">
                     {language === "ta"
                       ? "வணக்கம் மாணவரே! எதைப் பற்றி அறிய விரும்புகிறீர்கள்?"
-                      : "Welcome Student! What would you like to explore today?"}
+                      : "Hello! What do you want to learn today?"}
                   </h2>
 
                   <p className="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed max-w-md">
                     {language === "ta"
                       ? "பாடப் புத்தக தலைப்புகள், அறிவியல் விதிகள் மற்றும் மாதிரித் தேர்வுகளுக்கான AI வழிகாட்டி."
-                      : "Curriculum concepts, textbook explanations, and exam preparation tutor."}
+                      : "Ask about your lessons. Get easy answers. Get ready for exams."}
                   </p>
 
                   {/* Vibrant Suggestion Pills */}
                   <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
                     {[
-                      language === "ta" ? "💻 பைதான் கட்டுப்பாட்டு கட்டமைப்புகள்" : "💻 Python Control Structures",
-                      language === "ta" ? "🗄️ தரவுத்தள மேலாண்மை அமைப்பு (DBMS)" : "🗄️ DBMS vs File System",
-                      language === "ta" ? "🔢 குமிழி வரிசையாக்கம் (Bubble Sort)" : "🔢 Bubble Sort Algorithm",
-                      language === "ta" ? "🔑 முதன்மை மற்றும் வெளிச் சாவி" : "🔑 Primary vs Foreign Key"
+                      language === "ta" ? "🚀 நியூட்டனின் இரண்டாம் விதி என்ன?" : "🚀 What is Newton's second law?",
+                      language === "ta" ? "⚖️ நிறை மற்றும் எடை" : "⚖️ Mass vs weight",
+                      language === "ta" ? "🔧 திருப்பு விசை என்றால் என்ன?" : "🔧 What is torque?",
+                      language === "ta" ? "🏏 கணத்தாக்கு என்றால் என்ன?" : "🏏 What is impulse?"
                     ].map((pill, idx) => (
                       <button
                         key={idx}
@@ -325,9 +423,6 @@ function App() {
 
       {/* Floating Chat Input */}
       <ChatInput onSend={sendMessage} loading={loading} language={language} />
-
-      {/* Floating Cartoon Mascot Hint Bot (Kalvi Mithran) */}
-      <FloatingMascotBot language={language} />
     </div>
   );
 
@@ -337,30 +432,85 @@ function App() {
   if (currentPath === "/chat") {
     screen = chatScreen;
   } else if (currentPath === "/userresponse") {
-    screen = <UserResponse onBackToChat={() => navigateTo("/chat")} language={language} />;
+    screen = <UserResponse onBackToHome={() => navigateTo("/")} language={language} />;
   } else if (currentPath === "/test") {
-    screen = <TestModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+    screen = (
+      <TestModule
+        onBackToHome={() => navigateTo("/")}
+        initialLanguage={language}
+        initialTab={pendingTestTab}
+      />
+    );
   } else if (currentPath === "/flashcards") {
-    screen = <FlashcardModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+    screen = <FlashcardModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
   } else if (currentPath === "/mindmap") {
-    screen = <MindMapModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+    screen = <MindMapModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
   } else if (currentPath === "/kahoot") {
-    screen = <KahootModule onBackToChat={() => navigateTo("/chat")} initialLanguage={language} />;
+    screen = <KahootModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
+  } else if (currentPath === "/concept-bridge") {
+    screen = <ConceptBridgeModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
+  } else if (currentPath === "/movie-physics") {
+    screen = <MoviePhysicsModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
+  } else if (currentPath === "/progress") {
+    screen = <MyProgress onBackToHome={() => navigateTo("/")} language={language} />;
+  } else if (currentPath === "/pathway") {
+    // Preview build of a Duolingo-style pathway homepage — kept at its own
+    // route, deliberately not wired to "/", so the existing HomePage stays
+    // exactly as it is until this one is confirmed and swapped in on purpose.
+    screen = (
+      <HomePathway
+        onNavigate={navigateTo}
+        onNavigateToTest={(tab) => {
+          setPendingTestTab(tab);
+          navigateTo("/test");
+        }}
+        language={language}
+        onToggleLanguage={toggleLanguage}
+      />
+    );
+  } else if (currentPath === "/admin/activity") {
+    screen =
+      role === "admin" ? (
+        <AdminActivityDashboard onBackToHome={() => navigateTo("/")} language={language} />
+      ) : (
+        <HomePage onNavigate={navigateTo} language={language} onToggleLanguage={toggleLanguage} />
+      );
   } else {
     screen = (
       <HomePage
         onNavigate={navigateTo}
+        onNavigateToTest={(tab) => {
+          setPendingTestTab(tab);
+          navigateTo("/test");
+        }}
         language={language}
         onToggleLanguage={toggleLanguage}
       />
     );
   }
 
+  // Still resolving whether a session exists — show only the loader, nothing
+  // else, so a signed-out visitor never sees a flash of the app underneath.
+  if (authUser === undefined) {
+    return <PageLoader active language={language} />;
+  }
+
+  if (authUser === null) {
+    return authScreen === "signup" ? (
+      <SignUpPage language={language} onSwitchToLogin={() => setAuthScreen("login")} />
+    ) : (
+      <LoginPage language={language} onSwitchToSignup={() => setAuthScreen("signup")} />
+    );
+  }
+
   return (
-    <>
+    <MascotProvider>
       <PageLoader active={navigating} language={language} />
       {screen}
-    </>
+      {/* Single global mascot instance (Kalvi Mithran) — floats bottom-right
+          on every authenticated page, not just the chat screen. */}
+      <FloatingMascotBot language={language} />
+    </MascotProvider>
   );
 }
 

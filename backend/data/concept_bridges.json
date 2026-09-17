@@ -1,0 +1,60 @@
+{
+  "bridges": [
+    {
+      "id": "cb_seed_1",
+      "subject": "Physics",
+      "accent": "blue",
+      "title": {
+        "en": "Electric Current",
+        "ta": "மின்னோட்டம்"
+      },
+      "given_analogy": {
+        "en": "Electric current is like water flowing through a pipe: voltage is the water pressure pushing it, resistance is how narrow the pipe is, and current is how much water actually flows past a point each second.",
+        "ta": "மின்னோட்டம் ஒரு குழாயில் ஓடும் நீரைப் போன்றது: மின்னழுத்தம் நீரை தள்ளும் அழுத்தம், மின்தடை குழாயின் குறுகல், மின்னோட்டம் ஒரு புள்ளியைக் கடக்கும் நீரின் அளவு."
+      },
+      "core_properties": {
+        "en": [
+          "A driving force is needed to make charge move, just as pressure is needed to make water flow (voltage).",
+          "Something in the path resists the flow and reduces it (resistance).",
+          "The current is the actual rate of flow past a point, not the force or the resistance itself.",
+          "The three quantities are related: more push or less resistance means more flow."
+        ],
+        "ta": [
+          "மின்னூட்டத்தை நகர்த்த ஒரு உந்து விசை தேவை, நீரை ஓட்ட அழுத்தம் தேவைப்படுவது போல (மின்னழுத்தம்).",
+          "பாதையில் ஏதோ ஓட்டத்தை எதிர்க்கிறது (மின்தடை).",
+          "மின்னோட்டம் என்பது ஒரு புள்ளியைக் கடக்கும் உண்மையான ஓட்ட விகிதம், விசையோ தடையோ அல்ல.",
+          "மூன்றும் தொடர்புடையவை: அதிக உந்துதல் அல்லது குறைந்த தடை அதிக ஓட்டத்தைத் தரும்."
+        ]
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "cb_seed_2",
+      "subject": "Biology",
+      "accent": "emerald",
+      "title": {
+        "en": "Natural Selection",
+        "ta": "இயற்கைத் தேர்வு"
+      },
+      "given_analogy": {
+        "en": "Natural selection is like a talent show where the environment is the judge: contestants (individuals) with traits the judge favors get more callbacks (survive and reproduce more), so over many seasons the show's lineup (the population) shifts toward those traits — no contestant is trying to change, the judge is just filtering who continues.",
+        "ta": "இயற்கைத் தேர்வு ஒரு திறமைப் போட்டியைப் போன்றது, சூழல் நடுவராக இருக்கிறது: நடுவர் விரும்பும் பண்புகளுள்ள போட்டியாளர்கள் மீண்டும் அழைக்கப்படுகிறார்கள் (தப்பி பெருகுகிறார்கள்), பல பருவங்களுக்குப் பிறகு போட்டியாளர் பட்டியலே (மக்கள்தொகை) அந்தப் பண்புகள் நோக்கி மாறுகிறது."
+      },
+      "core_properties": {
+        "en": [
+          "Variation already exists in the population before selection happens — no one is trying to change.",
+          "The environment acts as a filter, not a designer — it doesn't create new traits, it favors existing ones.",
+          "Individuals with favorable traits survive/reproduce more, not that they \"try harder\".",
+          "Change in the population happens gradually, over many generations, not within one individual's lifetime."
+        ],
+        "ta": [
+          "தேர்வு நடப்பதற்கு முன்பே மக்கள்தொகையில் மாறுபாடு ஏற்கனவே உள்ளது — யாரும் மாற முயற்சிக்கவில்லை.",
+          "சூழல் ஒரு வடிவமைப்பாளர் அல்ல, ஒரு வடிகட்டி — புதிய பண்புகளை உருவாக்காது, ஏற்கனவே உள்ளவற்றை ஆதரிக்கிறது.",
+          "சாதகமான பண்புகளுள்ளவர்கள் அதிகம் தப்பிப் பெருகுகிறார்கள் — \"முயற்சி\" செய்வதால் அல்ல.",
+          "மக்கள்தொகை மாற்றம் பல தலைமுறைகளில் படிப்படியாக நடக்கிறது, ஒரு தனிநபரின் வாழ்நாளில் அல்ல."
+        ]
+      },
+      "createdAt": "2026-01-01T00:00:00Z"
+    }
+  ]
+}

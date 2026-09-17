@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -54,6 +55,30 @@ FALLBACK_MODELS = [
 ]
 
 
+# ─── Helper: Plain-language rules for every AI reply ──────────────────────────
+#
+# Most students read English as a second language, so every AI feature is told
+# to write simple English (or simple Tamil). Added to the end of each system
+# prompt so it is the last instruction the model reads.
+
+SIMPLE_ENGLISH_RULE = (
+    "\n\nLANGUAGE STYLE (very important): The student is learning English as a second language. "
+    "Write in simple English. Use short sentences (about 12 words or fewer). "
+    "Use common, everyday words. Do not use idioms or difficult words. "
+    "If you must use a science word, explain it in easy words the first time."
+)
+
+SIMPLE_TAMIL_RULE = (
+    "\n\nமொழி நடை (மிக முக்கியம்): மாணவர்களுக்குப் புரியும் எளிய தமிழில் எழுதவும். "
+    "சிறு வாக்கியங்களைப் பயன்படுத்தவும். கடினமான சொற்களைத் தவிர்க்கவும். "
+    "அறிவியல் சொல் தேவைப்பட்டால், முதல் முறை அதை எளிய சொற்களில் விளக்கவும்."
+)
+
+
+def plain_language_rule(language: str) -> str:
+    return SIMPLE_TAMIL_RULE if language == "ta" else SIMPLE_ENGLISH_RULE
+
+
 # ─── Helper: Build System Prompt ───────────────────────────────────────────────
 
 def build_system_prompt(language: str, subject: str = None, rag_context: str = "") -> str:
@@ -61,7 +86,7 @@ def build_system_prompt(language: str, subject: str = None, rag_context: str = "
 
     if language == "ta":
         lang_instruction = (
-            "நீங்கள் மேல்நிலை இரண்டாம் ஆண்டு (Class XII) கணினி அறிவியல் (Computer Science) பாடத்திட்டத்திற்கான "
+            "நீங்கள் 10ஆம் வகுப்பு அறிவியல் (Science) பாடத்திட்டத்திற்கான "
             "பிரத்யேக AI கல்வி வழிகாட்டி. வழங்கப்பட்டுள்ள பாடத்திட்ட தரவுகள் (Textbook Curriculum Data) "
             "அடிப்படையில் துல்லியமான பதில்களை வழங்கவும். "
             "தெளிவான, எளிதில் புரியக்கூடிய தமிழில் விளக்கங்கள் தரவும். "
@@ -69,9 +94,9 @@ def build_system_prompt(language: str, subject: str = None, rag_context: str = "
         )
     else:
         lang_instruction = (
-            "You are a dedicated AI educational tutor specialized in the Class XII Computer Science textbook curriculum. "
+            "You are a dedicated AI educational tutor specialized in the Class X (10th) Science textbook curriculum. "
             "You must communicate using the official syllabus topics and textbook knowledge base provided. "
-            "Respond clearly, accurately, and with structured formatting (headings, bullet points, syntax, code examples)."
+            "Respond clearly and accurately, with simple structure (short headings, bullet points, one example)."
         )
 
     if subject:
@@ -80,7 +105,7 @@ def build_system_prompt(language: str, subject: str = None, rag_context: str = "
             "Base your answers on this curriculum domain."
         )
     else:
-        subject_instruction = "\n\nDomain: Class XII Computer Science (Chapters 1-16: Functions, Abstraction, Scoping, Algorithms, Python Programming, Control Structures, Strings, Collections, Classes, DBMS, SQL, Data Manipulation)."
+        subject_instruction = "\n\nDomain: Class X (10th) Science — Chapter 1: Laws of Motion (force, motion, Newton's laws, mechanics, statics, dynamics, kinematics, kinetics)."
 
     if rag_context:
         grounding_instruction = (
@@ -92,7 +117,7 @@ def build_system_prompt(language: str, subject: str = None, rag_context: str = "
     else:
         grounding_instruction = ""
 
-    return lang_instruction + subject_instruction + grounding_instruction
+    return lang_instruction + subject_instruction + grounding_instruction + plain_language_rule(language)
 
 
 # ─── Route: Health Check ────────────────────────────────────────────────────────
@@ -199,6 +224,92 @@ def chat():
 
 # ─── Route: Mascot Hint Assistant (Kalvi Mithran) ─────────────────────────────
 
+# Shown instead of an AI clue that kept giving the answer away.
+SAFE_CLUE_TEXT = {
+    "en": "**🤔 Clue**\n- Think: what is this question about?\n- Cross out the answers that do not fit.\n👉 Which idea from your lesson matches the question?",
+    "ta": "**🤔 குறிப்பு**\n- இந்த வினா எதைப் பற்றியது என்று யோசியுங்கள்.\n- பொருந்தாத விடைகளை நீக்குங்கள்.\n👉 உங்கள் பாடத்தில் எந்தக் கருத்து இதற்குப் பொருந்தும்?",
+}
+
+
+def ark_reply_format(mode, language):
+    """The layout Ark's chat bubble is built to show: a bold title, short bullets, one tip line."""
+    if mode == "explain":
+        if language == "ta":
+            return (
+                "\n\nபதில் வடிவம் (இதையே சரியாகப் பின்பற்றவும்):\n"
+                "**<2-5 சொற்களில் சிறு தலைப்பு>**\n"
+                "- <கருத்து 1: ஒரு சிறு வாக்கியம்>\n"
+                "- <கருத்து 2: ஒரு சிறு வாக்கியம்>\n"
+                "- <கருத்து 3: தேவைப்பட்டால் மட்டும்>\n"
+                "💡 உதாரணம்: <ஒரு சிறு அன்றாட உதாரணம் — தேவைப்பட்டால் மட்டும்>\n"
+                "வேறு எதுவும் எழுத வேண்டாம். மொத்தம் சுமார் 60 சொற்கள்."
+            )
+        return (
+            "\n\nREPLY FORMAT (follow it exactly):\n"
+            "**<a short title, 2-5 words>**\n"
+            "- <point 1: one short sentence>\n"
+            "- <point 2: one short sentence>\n"
+            "- <point 3: only if needed>\n"
+            "💡 Example: <one short everyday example, only if it helps>\n"
+            "Write nothing else. About 60 words in total. Put a formula on its own point."
+        )
+    if language == "ta":
+        return (
+            "\n\nபதில் வடிவம் (இதையே சரியாகப் பின்பற்றவும்):\n"
+            "**🤔 குறிப்பு**\n"
+            "- <குறிப்பு 1: ஒரு சிறு வாக்கியம்>\n"
+            "- <குறிப்பு 2: தேவைப்பட்டால் மட்டும்>\n"
+            "👉 <மாணவரை யோசிக்க வைக்கும் ஒரு சிறு கேள்வி>\n"
+            "வேறு எதுவும் எழுத வேண்டாம். மொத்தம் சுமார் 45 சொற்கள்."
+        )
+    return (
+        "\n\nREPLY FORMAT (follow it exactly):\n"
+        "**🤔 Clue**\n"
+        "- <clue 1: one short sentence>\n"
+        "- <clue 2: one short sentence, only if needed>\n"
+        "👉 <one short question that makes the student think>\n"
+        "Write nothing else. About 45 words in total."
+    )
+
+
+def _normalize_for_leak_check(text):
+    """Lower-case and strip spacing/punctuation so 'F = m×a' and 'f=m x a' compare equal."""
+    text = str(text or "").lower()
+    text = text.replace("×", "x").replace("·", "").replace("⋅", "").replace("−", "-")
+    return re.sub(r"[\s\.\,\;\:\!\?\"'`()\[\]{}*_]+", "", text)
+
+
+def hint_leaks_answer(reply, answer, options):
+    """True when a clue repeats the correct answer (or, if that is unknown, any choice).
+
+    When the page knows the correct answer only that is checked, so a clue may
+    still mention a wrong choice to rule it out. When it doesn't (video
+    passage), every choice long enough to be meaningful is checked instead.
+    """
+    body = _normalize_for_leak_check(reply)
+    if not body:
+        return False
+    # Spaces removed, a short answer like "N·m" -> "nm" would match inside
+    # "in many"; so short answers are matched as whole tokens instead.
+    tokens = [t for t in (_normalize_for_leak_check(w) for w in str(reply).split()) if t]
+    # Every run of 1-3 neighbouring words, glued together — so "N m" still matches "nm".
+    token_runs = {
+        "".join(tokens[i:i + n]) for n in (1, 2, 3) for i in range(len(tokens) - n + 1)
+    }
+
+    def contains(raw, min_len):
+        needle = _normalize_for_leak_check(raw)
+        if len(needle) < min_len:
+            return False
+        if len(needle) >= 4:
+            return needle in body
+        return needle in token_runs
+
+    if answer:
+        return contains(answer, 2)
+    return any(contains(o, 4) for o in options)
+
+
 @app.route("/api/hint", methods=["POST"])
 def mascot_hint():
     """
@@ -210,33 +321,80 @@ def mascot_hint():
     context_question = data.get("context_question", "").strip()
     history = data.get("history", [])
     language = data.get("language", "en")
+    # "clue" (default): Socratic, never reveals the answer — test/video pages.
+    # "explain": answers the student's doubt directly, simply, in a word limit
+    # — every other page, where there's no exam integrity to protect.
+    mode = data.get("mode", "clue")
+    # Clue mode only: the on-screen choices and (when the page knows it) the
+    # correct answer, used to reject any reply that gives the answer away.
+    clue_options = [str(o).strip() for o in (data.get("options") or []) if str(o).strip()]
+    clue_answer = str(data.get("answer") or "").strip()
 
     if not message and not context_question:
         return jsonify({"error": "No question or query provided"}), 400
 
-    if language == "ta":
-        system_instruction = (
-            "நீங்கள் 'கல்வி மித்ரன்' (Kalvi Mithran) - பள்ளி மாணவர்களுக்கான அன்பான, உற்சாகமூட்டும் கார்ட்டூன் கற்றல் நண்பன்!\n"
-            "மிக முக்கியமான விதி (STRICT PEDAGOGICAL RULE):\n"
-            "1. மாணவர்களின் தேர்வு வினாக்களுக்கோ அல்லது பயிற்சிகளுக்கோ நேரடி இறுதி விடையை (DIRECT FINAL ANSWER) ஒருபோதும் கூறக்கூடாது.\n"
-            "2. அதற்குப் பதிலாக: குறிப்புகள் (hints), சிந்திக்கத் தூண்டும் கேள்விகள் (guiding questions), தொடர்புடைய சூத்திரங்கள் (formulas), முக்கிய கருத்துக்கள் (concept clues) மட்டுமே வழங்க வேண்டும்.\n"
-            "3. மாணவரை சுயமாக விடையைக் கண்டுபிடிக்க ஊக்கப்படுத்தவும்.\n"
-            "4. இந்த இணையதளம்/போர்ட்டல் பற்றி கேட்டால் அன்புடன் வழிகாட்டவும்.\n"
-            "5. மகிழ்ச்சியான, எளிய, எமோஜிகளுடன் கூடிய தமிழில் பேசவும்."
-        )
+    if mode == "explain":
+        if language == "ta":
+            system_instruction = (
+                "நீங்கள் 'ஆர்க்' (Ark) - பள்ளி மாணவர்களுக்கான நட்பான பாண்டா சந்தேக நிவர்த்தி துணை!\n"
+                "விதிகள்:\n"
+                "1. மாணவரின் சந்தேகத்திற்கு நேரடியாகவும் தெளிவாகவும் பதிலளிக்கவும் — இது தேர்வு அல்ல, சாதாரணக் கேள்வி.\n"
+                "2. மிக எளிய வார்த்தைகளில், 50 வார்த்தைகளுக்குள் (2-3 சிறு வாக்கியங்கள்) பதிலளிக்கவும்.\n"
+                "3. கடின சொற்களைத் தவிர்க்கவும்; அன்றாட உதாரணம் தேவைப்பட்டால் ஒன்று மட்டும் தரலாம்.\n"
+                "4. அதிகபட்சம் ஒரு எமோஜி மட்டும் பயன்படுத்தவும்.\n"
+                "5. இந்த இணையதளம்/போர்ட்டல் பற்றி கேட்டால் சுருக்கமாக வழிகாட்டவும்."
+            )
+        else:
+            system_instruction = (
+                "You are 'Ark', a friendly panda study buddy who clears students' doubts on this learning app!\n"
+                "RULES:\n"
+                "1. Answer the student's doubt directly and clearly — this is a normal question, not an exam question, so you MAY give the real answer.\n"
+                "2. Keep it very short: about 60 words.\n"
+                "3. Use simple, everyday words a school student understands. Avoid jargon; one short everyday example is fine if it helps.\n"
+                "4. Use at most one emoji.\n"
+                "5. If asked about using this portal (tests, voice input, language toggle), explain briefly and warmly."
+            )
+        if context_question:
+            system_instruction += f"\n\nSTUDENT'S DOUBT:\n\"{context_question}\"\nAnswer it directly, simply, within the word limit."
     else:
-        system_instruction = (
-            "You are 'Kalvi Mithran' (EduBuddy), a cheerful, cute cartoon mascot tutor and friendly study buddy for students!\n"
-            "CRITICAL PEDAGOGICAL RULE:\n"
-            "1. NEVER GIVE DIRECT FINAL ANSWERS to test questions, quizzes, or exam problems.\n"
-            "2. Instead, provide smart hints, concept clues, formulas, step-by-step thinking strategies, and guiding Socratic questions to help the student solve it themselves.\n"
-            "3. If the user asks about using this portal/project (tests, voice input, language toggle), explain warmly and clearly.\n"
-            "4. Use a cheerful, positive tone with helpful emojis.\n"
-            "5. Keep hints compact, encouraging, and easy to understand."
+        if language == "ta":
+            system_instruction = (
+                "நீங்கள் 'ஆர்க்' (Ark) - பள்ளி மாணவர்களுக்கான அன்பான, உற்சாகமூட்டும் பாண்டா கற்றல் நண்பன்!\n"
+                "மிக முக்கியமான விதி (STRICT PEDAGOGICAL RULE):\n"
+                "1. மாணவர்களின் தேர்வு வினாக்களுக்கோ அல்லது பயிற்சிகளுக்கோ நேரடி இறுதி விடையை (DIRECT FINAL ANSWER) ஒருபோதும் கூறக்கூடாது.\n"
+                "2. அதற்குப் பதிலாக: குறிப்புகள் (hints), சிந்திக்கத் தூண்டும் கேள்விகள் (guiding questions), தொடர்புடைய சூத்திரங்கள் (formulas), முக்கிய கருத்துக்கள் (concept clues) மட்டுமே வழங்க வேண்டும்.\n"
+                "3. மாணவரை சுயமாக விடையைக் கண்டுபிடிக்க ஊக்கப்படுத்தவும்.\n"
+                "4. இந்த இணையதளம்/போர்ட்டல் பற்றி கேட்டால் அன்புடன் வழிகாட்டவும்.\n"
+                "5. மகிழ்ச்சியான, எளிய, எமோஜிகளுடன் கூடிய தமிழில் பேசவும்."
+            )
+        else:
+            system_instruction = (
+                "You are 'Ark', a cheerful panda mascot tutor and friendly study buddy for students!\n"
+                "CRITICAL PEDAGOGICAL RULE:\n"
+                "1. NEVER GIVE DIRECT FINAL ANSWERS to test questions, quizzes, or exam problems.\n"
+                "2. Instead, provide smart hints, concept clues, formulas, step-by-step thinking strategies, and guiding Socratic questions to help the student solve it themselves.\n"
+                "3. If the user asks about using this portal/project (tests, voice input, language toggle), explain warmly and clearly.\n"
+                "4. Use a cheerful, positive tone with helpful emojis.\n"
+                "5. Keep hints compact, encouraging, and easy to understand."
+            )
+        if context_question:
+            system_instruction += f"\n\nCURRENT QUESTION STUDENT IS WORKING ON:\n\"{context_question}\"\nGive a helpful hint or concept explanation for this question WITHOUT giving the answer."
+        # Applies in both languages: the student is mid-test/quiz/video passage.
+        system_instruction += (
+            "\n\nSTRICT CLUE-ONLY RULES (a test, quiz or video passage question is on screen):\n"
+            "- Never state the correct answer, and never say which choice, letter, number, colour or position is right.\n"
+            "- Never quote or repeat any of the answer choices word for word.\n"
+            "- If the question asks for a formula, unit, definition or example, do NOT write that formula, unit, "
+            "definition or example itself — point the student to the idea behind it instead.\n"
+            "- If the student asks for the answer directly, kindly refuse and give a clue instead.\n"
+            "- Keep it short."
         )
-
-    if context_question:
-        system_instruction += f"\n\nCURRENT QUESTION STUDENT IS WORKING ON:\n\"{context_question}\"\nGive a helpful hint or concept explanation for this question WITHOUT giving the answer."
+        if language == "ta":
+            # The clue request itself arrives in English, so say this explicitly.
+            system_instruction += "\n- Reply ONLY in simple Tamil (தமிழில் மட்டும் பதிலளிக்கவும்). Formulas and units may stay in English letters."
+        if clue_options:
+            listed = "\n".join(f"- {o}" for o in clue_options)
+            system_instruction += f"\n\nANSWER CHOICES THE STUDENT SEES (never repeat any of these):\n{listed}"
 
     # RAG: Ground hint in curriculum concept definitions
     hint_query = context_question if context_question else message
@@ -244,6 +402,10 @@ def mascot_hint():
     if retrieved_hint_chunks:
         rag_hint = knowledge_base.format_rag_context(retrieved_hint_chunks, max_chars=1200)
         system_instruction += f"\n\nCURRICULUM CONCEPT REFERENCE (Use this concept to give clues without giving the direct answer):\n{rag_hint}"
+
+    # Ark's bubble renders this structure (bold title, bullet points, one tip line),
+    # so the format goes last, after the curriculum reference.
+    system_instruction += ark_reply_format(mode, language) + plain_language_rule(language)
 
     messages_payload = [{"role": "system", "content": system_instruction}]
 
@@ -255,29 +417,52 @@ def mascot_hint():
     messages_payload.append({"role": "user", "content": prompt_msg})
 
     models_to_try = [MODEL_ID] + FALLBACK_MODELS
-    last_error = None
 
-    for model_name in models_to_try:
-        try:
-            response = client.chat.completions.create(
-                model=model_name,
-                messages=messages_payload,
-                extra_headers={
-                    "HTTP-Referer": "http://localhost:3000",
-                    "X-Title": "Kalvi Mithran Mascot Hint",
-                }
-            )
-            reply = response.choices[0].message.content
-            return jsonify({
-                "response": reply,
-                "language": language,
-                "model_used": model_name
-            })
-        except Exception as model_error:
-            last_error = model_error
-            continue
+    def generate(payload):
+        """Return (reply, model_name) from the first model that answers."""
+        last_error = None
+        for model_name in models_to_try:
+            try:
+                response = client.chat.completions.create(
+                    model=model_name,
+                    messages=payload,
+                    extra_headers={
+                        "HTTP-Referer": "http://localhost:3000",
+                        "X-Title": "Kalvi Mithran Mascot Hint",
+                    }
+                )
+                return (response.choices[0].message.content or "").strip(), model_name
+            except Exception as model_error:
+                last_error = model_error
+        raise RuntimeError(str(last_error))
 
-    return jsonify({"error": f"Mascot service temporarily busy: {str(last_error)}"}), 500
+    try:
+        reply, model_used = generate(messages_payload)
+
+        # Clue mode must never hand over the answer, whatever the model does.
+        # One retry with an explicit warning, then a safe generic clue.
+        if mode != "explain" and hint_leaks_answer(reply, clue_answer, clue_options):
+            print("[WARN] Mascot clue contained the answer; retrying with a stricter prompt.")
+            retry_payload = messages_payload + [
+                {"role": "assistant", "content": reply},
+                {"role": "user", "content": (
+                    "That gave the answer away. Rewrite it as a clue that does not contain the answer "
+                    "or any of the answer choices. At most 2 short sentences."
+                )},
+            ]
+            reply, model_used = generate(retry_payload)
+            if hint_leaks_answer(reply, clue_answer, clue_options):
+                print("[WARN] Mascot clue still contained the answer; using the generic clue.")
+                reply = SAFE_CLUE_TEXT.get(language, SAFE_CLUE_TEXT["en"])
+                model_used = "fallback"
+
+        return jsonify({
+            "response": reply,
+            "language": language,
+            "model_used": model_used
+        })
+    except RuntimeError as e:
+        return jsonify({"error": f"Mascot service temporarily busy: {e}"}), 500
 
 
 # ─── Route: Mascot Question Generator ─────────────────────────────────────────
@@ -328,7 +513,7 @@ def mascot_generate_question():
         )
 
     messages_payload = [
-        {"role": "system", "content": system_instruction},
+        {"role": "system", "content": system_instruction + plain_language_rule(language)},
         {"role": "user", "content": "Generate a fresh quiz question now."}
     ]
 
@@ -416,7 +601,7 @@ def mascot_check_answer():
         )
 
     messages_payload = [
-        {"role": "system", "content": system_instruction},
+        {"role": "system", "content": system_instruction + plain_language_rule(language)},
         {"role": "user", "content": user_msg}
     ]
 
@@ -462,7 +647,7 @@ def mascot_check_answer():
                         "Be encouraging and simple. Respond in " + ("Tamil" if language == "ta" else "English") + "."
                     )
                     hint_payload = [
-                        {"role": "system", "content": hint_system},
+                        {"role": "system", "content": hint_system + plain_language_rule(language)},
                         {"role": "user", "content": f"Question: {question}. Student said: '{student_answer}'. Give a gentle hint."}
                     ]
                     hint_resp = client.chat.completions.create(
@@ -630,7 +815,7 @@ def evaluate_test_answer():
             "missedKeywords": target_keywords,
             "keyPointsCovered": [],
             "missedPoints": ["No answer provided."] if language == "en" else ["பதில் எதுவும் தரப்படவில்லை."],
-            "overallFeedback": "Please enter or speak an answer before submitting." if language == "en" else "சமர்ப்பிப்பதற்கு முன் உங்கள் பதிலை பதிவு செய்யவும்."
+            "overallFeedback": "Please write or speak your answer first." if language == "en" else "சமர்ப்பிப்பதற்கு முன் உங்கள் பதிலை பதிவு செய்யவும்."
         })
 
     # Keyword Matching Logic (case-insensitive substring presence)
@@ -654,8 +839,8 @@ def evaluate_test_answer():
             points_covered = ["சரியான விடையைத் தேர்ந்தெடுத்துள்ளீர்கள்."] if is_correct else []
             missed_p = [] if is_correct else [f"சரியான தெரிவு: {correct_option}"]
         else:
-            feedback = "Excellent! You selected the correct option." if is_correct else f"Incorrect selection. The correct option is '{correct_option}'."
-            points_covered = ["Selected the correct option."] if is_correct else []
+            feedback = "Well done! Your answer is correct." if is_correct else f"Wrong answer. The right answer is '{correct_option}'."
+            points_covered = ["You chose the right answer."] if is_correct else []
             missed_p = [] if is_correct else [f"Correct answer is {correct_option}"]
 
         return jsonify({
@@ -703,7 +888,7 @@ The JSON MUST have the following structure:
             response = client.chat.completions.create(
                 model=model_name,
                 messages=[
-                    {"role": "system", "content": f"You are a strict academic evaluator. Output strictly JSON in {prompt_lang_str}."},
+                    {"role": "system", "content": f"You are a fair teacher checking a student's answer. Output strictly JSON in {prompt_lang_str}." + plain_language_rule(language)},
                     {"role": "user", "content": eval_prompt}
                 ],
                 extra_headers={
@@ -739,9 +924,9 @@ The JSON MUST have the following structure:
             missed_p = [f"விடுபட்ட முக்கிய கருத்துகள்: {', '.join(missed_keywords)}"] if missed_keywords else ["மாதிரி பதிலில் உள்ள மேலும் சில விவரங்களை சேர்க்கலாம்."]
             fb = f"உங்கள் பதில் {accuracy}% துல்லியமாக உள்ளது. மேலும் விவரங்களை சேர்க்கவும்."
         else:
-            key_points = [f"Matched key terms: {', '.join(matched_keywords)}"] if matched_keywords else ["Submitted answer addresses the prompt."]
-            missed_p = [f"Missing required keywords/points: {', '.join(missed_keywords)}"] if missed_keywords else ["Could elaborate further based on the sample answer."]
-            fb = f"Your answer is evaluated at {accuracy}% accuracy. Consider reviewing the missed keywords and points for full marks."
+            key_points = [f"Words you used: {', '.join(matched_keywords)}"] if matched_keywords else ["Your answer is about the question."]
+            missed_p = [f"Words you missed: {', '.join(missed_keywords)}"] if missed_keywords else ["Add more details from the model answer."]
+            fb = f"Your score is {accuracy}%. Look at the words and points you missed to get full marks."
 
         eval_result = {
             "accuracy": min(max(accuracy, 10), 100),
@@ -804,7 +989,8 @@ def localized(value, language):
     return value
 
 
-def store_video_question(lesson_id, concept_id, question, options, answer_index, explanation, source, stage):
+def store_video_question(lesson_id, concept_id, question, options, answer_index,
+                          misconception_note, concept_boundary, source, stage):
     qid = f"{lesson_id}:{concept_id}:{stage}:{int(time.time() * 1000)}:{len(VIDEO_QUESTION_STORE)}"
     VIDEO_QUESTION_STORE[qid] = {
         "lesson_id": lesson_id,
@@ -812,7 +998,8 @@ def store_video_question(lesson_id, concept_id, question, options, answer_index,
         "question": question,
         "options": options,
         "answer": answer_index,
-        "explanation": explanation,
+        "misconception_note": misconception_note,
+        "concept_boundary": concept_boundary,
         "source": source,
         "stage": stage,
     }
@@ -867,11 +1054,14 @@ Write exactly ONE multiple-choice question:
 - Exactly 4 options. Exactly one is correct.
 - The three wrong options must be plausible misconceptions a student could actually hold, not silly filler.
 - Question and options must be written in {lang_name}.
-- Keep technical symbols (E, dS, Q, epsilon-naught, 4 pi R squared) recognisable.
-- The explanation should say why the right answer is right in one or two sentences, in {lang_name}.{avoid_block}
+- Keep formulas and symbols (for example F = ma, W = mg, G, r², N m) recognisable.
+- Ask about the physics idea, not about details of the video's story, drawings or presenter.
+- Write TWO separate explanation fields, both in {lang_name}, one or two sentences each:
+  - "misconceptionNote": why the tempting wrong option(s) could seem plausible to a student who half-understood the idea.
+  - "conceptBoundary": the precise rule or boundary that makes the correct answer correct — the thing that actually distinguishes right from wrong here.{avoid_block}
 
 Respond with ONLY this JSON object and nothing else:
-{{"question": "...", "options": ["...", "...", "...", "..."], "answer": <0-based index of the correct option>, "explanation": "..."}}"""
+{{"question": "...", "options": ["...", "...", "...", "..."], "answer": <0-based index of the correct option>, "misconceptionNote": "...", "conceptBoundary": "..."}}"""
 
 
 def generate_video_mcq(lesson, concept, language, stage, avoid_questions):
@@ -884,7 +1074,7 @@ def generate_video_mcq(lesson, concept, language, stage, avoid_questions):
             response = client.chat.completions.create(
                 model=model_name,
                 messages=[
-                    {"role": "system", "content": f"You write precise, curriculum-grounded MCQs. Output strictly one JSON object in {lang_name}."},
+                    {"role": "system", "content": f"You write precise, curriculum-grounded MCQs. Output strictly one JSON object in {lang_name}." + plain_language_rule(language)},
                     {"role": "user", "content": prompt},
                 ],
                 extra_headers={
@@ -911,11 +1101,17 @@ def generate_video_mcq(lesson, concept, language, stage, avoid_questions):
                 raise ValueError(f"malformed MCQ from model: {parsed}")
 
             print(f"[INFO] Generated video MCQ ({concept.get('id')}/{stage}) with model: {model_name}")
+
+            # The question card shows plain text, so drop markdown emphasis like *and*.
+            def plain(value):
+                return re.sub(r"\*+", "", str(value or "")).strip()
+
             return {
-                "question": str(parsed["question"]).strip(),
-                "options": [str(o).strip() for o in options],
+                "question": plain(parsed["question"]),
+                "options": [plain(o) for o in options],
                 "answer": answer,
-                "explanation": str(parsed.get("explanation", "")).strip(),
+                "misconception_note": plain(parsed.get("misconceptionNote", "")),
+                "concept_boundary": plain(parsed.get("conceptBoundary", "")),
                 "source": "llm",
             }
         except Exception as model_error:
@@ -939,11 +1135,15 @@ def pick_fallback_mcq(concept, language, stage, avoid_questions):
     # so a student normally never sees the same fallback twice in one session.
     chosen = candidates[-1] if (stage == "final" and len(candidates) > 1) else candidates[0]
 
+    # Older-shaped rows (a single "explanation" string) still read fine — both
+    # new fields just fall back to that one string rather than crashing.
+    legacy_explanation = chosen.get("explanation", "")
     return {
         "question": chosen["question"],
         "options": list(chosen["options"]),
         "answer": chosen["answer"],
-        "explanation": chosen.get("explanation", ""),
+        "misconception_note": chosen.get("misconceptionNote", legacy_explanation),
+        "concept_boundary": chosen.get("conceptBoundary", legacy_explanation),
         "source": "fallback",
     }
 
@@ -957,7 +1157,7 @@ def build_video_question(lesson, concept, language, stage, avoid_questions):
 
     qid = store_video_question(
         lesson["id"], concept["id"], mcq["question"], mcq["options"],
-        mcq["answer"], mcq["explanation"], mcq["source"], stage,
+        mcq["answer"], mcq["misconception_note"], mcq["concept_boundary"], mcq["source"], stage,
     )
     return {
         "questionId": qid,
@@ -1065,10 +1265,11 @@ def video_check_answer():
         return jsonify({"error": "Please select an option"}), 400
 
     is_correct = selected == record["answer"]
-    explanation = record.get("explanation", "")
+    misconception_note = record.get("misconception_note", "")
+    concept_boundary = record.get("concept_boundary", "")
 
-    if not explanation:
-        explanation = (
+    if not concept_boundary:
+        concept_boundary = (
             f"சரியான விடை: {record['options'][record['answer']]}"
             if language == "ta"
             else f"The correct answer is: {record['options'][record['answer']]}"
@@ -1077,7 +1278,8 @@ def video_check_answer():
     return jsonify({
         "correct": is_correct,
         "correctIndex": record["answer"],
-        "explanation": explanation,
+        "misconceptionNote": misconception_note,
+        "conceptBoundary": concept_boundary,
         "conceptId": record["concept_id"],
     })
 
@@ -1525,6 +1727,7 @@ def explain_mindmap_node(map_id, node_id):
             "4. If a formula is given, say what each symbol stands for.\n"
             "5. Use plain language a school student can follow."
         )
+    system_instruction += plain_language_rule(language)
 
     # RAG: ground the explanation in the curriculum text where it exists.
     retrieved = knowledge_base.search(f"{topic} {label}", top_k=2, min_score=0.8)
@@ -1606,13 +1809,17 @@ def find_kahoot_quiz(quizzes, quiz_id):
 
 
 def present_kahoot_question(question, language):
+    # Options may be a plain list (teacher-built) or {'en': [...], 'ta': [...]}
+    # (the bundled bilingual quizzes). `type` and `explanation` are optional extras.
     return {
         "id": question.get("id"),
         "question": localized(question.get("question"), language),
         "image": question.get("image", ""),
-        "options": question.get("options", []),
+        "options": localized(question.get("options", []), language) or [],
         "correctIndex": question.get("correctIndex", 0),
         "timeLimit": question.get("timeLimit", KAHOOT_DEFAULT_TIME_LIMIT),
+        "type": question.get("type", ""),
+        "explanation": localized(question.get("explanation"), language) or "",
     }
 
 
@@ -1785,6 +1992,231 @@ def delete_kahoot_question(quiz_id, question_id):
 
     save_kahoot_quizzes(quizzes)
     return jsonify({"status": "ok", "message": "Question deleted successfully"})
+
+
+# ─── Routes: Concept Bridge Module (Abstract vs. Concrete Thinking) ────────────
+#
+# Advanced concepts are abstract; the brain grips concrete experiences far more
+# readily. This module shows a curated concrete analogy for an abstract concept,
+# then — the higher-value step — asks the student to invent their OWN analogy
+# and has the AI check it against the concept's core properties. Self-generated
+# analogies are retained far better than passively reading a given one.
+
+CONCEPT_BRIDGES_FILE = os.path.join(DATA_DIR, "concept_bridges.json")
+
+# Reuses the same accent palette as flashcards/mind maps for a consistent look.
+CONCEPT_BRIDGE_ACCENTS = FLASHCARD_ACCENTS
+
+
+def load_concept_bridges():
+    if not os.path.exists(CONCEPT_BRIDGES_FILE):
+        return []
+    try:
+        with open(CONCEPT_BRIDGES_FILE, "r", encoding="utf-8") as f:
+            return json.load(f).get("bridges", [])
+    except Exception as e:
+        print(f"[ERROR] Failed to read concept_bridges.json: {e}")
+        return []
+
+
+def save_concept_bridges(bridges):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    with open(CONCEPT_BRIDGES_FILE, "w", encoding="utf-8") as f:
+        json.dump({"bridges": bridges}, f, ensure_ascii=False, indent=2)
+
+
+def find_concept_bridge(bridges, bridge_id):
+    for bridge in bridges:
+        if bridge.get("id") == bridge_id:
+            return bridge
+    return None
+
+
+def present_concept_bridge(bridge, language):
+    """Shape one stored bridge for the browser, resolved to the requested language."""
+    return {
+        "id": bridge.get("id"),
+        "subject": bridge.get("subject", "General"),
+        "accent": bridge.get("accent", "blue"),
+        "title": localized(bridge.get("title"), language),
+        "givenAnalogy": localized(bridge.get("given_analogy"), language),
+        "coreProperties": as_points(localized(bridge.get("core_properties"), language)),
+        "createdAt": bridge.get("createdAt"),
+    }
+
+
+@app.route("/api/concepts", methods=["GET"])
+def get_concept_bridges():
+    language = request.args.get("language", "en")
+    bridges = load_concept_bridges()
+    return jsonify({
+        "bridges": [present_concept_bridge(b, language) for b in bridges],
+        "subjects": sorted({b.get("subject", "General") for b in bridges}),
+    })
+
+
+@app.route("/api/concepts", methods=["POST"])
+def add_concept_bridge():
+    data = request.get_json() or {}
+
+    title_en = (data.get("title") or "").strip()
+    analogy_en = (data.get("givenAnalogy") or "").strip()
+    properties = as_points(data.get("coreProperties"))
+
+    if not title_en:
+        return jsonify({"error": "Concept title is required"}), 400
+    if not analogy_en:
+        return jsonify({"error": "A given analogy is required"}), 400
+    if not properties:
+        return jsonify({"error": "At least one core property is required"}), 400
+
+    accent = data.get("accent", "blue")
+    if accent not in CONCEPT_BRIDGE_ACCENTS:
+        accent = "blue"
+
+    new_bridge = {
+        "id": f"cb_{int(time.time() * 1000)}",
+        "subject": (data.get("subject") or "General").strip() or "General",
+        "accent": accent,
+        "title": bilingual(title_en, data.get("titleTa")),
+        "given_analogy": bilingual(analogy_en, data.get("givenAnalogyTa")),
+        "core_properties": bilingual_points(properties, data.get("corePropertiesTa")),
+        "createdAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+
+    bridges = load_concept_bridges()
+    bridges.append(new_bridge)
+    save_concept_bridges(bridges)
+    return jsonify({"status": "ok", "bridge": present_concept_bridge(new_bridge, "en")}), 201
+
+
+@app.route("/api/concepts/<bridge_id>", methods=["PUT"])
+def update_concept_bridge(bridge_id):
+    data = request.get_json() or {}
+    bridges = load_concept_bridges()
+    bridge = find_concept_bridge(bridges, bridge_id)
+    if not bridge:
+        return jsonify({"error": "Concept not found"}), 404
+
+    if "title" in data:
+        bridge["title"] = bilingual(data.get("title"), data.get("titleTa"))
+    if "givenAnalogy" in data:
+        bridge["given_analogy"] = bilingual(data.get("givenAnalogy"), data.get("givenAnalogyTa"))
+    if "coreProperties" in data:
+        bridge["core_properties"] = bilingual_points(data.get("coreProperties"), data.get("corePropertiesTa"))
+    if "subject" in data:
+        bridge["subject"] = (data.get("subject") or "General").strip() or "General"
+    if data.get("accent") in CONCEPT_BRIDGE_ACCENTS:
+        bridge["accent"] = data["accent"]
+
+    save_concept_bridges(bridges)
+    return jsonify({"status": "ok", "bridge": present_concept_bridge(bridge, "en")})
+
+
+@app.route("/api/concepts/<bridge_id>", methods=["DELETE"])
+def delete_concept_bridge(bridge_id):
+    bridges = load_concept_bridges()
+    remaining = [b for b in bridges if b.get("id") != bridge_id]
+    if len(remaining) == len(bridges):
+        return jsonify({"error": "Concept not found"}), 404
+    save_concept_bridges(remaining)
+    return jsonify({"status": "ok", "message": "Concept deleted successfully"})
+
+
+@app.route("/api/concepts/evaluate-analogy", methods=["POST"])
+def evaluate_concept_analogy():
+    """Check a student's self-written analogy against the concept's core properties.
+
+    Self-generated analogies are the pedagogically valuable step — this is what
+    actually gets graded, not just recognition of the curated example.
+    """
+    data = request.get_json() or {}
+    bridge_id = data.get("conceptId")
+    student_analogy = (data.get("studentAnalogy") or "").strip()
+    language = data.get("language", "en")
+    prompt_lang_str = "Tamil (தமிழ்)" if language == "ta" else "English"
+
+    bridge = find_concept_bridge(load_concept_bridges(), bridge_id)
+    if not bridge:
+        return jsonify({"error": "Concept not found"}), 404
+    if not student_analogy:
+        return jsonify({"error": "Please write your own analogy first."}), 400
+
+    concept_title = localized(bridge.get("title"), language)
+    core_properties = as_points(localized(bridge.get("core_properties"), language))
+
+    prompt = f"""A student is practising the "self-generated analogy" technique: they were shown one example
+analogy for an abstract concept, and were then asked to invent their OWN, different analogy for it.
+
+CONCEPT: {concept_title}
+CORE PROPERTIES THE ANALOGY SHOULD CAPTURE:
+{json.dumps(core_properties, ensure_ascii=False)}
+
+STUDENT'S OWN ANALOGY: "{student_analogy}"
+
+For each core property listed above, decide whether the student's analogy actually captures that property
+(not just whether it sounds related). Be encouraging but honest — this is a formative check, not a grade.
+
+Return ONLY this JSON object, no markdown fences:
+{{
+  "propertiesCaptured": [<core properties, exactly as given, that the analogy captures, in {prompt_lang_str}>],
+  "propertiesMissed": [<core properties, exactly as given, that the analogy misses or gets wrong, in {prompt_lang_str}>],
+  "feedback": "<two or three encouraging, specific sentences in {prompt_lang_str}>"
+}}"""
+
+    models_to_try = [MODEL_ID] + FALLBACK_MODELS
+    eval_result = None
+
+    for model_name in models_to_try:
+        try:
+            response = client.chat.completions.create(
+                model=model_name,
+                messages=[
+                    {"role": "system", "content": f"You evaluate student-written analogies for conceptual accuracy. Output strictly one JSON object in {prompt_lang_str}." + plain_language_rule(language)},
+                    {"role": "user", "content": prompt},
+                ],
+                extra_headers={
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Concept Bridge Analogy Evaluator",
+                },
+            )
+            raw = response.choices[0].message.content.strip()
+            if raw.startswith("```"):
+                lines = [ln for ln in raw.splitlines() if not ln.strip().startswith("```")]
+                raw = "\n".join(lines).strip()
+            eval_result = json.loads(raw)
+            print(f"[INFO] Evaluated concept analogy ({bridge_id}) with model: {model_name}")
+            break
+        except Exception as err:
+            print(f"[WARN] Analogy evaluator model {model_name} error: {err}. Trying next...")
+            continue
+
+    # Fallback: a simple keyword-substring check per property, so the feature
+    # degrades gracefully instead of 500ing if every model call fails.
+    if not eval_result or not isinstance(eval_result, dict):
+        analogy_lower = student_analogy.lower()
+        captured, missed = [], []
+        for prop in core_properties:
+            significant_words = [w for w in prop.lower().split() if len(w) > 4]
+            hit = any(w in analogy_lower for w in significant_words) if significant_words else False
+            (captured if hit else missed).append(prop)
+
+        if language == "ta":
+            feedback = "உங்கள் ஒப்புமை பதிவு செய்யப்பட்டது. மேலும் விவரங்களுடன் மேம்படுத்தலாம்."
+        else:
+            feedback = "Your analogy was recorded. Try tying it more explicitly to each property above."
+
+        eval_result = {
+            "propertiesCaptured": captured,
+            "propertiesMissed": missed,
+            "feedback": feedback,
+        }
+
+    return jsonify({
+        "propertiesCaptured": eval_result.get("propertiesCaptured", []),
+        "propertiesMissed": eval_result.get("propertiesMissed", []),
+        "feedback": eval_result.get("feedback", ""),
+    })
 
 
 # ─── Main ───────────────────────────────────────────────────────────────────────

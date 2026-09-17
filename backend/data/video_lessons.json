@@ -1,6 +1,1122 @@
 {
   "lessons": [
     {
+      "id": "newtons-second-law-video",
+      "youtube_id": "8o3j1wpabes",
+      "source_url": "https://youtu.be/8o3j1wpabes",
+      "duration": 346,
+      "content_end": 309.7,
+      "title": {
+        "en": "What is Newton's Second Law of Motion?",
+        "ta": "நியூட்டனின் இரண்டாம் இயக்க விதி என்ன?"
+      },
+      "subject": {
+        "en": "Physics · Laws of Motion",
+        "ta": "இயற்பியல் · இயக்க விதிகள்"
+      },
+      "description": {
+        "en": "See how force and mass change an object's acceleration, and what F = ma means.",
+        "ta": "விசையும் நிறையும் ஒரு பொருளின் முடுக்கத்தை எப்படி மாற்றுகின்றன, F = ma என்றால் என்ன என்று பாருங்கள்."
+      },
+      "concepts": [
+        {
+          "id": "balanced-unbalanced",
+          "index": 0,
+          "title": {
+            "en": "Balanced and unbalanced forces",
+            "ta": "சமன்செய்யப்பட்ட மற்றும் சமன்செய்யப்படாத விசைகள்"
+          },
+          "start": 0.0,
+          "end": 134.4,
+          "pause_at": 134.2,
+          "transcript": "what happened what happened the big car slid a little but the smaller one took off why that's due to Newton's second law of motion a topic we will explore in today's episode so let's zoom in remember what we learned in our previous video about Newton's first law of motion let's do a quick revision it said an object at rest remains at rest or if in motion remains in motion at a constant velocity unless acted upon by an unbalanced Force I know what you are thinking why does the force have to be unbalanced well the reason is that when an object is at rest or in motion there are usually two forces acting on it the normal force and the gravitational force these forces are balanced so the object stays in its current state but when a new external Force like a push or pull is applied it creates an unbalanced force this unbalanced force disturbs the object's initial State causing it to accelerate which means speeding up slowing down or changing direction now the vital question is what's this net unbalanced force that influences the acceleration of an object well according to Newton's second law of motion acceleration depends on two major factors the net force acting on the object and the object's Mass let's try to understand this with",
+          "key_points": {
+            "en": [
+              "An object stays at rest or keeps moving unless an unbalanced force acts on it.",
+              "When the forces on an object are balanced, it stays in the same state.",
+              "A new push or pull makes an unbalanced force, so the object accelerates.",
+              "Acceleration means speeding up, slowing down or changing direction."
+            ],
+            "ta": [
+              "சமன்செய்யப்படாத விசை செயல்படும் வரை, பொருள் ஓய்விலோ இயக்கத்திலோ அப்படியே இருக்கும்.",
+              "பொருளின் மீதான விசைகள் சமமாக இருந்தால், அது அதே நிலையில் இருக்கும்.",
+              "புதிய தள்ளுதல் அல்லது இழுத்தல் சமன்செய்யப்படாத விசையை உண்டாக்கி, பொருளை முடுக்குகிறது.",
+              "முடுக்கம் என்பது வேகம் கூடுவது, குறைவது அல்லது திசை மாறுவது."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "When do the forces on an object make it accelerate?",
+                "options": [
+                  "When the forces are balanced",
+                  "When there is an unbalanced (net) force",
+                  "Only when the object is at rest",
+                  "Only when gravity acts"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Balanced forces are still forces, so it can seem they should move the object. But they cancel each other.",
+                "conceptBoundary": "Only an unbalanced (net) force changes the motion. Balanced forces keep the object in the same state."
+              },
+              {
+                "question": "In the video, 'acceleration' means ___.",
+                "options": [
+                  "only speeding up",
+                  "speeding up, slowing down or changing direction",
+                  "moving at a constant speed",
+                  "staying at rest"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Many people think acceleration only means going faster.",
+                "conceptBoundary": "Any change in velocity is acceleration: faster, slower, or a new direction."
+              }
+            ],
+            "ta": [
+              {
+                "question": "ஒரு பொருளின் மீதான விசைகள் எப்போது அதை முடுக்கும்?",
+                "options": [
+                  "விசைகள் சமமாக இருக்கும்போது",
+                  "சமன்செய்யப்படாத (நிகர) விசை இருக்கும்போது",
+                  "பொருள் ஓய்வில் இருக்கும்போது மட்டும்",
+                  "ஈர்ப்பு செயல்படும்போது மட்டும்"
+                ],
+                "answer": 1,
+                "misconceptionNote": "சமமான விசைகளும் விசைகளே; அவை பொருளை நகர்த்தும் எனத் தோன்றலாம். ஆனால் அவை ஒன்றையொன்று சமன் செய்கின்றன.",
+                "conceptBoundary": "சமன்செய்யப்படாத (நிகர) விசை மட்டுமே இயக்கத்தை மாற்றும். சமமான விசைகள் பொருளை அதே நிலையில் வைத்திருக்கும்."
+              },
+              {
+                "question": "வீடியோவில் 'முடுக்கம்' என்பதன் பொருள் ___.",
+                "options": [
+                  "வேகம் கூடுவது மட்டும்",
+                  "வேகம் கூடுவது, குறைவது அல்லது திசை மாறுவது",
+                  "மாறாத வேகத்தில் நகர்வது",
+                  "ஓய்வில் இருப்பது"
+                ],
+                "answer": 1,
+                "misconceptionNote": "முடுக்கம் என்றால் வேகம் கூடுவது மட்டும் என்று பலர் நினைக்கிறார்கள்.",
+                "conceptBoundary": "திசைவேகத்தில் ஏற்படும் எந்த மாற்றமும் முடுக்கமே: வேகம் கூடுதல், குறைதல் அல்லது திசை மாறுதல்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "force-and-acceleration",
+          "index": 1,
+          "title": {
+            "en": "More force, more acceleration",
+            "ta": "அதிக விசை, அதிக முடுக்கம்"
+          },
+          "start": 134.4,
+          "end": 198.1,
+          "pause_at": 197.9,
+          "transcript": "to understand this with examples imagine you have a chair on a smooth wooden floor you decide to push the chair gently with a small force of 5 Newtons the chair starts to move slowly across the floor now you decide to push the chair harder with a larger force of 10 Newtons what do you think happens to the acceleration of the chair exactly the chair moves faster when you apply the larger Force this is because the acceleration is greater when the force is greater so we can conclude the more Force you apply the more the acceleration conversely if you apply less Force the acceleration will be less this demonstrates that acceleration is directly proportional to the net force applied now let's look at how Mass",
+          "key_points": {
+            "en": [
+              "A 5 N push moves the chair slowly; a 10 N push moves it faster.",
+              "A bigger force gives a bigger acceleration.",
+              "Acceleration is directly proportional to the net force."
+            ],
+            "ta": [
+              "5 N தள்ளுதல் நாற்காலியை மெதுவாக நகர்த்தும்; 10 N தள்ளுதல் வேகமாக நகர்த்தும்.",
+              "அதிக விசை அதிக முடுக்கத்தைத் தரும்.",
+              "முடுக்கம் நிகர விசைக்கு நேர்விகிதத்தில் இருக்கும்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "The chair is pushed with 10 N instead of 5 N. What happens to its acceleration?",
+                "options": [
+                  "It becomes smaller",
+                  "It stays the same",
+                  "It becomes greater",
+                  "The chair stops"
+                ],
+                "answer": 2,
+                "misconceptionNote": "A student may think only the chair's mass matters, so the size of the push does not.",
+                "conceptBoundary": "For the same mass, acceleration is directly proportional to force. More force means more acceleration."
+              },
+              {
+                "question": "Acceleration is ___ to the net force.",
+                "options": [
+                  "directly proportional",
+                  "inversely proportional",
+                  "not related",
+                  "equal"
+                ],
+                "answer": 0,
+                "misconceptionNote": "'Inversely' is used for mass, so it is easy to mix the two up.",
+                "conceptBoundary": "More force gives more acceleration, so acceleration is directly proportional to force."
+              }
+            ],
+            "ta": [
+              {
+                "question": "நாற்காலி 5 N-க்குப் பதில் 10 N விசையுடன் தள்ளப்படுகிறது. அதன் முடுக்கத்திற்கு என்ன ஆகும்?",
+                "options": [
+                  "குறையும்",
+                  "மாறாது",
+                  "அதிகரிக்கும்",
+                  "நாற்காலி நின்றுவிடும்"
+                ],
+                "answer": 2,
+                "misconceptionNote": "நாற்காலியின் நிறை மட்டுமே முக்கியம், தள்ளுதலின் அளவு முக்கியமில்லை என்று மாணவர் நினைக்கலாம்.",
+                "conceptBoundary": "அதே நிறைக்கு, முடுக்கம் விசைக்கு நேர்விகிதத்தில் இருக்கும். அதிக விசை என்றால் அதிக முடுக்கம்."
+              },
+              {
+                "question": "முடுக்கம் நிகர விசைக்கு ___.",
+                "options": [
+                  "நேர்விகிதத்தில் இருக்கும்",
+                  "எதிர்விகிதத்தில் இருக்கும்",
+                  "தொடர்பில்லை",
+                  "சமம்"
+                ],
+                "answer": 0,
+                "misconceptionNote": "நிறைக்கு 'எதிர்விகிதம்' பயன்படுவதால், இரண்டையும் குழப்பிக்கொள்வது எளிது.",
+                "conceptBoundary": "அதிக விசை அதிக முடுக்கத்தைத் தருவதால், முடுக்கம் விசைக்கு நேர்விகிதத்தில் இருக்கும்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "mass-and-acceleration",
+          "index": 2,
+          "title": {
+            "en": "More mass, less acceleration",
+            "ta": "அதிக நிறை, குறைந்த முடுக்கம்"
+          },
+          "start": 198.1,
+          "end": 264.7,
+          "pause_at": 264.5,
+          "transcript": "influences acceleration by comparing two objects imagine you have two boxes one weighs 2 kg and the other other weighs 4 kg you apply an equal force of 10 Newtons to each box which do you think will accelerate more yes you guessed it right the 2 kg box will accelerate more because it has a lesser Mass this is because for the same force a lighter object will always accelerate faster than a heavier one so we can conclude that the lesser the mass the greater the acceleration and the more the mass the lesser the acceleration hence we can say that acceleration depends inversely on the object's Mass so to conclude",
+          "key_points": {
+            "en": [
+              "The same 10 N force is applied to a 2 kg box and a 4 kg box.",
+              "The lighter 2 kg box accelerates more.",
+              "More mass means less acceleration.",
+              "Acceleration is inversely proportional to mass."
+            ],
+            "ta": [
+              "2 kg பெட்டி, 4 kg பெட்டி இரண்டின் மீதும் அதே 10 N விசை செலுத்தப்படுகிறது.",
+              "இலேசான 2 kg பெட்டி அதிக முடுக்கம் பெறும்.",
+              "அதிக நிறை என்றால் குறைந்த முடுக்கம்.",
+              "முடுக்கம் நிறைக்கு எதிர்விகிதத்தில் இருக்கும்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "The same 10 N force pushes a 2 kg box and a 4 kg box. Which box accelerates more?",
+                "options": [
+                  "The 4 kg box",
+                  "The 2 kg box",
+                  "Both accelerate the same",
+                  "Neither box moves"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Heavier things can seem 'stronger', so a student may pick the 4 kg box.",
+                "conceptBoundary": "For the same force, the object with less mass gets more acceleration."
+              },
+              {
+                "question": "How does acceleration depend on mass?",
+                "options": [
+                  "It is directly proportional",
+                  "It is inversely proportional",
+                  "It does not depend on mass",
+                  "It is equal to the mass"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Force and acceleration are directly proportional, so a student may think mass works the same way.",
+                "conceptBoundary": "More mass gives less acceleration, so acceleration is inversely proportional to mass."
+              }
+            ],
+            "ta": [
+              {
+                "question": "2 kg பெட்டியையும் 4 kg பெட்டியையும் அதே 10 N விசை தள்ளுகிறது. எந்தப் பெட்டி அதிக முடுக்கம் பெறும்?",
+                "options": [
+                  "4 kg பெட்டி",
+                  "2 kg பெட்டி",
+                  "இரண்டும் சம முடுக்கம்",
+                  "எதுவும் நகராது"
+                ],
+                "answer": 1,
+                "misconceptionNote": "கனமான பொருள் 'வலிமையானது' எனத் தோன்றுவதால், மாணவர் 4 kg பெட்டியைத் தேர்வு செய்யலாம்.",
+                "conceptBoundary": "அதே விசைக்கு, குறைந்த நிறை கொண்ட பொருள் அதிக முடுக்கம் பெறும்."
+              },
+              {
+                "question": "முடுக்கம் நிறையை எப்படிச் சார்ந்துள்ளது?",
+                "options": [
+                  "நேர்விகிதத்தில்",
+                  "எதிர்விகிதத்தில்",
+                  "நிறையைச் சார்ந்தது அல்ல",
+                  "நிறைக்குச் சமம்"
+                ],
+                "answer": 1,
+                "misconceptionNote": "விசையும் முடுக்கமும் நேர்விகிதம் என்பதால், நிறையும் அப்படியே என்று மாணவர் நினைக்கலாம்.",
+                "conceptBoundary": "அதிக நிறை குறைந்த முடுக்கத்தைத் தருவதால், முடுக்கம் நிறைக்கு எதிர்விகிதத்தில் இருக்கும்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "f-equals-ma",
+          "index": 3,
+          "title": {
+            "en": "F = ma and the newton",
+            "ta": "F = ma மற்றும் நியூட்டன் அலகு"
+          },
+          "start": 264.7,
+          "end": 309.7,
+          "pause_at": 309.5,
+          "transcript": "acceleration is directly proportional to the net force apply app to an object and inversely proportional to the mass of the object or as some people like to write it fnet equal m into a which means that the net force is the product of mass and acceleration easy isn't it my friends trivia time did you know the unit of force is called a newton named after Isaac Newton himself one newton is roughly the amount of force you need to lift an apple it's sketching time today's sketch of the day",
+          "key_points": {
+            "en": [
+              "Net force = mass × acceleration (F = ma).",
+              "The unit of force is the newton (N), named after Isaac Newton.",
+              "One newton is about the force needed to lift an apple."
+            ],
+            "ta": [
+              "நிகர விசை = நிறை × முடுக்கம் (F = ma).",
+              "விசையின் அலகு நியூட்டன் (N); இது ஐசக் நியூட்டனின் பெயரால் வைக்கப்பட்டது.",
+              "ஒரு நியூட்டன் என்பது சுமார் ஒரு ஆப்பிளைத் தூக்கத் தேவையான விசை."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "Which equation shows Newton's second law?",
+                "options": [
+                  "F = m / a",
+                  "F = m × a",
+                  "F = a / m",
+                  "F = m + a"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Because acceleration is inversely proportional to mass, a student may put m at the bottom of a fraction.",
+                "conceptBoundary": "Net force is the product of mass and acceleration: F = ma."
+              },
+              {
+                "question": "According to the video, one newton is about the force needed to ___.",
+                "options": [
+                  "lift an apple",
+                  "lift a car",
+                  "push a chair across a room",
+                  "stop a train"
+                ],
+                "answer": 0,
+                "misconceptionNote": "A newton sounds like a big unit, so a bigger example may seem right.",
+                "conceptBoundary": "One newton is a small force — about what you need to lift an apple."
+              }
+            ],
+            "ta": [
+              {
+                "question": "நியூட்டனின் இரண்டாம் விதியைக் காட்டும் சமன்பாடு எது?",
+                "options": [
+                  "F = m / a",
+                  "F = m × a",
+                  "F = a / m",
+                  "F = m + a"
+                ],
+                "answer": 1,
+                "misconceptionNote": "முடுக்கம் நிறைக்கு எதிர்விகிதம் என்பதால், மாணவர் m-ஐ பின்னத்தின் கீழே வைக்கலாம்.",
+                "conceptBoundary": "நிகர விசை என்பது நிறை மற்றும் முடுக்கத்தின் பெருக்கற்பலன்: F = ma."
+              },
+              {
+                "question": "வீடியோவின்படி, ஒரு நியூட்டன் என்பது சுமார் ___ தேவையான விசை.",
+                "options": [
+                  "ஒரு ஆப்பிளைத் தூக்க",
+                  "ஒரு காரைத் தூக்க",
+                  "அறை முழுவதும் நாற்காலியைத் தள்ள",
+                  "ஒரு ரயிலை நிறுத்த"
+                ],
+                "answer": 0,
+                "misconceptionNote": "நியூட்டன் பெரிய அலகு போலத் தோன்றுவதால், பெரிய உதாரணம் சரியெனத் தோன்றலாம்.",
+                "conceptBoundary": "ஒரு நியூட்டன் சிறிய விசை — ஒரு ஆப்பிளைத் தூக்கத் தேவையான அளவு."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "universal-gravitation-video",
+      "youtube_id": "Af9lRX4xsr0",
+      "source_url": "https://youtu.be/Af9lRX4xsr0",
+      "duration": 416,
+      "content_end": 413.0,
+      "title": {
+        "en": "Understanding the Universal Law of Gravitation",
+        "ta": "பொது ஈர்ப்பியல் விதியைப் புரிந்துகொள்வோம்"
+      },
+      "subject": {
+        "en": "Physics · Gravitation",
+        "ta": "இயற்பியல் · ஈர்ப்பியல்"
+      },
+      "description": {
+        "en": "Learn how Newton found that all objects attract each other, how the force changes with distance and mass, and how G was measured.",
+        "ta": "எல்லாப் பொருள்களும் ஒன்றையொன்று ஈர்க்கின்றன என்று நியூட்டன் எப்படிக் கண்டறிந்தார், தொலைவும் நிறையும் விசையை எப்படி மாற்றுகின்றன, G எப்படி அளக்கப்பட்டது என்று கற்போம்."
+      },
+      "concepts": [
+        {
+          "id": "everything-attracts",
+          "index": 0,
+          "title": {
+            "en": "Every object attracts every other object",
+            "ta": "ஒவ்வொரு பொருளும் மற்றதை ஈர்க்கிறது"
+          },
+          "start": 0.0,
+          "end": 124.2,
+          "pause_at": 124.0,
+          "transcript": "gravitational force acts between any two objects in the universe one easy way to demonstrate the effect of gravitational force is to suspend a horizontal scale with two masses at the end as shown now quickly place two large masses next to the mass of the scale if you wait and observe you can see the two small masses will move closer to the big masses and eventually they will stick together this force of attraction happens due to the gravitational force it looks interesting right let's learn a few more details about the universal law of gravitation and how sir isaac newton discovered this very important law as we all know the story an apple fell down from a tree which started newton thinking let's assume there is one more apple tree that is far away from the current tree and an apple falls from it as well as shown if you analyze this way it is clear that objects fall to the earth in a radial direction or the earth attracts the objects radially towards the center this observation was the turning point in the discovery of the universal law of gravitation newton realized that the earth does not attract the objects just down but it attracts the objects radially towards its center it's logical to conclude that in a similar way the earth is pulling the moon radially towards its center with an attractive force similarly the sun as well is attracting the earth towards its center with a certain force now let's move away from these rounded objects with the same logic this car will attract this book towards its center of mass similarly this book will attract this car towards its center of mass with a certain force according to newton's third law of motion these two force values should be equal in short all the objects in the universe attract each other with a certain force this is the universal law of gravitation now the next challenge newton wanted to",
+          "key_points": {
+            "en": [
+              "Earth pulls falling objects towards its centre, not just 'down'.",
+              "In the same way, Earth pulls the Moon, and the Sun pulls the Earth.",
+              "Any two objects, like a car and a book, attract each other with equal force.",
+              "All objects in the universe attract each other."
+            ],
+            "ta": [
+              "பூமி விழும் பொருள்களை 'கீழே' மட்டுமல்ல, தன் மையத்தை நோக்கி இழுக்கிறது.",
+              "அதே போல, பூமி சந்திரனை இழுக்கிறது; சூரியன் பூமியை இழுக்கிறது.",
+              "கார், புத்தகம் போன்ற எந்த இரு பொருள்களும் சம விசையுடன் ஒன்றையொன்று ஈர்க்கின்றன.",
+              "பிரபஞ்சத்திலுள்ள எல்லாப் பொருள்களும் ஒன்றையொன்று ஈர்க்கின்றன."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "In the video, the Earth pulls a falling apple towards ___.",
+                "options": [
+                  "the sky",
+                  "its centre",
+                  "the nearest tree",
+                  "the Moon"
+                ],
+                "answer": 1,
+                "misconceptionNote": "We usually say things fall 'down', so it may not seem to point to the centre.",
+                "conceptBoundary": "Earth attracts objects towards its centre, from every side of the Earth."
+              },
+              {
+                "question": "A car and a book attract each other. How do their pulls compare?",
+                "options": [
+                  "The car pulls harder",
+                  "The book pulls harder",
+                  "The pulls are equal",
+                  "Only the car pulls"
+                ],
+                "answer": 2,
+                "misconceptionNote": "The car is much heavier, so its pull may seem bigger.",
+                "conceptBoundary": "By Newton's third law, the two gravitational forces are equal in size."
+              }
+            ],
+            "ta": [
+              {
+                "question": "வீடியோவில், பூமி விழும் ஆப்பிளை ___ நோக்கி இழுக்கிறது.",
+                "options": [
+                  "வானத்தை",
+                  "தன் மையத்தை",
+                  "அருகிலுள்ள மரத்தை",
+                  "சந்திரனை"
+                ],
+                "answer": 1,
+                "misconceptionNote": "பொருள்கள் 'கீழே' விழுகின்றன என்று சொல்வதால், அது மையத்தை நோக்கி என்று தோன்றாமல் இருக்கலாம்.",
+                "conceptBoundary": "பூமி எல்லாப் பக்கங்களிலிருந்தும் பொருள்களைத் தன் மையத்தை நோக்கி ஈர்க்கிறது."
+              },
+              {
+                "question": "ஒரு காரும் ஒரு புத்தகமும் ஒன்றையொன்று ஈர்க்கின்றன. அவற்றின் இழுவைகள் எப்படி?",
+                "options": [
+                  "கார் அதிகமாக இழுக்கும்",
+                  "புத்தகம் அதிகமாக இழுக்கும்",
+                  "இரண்டு இழுவைகளும் சமம்",
+                  "கார் மட்டுமே இழுக்கும்"
+                ],
+                "answer": 2,
+                "misconceptionNote": "கார் மிகக் கனமானது என்பதால், அதன் இழுவை அதிகம் எனத் தோன்றலாம்.",
+                "conceptBoundary": "நியூட்டனின் மூன்றாம் விதிப்படி, இரண்டு ஈர்ப்பு விசைகளும் அளவில் சமம்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "force-and-distance",
+          "index": 1,
+          "title": {
+            "en": "Gravity and distance",
+            "ta": "ஈர்ப்பும் தொலைவும்"
+          },
+          "start": 124.2,
+          "end": 224.3,
+          "pause_at": 224.1,
+          "transcript": "now the next challenge newton wanted to derive an equation to predict the magnitude of the force which arises due to the universal law of gravitation newton's intuition told him that the effect of gravitational force would dilute with distance but to what extent to get an answer for this question he looked at the moon the moon is also attracted to the earth due to the same gravitational force however the moon doesn't fall to the earth because the centripetal force required for the moon's circular motion is supplied by the gravitational force people at that time already knew the moon's angular speed and the distance between the earth to moon based on this force balance idea newton calculated the centripetal acceleration of the moon the force acting on the apple near to the earth's surface can be easily calculated by measuring the apple's acceleration the value of this acceleration is 9.81 meter per second squared newton compared these two acceleration values with the distances from the center of earth can you spot any connection between these four numbers if so congratulations anyway newton was able to find out a definite connection between these four numbers divide the acceleration values now take the square of the distances and divide surprise the resultant values are very close this means the gravitational force is inversely proportional to the square of the distance between the center of the objects what a brilliant deduction",
+          "key_points": {
+            "en": [
+              "The Moon does not fall to Earth because gravity gives the force it needs to move in a circle.",
+              "Newton compared the Moon's acceleration with an apple's acceleration (9.81 m/s²).",
+              "Gravitational force is inversely proportional to the square of the distance between the centres."
+            ],
+            "ta": [
+              "சந்திரன் வட்டப்பாதையில் இயங்கத் தேவையான விசையை ஈர்ப்பு தருவதால், அது பூமியில் விழுவதில்லை.",
+              "நியூட்டன் சந்திரனின் முடுக்கத்தை ஆப்பிளின் முடுக்கத்துடன் (9.81 m/s²) ஒப்பிட்டார்.",
+              "ஈர்ப்பு விசை மையங்களுக்கு இடையிலான தொலைவின் இருமடிக்கு எதிர்விகிதத்தில் இருக்கும்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "Why doesn't the Moon fall onto the Earth?",
+                "options": [
+                  "There is no gravity in space",
+                  "Gravity gives the force needed for the Moon's circular motion",
+                  "The Moon is too light",
+                  "The Sun pushes the Moon away"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Many people think there is no gravity in space.",
+                "conceptBoundary": "Earth's gravity does act on the Moon. It gives the force that keeps the Moon moving in a circle."
+              },
+              {
+                "question": "Newton found that gravitational force is inversely proportional to ___.",
+                "options": [
+                  "the distance",
+                  "the square of the distance",
+                  "the mass",
+                  "the time"
+                ],
+                "answer": 1,
+                "misconceptionNote": "'Inversely proportional to the distance' sounds almost right, so the square is easy to miss.",
+                "conceptBoundary": "The force depends on 1/r²: it is inversely proportional to the square of the distance."
+              }
+            ],
+            "ta": [
+              {
+                "question": "சந்திரன் ஏன் பூமியின் மேல் விழுவதில்லை?",
+                "options": [
+                  "விண்வெளியில் ஈர்ப்பு இல்லை",
+                  "சந்திரனின் வட்ட இயக்கத்திற்குத் தேவையான விசையை ஈர்ப்பு தருகிறது",
+                  "சந்திரன் மிக இலேசானது",
+                  "சூரியன் சந்திரனைத் தள்ளுகிறது"
+                ],
+                "answer": 1,
+                "misconceptionNote": "விண்வெளியில் ஈர்ப்பு இல்லை என்று பலர் நினைக்கிறார்கள்.",
+                "conceptBoundary": "பூமியின் ஈர்ப்பு சந்திரன் மீது செயல்படுகிறது. அதுவே சந்திரனை வட்டப்பாதையில் இயங்க வைக்கும் விசை."
+              },
+              {
+                "question": "ஈர்ப்பு விசை ___ எதிர்விகிதத்தில் இருக்கும் என்று நியூட்டன் கண்டறிந்தார்.",
+                "options": [
+                  "தொலைவுக்கு",
+                  "தொலைவின் இருமடிக்கு",
+                  "நிறைக்கு",
+                  "நேரத்திற்கு"
+                ],
+                "answer": 1,
+                "misconceptionNote": "'தொலைவுக்கு எதிர்விகிதம்' கிட்டத்தட்டச் சரியாகத் தோன்றுவதால், இருமடியைத் தவறவிடுவது எளிது.",
+                "conceptBoundary": "விசை 1/r²-ஐப் பொறுத்தது: அது தொலைவின் இருமடிக்கு எதிர்விகிதத்தில் இருக்கும்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "force-and-mass",
+          "index": 2,
+          "title": {
+            "en": "Gravity and mass: F = G m₁ m₂ / r²",
+            "ta": "ஈர்ப்பும் நிறையும்: F = G m₁ m₂ / r²"
+          },
+          "start": 224.3,
+          "end": 305.3,
+          "pause_at": 305.1,
+          "transcript": "the next question is do the object's respective masses have any connection with gravitational force between them newton had already derived the equation for an object's acceleration during this period and it is a common observation that when the force arises due to gravity the value of acceleration does not change based on an object's mass therefore the value of force due to the universal law of gravitation should be a factor of the mass so that when you find out the acceleration by dividing the mass the mass factor will get cancelled likewise we have to include the mass of the second object as well in this equation in this case the earth's mass this is the expression newton derived to find out the force due to the universal law of gravitation he introduced a constant called the gravitational constant and made it a proper equation according to the universal law of gravitation all the objects in this universe attract each other in this case the earth attracts the apple with a force value defined by this equation the apple also attracts the earth with the same force value however the earth doesn't move to the apple because when you divide this force by the mass of the earth the acceleration value becomes negligible the case is the same with every other",
+          "key_points": {
+            "en": [
+              "Gravitational force depends on the masses of both objects.",
+              "Newton added the gravitational constant G: F = G m₁ m₂ / r².",
+              "The Earth and an apple pull each other with the same force.",
+              "The Earth does not move towards the apple because its mass is huge, so its acceleration is tiny."
+            ],
+            "ta": [
+              "ஈர்ப்பு விசை இரு பொருள்களின் நிறைகளையும் சார்ந்தது.",
+              "நியூட்டன் ஈர்ப்பியல் மாறிலி G-ஐச் சேர்த்தார்: F = G m₁ m₂ / r².",
+              "பூமியும் ஆப்பிளும் ஒரே விசையுடன் ஒன்றையொன்று இழுக்கின்றன.",
+              "பூமியின் நிறை மிகப் பெரியது; அதன் முடுக்கம் மிகச் சிறியது. அதனால் பூமி ஆப்பிளை நோக்கி நகர்வதில்லை."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "The Earth and an apple pull each other with the same force. Why doesn't the Earth move towards the apple?",
+                "options": [
+                  "The apple's pull is zero",
+                  "Earth's mass is huge, so its acceleration is tiny",
+                  "Gravity only acts on small objects",
+                  "The Earth is not attracted at all"
+                ],
+                "answer": 1,
+                "misconceptionNote": "It seems a small apple cannot pull the Earth at all.",
+                "conceptBoundary": "The forces are equal, but a = F / m. Earth's huge mass makes its acceleration too small to notice."
+              },
+              {
+                "question": "Which formula did Newton write for gravitational force?",
+                "options": [
+                  "F = G m₁ m₂ / r²",
+                  "F = m a",
+                  "F = G m₁ / m₂",
+                  "F = m₁ m₂ r²"
+                ],
+                "answer": 0,
+                "misconceptionNote": "F = ma is Newton's most famous formula, so it can seem like the answer.",
+                "conceptBoundary": "Gravity depends on both masses and on 1/r², with the constant G: F = G m₁ m₂ / r²."
+              }
+            ],
+            "ta": [
+              {
+                "question": "பூமியும் ஆப்பிளும் ஒரே விசையுடன் இழுக்கின்றன. பூமி ஏன் ஆப்பிளை நோக்கி நகர்வதில்லை?",
+                "options": [
+                  "ஆப்பிளின் இழுவை பூஜ்ஜியம்",
+                  "பூமியின் நிறை மிகப் பெரியது, அதனால் முடுக்கம் மிகச் சிறியது",
+                  "ஈர்ப்பு சிறிய பொருள்கள் மீது மட்டுமே செயல்படும்",
+                  "பூமி ஈர்க்கப்படுவதே இல்லை"
+                ],
+                "answer": 1,
+                "misconceptionNote": "சிறிய ஆப்பிள் பூமியை இழுக்கவே முடியாது என்று தோன்றலாம்.",
+                "conceptBoundary": "விசைகள் சமம்; ஆனால் a = F / m. பூமியின் பெரிய நிறையால் அதன் முடுக்கம் கவனிக்க முடியாத அளவு சிறியது."
+              },
+              {
+                "question": "ஈர்ப்பு விசைக்கு நியூட்டன் எழுதிய சூத்திரம் எது?",
+                "options": [
+                  "F = G m₁ m₂ / r²",
+                  "F = m a",
+                  "F = G m₁ / m₂",
+                  "F = m₁ m₂ r²"
+                ],
+                "answer": 0,
+                "misconceptionNote": "F = ma நியூட்டனின் மிகப் பிரபலமான சூத்திரம் என்பதால், அது சரியெனத் தோன்றலாம்.",
+                "conceptBoundary": "ஈர்ப்பு இரு நிறைகளையும் 1/r²-ஐயும் சார்ந்தது; மாறிலி G உடன்: F = G m₁ m₂ / r²."
+              }
+            ]
+          }
+        },
+        {
+          "id": "seeing-gravity-and-g",
+          "index": 3,
+          "title": {
+            "en": "Seeing gravity and measuring G",
+            "ta": "ஈர்ப்பைக் காணுதலும் G-ஐ அளத்தலும்"
+          },
+          "start": 305.3,
+          "end": 413.0,
+          "pause_at": 412.8,
+          "transcript": "the case is the same with every other object in the universe it's somewhat impossible to believe right are all the objects in the universe really attracting each other we find this idea difficult to believe because we live in a world where frictional force is always present just imagine a long frictionless room with no object in it now introduce two blocks on the floor if the frictional force between the object and floor is zero you would see the blocks move toward each other due to the gravitational force and finally collide of course this was a hypothetical experiment a more realistic experiment to visualize the effect of gravitational force would be placing two heavy balls near a hanging two ball arrangement if no objects are near them you'd observe that slowly the small balls would move to touch the larger ones even though sir isaac newton derived the equation for the universal law of gravitation he didn't find out the value of g many years later an english scientist named henry cavendish came up with a clever idea to determine the value of g his experiment was very similar to the example we saw earlier the only difference is that his setup was able to attain a balance force between the force due to gravity and the strings torsional force you can see clearly that when the torque produced by the torsion of the spring is the same as the torque due to the gravitational attraction force the balls balance using this twisted angle at the balance as an input cavendish calculated the value of g for the first time that too quite accurately we hope you now have a clear understanding about the universal law of",
+          "key_points": {
+            "en": [
+              "We rarely see objects pull each other because friction stops them.",
+              "In a room with no friction, two blocks would slowly move together and touch.",
+              "Newton did not find the value of G.",
+              "Henry Cavendish measured G using heavy balls and a twisting string."
+            ],
+            "ta": [
+              "உராய்வு தடுப்பதால், பொருள்கள் ஒன்றையொன்று இழுப்பதை நாம் அரிதாகவே காண்கிறோம்.",
+              "உராய்வு இல்லாத அறையில், இரண்டு கட்டைகள் மெதுவாக நெருங்கி ஒன்றையொன்று தொடும்.",
+              "நியூட்டன் G-யின் மதிப்பைக் கண்டறியவில்லை.",
+              "ஹென்றி கேவண்டிஷ் கனமான பந்துகளும் முறுக்கும் கம்பியும் கொண்டு G-ஐ அளந்தார்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "Why don't we see objects on a table move towards each other?",
+                "options": [
+                  "They have no gravity",
+                  "Friction stops them from moving",
+                  "They push each other away",
+                  "Gravity only acts on planets"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Because nothing moves, it seems there is no force at all.",
+                "conceptBoundary": "The gravitational pull between small objects is very small, and friction is bigger, so they stay still."
+              },
+              {
+                "question": "Who first measured the value of G?",
+                "options": [
+                  "Isaac Newton",
+                  "Henry Cavendish",
+                  "Albert Einstein",
+                  "Galileo Galilei"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Newton wrote the law, so it seems he also found G.",
+                "conceptBoundary": "Newton gave the equation, but Henry Cavendish measured G many years later."
+              }
+            ],
+            "ta": [
+              {
+                "question": "மேசையில் உள்ள பொருள்கள் ஒன்றையொன்று நோக்கி நகர்வதை நாம் ஏன் காண்பதில்லை?",
+                "options": [
+                  "அவற்றுக்கு ஈர்ப்பு இல்லை",
+                  "உராய்வு அவற்றை நகரவிடாமல் தடுக்கிறது",
+                  "அவை ஒன்றையொன்று தள்ளுகின்றன",
+                  "ஈர்ப்பு கோள்கள் மீது மட்டுமே செயல்படும்"
+                ],
+                "answer": 1,
+                "misconceptionNote": "எதுவும் நகராததால், விசையே இல்லை என்று தோன்றுகிறது.",
+                "conceptBoundary": "சிறிய பொருள்களுக்கு இடையிலான ஈர்ப்பு மிகக் குறைவு; உராய்வு அதிகம். அதனால் அவை நகர்வதில்லை."
+              },
+              {
+                "question": "G-யின் மதிப்பை முதலில் அளந்தவர் யார்?",
+                "options": [
+                  "ஐசக் நியூட்டன்",
+                  "ஹென்றி கேவண்டிஷ்",
+                  "ஆல்பர்ட் ஐன்ஸ்டீன்",
+                  "கலிலியோ கலிலி"
+                ],
+                "answer": 1,
+                "misconceptionNote": "நியூட்டன் விதியை எழுதியதால், அவரே G-ஐயும் கண்டறிந்ததாகத் தோன்றலாம்.",
+                "conceptBoundary": "நியூட்டன் சமன்பாட்டைத் தந்தார்; பல ஆண்டுகள் கழித்து ஹென்றி கேவண்டிஷ் G-ஐ அளந்தார்."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "mass-and-weight-video",
+      "youtube_id": "rFdbY_V7vIo",
+      "source_url": "https://youtu.be/rFdbY_V7vIo",
+      "duration": 216,
+      "content_end": 211.0,
+      "title": {
+        "en": "Are Mass and Weight the Same Thing?",
+        "ta": "நிறையும் எடையும் ஒன்றா?"
+      },
+      "subject": {
+        "en": "Physics · Laws of Motion",
+        "ta": "இயற்பியல் · இயக்க விதிகள்"
+      },
+      "description": {
+        "en": "Learn the difference between mass and weight, and why W = mg.",
+        "ta": "நிறைக்கும் எடைக்கும் உள்ள வேறுபாட்டையும், W = mg ஏன் என்பதையும் கற்போம்."
+      },
+      "concepts": [
+        {
+          "id": "what-is-mass",
+          "index": 0,
+          "title": {
+            "en": "What is mass?",
+            "ta": "நிறை என்றால் என்ன?"
+          },
+          "start": 0.0,
+          "end": 78.8,
+          "pause_at": 78.6,
+          "transcript": "let's accept it most of us think that mass and weight are pretty much the same thing are they no they're not there's a very simple way to understand the difference mass is simply the amount of matter that's present in the object now consider two situations one in which an object is on the earth and second in which the same object is on the moon will the mass of the object be different in these cases to answer this question we ask ourselves another simple question well the amount of matter present in the object be different in these cases absolutely not the matter in the object is not changing at all which is why the mass will be the same in each of the cases the mass of an object remains constant no matter where it is placed the standard metric unit of mass is the kilogram another concept we'd learnt about an object's mass was that it is a measure of its inertia greater the mass of an object greater will be its inertia inertia is nothing but the tendency of an object to resist change in its state of motion so now we have an idea about what masses but",
+          "key_points": {
+            "en": [
+              "Mass is the amount of matter in an object.",
+              "Mass stays the same on the Earth and on the Moon.",
+              "The SI unit of mass is the kilogram (kg).",
+              "Mass is a measure of inertia: more mass, more inertia."
+            ],
+            "ta": [
+              "நிறை என்பது பொருளில் உள்ள பருப்பொருளின் அளவு.",
+              "பூமியிலும் சந்திரனிலும் நிறை ஒன்றே.",
+              "நிறையின் SI அலகு கிலோகிராம் (kg).",
+              "நிறை நிலைமத்தின் அளவு: அதிக நிறை, அதிக நிலைமம்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "An object is taken from the Earth to the Moon. What happens to its mass?",
+                "options": [
+                  "It becomes less",
+                  "It becomes more",
+                  "It stays the same",
+                  "It becomes zero"
+                ],
+                "answer": 2,
+                "misconceptionNote": "Things feel lighter on the Moon, so the mass may seem to go down.",
+                "conceptBoundary": "Mass is the amount of matter. The matter does not change, so the mass stays the same."
+              },
+              {
+                "question": "In the video, inertia means ___.",
+                "options": [
+                  "the pull of gravity",
+                  "the tendency of an object to resist a change in its motion",
+                  "the speed of an object",
+                  "the weight of an object"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Inertia is linked to mass, so it may be confused with weight or gravity.",
+                "conceptBoundary": "Inertia is the resistance to a change in motion. More mass means more inertia."
+              }
+            ],
+            "ta": [
+              {
+                "question": "ஒரு பொருள் பூமியிலிருந்து சந்திரனுக்கு எடுத்துச் செல்லப்படுகிறது. அதன் நிறைக்கு என்ன ஆகும்?",
+                "options": [
+                  "குறையும்",
+                  "அதிகரிக்கும்",
+                  "மாறாது",
+                  "பூஜ்ஜியம் ஆகும்"
+                ],
+                "answer": 2,
+                "misconceptionNote": "சந்திரனில் பொருள்கள் இலேசாக உணரப்படுவதால், நிறை குறைவதாகத் தோன்றலாம்.",
+                "conceptBoundary": "நிறை என்பது பருப்பொருளின் அளவு. பருப்பொருள் மாறாததால், நிறையும் மாறாது."
+              },
+              {
+                "question": "வீடியோவில், நிலைமம் என்பதன் பொருள் ___.",
+                "options": [
+                  "ஈர்ப்பு இழுவை",
+                  "இயக்க நிலை மாற்றத்தை எதிர்க்கும் பொருளின் தன்மை",
+                  "பொருளின் வேகம்",
+                  "பொருளின் எடை"
+                ],
+                "answer": 1,
+                "misconceptionNote": "நிலைமம் நிறையுடன் தொடர்புடையதால், அதை எடை அல்லது ஈர்ப்புடன் குழப்பலாம்.",
+                "conceptBoundary": "நிலைமம் என்பது இயக்க மாற்றத்தை எதிர்க்கும் தன்மை. அதிக நிறை என்றால் அதிக நிலைமம்."
+              }
+            ]
+          }
+        },
+        {
+          "id": "what-is-weight",
+          "index": 1,
+          "title": {
+            "en": "What is weight?",
+            "ta": "எடை என்றால் என்ன?"
+          },
+          "start": 78.8,
+          "end": 145.1,
+          "pause_at": 144.9,
+          "transcript": "have an idea about what masses but what's weight then how do we understand the weight of an object mass is nothing but the measure of how much matter an object has weight is a measure of how strongly gravity pulls on that matter it's the measurement of the gravitational pull of an object let's understand this using a simple example say there are two places place a and place B and there is an object of mass M in place a the pull of gravity is X units and in place B the pull of gravity is 2x units clearly the pull of gravity is stronger at least B now understand this well the mass of the object will be M at both the places but the weight of the object will be greater at place B because the pull of gravity is stronger as the gravity is twice as bigger weight of the object will be twice as much at place B as compared to place a so the weight of an object is a measurement of gravitational force acting on it how can we understand",
+          "key_points": {
+            "en": [
+              "Weight is how strongly gravity pulls on the matter in an object.",
+              "At place B, gravity is twice as strong as at place A.",
+              "The mass is the same at both places, but the weight at B is twice as much."
+            ],
+            "ta": [
+              "எடை என்பது பொருளின் பருப்பொருளை ஈர்ப்பு எவ்வளவு வலிமையாக இழுக்கிறது என்பதன் அளவு.",
+              "இடம் B-யில் ஈர்ப்பு, இடம் A-யை விட இருமடங்கு வலிமையானது.",
+              "இரு இடங்களிலும் நிறை ஒன்றே; ஆனால் B-யில் எடை இருமடங்கு."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "Gravity at place B is twice as strong as at place A. What is the object's weight at B?",
+                "options": [
+                  "Half",
+                  "The same",
+                  "Twice as much",
+                  "Zero"
+                ],
+                "answer": 2,
+                "misconceptionNote": "The mass stays the same, so a student may think the weight also stays the same.",
+                "conceptBoundary": "Weight depends on the pull of gravity. Double the gravity gives double the weight."
+              },
+              {
+                "question": "Weight is a measure of ___.",
+                "options": [
+                  "the amount of matter",
+                  "how strongly gravity pulls on an object",
+                  "the size of an object",
+                  "the speed of an object"
+                ],
+                "answer": 1,
+                "misconceptionNote": "In daily life, 'weight' and 'mass' are used as the same word.",
+                "conceptBoundary": "Mass is the amount of matter; weight is the pull of gravity on that matter."
+              }
+            ],
+            "ta": [
+              {
+                "question": "இடம் B-யில் ஈர்ப்பு, இடம் A-யை விட இருமடங்கு வலிமையானது. B-யில் பொருளின் எடை என்ன?",
+                "options": [
+                  "பாதி",
+                  "அதேதான்",
+                  "இருமடங்கு",
+                  "பூஜ்ஜியம்"
+                ],
+                "answer": 2,
+                "misconceptionNote": "நிறை மாறாததால், எடையும் மாறாது என்று மாணவர் நினைக்கலாம்.",
+                "conceptBoundary": "எடை ஈர்ப்பு இழுவையைச் சார்ந்தது. ஈர்ப்பு இருமடங்கானால் எடையும் இருமடங்கு."
+              },
+              {
+                "question": "எடை என்பது ___ அளவு.",
+                "options": [
+                  "பருப்பொருளின்",
+                  "ஈர்ப்பு பொருளை எவ்வளவு வலிமையாக இழுக்கிறது என்பதன்",
+                  "பொருளின் அளவின் (size)",
+                  "பொருளின் வேகத்தின்"
+                ],
+                "answer": 1,
+                "misconceptionNote": "அன்றாட வாழ்வில் 'எடை', 'நிறை' இரண்டும் ஒரே சொல்லாகப் பயன்படுகின்றன.",
+                "conceptBoundary": "நிறை என்பது பருப்பொருளின் அளவு; எடை என்பது அந்தப் பருப்பொருள் மீதான ஈர்ப்பு இழுவை."
+              }
+            ]
+          }
+        },
+        {
+          "id": "w-equals-mg",
+          "index": 2,
+          "title": {
+            "en": "Weight formula: W = mg",
+            "ta": "எடையின் சூத்திரம்: W = mg"
+          },
+          "start": 145.1,
+          "end": 211.0,
+          "pause_at": 210.8,
+          "transcript": "weight using a formula we know the Newton's second law of motion which says that the force acting on an object is the product of its mass and acceleration when its acceleration due to gravity we can replace a with a lowercase G this force due to gravity is nothing but the weight of the object so if we consider the weight of an object to be uppercase W we can rewrite this equation as W equals M times G so the weight of an object is the product of its mass and acceleration YouTube gravity what will be the SI unit of weight can you guess it will be the same as that of force Newton as the value of G at a particular place is constant we can also say that the weight of the object is directly proportional to its mass here's the main takeaway from this video the mass of an object remains constant everywhere whereas its weight depends on the gravitational force at the location",
+          "key_points": {
+            "en": [
+              "From F = ma, when the acceleration is due to gravity, a becomes g.",
+              "So weight W = m × g.",
+              "The SI unit of weight is the newton (N), the same as force.",
+              "At one place g is constant, so weight is directly proportional to mass."
+            ],
+            "ta": [
+              "F = ma-இல், முடுக்கம் ஈர்ப்பால் ஏற்பட்டால் a என்பது g ஆகிறது.",
+              "எனவே எடை W = m × g.",
+              "எடையின் SI அலகு நியூட்டன் (N); விசையின் அலகும் அதுவே.",
+              "ஓர் இடத்தில் g மாறாதது; எனவே எடை நிறைக்கு நேர்விகிதத்தில் இருக்கும்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "What is the formula for weight?",
+                "options": [
+                  "W = m / g",
+                  "W = m × g",
+                  "W = m + g",
+                  "W = g / m"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Students may mix up where g goes in the formula.",
+                "conceptBoundary": "Weight is the force of gravity: F = ma with a = g, so W = mg."
+              },
+              {
+                "question": "What is the SI unit of weight?",
+                "options": [
+                  "kilogram",
+                  "newton",
+                  "metre",
+                  "gram"
+                ],
+                "answer": 1,
+                "misconceptionNote": "Mass is measured in kilograms, so weight may seem to use kg too.",
+                "conceptBoundary": "Weight is a force, so it is measured in newtons (N)."
+              }
+            ],
+            "ta": [
+              {
+                "question": "எடையின் சூத்திரம் எது?",
+                "options": [
+                  "W = m / g",
+                  "W = m × g",
+                  "W = m + g",
+                  "W = g / m"
+                ],
+                "answer": 1,
+                "misconceptionNote": "சூத்திரத்தில் g எங்கு வரும் என்பதை மாணவர்கள் குழப்பலாம்.",
+                "conceptBoundary": "எடை என்பது ஈர்ப்பு விசை: F = ma-இல் a = g, எனவே W = mg."
+              },
+              {
+                "question": "எடையின் SI அலகு என்ன?",
+                "options": [
+                  "கிலோகிராம்",
+                  "நியூட்டன்",
+                  "மீட்டர்",
+                  "கிராம்"
+                ],
+                "answer": 1,
+                "misconceptionNote": "நிறை கிலோகிராமில் அளக்கப்படுவதால், எடையும் kg எனத் தோன்றலாம்.",
+                "conceptBoundary": "எடை ஒரு விசை; எனவே அது நியூட்டனில் (N) அளக்கப்படுகிறது."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "torque-basics-video",
+      "youtube_id": "T99yH_gw3p8",
+      "source_url": "https://youtu.be/T99yH_gw3p8",
+      "duration": 129,
+      "content_end": 110.5,
+      "title": {
+        "en": "What is Torque? Torque Basics Explained",
+        "ta": "திருப்பு விசை என்றால் என்ன? அடிப்படை விளக்கம்"
+      },
+      "subject": {
+        "en": "Physics · Turning Effect of Force",
+        "ta": "இயற்பியல் · விசையின் திருப்பு விளைவு"
+      },
+      "description": {
+        "en": "See why a long wrench makes turning easier, and how bike and car gears trade speed for torque.",
+        "ta": "நீளமான ஸ்பானர் ஏன் திருப்புவதை எளிதாக்குகிறது, மிதிவண்டி மற்றும் கார் கியர்கள் வேகத்தையும் திருப்பு விசையையும் எப்படி மாற்றுகின்றன என்று பாருங்கள்."
+      },
+      "concepts": [
+        {
+          "id": "torque-and-wrench",
+          "index": 0,
+          "title": {
+            "en": "Torque and the length of a wrench",
+            "ta": "திருப்பு விசையும் ஸ்பானரின் நீளமும்"
+          },
+          "start": 0.0,
+          "end": 54.3,
+          "pause_at": 54.1,
+          "transcript": "torque is a measurement of the force which causes something to rotate around a point think of a wrench and a nut which has seized up using a small wrench is very hard to free the nut using a long wrench will make it much easier that's because of torque if we use a 30 centimeter wrench and applied 90 newtons of force we have 0.3 meters multiplied by 90 newtons which gives us 27 newton meters of torque however if we applied the same 90 newtons of force to a wrench that was 60 centimeters long then we would get 0.6 meters multiplied by 90 newtons which gives us 54 newton meters so from this simple formula you can see we have more force acting on the nut by using a longer wrench",
+          "key_points": {
+            "en": [
+              "Torque is the force that makes something rotate around a point.",
+              "A long wrench makes it easier to free a stuck nut.",
+              "Torque = distance × force: 0.3 m × 90 N = 27 N m.",
+              "With a 0.6 m wrench and the same 90 N, the torque is 54 N m."
+            ],
+            "ta": [
+              "திருப்பு விசை என்பது ஒரு புள்ளியைச் சுற்றிப் பொருளைச் சுழல வைக்கும் விசை.",
+              "நீளமான ஸ்பானர் இறுகிய நட்டைத் தளர்த்துவதை எளிதாக்குகிறது.",
+              "திருப்பு விசை = தொலைவு × விசை: 0.3 m × 90 N = 27 N m.",
+              "0.6 m ஸ்பானரில் அதே 90 N விசைக்கு திருப்பு விசை 54 N m."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "Why is a stuck nut easier to turn with a long wrench?",
+                "options": [
+                  "A long wrench is heavier",
+                  "A longer distance gives more torque for the same force",
+                  "A long wrench removes friction",
+                  "The nut becomes smaller"
+                ],
+                "answer": 1,
+                "misconceptionNote": "It may seem that the extra weight of a long wrench does the work.",
+                "conceptBoundary": "Torque = force × distance. More distance from the nut gives more torque."
+              },
+              {
+                "question": "A force of 90 N is used on a 0.3 m wrench. What is the torque?",
+                "options": [
+                  "27 N m",
+                  "90 N m",
+                  "300 N m",
+                  "0.3 N m"
+                ],
+                "answer": 0,
+                "misconceptionNote": "Students may give only the force (90) and forget to multiply by the distance.",
+                "conceptBoundary": "Torque = 0.3 m × 90 N = 27 N m."
+              }
+            ],
+            "ta": [
+              {
+                "question": "இறுகிய நட்டை நீளமான ஸ்பானரால் திருப்புவது ஏன் எளிது?",
+                "options": [
+                  "நீளமான ஸ்பானர் கனமானது",
+                  "அதே விசைக்கு அதிக தொலைவு அதிக திருப்பு விசையைத் தரும்",
+                  "நீளமான ஸ்பானர் உராய்வை நீக்கும்",
+                  "நட்டு சிறியதாகிவிடும்"
+                ],
+                "answer": 1,
+                "misconceptionNote": "நீளமான ஸ்பானரின் கூடுதல் எடையே வேலை செய்கிறது என்று தோன்றலாம்.",
+                "conceptBoundary": "திருப்பு விசை = விசை × தொலைவு. நட்டிலிருந்து அதிக தொலைவு என்றால் அதிக திருப்பு விசை."
+              },
+              {
+                "question": "0.3 m ஸ்பானரில் 90 N விசை பயன்படுகிறது. திருப்பு விசை என்ன?",
+                "options": [
+                  "27 N m",
+                  "90 N m",
+                  "300 N m",
+                  "0.3 N m"
+                ],
+                "answer": 0,
+                "misconceptionNote": "மாணவர்கள் விசையை (90) மட்டும் சொல்லி, தொலைவால் பெருக்க மறக்கலாம்.",
+                "conceptBoundary": "திருப்பு விசை = 0.3 m × 90 N = 27 N m."
+              }
+            ]
+          }
+        },
+        {
+          "id": "gears-speed-torque",
+          "index": 1,
+          "title": {
+            "en": "Gears: speed or torque",
+            "ta": "கியர்கள்: வேகமா, திருப்பு விசையா"
+          },
+          "start": 54.3,
+          "end": 110.5,
+          "pause_at": 110.3,
+          "transcript": "essentially we're using a larger circle to turn a smaller circle by changing the size we change the speed and the torque a low gear provides low speed but high torque a high gear gives high speed but low torque if you have ever ridden a bike you'll know it's very difficult to start pedaling in a high gear so we need to start in a low gear to get the bike moving at a certain point our legs are spinning very fast but we can't go any faster so we need to change to another higher gear once we reach a steep hill we need to move to a lower gear the same with a car we start in our lowest gear number and work our way up as the vehicle increases in speed then we change down as we drive up a hill okay that's it for this video but to",
+          "key_points": {
+            "en": [
+              "A larger circle turning a smaller circle changes the speed and the torque.",
+              "A low gear gives low speed but high torque.",
+              "A high gear gives high speed but low torque.",
+              "Start a bike in a low gear, and use a lower gear to climb a steep hill."
+            ],
+            "ta": [
+              "பெரிய வட்டம் சிறிய வட்டத்தைச் சுழற்றும்போது வேகமும் திருப்பு விசையும் மாறுகின்றன.",
+              "குறைந்த கியர் குறைந்த வேகத்தையும் அதிக திருப்பு விசையையும் தரும்.",
+              "உயர்ந்த கியர் அதிக வேகத்தையும் குறைந்த திருப்பு விசையையும் தரும்.",
+              "மிதிவண்டியைக் குறைந்த கியரில் தொடங்குங்கள்; செங்குத்தான மேட்டில் குறைந்த கியருக்கு மாறுங்கள்."
+            ]
+          },
+          "fallback_questions": {
+            "en": [
+              {
+                "question": "A low gear gives ___.",
+                "options": [
+                  "high speed and low torque",
+                  "low speed and high torque",
+                  "high speed and high torque",
+                  "no torque"
+                ],
+                "answer": 1,
+                "misconceptionNote": "'Low' may seem to mean low everything.",
+                "conceptBoundary": "Gears trade speed for torque: a low gear gives low speed but high torque."
+              },
+              {
+                "question": "Why do we start cycling in a low gear?",
+                "options": [
+                  "It gives more speed at the start",
+                  "It gives more torque to get the bike moving",
+                  "It uses no energy",
+                  "It stops the chain from slipping"
+                ],
+                "answer": 1,
+                "misconceptionNote": "We want to go fast, so a high gear may seem better at the start.",
+                "conceptBoundary": "Starting needs a big turning force, and a low gear gives high torque."
+              }
+            ],
+            "ta": [
+              {
+                "question": "குறைந்த கியர் ___ தரும்.",
+                "options": [
+                  "அதிக வேகம், குறைந்த திருப்பு விசை",
+                  "குறைந்த வேகம், அதிக திருப்பு விசை",
+                  "அதிக வேகம், அதிக திருப்பு விசை",
+                  "திருப்பு விசை இல்லை"
+                ],
+                "answer": 1,
+                "misconceptionNote": "'குறைந்த' என்றால் எல்லாமே குறைவு என்று தோன்றலாம்.",
+                "conceptBoundary": "கியர்கள் வேகத்தையும் திருப்பு விசையையும் மாற்றுகின்றன: குறைந்த கியர் குறைந்த வேகம், அதிக திருப்பு விசை."
+              },
+              {
+                "question": "மிதிவண்டியை ஏன் குறைந்த கியரில் தொடங்குகிறோம்?",
+                "options": [
+                  "தொடக்கத்தில் அதிக வேகம் கிடைக்கும்",
+                  "மிதிவண்டியை நகர்த்த அதிக திருப்பு விசை கிடைக்கும்",
+                  "ஆற்றலே செலவாகாது",
+                  "சங்கிலி நழுவாது"
+                ],
+                "answer": 1,
+                "misconceptionNote": "வேகமாகச் செல்ல விரும்புவதால், தொடக்கத்தில் உயர்ந்த கியர் சிறந்தது எனத் தோன்றலாம்.",
+                "conceptBoundary": "தொடங்க அதிக திருப்பு விசை தேவை; குறைந்த கியர் அதிக திருப்பு விசையைத் தரும்."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "id": "gauss-law-electric-flux",
       "youtube_id": "3RnFjMhgvrY",
       "source_url": "https://youtu.be/3RnFjMhgvrY",
@@ -55,7 +1171,8 @@
                   "Parallel to one another in a single fixed direction"
                 ],
                 "answer": 1,
-                "explanation": "A negative charge pulls a positive test charge toward itself from every direction, so the field lines point inward. Only a positive charge has lines spreading outward like rays from the sun."
+                "misconceptionNote": "It's tempting to assume every charge behaves like a positive one, with lines spreading outward — but that's the positive-charge pattern, not the negative one.",
+                "conceptBoundary": "Field lines show the direction a positive test charge would move: away from positive charges, but toward negative ones — so negative charges always show inward-pointing lines."
               },
               {
                 "question": "In a region where the electric field lines are packed very closely together, the strength of E is:",
@@ -66,7 +1183,8 @@
                   "Impossible to judge from the lines"
                 ],
                 "answer": 0,
-                "explanation": "The spacing of the lines is the visual code for field strength: closely packed lines mean E is large there, while widely spread lines mean E is small."
+                "misconceptionNote": "It's easy to think tightly packed lines mean 'more lines squeezed down', so weaker — confusing density with dilution.",
+                "conceptBoundary": "The spacing of field lines is the visual code for strength: lines packed closely together mean E is large there; widely spread lines mean E is small."
               }
             ],
             "ta": [
@@ -79,7 +1197,8 @@
                   "ஒரே திசையில் இணையாக"
                 ],
                 "answer": 1,
-                "explanation": "எதிர்மின்னூட்டம் நேர்மின்னூட்டத்தைத் தன்னை நோக்கி இழுப்பதால், கள கோடுகள் உள்நோக்கிச் செல்கின்றன."
+                "misconceptionNote": "நேர்மின்னூட்டத்தைப் போலவே எல்லா மின்னூட்டங்களும் வெளியே பரவும் எனக் கருதுவது தவறு.",
+                "conceptBoundary": "கள கோடுகள் நேர்பரிசோதனை மின்னூட்டம் நகரும் திசையைக் காட்டுகின்றன — நேர்மின்னூட்டத்திலிருந்து வெளியே, எதிர்மின்னூட்டத்தை நோக்கி உள்ளே."
               },
               {
                 "question": "மின்புலக் கள கோடுகள் மிக நெருக்கமாக உள்ள இடத்தில் E இன் தீவிரம்:",
@@ -90,7 +1209,8 @@
                   "எதிர்மறை"
                 ],
                 "answer": 0,
-                "explanation": "கோடுகளின் அடர்த்தியே புலத் தீவிரத்தைக் காட்டுகிறது: நெருக்கம் = அதிக E."
+                "misconceptionNote": "கோடுகள் நெருக்கமாக இருப்பதை குறைந்த தீவிரம் எனத் தவறாக நினைக்கலாம்.",
+                "conceptBoundary": "கோடுகளின் அடர்த்தியே புலத் தீவிரத்தின் காட்சிக் குறியீடு: நெருக்கமாக இருப்பின் E அதிகம், விரிந்திருப்பின் E குறைவு."
               }
             ]
           }
@@ -133,7 +1253,8 @@
                   "Doubled, because the sheet now looks longer"
                 ],
                 "answer": 2,
-                "explanation": "When the sheet is parallel to the arrows, the lines skim along it and none actually cross it, so the flux is zero. Flux is maximum only when the sheet is held perpendicular to the lines."
+                "misconceptionNote": "It's tempting to think 'the sheet still faces the general direction of the lines, so some flux gets through' — but flux depends on lines actually crossing the surface, not just being nearby.",
+                "conceptBoundary": "When the sheet is parallel to the field lines, the lines skim along it and never cross it, so the flux is exactly zero. Flux is maximum only when the sheet is held perpendicular to the lines."
               },
               {
                 "question": "Electric flux through a flat sheet depends on which THREE quantities?",
@@ -144,7 +1265,8 @@
                   "Only the area of the sheet"
                 ],
                 "answer": 1,
-                "explanation": "More field lines (larger E), a smaller tilt angle, and a larger sheet each let more lines through — so all three together decide the flux."
+                "misconceptionNote": "It's tempting to think a bigger sheet alone catches more lines, so area is the only thing that matters — but that ignores the field strength and the tilt.",
+                "conceptBoundary": "Flux depends on three things together: the strength of E, the angle between the field and the sheet, and the area of the sheet."
               }
             ],
             "ta": [
@@ -157,7 +1279,8 @@
                   "இரட்டிப்பாகும்"
                 ],
                 "answer": 2,
-                "explanation": "சமநிலையில் எந்தக் கோடும் தகடைக் கடக்காததால் பெருக்கம் சுழியம்."
+                "misconceptionNote": "தகடு கோடுகளின் திசையை நோக்கி இருப்பதால் ஏதேனும் பெருக்கம் கடக்கும் எனத் தவறாக நினைக்கலாம்.",
+                "conceptBoundary": "சமநிலையில் எந்தக் கோடும் தகடைக் கடவாததால் பெருக்கம் சுழியம்; தகடு செங்குத்தாக இருக்கும்போதே பெருக்கம் அதிகபட்சம்."
               },
               {
                 "question": "மின்புலப் பெருக்கம் எந்த மூன்றைச் சார்ந்தது?",
@@ -168,7 +1291,8 @@
                   "பரப்பளவு மட்டும்"
                 ],
                 "answer": 1,
-                "explanation": "அதிக கோடுகள் (அதிக E), குறைந்த சாய்வு, பெரிய பரப்பளவு — மூன்றும் பெருக்கத்தை அதிகரிக்கின்றன."
+                "misconceptionNote": "பெரிய தகடு அதிகக் கோடுகளைப் பிடிக்கும் என்பதால் பரப்பளவு மட்டுமே பெருக்கத்தைத் தீர்மானிக்கும் எனக் கருதலாம்.",
+                "conceptBoundary": "பெருக்கம் மூன்றையும் சார்ந்தது: புலத் தீவிரம் E, கோணம், பரப்பளவு — மூன்றும் இணைந்தே தீர்மானிக்கின்றன."
               }
             ]
           }
@@ -207,7 +1331,8 @@
                   "The closed surface happens to be a sphere"
                 ],
                 "answer": 1,
-                "explanation": "Flux through a closed surface is the net count of lines going out. When more lines enter than leave, that net count comes out negative."
+                "misconceptionNote": "It's easy to assume flux is negative whenever any lines enter the surface at all — but flux is about the net balance, not any single direction alone.",
+                "conceptBoundary": "Flux through a closed surface is the net count of lines going out (lines leaving minus lines entering). When more enter than leave, that net count comes out negative."
               },
               {
                 "question": "For a closed surface such as a football surrounding some charges, the electric flux measures:",
@@ -218,7 +1343,8 @@
                   "Only the lines that enter the surface"
                 ],
                 "answer": 0,
-                "explanation": "Flux through a closed surface is the net outward count: lines leaving minus lines entering."
+                "misconceptionNote": "Since the surface is described by its shape (a football), it's tempting to think flux is about the surface's geometry rather than the lines passing through it.",
+                "conceptBoundary": "For a closed surface, electric flux measures the net number of field lines passing OUT of it — total leaving minus total entering — not any property of the surface's shape or size."
               }
             ],
             "ta": [
@@ -231,7 +1357,8 @@
                   "பரப்பு கோளமாக இருக்கும்போது"
                 ],
                 "answer": 1,
-                "explanation": "வெளியே செல்வதை விட உள்ளே நுழைவது அதிகமானால் நிகர பெருக்கம் எதிர்மறை."
+                "misconceptionNote": "கோடுகள் உள்ளே நுழைவதைப் பார்த்தவுடன் பெருக்கம் எதிர்மறை எனத் தீர்மானிப்பது தவறு — நிகர வித்தியாசத்தைப் பார்க்க வேண்டும்.",
+                "conceptBoundary": "பெருக்கம் = வெளியேச் செல்வது கழித்தல் உள்ளே நுழைவது; உள்ளே நுழைவது அதிகமானால் மட்டுமே நிகரம் எதிர்மறை."
               },
               {
                 "question": "மின்னூட்டங்களைச் சூழ்ந்துள்ள ஒரு மூடிய பரப்பின் பெருக்கம் எதை அளக்கிறது?",
@@ -242,7 +1369,8 @@
                   "உள்நுழையும் கோடுகள் மட்டும்"
                 ],
                 "answer": 0,
-                "explanation": "வெளியே செல்வதிலிருந்து உள்நுழைவதைக் கழித்தால் கிடைப்பதே நிகரப் பெருக்கம்."
+                "misconceptionNote": "பரப்பு ஒரு குறிப்பிட்ட வடிவமாக (பந்து) விவரிக்கப்படுவதால், பெருக்கம் வடிவத்தையோ பரப்பளவையோ சார்ந்தது எனத் தவறாக நினைக்கலாம்.",
+                "conceptBoundary": "மூடிய பரப்பின் பெருக்கம் என்பது வெளியே செல்லும் கோடுகளின் நிகர எண்ணிக்கை — பரப்பின் வடிவம் அல்லது அளவு அல்ல."
               }
             ]
           }
@@ -284,7 +1412,8 @@
                   "E × dS × sin θ"
                 ],
                 "answer": 1,
-                "explanation": "Each patch contributes the field E times the patch area dS times cos θ, where θ is the angle between the field and the patch."
+                "misconceptionNote": "Since dS represents area, it's tempting to just add or divide E and dS directly — but flux is about how much of the field actually crosses the patch, which needs the angle too.",
+                "conceptBoundary": "Each patch contributes E × dS × cos θ, where θ is the angle between the field and the patch — cos θ is what accounts for how directly the field crosses that patch."
               },
               {
                 "question": "The area element dS of a tiny patch is itself a vector. Which way does it point?",
@@ -295,7 +1424,8 @@
                   "Always straight toward the enclosed charge"
                 ],
                 "answer": 1,
-                "explanation": "dS points perpendicular to the surface at that patch. That is exactly why the dot product E·dS automatically accounts for the tilt angle."
+                "misconceptionNote": "Since flux is 'about the field', it's tempting to think dS points along the field E too — but dS is a property of the surface, independent of which way the field happens to point.",
+                "conceptBoundary": "dS always points perpendicular to the surface at that patch. That is exactly why the dot product E·dS automatically accounts for the tilt angle."
               }
             ],
             "ta": [
@@ -308,7 +1438,8 @@
                   "E × dS × sin θ"
                 ],
                 "answer": 1,
-                "explanation": "ஒவ்வொரு துண்டிலும் பெருக்கம் = புலம் E × பரப்பளவு dS × cos θ."
+                "misconceptionNote": "dS பரப்பளவைக் குறிப்பதால் E + dS அல்லது E ÷ dS என நினைப்பது தவறு.",
+                "conceptBoundary": "ஒவ்வொரு துண்டிலும் பெருக்கம் = E × dS × cos θ; θ புலத்திற்கும் துண்டிற்கும் இடையேயான கோணம்."
               },
               {
                 "question": "சிறு துண்டின் பரப்பு வெக்டர் dS எந்தத் திசையில் சுட்டுகிறது?",
@@ -319,7 +1450,8 @@
                   "எப்பொழுதும் மின்னூட்டத்தை நோக்கி"
                 ],
                 "answer": 1,
-                "explanation": "dS பரப்பிற்குச் செங்குத்தாகச் சுட்டுவதால்தான் E·dS புள்ளிப் பெருக்கல் கோணத்தைக் கவனிக்கிறது."
+                "misconceptionNote": "பெருக்கம் புலத்தைப் பற்றியது என்பதால் dS-ம் புலத்தின் திசையிலேயே சுட்டும் எனத் தவறாக நினைக்கலாம்.",
+                "conceptBoundary": "dS எப்போதும் பரப்பிற்குச் செங்குத்தாகவே சுட்டும் — இதனால்தான் E·dS புள்ளிப் பெருக்கல் கோணத்தைத் தானாகக் கணக்கில் எடுக்கிறது."
               }
             ]
           }
@@ -360,7 +1492,8 @@
                   "The charges sitting just outside the surface"
                 ],
                 "answer": 1,
-                "explanation": "Gauss's law says the net flux is decided entirely by the charge trapped inside. A sphere, a cube or an irregular blob enclosing the same Q all give exactly the same flux."
+                "misconceptionNote": "Since different possible shapes (sphere, cube, blob) are mentioned, it's tempting to think the shape itself must affect the flux.",
+                "conceptBoundary": "Gauss's law says the net flux is decided entirely by the charge trapped inside. A sphere, a cube or an irregular blob enclosing the same Q all give exactly the same flux."
               },
               {
                 "question": "Which equation is the correct mathematical statement of Gauss's law?",
@@ -371,7 +1504,8 @@
                   "Φ = Q × ε₀"
                 ],
                 "answer": 0,
-                "explanation": "Gauss's law is the closed surface integral ∮E·dS = Q_enclosed/ε₀. The third option is Coulomb's field for a point charge, not Gauss's law itself."
+                "misconceptionNote": "The third option, E = Q/(4πε₀R²), is Coulomb's field formula for a point charge — easy to confuse with Gauss's law since both involve Q and ε₀.",
+                "conceptBoundary": "Gauss's law is the closed surface integral ∮E·dS = Q_enclosed/ε₀ — a statement about total flux over a whole surface, not the field at a single point like Coulomb's law."
               }
             ],
             "ta": [
@@ -384,7 +1518,8 @@
                   "வெளியே உள்ள மின்னூட்டங்கள்"
                 ],
                 "answer": 1,
-                "explanation": "உள்ளே அடங்கிய மின்னூட்டம் ஒன்றே பெருக்கத்தைத் தீர்மானிக்கிறது; பரப்பின் வடிவம் முக்கியமில்லை."
+                "misconceptionNote": "பரப்பின் வடிவங்கள் வெவ்வேறாக இருக்கலாம் எனக் கூறப்படுவதால், வடிவமே பெருக்கத்தைப் பாதிக்கும் எனத் தவறாக நினைக்கலாம்.",
+                "conceptBoundary": "நிகரப் பெருக்கத்தை உள்ளடங்கிய மின்னூட்டம் மட்டுமே தீர்மானிக்கிறது; பரப்பின் வடிவம் (கோளம், கனசதுரம், வேறு) முக்கியமில்லை."
               },
               {
                 "question": "காஸ் விதியின் சரியான கணித வடிவம் எது?",
@@ -395,7 +1530,8 @@
                   "Φ = Q × ε₀"
                 ],
                 "answer": 0,
-                "explanation": "மூன்றாவது தேர்வு கூலோம் விதியின் புலம் — காஸ் விதி அல்ல."
+                "misconceptionNote": "E = Q/(4πε₀R²) என்பது கூலோம் விதியின் புலம் — இது காஸ் விதி என்று தவறாகக் குழப்பலாம்.",
+                "conceptBoundary": "காஸ் விதி: ∮E·dS = Q(உள்ளடங்கியது)/ε₀ — இது மொத்தப் பரப்பின் மீதான பெருக்கத்தைப் பற்றியது, ஒரு புள்ளியிலுள்ள புலத்தைப் பற்றியதல்ல."
               }
             ]
           }
@@ -438,7 +1574,8 @@
                   "(4/3)πR³, the volume of the sphere"
                 ],
                 "answer": 0,
-                "explanation": "Adding up every tiny patch dS over the whole sphere simply gives the sphere's total surface area, 4πR²."
+                "misconceptionNote": "Since this is a 3D sphere, it's tempting to reach for the volume formula (4/3)πR³ — but dS is an area element, not a volume element.",
+                "conceptBoundary": "Adding up every tiny patch dS over the whole sphere gives the sphere's total surface area, 4πR² — not its volume, and not a flat circle's area or circumference."
               },
               {
                 "question": "Why can E be taken outside the integral in this derivation?",
@@ -449,7 +1586,8 @@
                   "Because the charge Q is negative"
                 ],
                 "answer": 1,
-                "explanation": "The point charge sits at the centre, so every patch of the sphere is the same distance R away. E is therefore constant over the surface and can be pulled out of the integral."
+                "misconceptionNote": "It's tempting to think E comes out simply because dS 'looks like a constant' in the formula — but the real reason is about the field's own behavior on this surface.",
+                "conceptBoundary": "The point charge sits at the centre, so every patch of the sphere is the same distance R away. E is therefore constant over the surface, and that uniformity is what lets it be pulled out of the integral."
               }
             ],
             "ta": [
@@ -462,7 +1600,8 @@
                   "(4/3)πR³ (கனவளவு)"
                 ],
                 "answer": 0,
-                "explanation": "கோளத்தின் எல்லாச் சிறு துண்டுகளையும் கூட்டினால் கிடைப்பது மொத்தப் பரப்பளவு 4πR²."
+                "misconceptionNote": "கோளம் என்பதால் கனவளவு சூத்திரத்தை (4/3)πR³ பயன்படுத்தத் தூண்டலாம் — ஆனால் dS பரப்பளவு தொடர்பானது, கனவளவு அல்ல.",
+                "conceptBoundary": "கோளத்தின் எல்லாத் துண்டுகளையும் கூட்டினால் கிடைப்பது மொத்தப் பரப்பளவு 4πR², கனவளவோ வட்டப் பரப்போ அல்ல."
               },
               {
                 "question": "இந்த நிரூபணத்தில் E-யைத் தொகையீட்டிலிருந்து வெளியே எடுக்க முடிவது ஏன்?",
@@ -473,7 +1612,8 @@
                   "Q எதிர்மின்னூட்டம் என்பதால்"
                 ],
                 "answer": 1,
-                "explanation": "மின்னூட்டம் மையத்தில் இருப்பதால் எல்லாப் புள்ளிகளும் R தூரத்தில் — எனவே E மாறாதது."
+                "misconceptionNote": "dS ஒரு மாறிலி போல் தோன்றுவதால் அதனால்தான் E வெளியே எடுக்கப்படுகிறது எனத் தவறாக நினைக்கலாம்.",
+                "conceptBoundary": "மின்னூட்டம் மையத்தில் இருப்பதால் கோளத்தின் எல்லாப் புள்ளிகளும் R தூரத்தில் உள்ளன — எனவே E மாறாதது, அதனால்தான் தொகையீட்டிலிருந்து வெளியே எடுக்கலாம்."
               }
             ]
           }

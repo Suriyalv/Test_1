@@ -1,0 +1,12 @@
+{
+  "name": "kalvi-seed-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "One-off admin scripts for the Government School LLM project (not part of the deployed app).",
+  "scripts": {
+    "seed-users": "node seed-users.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

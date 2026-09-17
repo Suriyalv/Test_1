@@ -32,10 +32,10 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
           <div>
             <div className="inline-flex items-center gap-1 text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
               <Sparkles size={11} className="text-[#0ba5ec]" />
-              {isTa ? "தானியங்கி விடை மதிப்பீடு" : "AI Evaluation"}
+              {isTa ? "தானியங்கி விடை மதிப்பீடு" : "AI check"}
             </div>
             <h3 className="text-sm sm:text-base font-bold text-slate-900">
-              {isTa ? "விடைத்தாள் மதிப்பாய்வு முடிவுகள்" : "Answer Assessment Sheet"}
+              {isTa ? "விடைத்தாள் மதிப்பாய்வு முடிவுகள்" : "Your Result"}
             </h3>
           </div>
         </div>
@@ -44,7 +44,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
         <div className={`flex items-center gap-3 px-3.5 py-2 rounded-lg border ${scoreBadgeBg} justify-between min-w-[160px]`}>
           <div className="flex flex-col">
             <span className="text-[10px] font-bold uppercase tracking-wide opacity-80">
-              {isTa ? "துல்லியம்" : "Accuracy"}
+              {isTa ? "துல்லியம்" : "Score"}
             </span>
             <span className="text-xl sm:text-2xl font-black">
               {accuracy}%
@@ -90,7 +90,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
           <div className="flex items-center gap-1.5 mb-2">
             <Tag size={13} className="text-brand-600" />
             <h4 className="text-xs font-bold text-brand-900 uppercase">
-              {isTa ? "பொருந்திய முக்கிய சொற்கள்" : "Matched Keywords"} ({matchedKeywords.length})
+              {isTa ? "பொருந்திய முக்கிய சொற்கள்" : "Words you used"} ({matchedKeywords.length})
             </h4>
           </div>
           {matchedKeywords.length > 0 ? (
@@ -106,7 +106,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
             </div>
           ) : (
             <p className="text-xs text-slate-400 italic">
-              {isTa ? "முக்கிய சொற்கள் பொருந்தவில்லை." : "No keywords matched."}
+              {isTa ? "முக்கிய சொற்கள் பொருந்தவில்லை." : "None of the key words were used."}
             </p>
           )}
         </div>
@@ -116,7 +116,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
           <div className="flex items-center gap-1.5 mb-2">
             <AlertCircle size={13} className="text-slate-400" />
             <h4 className="text-xs font-bold text-slate-700 uppercase">
-              {isTa ? "விடுபட்டவை" : "Missed Keywords"} ({missedKeywords.length})
+              {isTa ? "விடுபட்டவை" : "Words you missed"} ({missedKeywords.length})
             </h4>
           </div>
           {missedKeywords.length > 0 ? (
@@ -132,7 +132,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
             </div>
           ) : (
             <p className="text-xs text-brand-700 font-semibold">
-              {isTa ? "அனைத்து முக்கிய சொற்களும் உள்ளன!" : "All keywords covered!"}
+              {isTa ? "அனைத்து முக்கிய சொற்களும் உள்ளன!" : "You used all the key words!"}
             </p>
           )}
         </div>
@@ -144,7 +144,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
         <div>
           <h4 className="text-xs font-bold uppercase text-brand-900 mb-2 flex items-center gap-1.5">
             <CheckCircle2 size={14} className="text-brand-600" />
-            {isTa ? "சரியான கருத்துகள்" : "Key Points Covered"}
+            {isTa ? "சரியான கருத்துகள்" : "What you got right"}
           </h4>
           {keyPointsCovered.length > 0 ? (
             <ul className="space-y-1">
@@ -160,7 +160,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
             </ul>
           ) : (
             <p className="text-xs text-slate-400 italic">
-              {isTa ? "குறிப்பிடும்படியான கருத்துகள் இல்லை." : "No significant points matched."}
+              {isTa ? "குறிப்பிடும்படியான கருத்துகள் இல்லை." : "No main points found yet."}
             </p>
           )}
         </div>
@@ -169,7 +169,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
         <div>
           <h4 className="text-xs font-bold uppercase text-slate-700 mb-2 flex items-center gap-1.5">
             <AlertCircle size={14} className="text-amber-600" />
-            {isTa ? "மேம்படுத்த வேண்டியவை" : "Suggested Improvements"}
+            {isTa ? "மேம்படுத்த வேண்டியவை" : "What to add"}
           </h4>
           {missedPoints.length > 0 ? (
             <ul className="space-y-1">
@@ -185,7 +185,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
             </ul>
           ) : (
             <p className="text-xs text-brand-700 font-semibold">
-              {isTa ? "முக்கிய கருத்துகள் அனைத்தும் உள்ளன!" : "No key points missed!"}
+              {isTa ? "முக்கிய கருத்துகள் அனைத்தும் உள்ளன!" : "You did not miss any main point!"}
             </p>
           )}
         </div>
@@ -196,7 +196,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
         <div className="pt-3 pb-1">
           <h4 className="text-xs font-bold uppercase text-slate-600 mb-1 flex items-center gap-1">
             <Award size={13} className="text-brand-600" />
-            {isTa ? "மதிப்பீட்டுக் குறிப்பு" : "Evaluation Remarks"}
+            {isTa ? "மதிப்பீட்டுக் குறிப்பு" : "Teacher's note"}
           </h4>
           <p className="text-xs text-slate-800 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200">
             {overallFeedback}
@@ -210,7 +210,7 @@ const EvaluationResultCard = ({ result, sampleAnswer, language = "en", onNextQue
           <details className="group">
             <summary className="cursor-pointer text-xs font-bold text-brand-700 flex items-center gap-1.5 hover:text-brand-800 transition-colors">
               <BookOpen size={13} />
-              <span>{isTa ? "பாடப்புத்தக மாதிரி விடை (Reference Answer)" : "View Official Sample Answer"}</span>
+              <span>{isTa ? "பாடப்புத்தக மாதிரி விடை (Reference Answer)" : "See the model answer"}</span>
             </summary>
             <div className="mt-2 p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs text-slate-700 leading-relaxed whitespace-pre-wrap">
               {sampleAnswer}

@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   fetchVideoLessons,
   fetchVideoCheckpointQuestion,
   fetchVideoFinalQuiz,
   submitVideoAnswer,
 } from "../../api";
+import { logActivity } from "../../activity";
+import { useSetMascotTestQuestion } from "../../mascotContext";
 import {
   Video,
   PlayCircle,
@@ -19,6 +21,10 @@ import {
   ArrowRight,
   Languages,
   Lock,
+  Lightbulb,
+  Target,
+  ArrowLeft,
+  Clock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -58,7 +64,13 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
   const changeLang = setLanguage ? setLanguage : setLocalLanguage;
   const isTa = currentLang === "ta";
 
-  const [lesson, setLesson] = useState(null);
+  // All lessons, and the one the student picked (null = show the lesson list).
+  const [lessons, setLessons] = useState([]);
+  const [selectedLessonId, setSelectedLessonId] = useState(null);
+  const lesson = useMemo(
+    () => lessons.find((l) => l.id === selectedLessonId) || null,
+    [lessons, selectedLessonId]
+  );
   const [loadingLesson, setLoadingLesson] = useState(true);
   const [lessonError, setLessonError] = useState("");
 
@@ -109,11 +121,12 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
     fetchVideoLessons(currentLang)
       .then((data) => {
         if (cancelled) return;
-        const first = (data.lessons || [])[0];
-        if (!first) {
-          setLessonError(isTa ? "வீடியோ பாடம் எதுவும் இல்லை." : "No video lesson is configured yet.");
+        const list = data.lessons || [];
+        if (!list.length) {
+          setLessonError(isTa ? "வீடியோ பாடம் எதுவும் இல்லை." : "There is no video lesson yet.");
         }
-        setLesson(first || null);
+        // Language changes refetch the list; the picked lesson stays picked.
+        setLessons(list);
       })
       .catch((err) => {
         console.error("Error loading video lessons:", err);
@@ -121,7 +134,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
           setLessonError(
             isTa
               ? "சேவையகத்தைத் தொடர்பு கொள்ள முடியவில்லை. backend இயங்குகிறதா எனச் சரிபார்க்கவும்."
-              : "Could not reach the server. Please check that the backend is running."
+              : "Cannot connect to the server. Please try again."
           );
         }
       })
@@ -157,7 +170,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       setQuestionError(
         isTa
           ? "கேள்வியை உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
-          : "Could not prepare the question. Please try again."
+          : "Could not make the question. Please try again."
       );
     } finally {
       setQuestionLoading(false);
@@ -187,7 +200,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       setQuestionError(
         isTa
           ? "இறுதி மதிப்பாய்வை உருவாக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
-          : "Could not prepare the final review. Please try again."
+          : "Could not make the final questions. Please try again."
       );
     } finally {
       setFinalLoading(false);
@@ -294,6 +307,17 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
 
   const currentQuestion = phase === "final" ? finalQuestions[finalIndex] : question;
 
+  // Publishes the on-screen checkpoint/final question to the one global
+  // mascot instance (mounted once in App.js) so Ark gives clues here too,
+  // same as the Test module — clears itself once there's no question showing.
+  useSetMascotTestQuestion(
+    currentQuestion?.question || "",
+    currentQuestion?.conceptTitle || "",
+    // The correct index stays on the server here, so the options alone let the
+    // hint API keep Ark from naming any of them.
+    currentQuestion?.options || []
+  );
+
   const handleSubmitAnswer = async () => {
     if (selectedIndex === null || !currentQuestion) return;
 
@@ -316,6 +340,10 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       } else {
         setCheckpointResults((prev) => [...prev, record]);
       }
+      logActivity("video", phase === "final" ? "final_quiz_answered" : "checkpoint_answered", {
+        conceptId: currentQuestion.conceptId,
+        correct: data.correct,
+      });
     } catch (err) {
       console.error("Answer submission error:", err);
       setQuestionError(
@@ -345,6 +373,11 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       setFinalIndex((prev) => prev + 1);
     } else {
       setPhase("report");
+      const correctCount = finalResults.filter((r) => r.correct).length;
+      logActivity("video", "final_quiz_completed", {
+        lessonId: lesson?.id,
+        accuracy: finalResults.length ? Math.round((correctCount / finalResults.length) * 100) : 0,
+      });
     }
   };
 
@@ -356,6 +389,38 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       openCheckpoint(activeConcept);
     }
   };
+
+  const resetLessonProgress = () => {
+    answeredRef.current = [];
+    askedRef.current = [];
+    phaseRef.current = "intro";
+    setCheckpointResults([]);
+    setFinalResults([]);
+    setFinalQuestions([]);
+    setFinalIndex(0);
+    setQuestion(null);
+    setActiveConcept(null);
+    setSelectedIndex(null);
+    setResult(null);
+    setQuestionError("");
+    setElapsed(0);
+    setPhase("intro");
+  };
+
+  const openLesson = (lessonId) => {
+    resetLessonProgress();
+    setSelectedLessonId(lessonId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const backToLessonList = () => {
+    if (playerRef.current && playerRef.current.pauseVideo) playerRef.current.pauseVideo();
+    resetLessonProgress();
+    setSelectedLessonId(null);
+  };
+
+  const lessonIndex = lessons.findIndex((l) => l.id === selectedLessonId);
+  const nextLesson = lessonIndex >= 0 ? lessons[lessonIndex + 1] : null;
 
   const handleRestartLesson = () => {
     answeredRef.current = [];
@@ -398,14 +463,85 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
     );
   }
 
-  if (lessonError || !lesson) {
+  if (lessonError && !lessons.length) {
     return (
       <div className="bg-white border border-slate-200 rounded-xl p-10 text-center shadow-xs">
         <Video size={30} className="text-[#0284c7] mx-auto mb-2 opacity-70" />
         <h3 className="text-sm font-bold text-slate-900 mb-1">
-          {isTa ? "வீடியோ பாடம் கிடைக்கவில்லை" : "Video Lesson Unavailable"}
+          {isTa ? "வீடியோ பாடம் கிடைக்கவில்லை" : "Video lesson not available"}
         </h3>
         <p className="text-xs text-slate-500 max-w-sm mx-auto">{lessonError}</p>
+      </div>
+    );
+  }
+
+  if (!lesson) {
+    return (
+      <div className="space-y-4">
+        <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <div className="text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">
+              {isTa ? "வீடியோ பாடங்கள்" : "Video Lessons"}
+            </div>
+            <h2 className="text-base font-extrabold text-slate-900 tracking-tight">
+              {isTa ? "ஒரு வீடியோவைத் தேர்ந்தெடுங்கள்" : "Pick a video to watch"}
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {isTa
+                ? "ஒவ்வொரு பகுதிக்குப் பிறகும் வீடியோ நின்று, ஒரு வினா கேட்கும்."
+                : "The video stops after each part and asks you a question."}
+            </p>
+          </div>
+          <button
+            onClick={() => changeLang(currentLang === "en" ? "ta" : "en")}
+            className="flex items-center gap-1.5 px-3 py-1 bg-brand-50 hover:bg-brand-100 border border-brand-200 text-[#0284c7] rounded-lg text-xs font-bold transition-all active:scale-95"
+          >
+            <Languages size={14} />
+            <span>{currentLang === "en" ? "English (EN)" : "தமிழ் (TA)"}</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {lessons.map((item, i) => (
+            <motion.button
+              key={item.id}
+              type="button"
+              onClick={() => openLesson(item.id)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, delay: Math.min(i * 0.05, 0.25) }}
+              whileHover={{ y: -3 }}
+              className="group text-left bg-white border border-slate-200 rounded-xl overflow-hidden shadow-xs hover:shadow-lg hover:border-brand-300 transition-all"
+            >
+              <div className="relative aspect-video bg-slate-200">
+                <img
+                  src={`https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg`}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-slate-900/20 group-hover:bg-slate-900/35 transition-colors">
+                  <PlayCircle size={42} className="text-white drop-shadow" />
+                </div>
+                <span className="absolute bottom-2 right-2 flex items-center gap-1 rounded bg-slate-900/80 px-1.5 py-0.5 text-[10px] font-bold text-white tabular-nums">
+                  <Clock size={10} />
+                  {formatTime(item.duration)}
+                </span>
+              </div>
+              <div className="p-3.5">
+                <div className="text-[10px] font-bold text-[#0284c7] uppercase tracking-wide">{item.subject}</div>
+                <h3 className="mt-0.5 text-sm font-extrabold text-slate-900 leading-snug">{item.title}</h3>
+                {item.description && (
+                  <p className="mt-1 text-xs text-slate-500 line-clamp-2">{item.description}</p>
+                )}
+                <div className="mt-2 flex items-center gap-1.5 text-[11px] font-bold text-slate-600">
+                  <ListChecks size={13} className="text-[#0284c7]" />
+                  {item.concepts.length} {isTa ? "வினா நிறுத்தங்கள்" : item.concepts.length === 1 ? "question stop" : "question stops"}
+                </div>
+              </div>
+            </motion.button>
+          ))}
+        </div>
       </div>
     );
   }
@@ -415,6 +551,14 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
       {/* Lesson header */}
       <div className="bg-white border border-slate-200 p-3 sm:p-4 rounded-xl shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
         <div className="flex items-start gap-2.5">
+          <button
+            onClick={backToLessonList}
+            title={isTa ? "எல்லா வீடியோக்களும்" : "All videos"}
+            className="flex h-8 shrink-0 items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 px-2 text-xs font-bold text-slate-700 transition-all hover:bg-slate-200 hover:text-[#0284c7] active:scale-95"
+          >
+            <ArrowLeft size={14} />
+            <span className="hidden sm:inline">{isTa ? "எல்லா வீடியோக்களும்" : "All videos"}</span>
+          </button>
           <div className="w-8 h-8 shrink-0 rounded-lg bg-brand-50 text-[#0284c7] border border-brand-100 flex items-center justify-center">
             <Video size={16} />
           </div>
@@ -430,7 +574,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
 
         <div className="flex items-center gap-2 shrink-0">
           <span className="px-2 py-1 bg-slate-100 border border-slate-200 rounded-lg text-[11px] font-bold text-slate-600">
-            {totalConcepts} {isTa ? "கருத்துகள்" : "concepts"}
+            {totalConcepts} {isTa ? "பகுதிகள்" : "parts"}
           </span>
           <button
             onClick={() => changeLang(currentLang === "en" ? "ta" : "en")}
@@ -470,10 +614,10 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                     {phase === "final"
                       ? (isTa
                           ? "அனைத்து கருத்துகளையும் பற்றிய வினாக்களுக்கு விடையளிக்கவும்."
-                          : "Answer one question on every concept to finish the lesson.")
+                          : "Answer one question on each topic to finish the lesson.")
                       : (isTa
                           ? "கீழே உள்ள வினாவிற்கு விடையளித்ததும் வீடியோ தொடரும்."
-                          : "The video resumes as soon as you answer the question below.")}
+                          : "Answer the question below. Then the video will play again.")}
                   </p>
                 </motion.div>
               )}
@@ -496,7 +640,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                   <p className="text-white/70 text-xs mt-1.5 max-w-md leading-relaxed">
                     {isTa
                       ? `ஒவ்வொரு கருத்தும் விளக்கப்பட்ட பிறகு வீடியோ தானாக நிற்கும், AI ஒரு வினா கேட்கும். விடையளித்ததும் வீடியோ தொடரும். இறுதியில் ${totalConcepts} கருத்துகளும் மீண்டும் கேட்கப்படும்.`
-                      : `After each concept the video pauses on its own and the AI asks you one question about it. Answer, and the video continues. At the end, all ${totalConcepts} concepts are asked again.`}
+                      : `The video stops after each topic. The AI asks you one question. Answer it, and the video plays again. At the end, you get one more question on each of the ${totalConcepts} topics.`}
                   </p>
                   <button
                     onClick={startWatching}
@@ -519,7 +663,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
           <div className="bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 shadow-xs">
             <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-1.5">
               <span>
-                {isTa ? "கருத்து முன்னேற்றம்" : "Concept progress"}:{" "}
+                {isTa ? "கருத்து முன்னேற்றம்" : "Your progress"}:{" "}
                 <span className="text-[#0284c7] font-extrabold">{answeredCount}</span> / {totalConcepts}
               </span>
               <span className="tabular-nums">
@@ -540,7 +684,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
           <div className="flex items-center gap-1.5 pb-2 mb-2 border-b border-slate-100">
             <ListChecks size={14} className="text-[#0284c7]" />
             <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wide">
-              {isTa ? "பாட கருத்துகள்" : "Lesson concepts"}
+              {isTa ? "பாட கருத்துகள்" : "Topics in this lesson"}
             </h3>
           </div>
 
@@ -607,7 +751,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                 <span className="px-2 py-0.5 bg-[#0284c7] text-white rounded text-[11px] font-bold uppercase">
                   {phase === "final"
                     ? (isTa ? "இறுதி மதிப்பாய்வு" : "Final Review")
-                    : (isTa ? "கருத்து சோதனை" : "Concept Check")}
+                    : (isTa ? "கருத்து சோதனை" : "Quick Check")}
                 </span>
                 {currentQuestion && (
                   <span className="text-xs font-semibold text-[#0284c7] bg-brand-50 border border-brand-100 px-2 py-0.5 rounded">
@@ -638,8 +782,8 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                 <RefreshCw size={20} className="animate-spin text-[#0284c7] mx-auto mb-2" />
                 <p className="font-medium text-xs text-slate-600">
                   {phase === "final"
-                    ? (isTa ? "இறுதி வினாக்களை AI உருவாக்குகிறது..." : "The AI is preparing the final questions...")
-                    : (isTa ? "இந்தக் கருத்தில் இருந்து AI வினா உருவாக்குகிறது..." : "The AI is writing a question on this concept...")}
+                    ? (isTa ? "இறுதி வினாக்களை AI உருவாக்குகிறது..." : "The AI is making the final questions...")
+                    : (isTa ? "இந்தக் கருத்தில் இருந்து AI வினா உருவாக்குகிறது..." : "The AI is making a question on this topic...")}
                 </p>
               </div>
             ) : questionError ? (
@@ -727,7 +871,31 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                             : (isTa ? "சரியான விடை அல்ல" : "Not quite")}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-700 leading-relaxed">{result.explanation}</p>
+
+                      {result.correct ? (
+                        <p className="text-xs text-slate-700 leading-relaxed">
+                          {result.conceptBoundary}
+                        </p>
+                      ) : (
+                        <div className="mt-2 space-y-2">
+                          {result.misconceptionNote && (
+                            <div className="rounded-md border border-amber-200 bg-white/60 p-2.5">
+                              <p className="mb-1 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide text-amber-700">
+                                <Lightbulb size={12} />
+                                {isTa ? "ஏன் இது சரியாகத் தோன்றியது" : "Why you may have picked this"}
+                              </p>
+                              <p className="text-xs leading-relaxed text-slate-700">{result.misconceptionNote}</p>
+                            </div>
+                          )}
+                          <div className="rounded-md border border-brand-200 bg-white/60 p-2.5">
+                            <p className="mb-1 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide text-[#0284c7]">
+                              <Target size={12} />
+                              {isTa ? "உண்மையான கருத்து எல்லை" : "The right idea"}
+                            </p>
+                            <p className="text-xs leading-relaxed text-slate-700">{result.conceptBoundary}</p>
+                          </div>
+                        </div>
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -738,8 +906,8 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                     {result
                       ? phase === "final"
                         ? (isTa ? "அடுத்த வினாவிற்குச் செல்லவும்." : "Move on to the next question.")
-                        : (isTa ? "வீடியோவைத் தொடர பொத்தானை அழுத்தவும்." : "Press continue to resume the video.")
-                      : (isTa ? "விடையளித்த பிறகே வீடியோ தொடரும்." : "The video stays paused until you answer.")}
+                        : (isTa ? "வீடியோவைத் தொடர பொத்தானை அழுத்தவும்." : "Press Continue to play the video.")
+                      : (isTa ? "விடையளித்த பிறகே வீடியோ தொடரும்." : "The video will wait until you answer.")}
                   </p>
 
                   {!result ? (
@@ -820,7 +988,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
 
           <div className="mb-5">
             <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-1.5">
-              <span>{isTa ? "ஒட்டுமொத்த துல்லியம்" : "Overall accuracy"}</span>
+              <span>{isTa ? "ஒட்டுமொத்த துல்லியம்" : "Overall score"}</span>
               <span className="text-[#0284c7] font-extrabold tabular-nums">{percentage}%</span>
             </div>
             <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -835,7 +1003,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
 
           {/* Per-concept breakdown */}
           <h4 className="text-xs font-extrabold text-slate-900 uppercase tracking-wide mb-2">
-            {isTa ? "கருத்து வாரியான செயல்திறன்" : "Concept-by-concept"}
+            {isTa ? "கருத்து வாரியான செயல்திறன்" : "Topic by topic"}
           </h4>
           <div className="space-y-1.5">
             {lesson.concepts.map((concept) => {
@@ -873,7 +1041,7 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
                     {bothRight ? (
                       <span className="text-emerald-600">{isTa ? "நன்கு புரிந்தது" : "Solid"}</span>
                     ) : bothWrong ? (
-                      <span className="text-red-500">{isTa ? "மீண்டும் படிக்கவும்" : "Revise this"}</span>
+                      <span className="text-red-500">{isTa ? "மீண்டும் படிக்கவும்" : "Study this again"}</span>
                     ) : (
                       <span className="text-amber-600">{isTa ? "கவனம் தேவை" : "Almost there"}</span>
                     )}
@@ -891,6 +1059,23 @@ const VideoLessonView = ({ language = "en", setLanguage }) => {
               <RotateCcw size={14} />
               <span>{isTa ? "பாடத்தை மீண்டும் பார்" : "Watch the lesson again"}</span>
             </button>
+            {nextLesson ? (
+              <button
+                onClick={() => openLesson(nextLesson.id)}
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs transition-all active:scale-95 shadow-xs"
+              >
+                <ArrowRight size={14} />
+                <span>{isTa ? "அடுத்த வீடியோ" : "Next video"}</span>
+              </button>
+            ) : (
+              <button
+                onClick={backToLessonList}
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs transition-all active:scale-95 shadow-xs"
+              >
+                <ListChecks size={14} />
+                <span>{isTa ? "எல்லா வீடியோக்களும்" : "All videos"}</span>
+              </button>
+            )}
             <a
               href={lesson.sourceUrl}
               target="_blank"

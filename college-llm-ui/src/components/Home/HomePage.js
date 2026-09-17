@@ -4,7 +4,8 @@ import {
   GraduationCap,
   Layers,
   Network,
-  BarChart3,
+  Clapperboard,
+  Video,
   Languages,
   MessageSquareText,
   ArrowRight,
@@ -12,8 +13,11 @@ import {
   BookOpenCheck,
   Bot,
   Trophy,
+  LogOut,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 import BrandLogo from "../BrandLogo";
 
 /* ── The five places you can go ────────────────────────────────────────────────
@@ -21,6 +25,59 @@ import BrandLogo from "../BrandLogo";
    anything longer just gets skimmed past. */
 const MODULES = [
   {
+    key: "movie-physics",
+    path: "/movie-physics",
+    icon: Clapperboard,
+    gradient: "from-sky-500 to-indigo-600",
+    glow: "hover:shadow-sky-200",
+    text: "text-indigo-700",
+    en: { title: "Movie Physics", line: "Science in movie scenes" },
+    ta: { title: "திரைப்பட இயற்பியல்", line: "திரைக் காட்சிகளில் அறிவியல்" },
+  },
+  {
+    // Lives inside the Test module as its "video" tab, so this opens that tab directly.
+    key: "video",
+    path: "/test",
+    testTab: "video",
+    icon: Video,
+    gradient: "from-cyan-500 to-sky-600",
+    glow: "hover:shadow-cyan-200",
+    text: "text-sky-700",
+    en: { title: "Video Passage", line: "Watch, pause, answer" },
+    ta: { title: "வீடியோ பாடம்", line: "பார், நிறுத்து, பதில் சொல்" },
+  },
+  {
+    key: "flashcards",
+    path: "/flashcards",
+    icon: Layers,
+    gradient: "from-violet-500 to-fuchsia-600",
+    glow: "hover:shadow-violet-200",
+    text: "text-violet-700",
+    en: { title: "Flashcards", line: "Flip cards and revise" },
+    ta: { title: "அட்டைகள்", line: "திருப்பி நினைவுகூர்" },
+  },
+  {
+    key: "mindmap",
+    path: "/mindmap",
+    icon: Network,
+    gradient: "from-amber-500 to-orange-600",
+    glow: "hover:shadow-amber-200",
+    text: "text-amber-700",
+    en: { title: "Mind Maps", line: "See the whole lesson" },
+    ta: { title: "வரைபடங்கள்", line: "முழுப் பாடமும் ஒரே பார்வையில்" },
+  },
+  {
+    key: "kahoot",
+    path: "/kahoot",
+    icon: Trophy,
+    gradient: "from-pink-500 to-rose-600",
+    glow: "hover:shadow-pink-200",
+    text: "text-rose-700",
+    en: { title: "Live Quiz", line: "Play a fun quiz game" },
+    ta: { title: "வினாடி வினா", line: "விளையாட்டாக பயில்" },
+  },
+  {
+    key: "chat",
     path: "/chat",
     icon: MessageSquareText,
     gradient: "from-brand-500 to-cyan-600",
@@ -30,7 +87,9 @@ const MODULES = [
     ta: { title: "AI வழிகாட்டி", line: "எந்தச் சந்தேகமும் கேள்" },
   },
   {
+    key: "test",
     path: "/test",
+    testTab: "student",
     icon: GraduationCap,
     gradient: "from-emerald-500 to-teal-600",
     glow: "hover:shadow-emerald-200",
@@ -38,54 +97,24 @@ const MODULES = [
     en: { title: "Tests", line: "Check what you know" },
     ta: { title: "தேர்வுகள்", line: "உனக்குத் தெரிந்ததைச் சோதி" },
   },
-  {
-    path: "/flashcards",
-    icon: Layers,
-    gradient: "from-violet-500 to-fuchsia-600",
-    glow: "hover:shadow-violet-200",
-    text: "text-violet-700",
-    en: { title: "Flashcards", line: "Flip and revise" },
-    ta: { title: "அட்டைகள்", line: "திருப்பி நினைவுகூர்" },
-  },
-  {
-    path: "/mindmap",
-    icon: Network,
-    gradient: "from-amber-500 to-orange-600",
-    glow: "hover:shadow-amber-200",
-    text: "text-amber-700",
-    en: { title: "Mind Maps", line: "See the big picture" },
-    ta: { title: "வரைபடங்கள்", line: "முழுப் பாடமும் ஒரே பார்வையில்" },
-  },
-  {
-    path: "/kahoot",
-    icon: Trophy,
-    gradient: "from-pink-500 to-rose-600",
-    glow: "hover:shadow-pink-200",
-    text: "text-rose-700",
-    en: { title: "Live Quiz", line: "Play it Kahoot-style" },
-    ta: { title: "வினாடி வினா", line: "விளையாட்டாக பயில்" },
-  },
-  {
-    path: "/userresponse",
-    icon: BarChart3,
-    gradient: "from-slate-500 to-slate-700",
-    glow: "hover:shadow-slate-200",
-    text: "text-slate-700",
-    en: { title: "Insights", line: "For teachers" },
-    ta: { title: "பகுப்பாய்வு", line: "ஆசிரியர்களுக்கு" },
-  },
+  // Insights ("/userresponse") is deliberately not listed here — teachers still
+  // reach it by typing the URL directly.
 ];
 
 /* ── Three short promises, two or three words each ────────────────────────────── */
 const CHIPS = [
-  { icon: BookOpenCheck, en: "Straight from your textbook", ta: "பாடநூலிலிருந்தே" },
+  { icon: BookOpenCheck, en: "From your textbook", ta: "பாடநூலிலிருந்தே" },
   { icon: Languages, en: "Tamil + English", ta: "தமிழ் + ஆங்கிலம்" },
   { icon: Bot, en: "Hints, not answers", ta: "விடை அல்ல, குறிப்புகள்" },
 ];
 
-const HomePage = ({ onNavigate, language = "en", onToggleLanguage }) => {
+const HomePage = ({ onNavigate, onNavigateToTest, language = "en", onToggleLanguage }) => {
   const isTa = language === "ta";
   const copy = (item) => (isTa ? item.ta : item.en);
+
+  // Test-module cards pick which tab opens (Video Passage vs. Tests).
+  const open = (module) =>
+    module.testTab && onNavigateToTest ? onNavigateToTest(module.testTab) : onNavigate(module.path);
 
   return (
     <div className="min-h-screen bg-[#faf8ff] font-sans text-slate-900 selection:bg-brand-600 selection:text-white">
@@ -117,6 +146,14 @@ const HomePage = ({ onNavigate, language = "en", onToggleLanguage }) => {
             >
               <Languages size={14} />
               <span>{isTa ? "EN" : "த"}</span>
+            </button>
+
+            <button
+              onClick={() => signOut(auth)}
+              title={isTa ? "வெளியேறு" : "Log Out"}
+              className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-100 px-2.5 py-2 text-xs font-bold text-slate-500 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+            >
+              <LogOut size={14} />
             </button>
           </div>
         </div>
@@ -151,7 +188,7 @@ const HomePage = ({ onNavigate, language = "en", onToggleLanguage }) => {
           <p className="mx-auto mt-4 max-w-md text-sm font-medium text-slate-500 sm:text-base">
             {isTa
               ? "கேள் · பயிற்சி செய் · திருப்பிப் பார் — ஒரே இடத்தில்."
-              : "Ask it. Practise it. Revise it. All in one place."}
+              : "Ask. Practise. Revise. All in one place."}
           </p>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
@@ -190,33 +227,17 @@ const HomePage = ({ onNavigate, language = "en", onToggleLanguage }) => {
           </div>
         </motion.section>
 
-        {/* Modules — big icon, title, one line.
-            On wide screens a strip is reserved on the left for the watcher, who
-            is turned towards the cards. Below xl there is no room for him, so he
-            is dropped rather than shrunk into the margin. */}
-        <section className="relative mt-14 xl:pl-[17rem]">
-          {/* The artwork carries transparent padding — roughly 24% of its height
-              above the figure and 8% below — so the negative bottom offset takes
-              that lower padding back out and lands his feet on the same baseline
-              as the bottom of the cards. */}
-          <img
-            src={`${process.env.PUBLIC_URL}/batman-homepage.png`}
-            alt=""
-            aria-hidden="true"
-            draggable="false"
-            style={{ height: "27.5rem", bottom: "-2.1rem", left: "-0.5rem" }}
-            className="pointer-events-none absolute hidden w-auto select-none drop-shadow-2xl xl:block"
-          />
-
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6">
+        {/* Modules — big icon, title, one line. */}
+        <section className="relative mt-14">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 xl:grid-cols-7">
             {MODULES.map((module, index) => {
               const Icon = module.icon;
               const text = copy(module);
               return (
                 <motion.button
-                  key={module.path}
+                  key={module.key}
                   type="button"
-                  onClick={() => onNavigate(module.path)}
+                  onClick={() => open(module)}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.25) }}
@@ -254,8 +275,8 @@ const HomePage = ({ onNavigate, language = "en", onToggleLanguage }) => {
           <div className="flex flex-wrap items-center justify-center gap-1.5">
           {MODULES.map((module) => (
             <button
-              key={module.path}
-              onClick={() => onNavigate(module.path)}
+              key={module.key}
+              onClick={() => open(module)}
               className="rounded-lg px-2.5 py-1 text-[11px] font-bold text-slate-400 transition-colors hover:bg-brand-50 hover:text-brand-700"
             >
               {copy(module).title}

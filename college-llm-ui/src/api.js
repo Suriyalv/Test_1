@@ -1,4 +1,6 @@
-const API_BASE_URL = "http://localhost:5000/api";
+// In production, set REACT_APP_API_BASE_URL (e.g. on Vercel/Netlify) to your
+// deployed backend's URL + "/api", such as https://kalvi-backend.onrender.com/api.
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
 
 export const chatWithAI = async (message, history, subjectChoice, language = "en") => {
     const payload = { message, history, language };
@@ -142,11 +144,16 @@ export const evaluateTestAnswer = async (payload) => {
     return response.json();
 };
 
-export const fetchMascotHint = async ({ message, context_question, history, language = "en" }) => {
+// mode "clue" (default) never reveals a direct answer — used on test/video
+// pages. mode "explain" answers the student's doubt directly and simply —
+// used everywhere else.
+// In "clue" mode, `options` and `answer` let the server reject any hint that
+// gives the answer away. They are never echoed back to the student.
+export const fetchMascotHint = async ({ message, context_question, history, language = "en", mode = "clue", options = [], answer = "" }) => {
     const response = await fetch(`${API_BASE_URL}/hint`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, context_question, history, language }),
+        body: JSON.stringify({ message, context_question, history, language, mode, options, answer }),
     });
     if (!response.ok) throw new Error("Failed to fetch mascot hint");
     return response.json();
@@ -354,5 +361,60 @@ export const deleteKahootQuestion = async (quizId, questionId) => {
         method: "DELETE",
     });
     if (!response.ok) throw new Error("Failed to delete question");
+    return response.json();
+};
+
+// ─── Concept Bridge Module API Helpers ────────────────────────────────────────
+
+export const fetchConceptBridges = async (language = "en") => {
+    const response = await fetch(`${API_BASE_URL}/concepts?language=${language}`);
+    if (!response.ok) throw new Error("Failed to fetch concept bridges");
+    return response.json();
+};
+
+export const addConceptBridge = async (bridgeData) => {
+    const response = await fetch(`${API_BASE_URL}/concepts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bridgeData),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to add concept");
+    }
+    return response.json();
+};
+
+export const updateConceptBridge = async (bridgeId, bridgeData) => {
+    const response = await fetch(`${API_BASE_URL}/concepts/${bridgeId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bridgeData),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to update concept");
+    }
+    return response.json();
+};
+
+export const deleteConceptBridge = async (bridgeId) => {
+    const response = await fetch(`${API_BASE_URL}/concepts/${bridgeId}`, {
+        method: "DELETE",
+    });
+    if (!response.ok) throw new Error("Failed to delete concept");
+    return response.json();
+};
+
+export const evaluateAnalogy = async ({ conceptId, studentAnalogy, language = "en" }) => {
+    const response = await fetch(`${API_BASE_URL}/concepts/evaluate-analogy`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conceptId, studentAnalogy, language }),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to evaluate your analogy");
+    }
     return response.json();
 };

@@ -12,7 +12,8 @@ DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "Data")
 class KnowledgeBase:
     """
     Curriculum Knowledge Base & Retrieval-Augmented Generation (RAG) Engine.
-    Loads and indexes structured textbook chunks across Class XII Computer Science curriculum (Chapters 1-16).
+    Loads and indexes structured textbook chunks from every .json/.txt file in the Data directory
+    (currently: Class X Science, Chapter 1 - Laws of Motion).
     """
 
     def __init__(self, data_dir: str = DATA_DIR):
@@ -95,7 +96,7 @@ class KnowledgeBase:
 
                 # Ensure standard fields
                 chunk["chunk_id"] = cid
-                chunk["course_name"] = chunk.get("course_name", "Computer Science - Class XII")
+                chunk["course_name"] = chunk.get("course_name", "Science - Class X")
                 chunk["chapter_no"] = chunk.get("chapter_no", 0)
                 chunk["unit_no"] = chunk.get("unit_no", 0)
                 chunk["topic"] = chunk.get("topic", "")

@@ -88,5 +88,7 @@ export const getBranch = (name) => BRANCHES[name] || BRANCHES.blue;
 export const ROOT_THEME = {
   stroke: "#0284c7",
   fill: "#0284c7",
+  fillEnd: "#4f46e5", // gradient end for the root pill
+  glow: "rgba(2,132,199,.55)",
   text: "#ffffff",
 };

@@ -9,7 +9,7 @@
 // render the same layout as absolutely positioned cards plus one SVG of curves.
 
 const GAP_X = 74; // horizontal breathing room between two levels
-const ROW_GAP = 16; // vertical gap between two stacked leaves
+const ROW_GAP = 18; // vertical gap between two stacked leaves
 const PAD = 60; // padding around the whole drawing
 
 /** Card width for a given depth: the deeper the node, the more compact. */
@@ -27,14 +27,16 @@ const nodePadY = (depth) => (depth === 0 ? 15 : depth === 1 ? 12 : 10);
 const nodeHeight = (node, depth, isTa) => {
   const width = nodeWidth(depth);
   const fontSize = nodeFontSize(depth);
-  const advance = fontSize * (isTa ? 0.62 : 0.55);
-  const iconRoom = node.icon ? 22 : 0;
+  const advance = fontSize * (isTa ? 0.74 : 0.55);
+  // The root and branch icons sit in a round bubble, which takes more room.
+  const iconRoom = node.icon ? (depth === 0 ? 42 : depth === 1 ? 32 : 22) : 0;
   const charsPerLine = Math.max(6, Math.floor((width - 26 - iconRoom) / advance));
   const label = node.label || "";
   const lines = Math.max(1, Math.ceil(label.length / charsPerLine));
 
   let height = nodePadY(depth) * 2 + lines * Math.round(fontSize * 1.35);
-  if (node.formula) height += 20; // the formula chip under the label
+  if (node.icon && depth === 0) height = Math.max(height, 58);
+  if (node.formula) height += 24; // the formula chip under the label
   return height;
 };
 

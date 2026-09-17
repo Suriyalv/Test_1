@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { fetchKahootQuizzes, fetchKahootQuiz } from "../../api";
 import { KAHOOT_TILES, scoreForAnswer } from "./kahootTheme";
+import { useSetMascotTestQuestion } from "../../mascotContext";
 import {
   Play,
   Image as ImageIcon,
@@ -14,6 +15,28 @@ import {
   ListChecks,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+/* Optional question-type tag shown above the question text. Teacher-built
+   questions have no type, so they simply show no badge. */
+const QUESTION_TYPES = {
+  formula: { emoji: "📐", en: "Formula", ta: "சூத்திரம்", cls: "bg-sky-100 text-sky-800" },
+  definition: { emoji: "📖", en: "Definition", ta: "வரையறை", cls: "bg-violet-100 text-violet-800" },
+  unit: { emoji: "📏", en: "SI Unit", ta: "SI அலகு", cls: "bg-teal-100 text-teal-800" },
+  example: { emoji: "🌍", en: "Real-life Example", ta: "அன்றாட உதாரணம்", cls: "bg-emerald-100 text-emerald-800" },
+  match: { emoji: "🔗", en: "Match the Pair", ta: "பொருத்துக", cls: "bg-amber-100 text-amber-800" },
+  concept: { emoji: "💡", en: "Think & Answer", ta: "யோசித்துப் பதில் சொல்", cls: "bg-rose-100 text-rose-800" },
+};
+
+const TypeBadge = ({ type, isTa }) => {
+  const meta = QUESTION_TYPES[type];
+  if (!meta) return null;
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${meta.cls}`}>
+      <span>{meta.emoji}</span>
+      {isTa ? meta.ta : meta.en}
+    </span>
+  );
+};
 
 /* ── Stage 1: pick a quiz from the catalogue ─────────────────────────────────── */
 const QuizPicker = ({ quizzes, loading, onPick, isTa }) => {
@@ -37,7 +60,7 @@ const QuizPicker = ({ quizzes, loading, onPick, isTa }) => {
         <p className="mx-auto max-w-sm text-xs text-slate-500">
           {isTa
             ? "ஆசிரியர் பகுதியில் ஒரு புதிய வினாடி வினாவை உருவாக்கவும்."
-            : "Ask your teacher to build one in the Manage Quizzes tab."}
+            : "Ask your teacher to make one."}
         </p>
       </div>
     );
@@ -99,7 +122,7 @@ const Lobby = ({ quiz, nickname, setNickname, onStart, onBack, isTa }) => (
     </div>
     <h2 className="text-xl font-extrabold tracking-tight text-slate-900">{quiz.title}</h2>
     <p className="mt-1 text-xs font-semibold text-slate-500">
-      {quiz.questionCount} {isTa ? "வினாக்கள் • விரைவாக பதில் அளித்தால் அதிக மதிப்பெண்" : "questions • answer fast for bonus points"}
+      {quiz.questionCount} {isTa ? "வினாக்கள் • விரைவாக பதில் அளித்தால் அதிக மதிப்பெண்" : "questions • answer fast to get more points"}
     </p>
 
     <div className="mt-5 text-left">
@@ -129,6 +152,15 @@ const Lobby = ({ quiz, nickname, setNickname, onStart, onBack, isTa }) => (
 /* ── Stage 3: one live question — image, timer bar, 4 colour tiles ──────────── */
 const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
   const timeLimit = question.timeLimit || 20;
+
+  // While this question is on screen Ark switches to clue-only mode; it clears
+  // itself when the stage unmounts (i.e. on the answer reveal).
+  useSetMascotTestQuestion(
+    question.question,
+    question.type || "",
+    question.options,
+    question.options?.[question.correctIndex] || ""
+  );
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const startRef = useRef(Date.now());
   const answeredRef = useRef(false);
@@ -201,6 +233,11 @@ const QuestionStage = ({ question, index, total, onAnswer, isTa }) => {
           </div>
         ) : null}
         <div className="p-5 sm:p-6">
+          {question.type && (
+            <div className="mb-2.5">
+              <TypeBadge type={question.type} isTa={isTa} />
+            </div>
+          )}
           <h3 className="text-lg font-extrabold leading-snug tracking-tight text-slate-900 sm:text-xl">
             {question.question}
           </h3>
@@ -262,6 +299,14 @@ const AnswerReveal = ({ question, selectedIndex, pointsEarned, onNext, isLast, i
           <Zap size={14} /> +{pointsEarned} {isTa ? "மதிப்பெண்கள்" : "points"}
         </div>
       )}
+      {question.explanation && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-left">
+          <div className="text-[11px] font-bold uppercase tracking-wide text-amber-700">
+            {isTa ? "💡 ஏன்?" : "💡 Why?"}
+          </div>
+          <p className="mt-1 text-sm font-semibold leading-relaxed text-amber-900">{question.explanation}</p>
+        </div>
+      )}
       <button
         onClick={onNext}
         className="mx-auto flex items-center justify-center gap-2 rounded-xl bg-[#0284c7] px-6 py-2.5 text-sm font-bold text-white shadow-md transition-all hover:bg-[#026aa2] active:scale-95"
@@ -311,7 +356,7 @@ const ResultsScreen = ({ nickname, totalScore, maxScore, correctCount, total, on
         <div className="rounded-xl bg-amber-50 p-3">
           <div className="text-xl font-extrabold text-amber-700">{pct}%</div>
           <div className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
-            {isTa ? "துல்லியம்" : "Accuracy"}
+            {isTa ? "துல்லியம்" : "Right answers"}
           </div>
         </div>
       </div>

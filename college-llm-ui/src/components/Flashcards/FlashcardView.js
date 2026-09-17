@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { fetchFlashcards } from "../../api";
 import { getAccent } from "./flashcardTheme";
+import { useCardProgress } from "./useCardProgress";
+import { isDue, isOverloaded } from "./spacedRepetition";
+import { logActivity } from "../../activity";
 import {
   Search,
   Layers,
   X,
   ChevronLeft,
   ChevronRight,
-  RotateCcw,
   Sparkles,
   RefreshCw,
   MousePointerClick,
+  CalendarClock,
+  Brain,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,9 +43,63 @@ const PointList = ({ points }) => (
   </ul>
 );
 
+/* ── Cognitive-load mitigation: reveal one point at a time instead of all at
+   once. Triggered after two "Again" ratings in a row on the same card — the
+   whole point list is already broken into small independently-readable
+   chunks, so this is purely a rendering-mode switch, no new content needed. */
+const ChunkedPointList = ({ points, isTa }) => {
+  const [shown, setShown] = useState(1);
+
+  useEffect(() => {
+    setShown(1);
+  }, [points]);
+
+  const atEnd = shown >= points.length;
+
+  return (
+    <div className="mt-4">
+      <div className="mb-2.5 flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-[11px] font-bold text-amber-700">
+        <Brain size={13} />
+        {isTa
+          ? "எளிதாக்கப்பட்டது — ஒரு புள்ளி ஒரு நேரத்தில்"
+          : "Easy mode — one point at a time"}
+      </div>
+      <ul className="space-y-2.5">
+        {points.slice(0, shown).map((point, i) => (
+          <motion.li
+            key={i}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex gap-2.5 text-[15px] leading-relaxed text-slate-700"
+          >
+            <span className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-[#0284c7] to-[#38bdf8]" />
+            <span>{point}</span>
+          </motion.li>
+        ))}
+      </ul>
+      {!atEnd && (
+        <button
+          type="button"
+          onClick={() => setShown((s) => Math.min(s + 1, points.length))}
+          className="mt-3 flex items-center gap-1.5 rounded-lg bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-800 transition-all hover:bg-amber-200 active:scale-95"
+        >
+          {isTa ? "அடுத்த புள்ளி" : "Next point"} ({shown}/{points.length})
+        </button>
+      )}
+    </div>
+  );
+};
+
+// Bundled card art lives in public/flashcards/ and is stored as "/flashcards/x.webp";
+// prefix PUBLIC_URL so it still resolves when the app is served from a sub-path.
+const resolveImage = (src) =>
+  src && src.startsWith("/") ? `${process.env.PUBLIC_URL || ""}${src}` : src;
+
 /* ── Hero artwork for the detail face ──────────────────────────────────────────
    Uses the card image when one is supplied, and degrades to a light gradient
-   panel if the URL is missing or fails to load. */
+   panel if the URL is missing or fails to load. Card art is a 16:9 diagram with
+   labels baked in, so it is shown whole (contain) rather than cropped. */
 const CardHero = ({ card, accent }) => {
   const [broken, setBroken] = useState(false);
 
@@ -51,15 +109,14 @@ const CardHero = ({ card, accent }) => {
 
   if (card.image && !broken) {
     return (
-      <div className="relative h-44 w-full overflow-hidden bg-slate-100 sm:h-56">
+      <div className="relative aspect-video max-h-[38vh] w-full overflow-hidden border-b border-slate-100 bg-white">
         <img
-          src={card.image}
+          src={resolveImage(card.image)}
           alt={card.title}
           onError={() => setBroken(true)}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/10 to-transparent" />
-        <span className="absolute bottom-3 left-4 rounded-full bg-white/90 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-700 backdrop-blur-sm">
+        <span className="absolute left-3 top-3 rounded-full bg-slate-900/70 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
           {card.deck}
         </span>
       </div>
@@ -81,7 +138,7 @@ const CardHero = ({ card, accent }) => {
 };
 
 /* ── Grid tile: the closed card, title only ──────────────────────────────────── */
-const CardTile = ({ card, index, onOpen, isTa }) => {
+const CardTile = ({ card, index, onOpen, isTa, due }) => {
   const accent = getAccent(card.accent);
 
   return (
@@ -97,12 +154,18 @@ const CardTile = ({ card, index, onOpen, isTa }) => {
     >
       <FaceDecor />
 
-      <div className="relative flex justify-end">
+      <div className="relative flex items-start justify-between gap-2">
         <span
           className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur-sm ${accent.badge}`}
         >
           {card.deck}
         </span>
+        {due && (
+          <span className="flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[#0284c7] backdrop-blur-sm">
+            <CalendarClock size={10} />
+            {isTa ? "இன்று" : "Due"}
+          </span>
+        )}
       </div>
 
       <div className="relative">
@@ -119,8 +182,9 @@ const CardTile = ({ card, index, onOpen, isTa }) => {
 };
 
 /* ── Expanded overlay: flips open to reveal image + description ──────────────── */
-const ExpandedCard = ({ card, position, total, onClose, onPrev, onNext, isTa }) => {
+const ExpandedCard = ({ card, position, total, onClose, onPrev, onNext, isTa, progress, onRate }) => {
   const accent = getAccent(card.accent);
+  const chunked = isOverloaded(progress);
   // Starts on the title face and holds there for a beat — long enough for the
   // student to actually read which topic this is — then flips to the detail
   // face. The hold only starts once the pop-in has actually finished (via
@@ -172,17 +236,55 @@ const ExpandedCard = ({ card, position, total, onClose, onPrev, onNext, isTa }) 
                 {card.title}
               </h2>
               <div className="mt-3 h-1 w-12 rounded-full bg-gradient-to-r from-[#0284c7] to-[#38bdf8]" />
-              <PointList points={toPoints(card.description)} />
+              {chunked ? (
+                <ChunkedPointList points={toPoints(card.description)} isTa={isTa} />
+              ) : (
+                <PointList points={toPoints(card.description)} />
+              )}
             </div>
 
-            <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-6 py-3">
-              <span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide ${accent.chip}`}>
-                {card.deck}
-              </span>
-              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500">
-                <RotateCcw size={13} />
-                {isTa ? "மீண்டும் திருப்ப தட்டவும்" : "Tap card to flip back"}
-              </span>
+            {/* Recall-quality rating — this is the spaced-repetition review
+                action itself: rating schedules the card's next due date and
+                (for the two-buttons-in-a-row case) can trigger chunked mode
+                on the next open. Click elsewhere on the card just flips it
+                back to the title face without rating anything. */}
+            <div
+              className="border-t border-slate-100 bg-slate-50 px-4 py-3"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p className="mb-2 text-center text-[11px] font-bold uppercase tracking-wide text-slate-400">
+                {isTa ? "நீங்கள் எவ்வளவு நன்றாக நினைவில் வைத்தீர்கள்?" : "How well did you remember this?"}
+              </p>
+              <div className="grid grid-cols-4 gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => onRate("again")}
+                  className="rounded-lg border border-red-200 bg-red-50 px-2 py-1.5 text-[11px] font-bold text-red-700 transition-all hover:bg-red-100 active:scale-95"
+                >
+                  {isTa ? "மீண்டும்" : "Again"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onRate("hard")}
+                  className="rounded-lg border border-amber-200 bg-amber-50 px-2 py-1.5 text-[11px] font-bold text-amber-700 transition-all hover:bg-amber-100 active:scale-95"
+                >
+                  {isTa ? "கடினம்" : "Hard"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onRate("good")}
+                  className="rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-1.5 text-[11px] font-bold text-emerald-700 transition-all hover:bg-emerald-100 active:scale-95"
+                >
+                  {isTa ? "நல்லது" : "Good"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onRate("easy")}
+                  className="rounded-lg border border-brand-200 bg-brand-50 px-2 py-1.5 text-[11px] font-bold text-brand-700 transition-all hover:bg-brand-100 active:scale-95"
+                >
+                  {isTa ? "எளிது" : "Easy"}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -209,7 +311,7 @@ const ExpandedCard = ({ card, position, total, onClose, onPrev, onNext, isTa }) 
             </h2>
             <div className={`relative flex items-center gap-1.5 text-xs font-semibold ${accent.muted}`}>
               <Sparkles size={14} />
-              {isTa ? "விளக்கத்தைக் காண தட்டவும்" : "Tap to reveal the explanation"}
+              {isTa ? "விளக்கத்தைக் காண தட்டவும்" : "Tap to see the notes"}
             </div>
           </div>
         </motion.div>
@@ -265,6 +367,9 @@ const FlashcardView = ({ language = "en" }) => {
   const [activeDeck, setActiveDeck] = useState("All");
   const [search, setSearch] = useState("");
   const [openIndex, setOpenIndex] = useState(null);
+  const [dueOnly, setDueOnly] = useState(false);
+
+  const { progressById, rateCard } = useCardProgress();
 
   const loadCards = useCallback(async () => {
     setLoading(true);
@@ -278,7 +383,7 @@ const FlashcardView = ({ language = "en" }) => {
       setError(
         isTa
           ? "அட்டைகளை ஏற்ற முடியவில்லை. சேவையகத்தைச் சரிபார்க்கவும்."
-          : "Could not load the cards. Please check the server."
+          : "Could not load the cards. Please try again."
       );
     } finally {
       setLoading(false);
@@ -289,11 +394,17 @@ const FlashcardView = ({ language = "en" }) => {
     loadCards();
   }, [loadCards]);
 
+  const dueCount = useMemo(
+    () => cards.filter((card) => isDue(progressById[card.id])).length,
+    [cards, progressById]
+  );
+
   const visibleCards = useMemo(() => {
     const term = search.trim().toLowerCase();
     return cards.filter((card) => {
       const inDeck = activeDeck === "All" || card.deck === activeDeck;
       if (!inDeck) return false;
+      if (dueOnly && !isDue(progressById[card.id])) return false;
       if (!term) return true;
       const body = toPoints(card.description).join(" ").toLowerCase();
       return (
@@ -302,12 +413,12 @@ const FlashcardView = ({ language = "en" }) => {
         card.deck.toLowerCase().includes(term)
       );
     });
-  }, [cards, activeDeck, search]);
+  }, [cards, activeDeck, search, dueOnly, progressById]);
 
   // Filtering while a card is open would leave the overlay on a stale index.
   useEffect(() => {
     setOpenIndex(null);
-  }, [activeDeck, search]);
+  }, [activeDeck, search, dueOnly]);
 
   const step = useCallback(
     (delta) => {
@@ -341,6 +452,16 @@ const FlashcardView = ({ language = "en" }) => {
 
   const openCard = openIndex !== null ? visibleCards[openIndex] : null;
 
+  const handleRate = useCallback(
+    async (card, rating) => {
+      await rateCard(card, rating);
+      logActivity("flashcards", "card_reviewed", { cardId: card.id, deck: card.deck, rating });
+      // Move on so a review session flows card-to-card without extra taps.
+      step(1);
+    },
+    [rateCard, step]
+  );
+
   return (
     <div className="space-y-5">
       {/* Banner */}
@@ -348,7 +469,7 @@ const FlashcardView = ({ language = "en" }) => {
         <div>
           <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#0284c7]">
             <Layers size={14} />
-            {isTa ? "விரைவு திருப்புதல் கற்றல்" : "Quick Revision Deck"}
+            {isTa ? "விரைவு திருப்புதல் கற்றல்" : "Quick Revision"}
           </div>
           <h2 className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
             {isTa ? "கருத்து அட்டைகள்" : "Concept Flashcards"}
@@ -356,18 +477,40 @@ const FlashcardView = ({ language = "en" }) => {
           <p className="mt-0.5 text-xs text-slate-500">
             {isTa
               ? "தலைப்பைப் படித்து யோசியுங்கள். பிறகு அட்டையைத் தட்டி படத்துடன் விளக்கத்தைப் பாருங்கள்."
-              : "Read the topic and recall it first. Then tap the card to flip it open for the picture and explanation."}
+              : "Read the topic. Try to remember it. Then tap the card to see the picture and notes."}
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={loadCards}
-          className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-200 hover:text-[#0284c7] active:scale-95"
-        >
-          <RefreshCw size={14} className={loading ? "animate-spin text-[#0284c7]" : ""} />
-          {isTa ? "புதுப்பிக்க" : "Refresh"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setDueOnly((v) => !v)}
+            className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
+              dueOnly
+                ? "border-[#0284c7] bg-[#0284c7] text-white shadow-xs"
+                : "border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-[#0284c7]"
+            }`}
+          >
+            <CalendarClock size={14} />
+            {isTa ? "இன்று திருப்பிப் பார்க்க வேண்டியவை" : "Due Today"}
+            <span
+              className={`rounded-full px-1.5 py-0.5 text-[10px] ${
+                dueOnly ? "bg-white/20" : "bg-slate-200 text-slate-600"
+              }`}
+            >
+              {dueCount}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={loadCards}
+            className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-200 hover:text-[#0284c7] active:scale-95"
+          >
+            <RefreshCw size={14} className={loading ? "animate-spin text-[#0284c7]" : ""} />
+            {isTa ? "புதுப்பிக்க" : "Refresh"}
+          </button>
+        </div>
       </div>
 
       {/* Search + deck filter */}
@@ -423,7 +566,7 @@ const FlashcardView = ({ language = "en" }) => {
           <p className="mt-1 text-xs text-slate-500">
             {isTa
               ? "வேறு தலைப்பைத் தேர்ந்தெடுக்கவும், அல்லது நிர்வாகப் பக்கத்தில் புதிய அட்டையைச் சேர்க்கவும்."
-              : "Try another topic, or add a new card from the Manage Cards tab."}
+              : "Try another topic."}
           </p>
         </div>
       ) : (
@@ -434,6 +577,7 @@ const FlashcardView = ({ language = "en" }) => {
               card={card}
               index={index}
               isTa={isTa}
+              due={isDue(progressById[card.id])}
               onOpen={() => setOpenIndex(index)}
             />
           ))}
@@ -457,6 +601,8 @@ const FlashcardView = ({ language = "en" }) => {
               position={openIndex + 1}
               total={visibleCards.length}
               isTa={isTa}
+              progress={progressById[openCard.id]}
+              onRate={(rating) => handleRate(openCard, rating)}
               onClose={() => setOpenIndex(null)}
               onPrev={(e) => {
                 e.stopPropagation();

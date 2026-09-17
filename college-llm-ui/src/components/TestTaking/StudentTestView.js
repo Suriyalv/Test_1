@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { fetchTestQuestions, evaluateTestAnswer } from "../../api";
+import { logActivity } from "../../activity";
+import { useSetMascotTestQuestion } from "../../mascotContext";
 import EvaluationResultCard from "./EvaluationResultCard";
-import FloatingMascotBot from "../FloatingMascotBot";
+import { createSession, advanceSession, findAdaptiveQuestion } from "./adaptiveTest";
+import { AdaptiveSetup, AdaptiveProgress, AdaptiveNextStep, AdaptiveSummary, LevelBadge } from "./AdaptiveTestPanels";
 import {
   Mic,
   MicOff,
@@ -125,7 +128,11 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
     return () => exitFullscreen();
   }, []);
 
-  const [questions, setQuestions] = useState([]);
+  // "adaptive": physics topics that adjust Easy/Medium/Hard to the student's score.
+  // "bank": the original linear list of every other question, with the category filter.
+  const [mode, setMode] = useState("adaptive");
+  const [allQuestions, setAllQuestions] = useState([]);
+  const [session, setSession] = useState(null); // adaptive session, null = setup screen
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -197,35 +204,95 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
     }
   }, [currentLang]);
 
-  // Load questions
+  // Load every question for this language once; both modes filter from it.
   const loadQuestions = useCallback(async () => {
     setLoading(true);
     setEvaluationResult(null);
     setUserAnswer("");
     setSelectedMcqOption("");
     try {
-      const data = await fetchTestQuestions(category, currentLang);
-      setQuestions(data);
+      const data = await fetchTestQuestions("All", currentLang);
+      setAllQuestions(Array.isArray(data) ? data : []);
       setCurrentIndex(0);
     } catch (err) {
       console.error("Error loading test questions:", err);
     } finally {
       setLoading(false);
     }
-  }, [category, currentLang]);
+  }, [currentLang]);
 
   useEffect(() => {
     loadQuestions();
   }, [loadQuestions]);
 
-  const currentQuestion = questions[currentIndex];
+  // Adaptive questions carry a topic + level; they are kept out of the linear
+  // bank so a student can't browse the easy/medium/hard versions side by side.
+  const adaptivePool = useMemo(() => allQuestions.filter((q) => q.topic && q.level), [allQuestions]);
+  const questions = useMemo(
+    () =>
+      allQuestions.filter(
+        (q) => !(q.topic && q.level) && (category === "All" || q.category === category)
+      ),
+    [allQuestions, category]
+  );
+  const availableTopics = useMemo(() => new Set(adaptivePool.map((q) => q.topic)), [adaptivePool]);
+
+  // The Question Bank only exists for questions a teacher adds without a
+  // topic/level. When there are none, hide the switch and stay in the physics test.
+  const hasBankQuestions = !loading && allQuestions.some((q) => !(q.topic && q.level));
+  useEffect(() => {
+    if (!loading && !hasBankQuestions && mode === "bank") setMode("adaptive");
+  }, [loading, hasBankQuestions, mode]);
+
+  const resetAnswer = () => {
+    setUserAnswer("");
+    setSelectedMcqOption("");
+    setEvaluationResult(null);
+  };
+
+  useEffect(() => {
+    setCurrentIndex(0);
+    resetAnswer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, mode]);
+
+  const adaptiveActive = mode === "adaptive" && !!session && !session.finished;
+  const currentQuestion = mode === "adaptive"
+    ? adaptiveActive
+      ? findAdaptiveQuestion(adaptivePool, session.topics[session.topicIndex], session.category, session.step)
+      : null
+    : questions[currentIndex];
+
+  const handleStartAdaptive = (topicIds, markCategory) => {
+    setSession(createSession(topicIds, markCategory));
+    resetAnswer();
+  };
+
+  // Moves on only after the student has read the evaluation.
+  const handleAdaptiveContinue = () => {
+    if (!session || !evaluationResult) return;
+    const accuracy = Number(evaluationResult.accuracy) || 0;
+    setSession((prev) => advanceSession(prev, accuracy));
+    resetAnswer();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Publishes this question to the one global mascot instance (mounted once
+  // in App.js) instead of rendering a second mascot locally; automatically
+  // clears itself when this view unmounts or the test hasn't started yet.
+  useSetMascotTestQuestion(
+    testStarted ? currentQuestion?.question || "" : "",
+    currentQuestion?.category || "",
+    currentQuestion?.options || [],
+    currentQuestion?.correctOption || ""
+  );
 
   // Toggle Voice Recording
   const toggleRecording = () => {
     if (!speechSupported) {
       alert(currentLang === "ta"
         ? "உங்கள் உலாவியில் குரல் உள்ளீடு ஆதரிக்கப்படவில்லை. Chrome அல்லது Edge-ஐப் பயன்படுத்தவும்."
-        : "Speech recognition is not supported in this browser. Please use Chrome or Edge.");
+        : "Voice does not work in this browser. Please use Chrome or Edge.");
       return;
     }
 
@@ -248,6 +315,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
   // Submit Answer for Evaluation
   const handleSubmitAnswer = async () => {
     if (!currentQuestion) return;
+    if (mode === "adaptive" && evaluationResult) return;
 
     const answerToSubmit =
       currentQuestion.category === "MCQ" ? selectedMcqOption : userAnswer;
@@ -256,7 +324,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
       alert(
         currentLang === "ta"
           ? "தயவுசெய்து விடையை பதிவு செய்து பின்னர் சமர்ப்பிக்கவும்."
-          : "Please provide an answer before submitting."
+          : "Please write your answer first."
       );
       return;
     }
@@ -278,9 +346,14 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
 
       const res = await evaluateTestAnswer(payload);
       setEvaluationResult(res);
+      logActivity("test", "attempt", {
+        category: currentQuestion.category,
+        accuracy: typeof res.accuracy === "number" ? res.accuracy : null,
+        ...(currentQuestion.topic ? { topic: currentQuestion.topic, level: currentQuestion.level } : {}),
+      });
     } catch (err) {
       console.error("Evaluation error:", err);
-      alert(currentLang === "ta" ? "மதிப்பீடு தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்." : "Evaluation failed. Please try again.");
+      alert(currentLang === "ta" ? "மதிப்பீடு தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்." : "Could not check your answer. Please try again.");
     } finally {
       setEvaluating(false);
     }
@@ -316,12 +389,12 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
           <Maximize size={26} />
         </div>
         <h2 className="text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl">
-          {isTa ? "தேர்வு முழுத்திரையில் தொடங்கும்" : "This test runs in full screen"}
+          {isTa ? "தேர்வு முழுத்திரையில் தொடங்கும்" : "This test opens in full screen"}
         </h2>
         <p className="max-w-md text-xs text-slate-500 sm:text-sm">
           {isTa
             ? "நேர்மையான தேர்வை உறுதி செய்ய, முழுத்திரையில் தொடங்கும். முழுத்திரையிலிருந்து வெளியேறுவது அல்லது தாவலை மாற்றுவது ஏமாற்ற முயற்சியாகக் குறிக்கப்படும்."
-            : "To keep the test fair, it opens in full-screen mode. Exiting full screen or switching tabs during the test will be flagged as a possible attempt to cheat."}
+            : "The test opens in full screen to keep it fair. Do not leave full screen or open another tab. If you do, it will be marked as cheating."}
         </p>
         <button
           type="button"
@@ -350,20 +423,20 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
               <ShieldAlert size={24} />
             </div>
             <h2 className="mt-3 text-base font-extrabold tracking-tight text-slate-900">
-              {isTa ? "ஏமாற்ற முயற்சி கண்டறியப்பட்டது" : "Possible cheating attempt flagged"}
+              {isTa ? "ஏமாற்ற முயற்சி கண்டறியப்பட்டது" : "Warning: you left the test"}
             </h2>
             <p className="mt-2 text-xs text-slate-500 sm:text-sm">
               {violationReason === "fullscreen"
                 ? isTa
                   ? "நீங்கள் முழுத்திரையிலிருந்து வெளியேறிவிட்டீர்கள்."
-                  : "You exited full-screen mode."
+                  : "You left full screen."
                 : isTa
                   ? "நீங்கள் தேர்வு தாவலை விட்டு வெளியேறினீர்கள்."
-                  : "You switched away from the test tab or window."}
+                  : "You opened another tab or window."}
               {" "}
               {isTa
                 ? `இது பதிவு செய்யப்பட்டுள்ளது (மொத்த குறிப்புகள்: ${violations}). தொடர, முழுத்திரைக்குத் திரும்பவும் அல்லது தேர்வை விட்டு வெளியேறவும்.`
-                : `This has been recorded (total flags: ${violations}). To continue, return to full screen — or leave the test.`}
+                : `We saved this warning (total warnings: ${violations}). Go back to full screen to continue, or leave the test.`}
             </p>
             <div className="mt-5 flex flex-col gap-2 sm:flex-row">
               <button
@@ -390,14 +463,39 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
       {/* Test Controls Bar */}
       <div className="bg-white border border-slate-200 p-3 sm:p-4 rounded-xl shadow-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
 
-        {/* Left: Category Selector */}
+        {/* Left: Mode switch + category filter (bank mode only) */}
+        <div className="flex flex-wrap items-center gap-2">
+        {!hasBankQuestions && (
+          <span className="rounded-lg bg-brand-50 px-3 py-1 text-xs font-bold text-[#0284c7]">
+            {isTa ? "இயற்பியல் தேர்வு" : "Smart Physics Test"}
+          </span>
+        )}
+        {hasBankQuestions && (
+        <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-100 p-0.5">
+          {[
+            { id: "adaptive", label: isTa ? "இயற்பியல் தகவமைப்புத் தேர்வு" : "Smart Physics Test" },
+            { id: "bank", label: isTa ? "வினா வங்கி" : "Question Bank" },
+          ].map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setMode(m.id)}
+              className={`rounded-md px-3 py-1 text-xs font-bold transition-all ${
+                mode === m.id ? "bg-[#0284c7] text-white shadow-xs" : "text-slate-600 hover:text-[#0284c7]"
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+        )}
+        {mode === "bank" && (
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-xs font-semibold text-slate-500 mr-1">
-            {isTa ? "வகை:" : "Filter:"}
+            {isTa ? "வகை:" : "Type:"}
           </span>
           {[
             { id: "All", label: isTa ? "அனைத்தும்" : "All" },
-            { id: "MCQ", label: "MCQ" },
+            { id: "MCQ", label: isTa ? "1 மதிப்பெண்" : "1 Mark" },
             { id: "2 Marks", label: isTa ? "2 மதிப்பெண்" : "2 Marks" },
             { id: "5 Marks", label: isTa ? "5 மதிப்பெண்" : "5 Marks" }
           ].map((cat) => (
@@ -414,13 +512,15 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
             </button>
           ))}
         </div>
+        )}
+        </div>
 
         {/* Right: Violation Flag & Language Toggle */}
         <div className="flex items-center gap-2">
           {violations > 0 && (
             <span
               className="flex items-center gap-1.5 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600"
-              title={isTa ? "ஏமாற்ற முயற்சிகள் கண்டறியப்பட்டன" : "Possible cheating attempts flagged"}
+              title={isTa ? "ஏமாற்ற முயற்சிகள் கண்டறியப்பட்டன" : "Warnings"}
             >
               <ShieldAlert size={14} />
               {violations}
@@ -444,7 +544,24 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
             {isTa ? "வினாக்களை ஏற்றுகிறது..." : "Loading questions..."}
           </p>
         </div>
-      ) : questions.length === 0 ? (
+      ) : mode === "adaptive" && !session ? (
+        <AdaptiveSetup isTa={isTa} availableTopics={availableTopics} onStart={handleStartAdaptive} />
+      ) : mode === "adaptive" && session.finished ? (
+        <AdaptiveSummary session={session} isTa={isTa} onRestart={() => setSession(null)} />
+      ) : mode === "adaptive" && !currentQuestion ? (
+        <div className="bg-white border border-slate-200 rounded-xl p-10 text-center text-slate-500 shadow-xs">
+          <BookOpen size={30} className="text-[#0284c7] mx-auto mb-2 opacity-70" />
+          <p className="text-xs text-slate-600">
+            {isTa ? "இந்தத் தலைப்பு/நிலைக்கான வினா கிடைக்கவில்லை." : "No question found for this topic and level."}
+          </p>
+          <button
+            onClick={() => setSession(null)}
+            className="mt-3 rounded-lg bg-[#0284c7] px-4 py-1.5 text-xs font-bold text-white"
+          >
+            {isTa ? "தலைப்புகளுக்குத் திரும்பு" : "Back to topics"}
+          </button>
+        </div>
+      ) : mode === "bank" && questions.length === 0 ? (
         <div className="bg-white border border-slate-200 rounded-xl p-10 text-center text-slate-500 shadow-xs">
           <BookOpen size={30} className="text-[#0284c7] mx-auto mb-2 opacity-70" />
           <h3 className="text-sm font-bold text-slate-900 mb-1">
@@ -453,11 +570,13 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
             {isTa
               ? "இந்த பிரிவில் வினாக்கள் எதுவும் இல்லை. ஆசிரியர் போர்ட்டலில் புதிய வினாக்களைச் சேர்க்கலாம்."
-              : "No questions found for this filter."}
+              : "No questions here. Try another type."}
           </p>
         </div>
       ) : (
         <div className="space-y-5">
+          {adaptiveActive && <AdaptiveProgress session={session} isTa={isTa} />}
+
           {/* Question Card */}
           <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xs">
             
@@ -467,14 +586,17 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
                 <span className="px-2 py-0.5 bg-[#0284c7] text-white rounded text-[11px] font-bold uppercase">
                   {currentQuestion.category}
                 </span>
+                {currentQuestion.level && <LevelBadge level={currentQuestion.level} isTa={isTa} />}
                 <span className="text-xs font-semibold text-[#0284c7] bg-brand-50 border border-brand-100 px-2 py-0.5 rounded">
                   {currentQuestion.marks} {isTa ? "மதிப்பெண்" : (currentQuestion.marks === 1 ? "Mark" : "Marks")}
                 </span>
               </div>
 
-              <div className="text-xs font-bold text-slate-500">
-                {isTa ? "வினா:" : "Question:"} <span className="text-[#0284c7] font-extrabold">{currentIndex + 1}</span> / {questions.length}
-              </div>
+              {mode === "bank" && (
+                <div className="text-xs font-bold text-slate-500">
+                  {isTa ? "வினா:" : "Question:"} <span className="text-[#0284c7] font-extrabold">{currentIndex + 1}</span> / {questions.length}
+                </div>
+              )}
             </div>
 
             {/* Question Text */}
@@ -488,7 +610,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
             {currentQuestion.category === "MCQ" ? (
               <div className="space-y-2.5 my-4">
                 <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                  {isTa ? "சரியான விடையைத் தேர்ந்தெடுக்கவும்:" : "Select correct option:"}
+                  {isTa ? "சரியான விடையைத் தேர்ந்தெடுக்கவும்:" : "Choose the right answer:"}
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {currentQuestion.options?.map((opt, i) => (
@@ -602,7 +724,7 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
 
             {/* Bottom Actions */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-100">
-              <div className="flex items-center gap-1.5 w-full sm:w-auto">
+              <div className={`flex items-center gap-1.5 w-full sm:w-auto ${mode === "adaptive" ? "invisible" : ""}`}>
                 <button
                   type="button"
                   onClick={handlePrevQuestion}
@@ -627,18 +749,18 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
               <button
                 type="button"
                 onClick={handleSubmitAnswer}
-                disabled={evaluating}
+                disabled={evaluating || (mode === "adaptive" && !!evaluationResult)}
                 className="w-full sm:w-auto px-5 py-2 bg-[#0284c7] hover:bg-[#026aa2] text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-50"
               >
                 {evaluating ? (
                   <>
                     <RefreshCw size={14} className="animate-spin text-white" />
-                    <span>{isTa ? "மதிப்பிடுகிறது..." : "Evaluating..."}</span>
+                    <span>{isTa ? "மதிப்பிடுகிறது..." : "Checking..."}</span>
                   </>
                 ) : (
                   <>
                     <Sparkles size={14} />
-                    <span>{isTa ? "மதிப்பீடு செய்க" : "Evaluate Answer"}</span>
+                    <span>{isTa ? "மதிப்பீடு செய்க" : "Check My Answer"}</span>
                   </>
                 )}
               </button>
@@ -646,25 +768,26 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
           </div>
 
           {/* Evaluation Report Component */}
+          {evaluationResult && adaptiveActive && (
+            <AdaptiveNextStep
+              session={session}
+              accuracy={Number(evaluationResult.accuracy) || 0}
+              isTa={isTa}
+              onContinue={handleAdaptiveContinue}
+            />
+          )}
           {evaluationResult && (
             <EvaluationResultCard
               result={evaluationResult}
               sampleAnswer={currentQuestion.sampleAnswer}
               language={currentLang}
               onNextQuestion={
-                currentIndex < questions.length - 1 ? handleNextQuestion : null
+                mode === "bank" && currentIndex < questions.length - 1 ? handleNextQuestion : null
               }
             />
           )}
         </div>
       )}
-
-      {/* Floating Cartoon Mascot Bot with Current Question Context */}
-      <FloatingMascotBot
-        language={currentLang}
-        currentQuestion={currentQuestion?.question || ""}
-        currentCategory={currentQuestion?.category || ""}
-      />
     </div>
   );
 };
