@@ -61,13 +61,17 @@ const MODULE_BY_PATH = {
   "/profile": "progress",
 };
 
+// "/flashcards/" and "/flashcards" are the same screen — some hosts add the
+// trailing slash on refresh, which would otherwise fall through to Home.
+const normalizePath = (path) => path.replace(/\/+$/, "") || "/";
+
 function App() {
   const [messages, setMessages] = useState(() => {
     const savedMessages = localStorage.getItem("chatMessages");
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
   const [loading, setLoading] = useState(false);
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(normalizePath(window.location.pathname));
   const [language, setLanguage] = useState("en"); // Default English
   // Which Test Module tab to land on next time "/test" is opened — set by the
   // pathway homepage before navigating there so its "Video Lesson" node can
@@ -122,7 +126,7 @@ function App() {
   useEffect(() => {
     const handleLocationChange = () => {
       setNavigating(true);
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(normalizePath(window.location.pathname));
     };
     window.addEventListener("popstate", handleLocationChange);
     return () => window.removeEventListener("popstate", handleLocationChange);

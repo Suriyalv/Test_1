@@ -15,6 +15,12 @@ services:
         sync: false
       - key: AICREDITS_MODEL
         sync: false
+      # How many AI calls may run at once (ask AICredits for your plan's limit).
+      - key: AI_MAX_CONCURRENCY
+        value: "5"
+      # Mark each written answer twice (third pass on disagreement).
+      - key: PREPOST_CONSENSUS
+        value: "on"
       - key: ALLOWED_ORIGINS
         sync: false
       - key: FLASK_DEBUG

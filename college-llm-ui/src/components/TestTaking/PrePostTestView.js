@@ -447,13 +447,23 @@ const PrePostTestView = ({ language = "en" }) => {
     const onVisibility = () => {
       if (document.hidden) warn("switched-tab");
     };
-    const onBlur = () => warn("switched-window");
+    // Losing window focus only counts if it lasts: a notification or system
+    // pop-up can steal focus for a moment without the student doing anything.
+    let blurTimer = null;
+    const onBlur = () => {
+      clearTimeout(blurTimer);
+      blurTimer = setTimeout(() => {
+        if (!document.hasFocus()) warn("switched-window");
+      }, 2000);
+    };
+    const onFocus = () => clearTimeout(blurTimer);
     const block = (e) => e.preventDefault();
 
     document.addEventListener("fullscreenchange", onFullscreenChange);
     document.addEventListener("webkitfullscreenchange", onFullscreenChange);
     document.addEventListener("visibilitychange", onVisibility);
     window.addEventListener("blur", onBlur);
+    window.addEventListener("focus", onFocus);
     ["copy", "cut", "paste", "contextmenu"].forEach((t) => document.addEventListener(t, block));
 
     // Full screen can be refused (e.g. the click didn't count as a gesture) —
@@ -464,6 +474,8 @@ const PrePostTestView = ({ language = "en" }) => {
 
     return () => {
       clearTimeout(check);
+      clearTimeout(blurTimer);
+      window.removeEventListener("focus", onFocus);
       document.removeEventListener("fullscreenchange", onFullscreenChange);
       document.removeEventListener("webkitfullscreenchange", onFullscreenChange);
       document.removeEventListener("visibilitychange", onVisibility);

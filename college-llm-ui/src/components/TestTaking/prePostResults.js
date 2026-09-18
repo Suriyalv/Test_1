@@ -169,6 +169,7 @@ export function prePostCsv(students) {
     "Improvement (marks, latest Test 2 − latest Test 1)",
     "Rating (1-5)", "Comment",
     "Warnings (left full screen / switched tab)", "Auto-submitted", "Warning Details",
+    "Questions not marked by AI (check manually)",
   ];
   const rows = [header];
 
@@ -206,6 +207,7 @@ export function prePostCsv(students) {
           r.integrity ? r.integrity.warnings : "",
           r.integrity ? (r.integrity.autoSubmitted ? "Yes" : "No") : "",
           (r.integrity?.events || []).map((w) => `${w.type} @ ${new Date(w.at).toLocaleTimeString()}`).join("; "),
+          (r.questions || []).filter((q) => q.markedBy === "fallback").map((q) => q.label).join(" ") || "",
         ]);
       });
     });

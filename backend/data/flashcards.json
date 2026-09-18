@@ -6,8 +6,8 @@
       "accent": "blue",
       "image": "/flashcards/newtons-second-law.webp",
       "title": {
-        "en": "Newton's Second Law (F = ma)",
-        "ta": "நியூட்டனின் இரண்டாம் விதி (F = ma)"
+        "en": "Newton's Second Law",
+        "ta": "நியூட்டனின் இரண்டாம் விதி"
       },
       "description": {
         "en": [
@@ -33,8 +33,8 @@
       "accent": "violet",
       "image": "/flashcards/universal-law-of-gravitation.webp",
       "title": {
-        "en": "Universal Law of Gravitation (F = Gm₁m₂ / r²)",
-        "ta": "பொது ஈர்ப்பியல் விதி (F = Gm₁m₂ / r²)"
+        "en": "Universal Law of Gravitation",
+        "ta": "பொது ஈர்ப்பியல் விதி"
       },
       "description": {
         "en": [
@@ -87,8 +87,8 @@
       "accent": "amber",
       "image": "/flashcards/torque.webp",
       "title": {
-        "en": "Torque / Moment of Force (τ = F × d)",
-        "ta": "திருப்பு விசை / விசையின் திருப்புத்திறன் (τ = F × d)"
+        "en": "Torque / Moment of Force",
+        "ta": "திருப்பு விசை / விசையின் திருப்புத்திறன்"
       },
       "description": {
         "en": [
@@ -114,8 +114,8 @@
       "accent": "rose",
       "image": "",
       "title": {
-        "en": "Principle of Moments (F₁d₁ = F₂d₂)",
-        "ta": "திருப்புத்திறன் தத்துவம் (F₁d₁ = F₂d₂)"
+        "en": "Principle of Moments",
+        "ta": "திருப்புத்திறன் தத்துவம்"
       },
       "description": {
         "en": [
@@ -164,8 +164,8 @@
       "accent": "indigo",
       "image": "/flashcards/impulse.webp",
       "title": {
-        "en": "Impulse (J = F × t = Δp)",
-        "ta": "கணத்தாக்கு (J = F × t = Δp)"
+        "en": "Impulse",
+        "ta": "கணத்தாக்கு"
       },
       "description": {
         "en": [
