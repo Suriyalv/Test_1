@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db, usernameToEmail } from "../../firebase";
+import { logActivity } from "../../activity";
 import { Sparkles, User, IdCard, Lock, UserPlus, Loader2 } from "lucide-react";
 
 const USERNAME_PATTERN = /^[a-zA-Z0-9_]{3,20}$/;
@@ -62,6 +63,7 @@ const SignUpPage = ({ language = "en", onSwitchToLogin }) => {
         name: name.trim(),
         createdAt: serverTimestamp(),
       });
+      logActivity("auth", "signup");
       // onAuthStateChanged in App.js picks up the new session from here.
     } catch (err) {
       console.error("Sign up failed:", err.code);

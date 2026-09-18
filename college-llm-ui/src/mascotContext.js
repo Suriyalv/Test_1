@@ -16,6 +16,9 @@ const EMPTY_QUESTION = { question: "", category: "", options: [], answer: "" };
 
 export const MascotProvider = ({ children }) => {
   const [testQuestion, setTestQuestion] = useState(EMPTY_QUESTION);
+  // True while a closed-book exam (Test 1 / Test 2) is on screen — the mascot
+  // disappears entirely so no AI help is available during the test.
+  const [hidden, setHidden] = useState(false);
 
   const setCurrentTestQuestion = useCallback((question, category = "", options = [], answer = "") => {
     setTestQuestion({
@@ -31,11 +34,28 @@ export const MascotProvider = ({ children }) => {
   }, []);
 
   const value = useMemo(
-    () => ({ testQuestion, setCurrentTestQuestion, clearCurrentTestQuestion }),
-    [testQuestion, setCurrentTestQuestion, clearCurrentTestQuestion]
+    () => ({ testQuestion, setCurrentTestQuestion, clearCurrentTestQuestion, hidden, setHidden }),
+    [testQuestion, setCurrentTestQuestion, clearCurrentTestQuestion, hidden]
   );
 
   return <MascotContext.Provider value={value}>{children}</MascotContext.Provider>;
+};
+
+/** True while a view has asked for the mascot to be hidden (see useHideMascot). */
+export const useMascotHidden = () => {
+  const ctx = useContext(MascotContext);
+  return ctx ? ctx.hidden : false;
+};
+
+/** Hides the mascot while `active` is true; restores it on unmount. */
+export const useHideMascot = (active) => {
+  const ctx = useContext(MascotContext);
+  const setHidden = ctx?.setHidden;
+  React.useEffect(() => {
+    if (!setHidden) return undefined;
+    setHidden(Boolean(active));
+    return () => setHidden(false);
+  }, [active, setHidden]);
 };
 
 /** Used by the one global FloatingMascotBot instance to read the active question. */

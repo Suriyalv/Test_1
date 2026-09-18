@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "./firebase";
+import { logActivity } from "./activity";
 import { chatWithAI } from "./api";
 import ChatContainer from "./components/ChatContainer";
 import MessageBubble from "./components/MessageBubble";
@@ -16,6 +17,8 @@ import ConceptBridgeModule from "./components/ConceptBridge/ConceptBridgeModule"
 import MoviePhysicsModule from "./components/MoviePhysics/MoviePhysicsModule";
 import MyProgress from "./components/Progress/MyProgress";
 import AdminActivityDashboard from "./components/Admin/AdminActivityDashboard";
+import AdminStudentRecords from "./components/Admin/AdminStudentRecords";
+import ProfilePage from "./components/Profile/ProfilePage";
 import FloatingMascotBot from "./components/FloatingMascotBot";
 import { MascotProvider } from "./mascotContext";
 import HomePage from "./components/Home/HomePage";
@@ -38,8 +41,25 @@ import {
   Lightbulb,
   LineChart,
   ShieldCheck,
+  Users,
+  UserCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+// Route -> module name written to activityLog when a signed-in student opens
+// that screen. Names match the ones each module already logs its own events
+// under, so the admin Student Records page can group them together.
+const MODULE_BY_PATH = {
+  "/chat": "chat",
+  "/test": "test",
+  "/flashcards": "flashcards",
+  "/mindmap": "mindmap",
+  "/kahoot": "kahoot",
+  "/concept-bridge": "concept-bridge",
+  "/movie-physics": "movie_physics",
+  "/progress": "progress",
+  "/profile": "progress",
+};
 
 function App() {
   const [messages, setMessages] = useState(() => {
@@ -108,6 +128,12 @@ function App() {
     return () => window.removeEventListener("popstate", handleLocationChange);
   }, []);
 
+  // Record which modules each student opens (admin Student Records page).
+  useEffect(() => {
+    const module = MODULE_BY_PATH[currentPath];
+    if (authUser && module) logActivity(module, "opened");
+  }, [currentPath, authUser]);
+
   // The screen for this path has now mounted, so the loading page can lift.
   // PageLoader still honours its own minimum, so this never flickers.
   useEffect(() => {
@@ -137,6 +163,10 @@ function App() {
 
     try {
       const data = await chatWithAI(input, messages, selectedSubject, language);
+      logActivity("chat", "question_asked", {
+        question: input.slice(0, 200),
+        subject: selectedSubject || "",
+      });
 
       const botMessage = {
         role: "assistant",
@@ -279,6 +309,18 @@ function App() {
               </span>
             </button>
 
+            {/* Nav: My Profile — performance report, strengths & weaknesses */}
+            <button
+              onClick={() => navigateTo("/profile")}
+              className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-2.5 font-semibold text-xs sm:text-sm text-slate-700 transition-all hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 active:scale-95"
+              title="My Profile"
+            >
+              <UserCircle size={15} />
+              <span className="hidden sm:inline">
+                {language === "ta" ? "என் சுயவிவரம்" : "My Profile"}
+              </span>
+            </button>
+
             {/* Nav: My Progress */}
             <button
               onClick={() => navigateTo("/progress")}
@@ -301,6 +343,20 @@ function App() {
                 <ShieldCheck size={15} />
                 <span className="hidden sm:inline">
                   {language === "ta" ? "நிர்வாகம்" : "Admin"}
+                </span>
+              </button>
+            )}
+
+            {/* Nav: Admin Student Records — test marks, logins and modules per student */}
+            {role === "admin" && (
+              <button
+                onClick={() => navigateTo("/admin/students")}
+                className="flex h-9 items-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-slate-900 px-2.5 font-semibold text-xs sm:text-sm text-white transition-all hover:bg-slate-800 active:scale-95"
+                title="Student Records"
+              >
+                <Users size={15} />
+                <span className="hidden sm:inline">
+                  {language === "ta" ? "மாணவர் பதிவுகள்" : "Student Records"}
                 </span>
               </button>
             )}
@@ -340,7 +396,10 @@ function App() {
 
             {/* Log Out */}
             <button
-              onClick={() => signOut(auth)}
+              onClick={async () => {
+                await logActivity("auth", "logout");
+                signOut(auth);
+              }}
               className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600"
               title={language === "ta" ? "வெளியேறு" : "Log Out"}
             >
@@ -451,6 +510,8 @@ function App() {
     screen = <ConceptBridgeModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
   } else if (currentPath === "/movie-physics") {
     screen = <MoviePhysicsModule onBackToHome={() => navigateTo("/")} initialLanguage={language} />;
+  } else if (currentPath === "/profile") {
+    screen = <ProfilePage onBack={() => navigateTo("/")} language={language} />;
   } else if (currentPath === "/progress") {
     screen = <MyProgress onBackToHome={() => navigateTo("/")} language={language} />;
   } else if (currentPath === "/pathway") {
@@ -468,16 +529,24 @@ function App() {
         onToggleLanguage={toggleLanguage}
       />
     );
+  } else if (currentPath === "/admin/students") {
+    screen =
+      role === "admin" ? (
+        <AdminStudentRecords onBackToHome={() => navigateTo("/")} onNavigate={navigateTo} language={language} />
+      ) : (
+        <HomePage onNavigate={navigateTo} language={language} onToggleLanguage={toggleLanguage} isAdmin={role === "admin"} />
+      );
   } else if (currentPath === "/admin/activity") {
     screen =
       role === "admin" ? (
-        <AdminActivityDashboard onBackToHome={() => navigateTo("/")} language={language} />
+        <AdminActivityDashboard onBackToHome={() => navigateTo("/")} onNavigate={navigateTo} language={language} />
       ) : (
-        <HomePage onNavigate={navigateTo} language={language} onToggleLanguage={toggleLanguage} />
+        <HomePage onNavigate={navigateTo} language={language} onToggleLanguage={toggleLanguage} isAdmin={role === "admin"} />
       );
   } else {
     screen = (
       <HomePage
+        isAdmin={role === "admin"}
         onNavigate={navigateTo}
         onNavigateToTest={(tab) => {
           setPendingTestTab(tab);

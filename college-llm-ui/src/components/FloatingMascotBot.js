@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Volume2, VolumeX, Send, RefreshCw, Sparkles } from "lucide-react";
 import { fetchMascotHint } from "../api";
-import { useMascotTestQuestion } from "../mascotContext";
+import { useMascotTestQuestion, useMascotHidden } from "../mascotContext";
 import ArkMessage, { arkReplyToSpeech } from "./ArkMessage";
 
 // ─── Panda Mascot "Ark" — photoreal poses, not drawn ───────────────────────────
@@ -96,6 +96,7 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
   // screen" from context, published by StudentTestView/VideoLessonView
   // without any route wiring.
   const ctxQuestion = useMascotTestQuestion();
+  const hiddenForExam = useMascotHidden();
   const activeQuestion = currentQuestion || ctxQuestion.question;
   const activeCategory = ctxQuestion.category;
   const activeOptions = currentQuestion ? [] : ctxQuestion.options;
@@ -319,6 +320,8 @@ const FloatingMascotBot = ({ language = "en", currentQuestion = "" }) => {
   const currentPose = pickMascotPose({ open, mood, isLoading, introducing, loadingFrame });
   const showDoubtInput = !isClueMode && (doubtStatus === "idle" || doubtStatus === "answered") && done;
   const showTestContinue = isClueMode && !testLoading && testHintLevel < 3 && testHintLevel > 0 && done;
+
+  if (hiddenForExam) return null;
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-2 select-none">

@@ -38,7 +38,7 @@ const StatCard = ({ label, value, icon: Icon }) => (
  * chart, real hierarchy. Deliberately not the vibrant student-module
  * palette; this page is for monitoring, not for a student to enjoy.
  */
-const AdminActivityDashboard = ({ onBackToHome, language = "en" }) => {
+const AdminActivityDashboard = ({ onBackToHome, onNavigate, language = "en" }) => {
   const isTa = language === "ta";
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -99,6 +99,17 @@ const AdminActivityDashboard = ({ onBackToHome, language = "en" }) => {
           </div>
         </div>
 
+        <div className="flex items-center gap-2">
+        {onNavigate && (
+          <button
+            type="button"
+            onClick={() => onNavigate("/admin/students")}
+            className="flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white transition-all hover:bg-slate-800 active:scale-95"
+          >
+            <Users size={14} />
+            {isTa ? "மாணவர் பதிவுகள்" : "Student Records"}
+          </button>
+        )}
         <button
           type="button"
           onClick={load}
@@ -107,6 +118,7 @@ const AdminActivityDashboard = ({ onBackToHome, language = "en" }) => {
           <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
           {isTa ? "புதுப்பிக்க" : "Refresh"}
         </button>
+        </div>
       </header>
 
       <main className="mx-auto max-w-6xl space-y-6 px-4 pt-6">

@@ -2,12 +2,18 @@ services:
   - type: web
     name: kalvi-backend
     runtime: python
-    plan: free
+    # Paid plan: always on (the free plan sleeps after 15 min idle).
+    plan: starter
     rootDir: backend
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    # ONE process (Kahoot multiplayer rooms live in its memory) with 32 threads
+    # so a whole class can mark tests and poll rooms at the same time. Timeout
+    # 120 s because Test 1/2 marking makes several AI calls per submission.
+    startCommand: gunicorn app:app --workers 1 --threads 32 --timeout 120
     envVars:
-      - key: OPENROUTER_API_KEY
+      - key: AICREDITS_API_KEY
+        sync: false
+      - key: AICREDITS_MODEL
         sync: false
       - key: ALLOWED_ORIGINS
         sync: false

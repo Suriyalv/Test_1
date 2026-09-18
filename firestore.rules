@@ -1,0 +1,56 @@
+rules_version = '2';
+
+// Paste into Firebase console -> Firestore Database -> Rules, then Publish.
+// To make someone an admin, set  role: "admin"  on their users/{uid} doc from
+// the Firebase console — students can never write that field themselves.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    // Student profile: username, name, createdAt (+ role, console-only).
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn() && request.auth.uid == uid
+        && !("role" in request.resource.data);
+      allow update: if signedIn() && request.auth.uid == uid
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(["role"]);
+      allow delete: if false;
+
+      // Flashcard spaced-repetition progress, private to each student.
+      match /cardProgress/{cardId} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    // Logins, modules opened, test marks, quiz scores — one doc per event.
+    // Students may only add their own events and read their own (My Progress);
+    // admins read everything (Activity + Student Records pages).
+    // Nobody can edit or delete a record once written.
+    match /activityLog/{eventId} {
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow read: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+      allow update, delete: if false;
+    }
+
+    // Test 1 / Test 2 retake permissions: { test1: <time>, test2: <time> }.
+    // Only admins grant or cancel; a student can read their own to see the
+    // Retake button. The grant is used up by submitting a newer attempt.
+    match /retakeGrants/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // Everything else stays locked.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

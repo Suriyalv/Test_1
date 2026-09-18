@@ -347,6 +347,8 @@ const StudentTestView = ({ language = "en", setLanguage }) => {
       const res = await evaluateTestAnswer(payload);
       setEvaluationResult(res);
       logActivity("test", "attempt", {
+        questionId: currentQuestion.id ?? null,
+        question: String(currentQuestion.question || "").slice(0, 200),
         category: currentQuestion.category,
         accuracy: typeof res.accuracy === "number" ? res.accuracy : null,
         ...(currentQuestion.topic ? { topic: currentQuestion.topic, level: currentQuestion.level } : {}),

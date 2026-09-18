@@ -1,0 +1,286 @@
+{
+  "id": "physics-forces-motion",
+  "title": { "en": "Forces and Motion", "ta": "விசையும் இயக்கமும்" },
+  "totalMarks": 25,
+  "sections": [
+    {
+      "id": "A",
+      "marksEach": 1,
+      "title": { "en": "Part A — Choose the correct answer (5 × 1 = 5)", "ta": "பகுதி அ — சரியான விடையைத் தேர்ந்தெடு (5 × 1 = 5)" }
+    },
+    {
+      "id": "B",
+      "marksEach": 2,
+      "title": { "en": "Part B — Answer briefly (5 × 2 = 10)", "ta": "பகுதி ஆ — சுருக்கமாக விடையளி (5 × 2 = 10)" }
+    },
+    {
+      "id": "C",
+      "marksEach": 5,
+      "title": { "en": "Part C — Answer in detail. Choose (a) OR (b) in each question (2 × 5 = 10)", "ta": "பகுதி இ — விரிவாக விடையளி. ஒவ்வொரு வினாவிலும் (அ) அல்லது (ஆ) ஒன்றைத் தேர்ந்தெடு (2 × 5 = 10)" }
+    }
+  ],
+  "questions": [
+    {
+      "id": "A1",
+      "section": "A",
+      "number": 1,
+      "type": "mcq",
+      "marks": 1,
+      "topic": "newtons-second-law",
+      "question": {
+        "en": "A force of 20 N acts on a body of mass 4 kg. What is its acceleration?",
+        "ta": "4 kg நிறையுள்ள ஒரு பொருளின் மீது 20 N விசை செயல்படுகிறது. அதன் முடுக்கம் என்ன?"
+      },
+      "options": {
+        "en": ["80 m/s²", "5 m/s²", "0.2 m/s²", "24 m/s²"],
+        "ta": ["80 m/s²", "5 m/s²", "0.2 m/s²", "24 m/s²"]
+      },
+      "correctIndex": 1,
+      "sampleAnswer": {
+        "en": "a = F / m = 20 / 4 = 5 m/s²",
+        "ta": "a = F / m = 20 / 4 = 5 m/s²"
+      }
+    },
+    {
+      "id": "A2",
+      "section": "A",
+      "number": 2,
+      "type": "mcq",
+      "marks": 1,
+      "topic": "gravitation",
+      "question": {
+        "en": "If the distance between two masses is doubled, the gravitational force between them becomes:",
+        "ta": "இரு நிறைகளுக்கு இடையிலான தொலைவு இருமடங்கானால், அவற்றுக்கு இடையிலான ஈர்ப்பு விசை:"
+      },
+      "options": {
+        "en": ["Double", "Half", "One-fourth", "Four times"],
+        "ta": ["இருமடங்காகும்", "பாதியாகும்", "நான்கில் ஒரு பங்காகும்", "நான்கு மடங்காகும்"]
+      },
+      "correctIndex": 2,
+      "sampleAnswer": {
+        "en": "F ∝ 1/r². If r becomes 2r, F becomes F/4 (one-fourth).",
+        "ta": "F ∝ 1/r². r ஆனது 2r ஆனால், F ஆனது F/4 (நான்கில் ஒரு பங்கு) ஆகும்."
+      }
+    },
+    {
+      "id": "A3",
+      "section": "A",
+      "number": 3,
+      "type": "mcq",
+      "marks": 1,
+      "topic": "mass-vs-weight",
+      "question": {
+        "en": "The mass of a person is 60 kg on the Earth. What will be the mass of the person on the Moon?",
+        "ta": "பூமியில் ஒருவரின் நிறை 60 kg. நிலவில் அவரது நிறை என்னவாக இருக்கும்?"
+      },
+      "options": {
+        "en": ["10 kg", "60 kg", "360 kg", "0 kg"],
+        "ta": ["10 kg", "60 kg", "360 kg", "0 kg"]
+      },
+      "correctIndex": 1,
+      "sampleAnswer": {
+        "en": "Mass is the quantity of matter and does not change anywhere, so it stays 60 kg. Only weight changes.",
+        "ta": "நிறை என்பது பருப்பொருளின் அளவு; அது எங்கும் மாறாது. எனவே 60 kg ஆகவே இருக்கும். எடை மட்டுமே மாறும்."
+      }
+    },
+    {
+      "id": "A4",
+      "section": "A",
+      "number": 4,
+      "type": "mcq",
+      "marks": 1,
+      "topic": "torque",
+      "question": {
+        "en": "The SI unit of moment of force (torque) is:",
+        "ta": "விசையின் திருப்புத்திறனின் (திருப்பு விசை) SI அலகு:"
+      },
+      "options": {
+        "en": ["N", "N·s", "N·m", "kg·m/s"],
+        "ta": ["N", "N·s", "N·m", "kg·m/s"]
+      },
+      "correctIndex": 2,
+      "sampleAnswer": {
+        "en": "τ = F × d, so the unit is newton × metre = N·m.",
+        "ta": "τ = F × d, எனவே அலகு நியூட்டன் × மீட்டர் = N·m."
+      }
+    },
+    {
+      "id": "A5",
+      "section": "A",
+      "number": 5,
+      "type": "mcq",
+      "marks": 1,
+      "topic": "impulse",
+      "question": {
+        "en": "Impulse is equal to:",
+        "ta": "கணத்தாக்கு என்பது இதற்குச் சமம்:"
+      },
+      "options": {
+        "en": ["Change in momentum", "Rate of change of momentum", "Mass × acceleration", "Force × distance"],
+        "ta": ["உந்த மாற்றம்", "உந்த மாற்ற வீதம்", "நிறை × முடுக்கம்", "விசை × தொலைவு"]
+      },
+      "correctIndex": 0,
+      "sampleAnswer": {
+        "en": "Impulse J = F × t = Δp, the change in momentum.",
+        "ta": "கணத்தாக்கு J = F × t = Δp, அதாவது உந்த மாற்றம்."
+      }
+    },
+    {
+      "id": "B6",
+      "section": "B",
+      "number": 6,
+      "type": "written",
+      "marks": 2,
+      "topic": "newtons-second-law",
+      "question": {
+        "en": "A car of mass 1000 kg moves with a uniform acceleration of 2 m/s². Calculate the force acting on the car.",
+        "ta": "1000 kg நிறையுள்ள ஒரு மகிழுந்து 2 m/s² சீரான முடுக்கத்துடன் இயங்குகிறது. மகிழுந்தின் மீது செயல்படும் விசையைக் கணக்கிடுக."
+      },
+      "sampleAnswer": {
+        "en": "Given m = 1000 kg, a = 2 m/s². By Newton's second law, F = ma = 1000 × 2 = 2000 N.",
+        "ta": "கொடுக்கப்பட்டவை: m = 1000 kg, a = 2 m/s². நியூட்டனின் இரண்டாம் விதிப்படி F = ma = 1000 × 2 = 2000 N."
+      },
+      "keywords": ["F = ma", "1000", "2", "2000 N"]
+    },
+    {
+      "id": "B7",
+      "section": "B",
+      "number": 7,
+      "type": "written",
+      "marks": 2,
+      "topic": "gravitation",
+      "question": {
+        "en": "State Newton's universal law of gravitation.",
+        "ta": "நியூட்டனின் பொது ஈர்ப்பியல் விதியைக் கூறுக."
+      },
+      "sampleAnswer": {
+        "en": "Every particle of matter in the universe attracts every other particle with a force that is directly proportional to the product of their masses and inversely proportional to the square of the distance between their centres. F = G m₁m₂ / r².",
+        "ta": "அண்டத்தில் உள்ள ஒவ்வொரு பொருளும் மற்ற ஒவ்வொரு பொருளையும் ஒரு விசையுடன் ஈர்க்கிறது. அவ்விசை அவற்றின் நிறைகளின் பெருக்கற்பலனுக்கு நேர்விகிதத்திலும், அவற்றின் மையங்களுக்கு இடையிலான தொலைவின் இருமடிக்கு எதிர்விகிதத்திலும் இருக்கும். F = G m₁m₂ / r²."
+      },
+      "keywords": ["attracts", "product of masses", "square of the distance", "F = Gm1m2/r²"]
+    },
+    {
+      "id": "B8",
+      "section": "B",
+      "number": 8,
+      "type": "written",
+      "marks": 2,
+      "topic": "mass-vs-weight",
+      "question": {
+        "en": "An object has a mass of 10 kg. Calculate its weight on the Earth. (g = 9.8 m/s²)",
+        "ta": "ஒரு பொருளின் நிறை 10 kg. பூமியில் அதன் எடையைக் கணக்கிடுக. (g = 9.8 m/s²)"
+      },
+      "sampleAnswer": {
+        "en": "Weight W = mg = 10 × 9.8 = 98 N.",
+        "ta": "எடை W = mg = 10 × 9.8 = 98 N."
+      },
+      "keywords": ["W = mg", "10", "9.8", "98 N"]
+    },
+    {
+      "id": "B9",
+      "section": "B",
+      "number": 9,
+      "type": "written",
+      "marks": 2,
+      "topic": "torque",
+      "question": {
+        "en": "A force of 50 N is applied perpendicular to a spanner at a distance of 0.2 m from the nut. Calculate the moment of force (torque).",
+        "ta": "ஒரு திருகுக் குறடின் (spanner) மீது, மரையாணியிலிருந்து 0.2 m தொலைவில், செங்குத்தாக 50 N விசை செலுத்தப்படுகிறது. விசையின் திருப்புத்திறனைக் (திருப்பு விசை) கணக்கிடுக."
+      },
+      "sampleAnswer": {
+        "en": "τ = F × d = 50 × 0.2 = 10 N·m.",
+        "ta": "τ = F × d = 50 × 0.2 = 10 N·m."
+      },
+      "keywords": ["τ = F × d", "50", "0.2", "10 N·m"]
+    },
+    {
+      "id": "B10",
+      "section": "B",
+      "number": 10,
+      "type": "written",
+      "marks": 2,
+      "topic": "conservation-of-momentum",
+      "question": {
+        "en": "State the law of conservation of linear momentum.",
+        "ta": "நேர்க்கோட்டு உந்த அழிவின்மை விதியைக் கூறுக."
+      },
+      "sampleAnswer": {
+        "en": "When no external force acts on a system, the total linear momentum before a collision (or explosion) is equal to the total linear momentum after it. m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂.",
+        "ta": "ஒரு அமைப்பின் மீது புறவிசை எதுவும் செயல்படாதபோது, மோதலுக்கு (அல்லது வெடிப்புக்கு) முன் உள்ள மொத்த நேர்க்கோட்டு உந்தம், அதற்குப் பின் உள்ள மொத்த நேர்க்கோட்டு உந்தத்திற்குச் சமம். m₁u₁ + m₂u₂ = m₁v₁ + m₂v₂."
+      },
+      "keywords": ["no external force", "total momentum", "before", "after", "m1u1 + m2u2 = m1v1 + m2v2"]
+    },
+    {
+      "id": "C11a",
+      "section": "C",
+      "number": 11,
+      "choice": "a",
+      "type": "written",
+      "marks": 5,
+      "topic": "conservation-of-momentum",
+      "question": {
+        "en": "A bullet of mass 0.01 kg is fired from a gun of mass 5 kg with a velocity of 250 m/s. Calculate the recoil velocity of the gun. Name and state the law you used.",
+        "ta": "5 kg நிறையுள்ள ஒரு துப்பாக்கியிலிருந்து 0.01 kg நிறையுள்ள ஒரு குண்டு 250 m/s திசைவேகத்தில் சுடப்படுகிறது. துப்பாக்கியின் பின்னியக்கத் திசைவேகத்தைக் கணக்கிடுக. நீ பயன்படுத்திய விதியின் பெயரைக் குறிப்பிட்டு அதைக் கூறுக."
+      },
+      "sampleAnswer": {
+        "en": "Law of conservation of linear momentum: with no external force, total momentum before = total momentum after. Before firing, gun and bullet are at rest, so total momentum = 0. After firing: m₁v₁ + m₂v₂ = 0 → (0.01 × 250) + (5 × v₂) = 0 → 2.5 + 5v₂ = 0 → v₂ = −0.5 m/s. The gun recoils backwards with a velocity of 0.5 m/s (negative sign = opposite to the bullet).",
+        "ta": "நேர்க்கோட்டு உந்த அழிவின்மை விதி: புறவிசை இல்லாதபோது, முன் உள்ள மொத்த உந்தம் = பின் உள்ள மொத்த உந்தம். சுடுவதற்கு முன் துப்பாக்கியும் குண்டும் ஓய்வில் உள்ளன, எனவே மொத்த உந்தம் = 0. சுட்ட பின்: m₁v₁ + m₂v₂ = 0 → (0.01 × 250) + (5 × v₂) = 0 → 2.5 + 5v₂ = 0 → v₂ = −0.5 m/s. துப்பாக்கி 0.5 m/s திசைவேகத்தில் பின்னோக்கி நகர்கிறது (எதிர்க்குறி = குண்டின் திசைக்கு எதிர்த்திசை)."
+      },
+      "keywords": ["conservation of linear momentum", "total momentum = 0", "0.01 × 250", "5 × v", "-0.5 m/s", "backward"]
+    },
+    {
+      "id": "C11b",
+      "section": "C",
+      "number": 11,
+      "choice": "b",
+      "type": "written",
+      "marks": 5,
+      "topic": "impulse",
+      "question": {
+        "en": "What is impulse? Write its formula and SI unit. Explain why a cricket player lowers his hands while catching a fast-moving ball.",
+        "ta": "கணத்தாக்கு என்றால் என்ன? அதன் சூத்திரம் மற்றும் SI அலகை எழுதுக. வேகமாக வரும் பந்தைப் பிடிக்கும்போது கிரிக்கெட் வீரர் தனது கைகளைக் கீழே இறக்குவது ஏன் என விளக்குக."
+      },
+      "sampleAnswer": {
+        "en": "Impulse is the total effect of a large force acting for a short time. It is equal to the change in momentum. Formula: J = F × t = Δp = m(v − u). SI unit: N·s (or kg·m/s). While catching a fast ball, the ball's momentum must become zero, so the change in momentum is fixed. By lowering his hands, the player increases the time (t) taken to stop the ball. Since F = Δp / t, a larger time means a smaller force on the hands, so the hands are not hurt. (Other examples: airbags, sand pits for long jump.)",
+        "ta": "குறுகிய நேரம் செயல்படும் பெரிய விசையின் மொத்த விளைவே கணத்தாக்கு. இது உந்த மாற்றத்திற்குச் சமம். சூத்திரம்: J = F × t = Δp = m(v − u). SI அலகு: N·s (அல்லது kg·m/s). வேகமான பந்தைப் பிடிக்கும்போது பந்தின் உந்தம் சுழியாக வேண்டும்; எனவே உந்த மாற்றம் மாறாதது. கைகளைக் கீழே இறக்குவதால் பந்தை நிறுத்த எடுக்கும் நேரம் (t) அதிகரிக்கிறது. F = Δp / t என்பதால், நேரம் அதிகமானால் கைகளின் மீதான விசை குறையும்; கைகளில் காயம் ஏற்படாது. (பிற எடுத்துக்காட்டுகள்: காற்றுப்பை, நீளம் தாண்டுதலில் மணல் குழி.)"
+      },
+      "keywords": ["change in momentum", "J = F × t", "N·s", "increases time", "reduces force"]
+    },
+    {
+      "id": "C12a",
+      "section": "C",
+      "number": 12,
+      "choice": "a",
+      "type": "written",
+      "marks": 5,
+      "topic": "gravitation",
+      "question": {
+        "en": "Calculate the gravitational force between two objects of masses 50 kg and 100 kg kept 2 m apart. (G = 6.67 × 10⁻¹¹ N m² kg⁻²) What happens to this force if the distance between them is doubled?",
+        "ta": "2 m இடைவெளியில் வைக்கப்பட்டுள்ள 50 kg மற்றும் 100 kg நிறையுள்ள இரு பொருள்களுக்கு இடையிலான ஈர்ப்பு விசையைக் கணக்கிடுக. (G = 6.67 × 10⁻¹¹ N m² kg⁻²) அவற்றுக்கு இடையிலான தொலைவு இருமடங்கானால் இவ்விசை என்னவாகும்?"
+      },
+      "sampleAnswer": {
+        "en": "F = G m₁m₂ / r² = (6.67 × 10⁻¹¹ × 50 × 100) / 2² = (6.67 × 10⁻¹¹ × 5000) / 4 = 8.34 × 10⁻⁸ N (approximately). Since F ∝ 1/r², if the distance is doubled the force becomes one-fourth: 8.34 × 10⁻⁸ / 4 ≈ 2.08 × 10⁻⁸ N.",
+        "ta": "F = G m₁m₂ / r² = (6.67 × 10⁻¹¹ × 50 × 100) / 2² = (6.67 × 10⁻¹¹ × 5000) / 4 = 8.34 × 10⁻⁸ N (தோராயமாக). F ∝ 1/r² என்பதால், தொலைவு இருமடங்கானால் விசை நான்கில் ஒரு பங்காகும்: 8.34 × 10⁻⁸ / 4 ≈ 2.08 × 10⁻⁸ N."
+      },
+      "keywords": ["F = Gm1m2/r²", "5000", "4", "8.34 × 10⁻⁸ N", "one-fourth"]
+    },
+    {
+      "id": "C12b",
+      "section": "C",
+      "number": 12,
+      "choice": "b",
+      "type": "written",
+      "marks": 5,
+      "topic": "newtons-second-law",
+      "question": {
+        "en": "State Newton's second law of motion and derive the equation F = ma. Define one newton.",
+        "ta": "நியூட்டனின் இரண்டாம் இயக்க விதியைக் கூறி, F = ma என்ற சமன்பாட்டைத் தருவி. ஒரு நியூட்டனை வரையறு."
+      },
+      "sampleAnswer": {
+        "en": "Newton's second law: the force acting on a body is directly proportional to the rate of change of its linear momentum, and the change takes place in the direction of the force. Derivation: a body of mass m changes velocity from u to v in time t. Initial momentum = mu, final momentum = mv. Change in momentum = m(v − u). Rate of change = m(v − u)/t. Since a = (v − u)/t, F ∝ ma, so F = k·ma. In SI units k = 1, therefore F = ma. One newton is the force that produces an acceleration of 1 m/s² in a body of mass 1 kg.",
+        "ta": "நியூட்டனின் இரண்டாம் விதி: ஒரு பொருளின் மீது செயல்படும் விசை, அதன் நேர்க்கோட்டு உந்த மாற்ற வீதத்திற்கு நேர்விகிதத்தில் இருக்கும்; உந்த மாற்றம் விசையின் திசையிலேயே நிகழும். தருவித்தல்: m நிறையுள்ள பொருளின் திசைவேகம் t நேரத்தில் u இலிருந்து v ஆக மாறுகிறது. தொடக்க உந்தம் = mu, இறுதி உந்தம் = mv. உந்த மாற்றம் = m(v − u). உந்த மாற்ற வீதம் = m(v − u)/t. a = (v − u)/t என்பதால் F ∝ ma, அதாவது F = k·ma. SI அலகுகளில் k = 1, எனவே F = ma. ஒரு நியூட்டன் என்பது 1 kg நிறையுள்ள பொருளில் 1 m/s² முடுக்கத்தை உண்டாக்கும் விசை."
+      },
+      "keywords": ["rate of change of momentum", "m(v − u)/t", "a = (v − u)/t", "F = ma", "1 kg", "1 m/s²"]
+    }
+  ]
+}

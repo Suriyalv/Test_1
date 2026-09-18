@@ -6,6 +6,8 @@ import {
   fetchKahootQuiz,
   addKahootQuestion,
   deleteKahootQuestion,
+  updateKahootQuestion,
+  reorderKahootQuestions,
 } from "../../api";
 import { KAHOOT_TILES } from "./kahootTheme";
 import {
@@ -19,6 +21,12 @@ import {
   Timer,
   ChevronLeft,
   ListChecks,
+  GripVertical,
+  Edit3,
+  Save,
+  X,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -274,10 +282,222 @@ const QuestionForm = ({ quizId, onAdded, isTa }) => {
   );
 };
 
+/* ── Edit Question Modal ─────────────────────────────────────────────────── */
+const EditQuestionModal = ({ quizId, question, onClose, onSaved, isTa }) => {
+  const [questionText, setQuestionText] = useState(question.question || "");
+  const [image, setImage] = useState(question.image || "");
+  const [imgBroken, setImgBroken] = useState(false);
+  const [options, setOptions] = useState([...(question.options || ["", "", "", ""])]);
+  const [correctIndex, setCorrectIndex] = useState(question.correctIndex ?? 0);
+  const [timeLimit, setTimeLimit] = useState(question.timeLimit || 20);
+  const [explanation, setExplanation] = useState(question.explanation || "");
+  const [saving, setSaving] = useState(false);
+
+  const handleOptionChange = (idx, val) => {
+    setOptions((prev) => {
+      const next = [...prev];
+      next[idx] = val;
+      return next;
+    });
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!questionText.trim()) {
+      alert(isTa ? "வினா உரையை உள்ளிடவும்" : "Please enter the question text");
+      return;
+    }
+    if (options.some((o) => !o.trim())) {
+      alert(isTa ? "அனைத்து 4 தெரிவுகளையும் நிரப்பவும்" : "Please fill in all 4 answer options");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await updateKahootQuestion(quizId, question.id, {
+        question: questionText.trim(),
+        image: image.trim(),
+        options: options.map((o) => o.trim()),
+        correctIndex,
+        timeLimit: parseInt(timeLimit, 10) || 20,
+        explanation: explanation.trim(),
+      });
+      onSaved();
+      onClose();
+    } catch (err) {
+      console.error("Failed to update question:", err);
+      alert(err.message || "Failed to update question");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-xs">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl"
+      >
+        <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2">
+            <Edit3 size={18} className="text-[#0284c7]" />
+            <h3 className="text-base font-extrabold text-slate-900">
+              {isTa ? "வினாவைத் திருத்து" : "Edit Question"}
+            </h3>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        <form onSubmit={handleSave} className="space-y-4">
+          <div>
+            <label className={labelClass}>
+              {isTa ? "வினா உரை" : "Question Text"} *
+            </label>
+            <textarea
+              rows={2}
+              value={questionText}
+              onChange={(e) => setQuestionText(e.target.value)}
+              className={inputClass}
+              required
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              <span className="inline-flex items-center gap-1.5">
+                <ImageIcon size={13} /> {isTa ? "பட URL (விருப்பத்தேர்வு)" : "Image URL (optional)"}
+              </span>
+            </label>
+            <input
+              type="url"
+              value={image}
+              onChange={(e) => {
+                setImage(e.target.value);
+                setImgBroken(false);
+              }}
+              placeholder="https://..."
+              className={inputClass}
+            />
+            {image.trim() && !imgBroken && (
+              <img
+                src={image.trim()}
+                alt=""
+                onError={() => setImgBroken(true)}
+                className="mt-2 h-28 w-full rounded-lg border border-slate-200 object-cover"
+              />
+            )}
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              {isTa ? "4 தெரிவுகள் & சரியான விடை" : "4 Answer Options & Correct Answer"} *
+            </label>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {options.map((opt, i) => {
+                const tile = KAHOOT_TILES[i % KAHOOT_TILES.length];
+                const Icon = tile.icon;
+                const isCorrect = correctIndex === i;
+                return (
+                  <div
+                    key={i}
+                    className={`flex items-center gap-2 rounded-lg border p-2 transition-all ${
+                      isCorrect ? "border-emerald-400 bg-emerald-50" : "border-slate-200 bg-white"
+                    }`}
+                  >
+                    <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-white ${tile.bg}`}>
+                      <Icon size={14} className="fill-white/90" />
+                    </span>
+                    <input
+                      type="text"
+                      value={opt}
+                      onChange={(e) => handleOptionChange(i, e.target.value)}
+                      placeholder={`Option ${i + 1}`}
+                      className="flex-1 bg-transparent p-1 text-xs font-medium outline-none"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setCorrectIndex(i)}
+                      className={`shrink-0 rounded-md px-2 py-1 text-[10px] font-bold transition-all ${
+                        isCorrect ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                      }`}
+                    >
+                      {isCorrect ? <Check size={12} /> : isTa ? "சரி" : "Correct"}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label className={labelClass}>
+                <span className="inline-flex items-center gap-1.5">
+                  <Timer size={13} /> {isTa ? "நேர வரம்பு (வினாடிகள்)" : "Time Limit (seconds)"}
+                </span>
+              </label>
+              <input
+                type="number"
+                min={5}
+                max={120}
+                value={timeLimit}
+                onChange={(e) => setTimeLimit(e.target.value)}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>
+                {isTa ? "விளக்கம் (விருப்பத்தேர்வு)" : "Explanation (optional)"}
+              </label>
+              <input
+                type="text"
+                value={explanation}
+                onChange={(e) => setExplanation(e.target.value)}
+                placeholder={isTa ? "விளக்கம்..." : "Why is this the correct answer?"}
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-2 border-t border-slate-100 pt-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-xl border border-slate-200 bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700 hover:bg-slate-200"
+            >
+              {isTa ? "ரத்து" : "Cancel"}
+            </button>
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex items-center gap-1.5 rounded-xl bg-[#0284c7] px-5 py-2 text-xs font-bold text-white shadow-xs hover:bg-[#026aa2] disabled:opacity-50"
+            >
+              {saving ? <RefreshCw size={13} className="animate-spin" /> : <Save size={13} />}
+              {isTa ? "சேமி" : "Save Changes"}
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
 /* ── Editing one quiz: its question list + the add-question form ────────────── */
 const QuizEditor = ({ quizSummary, onBack, isTa }) => {
   const [quiz, setQuiz] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [editingQuestion, setEditingQuestion] = useState(null);
+  const [draggedIdx, setDraggedIdx] = useState(null);
+  const [dragOverIdx, setDragOverIdx] = useState(null);
 
   const loadQuiz = useCallback(async () => {
     setLoading(true);
@@ -305,6 +525,63 @@ const QuizEditor = ({ quizSummary, onBack, isTa }) => {
     }
   };
 
+  const handleDragStart = (e, idx) => {
+    setDraggedIdx(idx);
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", `${idx}`);
+  };
+
+  const handleDragOver = (e, idx) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (dragOverIdx !== idx) {
+      setDragOverIdx(idx);
+    }
+  };
+
+  const handleDrop = async (e, targetIdx) => {
+    e.preventDefault();
+    if (draggedIdx === null || draggedIdx === targetIdx) {
+      setDraggedIdx(null);
+      setDragOverIdx(null);
+      return;
+    }
+
+    const updated = [...quiz.questions];
+    const [moved] = updated.splice(draggedIdx, 1);
+    updated.splice(targetIdx, 0, moved);
+
+    setQuiz((prev) => ({ ...prev, questions: updated }));
+    setDraggedIdx(null);
+    setDragOverIdx(null);
+
+    try {
+      await reorderKahootQuestions(quizSummary.id, updated.map((q) => q.id));
+    } catch (err) {
+      console.error("Failed to reorder questions:", err);
+      loadQuiz();
+    }
+  };
+
+  const handleMove = async (idx, direction) => {
+    const targetIdx = idx + direction;
+    if (targetIdx < 0 || targetIdx >= quiz.questions.length) return;
+
+    const updated = [...quiz.questions];
+    const temp = updated[idx];
+    updated[idx] = updated[targetIdx];
+    updated[targetIdx] = temp;
+
+    setQuiz((prev) => ({ ...prev, questions: updated }));
+
+    try {
+      await reorderKahootQuestions(quizSummary.id, updated.map((q) => q.id));
+    } catch (err) {
+      console.error("Failed to move question:", err);
+      loadQuiz();
+    }
+  };
+
   return (
     <div className="space-y-5">
       <button
@@ -313,6 +590,19 @@ const QuizEditor = ({ quizSummary, onBack, isTa }) => {
       >
         <ChevronLeft size={14} /> {isTa ? "அனைத்து வினாடி வினாக்கள்" : "All Quizzes"}
       </button>
+
+      {/* Edit Question Modal */}
+      <AnimatePresence>
+        {editingQuestion && (
+          <EditQuestionModal
+            quizId={quizSummary.id}
+            question={editingQuestion}
+            onClose={() => setEditingQuestion(null)}
+            onSaved={loadQuiz}
+            isTa={isTa}
+          />
+        )}
+      </AnimatePresence>
 
       <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6">
         <div className="mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
@@ -325,11 +615,16 @@ const QuizEditor = ({ quizSummary, onBack, isTa }) => {
       </div>
 
       <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-xs sm:p-6">
-        <div className="mb-4 flex items-center gap-2 border-b border-slate-100 pb-3">
-          <ListChecks size={16} className="text-[#0284c7]" />
-          <h3 className="text-sm font-bold text-slate-900 sm:text-base">
-            {isTa ? "வினாக்கள்" : "Questions"} ({quiz?.questions?.length || 0})
-          </h3>
+        <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2">
+            <ListChecks size={16} className="text-[#0284c7]" />
+            <h3 className="text-sm font-bold text-slate-900 sm:text-base">
+              {isTa ? "வினாக்கள்" : "Questions"} ({quiz?.questions?.length || 0})
+            </h3>
+          </div>
+          <span className="text-[11px] font-semibold text-slate-400">
+            {isTa ? "வரிசையை மாற்ற இழுக்கவும்" : "Drag handle to reorder questions"}
+          </span>
         </div>
 
         {loading ? (
@@ -351,8 +646,31 @@ const QuizEditor = ({ quizSummary, onBack, isTa }) => {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -12 }}
-                  className="flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3"
+                  onDragOver={(e) => handleDragOver(e, idx)}
+                  onDragLeave={() => setDragOverIdx(null)}
+                  onDrop={(e) => handleDrop(e, idx)}
+                  className={`flex items-start gap-2.5 rounded-xl border p-3 transition-all ${
+                    dragOverIdx === idx
+                      ? "border-[#0284c7] ring-2 ring-[#0284c7]/40 bg-sky-50 shadow-md scale-[1.01]"
+                      : draggedIdx === idx
+                      ? "opacity-40 border-dashed border-slate-300 bg-slate-100"
+                      : "border-slate-200 bg-slate-50/80 hover:bg-slate-50 hover:border-slate-300 shadow-xs"
+                  }`}
                 >
+                  {/* Drag Grip Handle */}
+                  <div
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, idx)}
+                    onDragEnd={() => {
+                      setDraggedIdx(null);
+                      setDragOverIdx(null);
+                    }}
+                    className="self-center cursor-grab active:cursor-grabbing p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition-colors"
+                    title={isTa ? "இழுத்து எந்த இடத்திற்கும் நகர்த்தவும்" : "Drag to any position"}
+                  >
+                    <GripVertical size={18} />
+                  </div>
+
                   {q.image ? (
                     <img src={q.image} alt="" className="h-14 w-14 shrink-0 rounded-lg object-cover" />
                   ) : (
@@ -360,18 +678,24 @@ const QuizEditor = ({ quizSummary, onBack, isTa }) => {
                       <ImageIcon size={18} />
                     </div>
                   )}
+
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-slate-500">
-                      {isTa ? "வினா" : "Q"}{idx + 1} · {q.timeLimit}s
-                    </p>
-                    <p className="truncate text-sm font-bold text-slate-900">{q.question}</p>
-                    <div className="mt-1 flex flex-wrap gap-1">
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-md bg-slate-200/80 px-1.5 py-0.5 text-[10px] font-extrabold text-slate-700">
+                        #{idx + 1}
+                      </span>
+                      <span className="text-xs font-bold text-slate-500">
+                        {q.timeLimit}s
+                      </span>
+                    </div>
+                    <p className="mt-0.5 truncate text-sm font-bold text-slate-900">{q.question}</p>
+                    <div className="mt-1.5 flex flex-wrap gap-1">
                       {q.options.map((opt, i) => (
                         <span
                           key={i}
                           className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${
                             i === q.correctIndex
-                              ? "bg-emerald-100 text-emerald-700"
+                              ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
                               : "bg-white text-slate-500 border border-slate-200"
                           }`}
                         >
@@ -380,13 +704,44 @@ const QuizEditor = ({ quizSummary, onBack, isTa }) => {
                       ))}
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleDeleteQuestion(q.id)}
-                    className="shrink-0 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
-                    title={isTa ? "நீக்கு" : "Delete"}
-                  >
-                    <Trash2 size={15} />
-                  </button>
+
+                  {/* Actions: Reorder arrows, Edit, Delete */}
+                  <div className="flex shrink-0 items-center gap-1">
+                    <button
+                      type="button"
+                      disabled={idx === 0}
+                      onClick={() => handleMove(idx, -1)}
+                      className="rounded-lg p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-700 disabled:opacity-20"
+                      title={isTa ? "மேலே நகர்த்து" : "Move up"}
+                    >
+                      <ArrowUp size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      disabled={idx === quiz.questions.length - 1}
+                      onClick={() => handleMove(idx, 1)}
+                      className="rounded-lg p-1 text-slate-400 hover:bg-slate-200 hover:text-slate-700 disabled:opacity-20"
+                      title={isTa ? "கீழே நகர்த்து" : "Move down"}
+                    >
+                      <ArrowDown size={14} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingQuestion(q)}
+                      className="rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-sky-50 hover:text-[#0284c7]"
+                      title={isTa ? "திருத்து" : "Edit question"}
+                    >
+                      <Edit3 size={15} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteQuestion(q.id)}
+                      className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                      title={isTa ? "நீக்கு" : "Delete"}
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
                 </motion.li>
               ))}
             </AnimatePresence>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, usernameToEmail } from "../../firebase";
+import { logActivity } from "../../activity";
 import { Sparkles, User, Lock, LogIn, Loader2 } from "lucide-react";
 
 /**
@@ -27,6 +28,7 @@ const LoginPage = ({ language = "en", onSwitchToSignup }) => {
     setError("");
     try {
       await signInWithEmailAndPassword(auth, usernameToEmail(username), password);
+      logActivity("auth", "login");
       // onAuthStateChanged in App.js picks up the signed-in user from here.
     } catch (err) {
       console.error("Login failed:", err.code);

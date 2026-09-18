@@ -25,3 +25,22 @@ export async function logActivity(module, action, meta = {}) {
     console.error("[activity] log failed:", e);
   }
 }
+
+/**
+ * Like logActivity, but for records that must not be lost (Test 1 / Test 2
+ * results and ratings): waits for the write and throws on failure so the
+ * caller can show a retry. `undefined` values are stripped — Firestore
+ * rejects them.
+ */
+export async function saveActivity(module, action, meta = {}) {
+  const user = auth.currentUser;
+  if (!user) throw new Error("Not signed in");
+  await addDoc(collection(db, "activityLog"), {
+    uid: user.uid,
+    username: user.email ? user.email.split("@")[0] : "",
+    module,
+    action,
+    meta: JSON.parse(JSON.stringify(meta)),
+    timestamp: serverTimestamp(),
+  });
+}

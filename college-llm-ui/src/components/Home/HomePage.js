@@ -14,10 +14,13 @@ import {
   Bot,
   Trophy,
   LogOut,
+  UserCircle,
+  ShieldCheck,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import { logActivity } from "../../activity";
 import BrandLogo from "../BrandLogo";
 
 /* ── The five places you can go ────────────────────────────────────────────────
@@ -108,7 +111,7 @@ const CHIPS = [
   { icon: Bot, en: "Hints, not answers", ta: "விடை அல்ல, குறிப்புகள்" },
 ];
 
-const HomePage = ({ onNavigate, onNavigateToTest, language = "en", onToggleLanguage }) => {
+const HomePage = ({ onNavigate, onNavigateToTest, language = "en", onToggleLanguage, isAdmin = false }) => {
   const isTa = language === "ta";
   const copy = (item) => (isTa ? item.ta : item.en);
 
@@ -139,6 +142,27 @@ const HomePage = ({ onNavigate, onNavigateToTest, language = "en", onToggleLangu
               <span>{isTa ? "AI கேள்" : "Ask AI"}</span>
             </button>
 
+            {/* Only accounts with role:"admin" in Firestore see this */}
+            {isAdmin && (
+              <button
+                onClick={() => onNavigate("/admin/students")}
+                title={isTa ? "நிர்வாகம்" : "Admin"}
+                className="flex items-center gap-1.5 rounded-xl bg-slate-900 px-2.5 py-2 text-xs font-bold text-white transition-all hover:bg-slate-800 active:scale-95"
+              >
+                <ShieldCheck size={15} />
+                <span className="hidden sm:inline">{isTa ? "நிர்வாகம்" : "Admin"}</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => onNavigate("/profile")}
+              title={isTa ? "என் சுயவிவரம்" : "My Profile"}
+              className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-xs font-bold text-slate-700 transition-all hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 active:scale-95"
+            >
+              <UserCircle size={15} />
+              <span className="hidden sm:inline">{isTa ? "சுயவிவரம்" : "Profile"}</span>
+            </button>
+
             <button
               onClick={onToggleLanguage}
               title={isTa ? "Switch to English" : "தமிழுக்கு மாற்றவும்"}
@@ -149,7 +173,10 @@ const HomePage = ({ onNavigate, onNavigateToTest, language = "en", onToggleLangu
             </button>
 
             <button
-              onClick={() => signOut(auth)}
+              onClick={async () => {
+                await logActivity("auth", "logout");
+                signOut(auth);
+              }}
               title={isTa ? "வெளியேறு" : "Log Out"}
               className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-100 px-2.5 py-2 text-xs font-bold text-slate-500 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600"
             >

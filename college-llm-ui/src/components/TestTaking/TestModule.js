@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import StudentTestView from "./StudentTestView";
 import AdminQuestionManager from "./AdminQuestionManager";
 import VideoLessonView from "./VideoLessonView";
-import { GraduationCap, ShieldCheck, ArrowLeft, Video } from "lucide-react";
+import PrePostTestView from "./PrePostTestView";
+import { GraduationCap, ShieldCheck, ArrowLeft, Video, ClipboardCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const TestModule = ({ onBackToHome, initialLanguage = "en", initialTab = "student" }) => {
-  const [activeTab, setActiveTab] = useState(initialTab); // "student" | "video" | "admin"
+  const [activeTab, setActiveTab] = useState(initialTab); // "prepost" | "student" | "video" | "admin"
   const [language, setLanguage] = useState(initialLanguage);
 
   return (
@@ -44,6 +45,19 @@ const TestModule = ({ onBackToHome, initialLanguage = "en", initialTab = "studen
 
         {/* View Switcher Tabs */}
         <div className="flex items-center bg-slate-100 border border-slate-200 rounded-lg p-0.5 gap-1">
+          <button
+            onClick={() => setActiveTab("prepost")}
+            className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              activeTab === "prepost"
+                ? "bg-gradient-to-r from-brand-600 to-cyan-600 text-white shadow-pop"
+                : "text-slate-600 hover:text-[#0284c7]"
+            }`}
+            title="Test 1 / Test 2"
+          >
+            <ClipboardCheck size={14} />
+            <span>Test 1 / 2</span>
+          </button>
+
           <button
             onClick={() => setActiveTab("student")}
             className={`px-3 py-1 rounded-md text-xs font-semibold transition-all flex items-center gap-1.5 ${
@@ -94,7 +108,9 @@ const TestModule = ({ onBackToHome, initialLanguage = "en", initialTab = "studen
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
           >
-            {activeTab === "student" ? (
+            {activeTab === "prepost" ? (
+              <PrePostTestView language={language} />
+            ) : activeTab === "student" ? (
               <StudentTestView language={language} setLanguage={setLanguage} />
             ) : activeTab === "video" ? (
               <VideoLessonView language={language} setLanguage={setLanguage} />

@@ -364,6 +364,69 @@ export const deleteKahootQuestion = async (quizId, questionId) => {
     return response.json();
 };
 
+export const updateKahootQuestion = async (quizId, questionId, questionData) => {
+    const response = await fetch(`${API_BASE_URL}/kahoot/quizzes/${quizId}/questions/${questionId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(questionData),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to update question");
+    }
+    return response.json();
+};
+
+/** order: every question id of the quiz, in the new order. */
+export const reorderKahootQuestions = async (quizId, order) => {
+    const response = await fetch(`${API_BASE_URL}/kahoot/quizzes/${quizId}/reorder`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order }),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || "Failed to reorder questions");
+    }
+    return response.json();
+};
+
+// ─── Kahoot multiplayer rooms (Game PIN) ──────────────────────────────────────
+
+const roomRequest = async (path, body, fallbackError) => {
+    const response = await fetch(`${API_BASE_URL}/kahoot/rooms${path}`, {
+        method: body === undefined ? "GET" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || fallbackError);
+    }
+    return response.json();
+};
+
+/** → { room, playerId } (the host is also a player). */
+export const createKahootRoom = (quizId, hostName, language = "en") =>
+    roomRequest("", { quizId, hostName, language }, "Failed to create room");
+
+/** → { room, playerId } */
+export const joinKahootRoom = (code, name) =>
+    roomRequest(`/${encodeURIComponent(code)}/join`, { name }, "Failed to join room");
+
+/** → { room } with players, status ("waiting" | "started"), round and leaderboard. */
+export const fetchKahootRoom = (code) => roomRequest(`/${encodeURIComponent(code)}`, undefined, "Room not found");
+
+export const startKahootRoom = (code, playerId) =>
+    roomRequest(`/${encodeURIComponent(code)}/start`, { playerId }, "Failed to start the game");
+
+/** → { leaderboard, room } */
+export const submitRoomScore = (code, playerId, score, correct) =>
+    roomRequest(`/${encodeURIComponent(code)}/score`, { playerId, score, correct }, "Failed to submit score");
+
+export const leaveKahootRoom = (code, playerId) =>
+    roomRequest(`/${encodeURIComponent(code)}/leave`, { playerId }, "Failed to leave room").catch(() => null);
+
 // ─── Concept Bridge Module API Helpers ────────────────────────────────────────
 
 export const fetchConceptBridges = async (language = "en") => {
@@ -416,5 +479,26 @@ export const evaluateAnalogy = async ({ conceptId, studentAnalogy, language = "e
         const err = await response.json().catch(() => ({}));
         throw new Error(err.error || "Failed to evaluate your analogy");
     }
+    return response.json();
+};
+
+// ─── Test 1 / Test 2 (same paper, taken before and after using the platform) ──
+
+/** The paper without answers — marking happens on the server. */
+export const fetchPrePostTest = async (language = "en") => {
+    const response = await fetch(`${API_BASE_URL}/prepost/test?language=${language}`);
+    if (!response.ok) throw new Error("Failed to load the test");
+    return response.json();
+};
+
+/** answers: { questionId: optionIndex | text }. Test 1 returns marks only;
+ * Test 2 also returns feedback per question and an overall analysis. */
+export const submitPrePostTest = async ({ testNumber, language, answers }) => {
+    const response = await fetch(`${API_BASE_URL}/prepost/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ testNumber, language, answers }),
+    });
+    if (!response.ok) throw new Error("Failed to mark the test");
     return response.json();
 };
